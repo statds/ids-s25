@@ -1,0 +1,23 @@
+{
+  "index.qmd": {
+    "index.html": "8c12cceb"
+  },
+  "intro.qmd": {
+    "intro.html": "d6dbda8a"
+  },
+  "git.qmd": {
+    "git.html": "aa5c09f8"
+  },
+  "quarto.qmd": {
+    "quarto.html": "34fbe6bb"
+  },
+  "python.qmd": {
+    "python.html": "626220b2"
+  },
+  "exercises.qmd": {
+    "exercises.html": "c11d45d4"
+  },
+  "references.qmd": {
+    "references.html": "5452d461"
+  }
+}
