@@ -8,13 +8,13 @@ This book free and is licensed under a [Creative Commons
 Attribution-NonCommercial-NoDerivs 3.0 United States License](http://creativecommons.org/licenses/by-nc-nd/3.0/us/).
 
 ## Sources at GitHub
-These lecture notes for STAT 3255/5255 in Fall 2024 represent a
+These lecture notes for STAT 3255/5255 in Spring 2025 represent a
 collaborative effort between Professor Jun Yan and the students
 enrolled in the course. This cooperative approach to education was
 facilitated through the use of GitHub, a platform that encourages
 collaborative coding and content development. To view
 these contributions and the lecture notes in their entirety, please
-visit our GitHub repository at <https://github.com/statds/ids-f24>.
+visit our GitHub repository at <https://github.com/statds/ids-s25>.
 
 
 Students contributed to the lecture notes by submitting pull requests
@@ -23,10 +23,10 @@ course material but also provided students with practical experience
 in collaborative software development and version control. 
 
 
-For those interested in exploring the lecture notes from the previous
-years, the
+For those interested, class notes from
+[Fall 2024](https://statds.github.io/ids-f24),
 [Spring 2024](https://statds.github.io/ids-s24),
-[Spring 2023](https://statds.github.io/ids-s23) and
+[Spring 2023](https://statds.github.io/ids-s23), and
 [Spring 2022](https://statds.github.io/ids-s22/)
 are also publicly accessible. These archives offer
 insights into the evolution of the course content and the
@@ -51,8 +51,15 @@ necessary steps:
 
 ## Midterm Project
 
-NYC noise complaints made to NYPD in the week of July 4, 2024.
-See details in the exercises.
+Reproduce NYC street flood research [@agonafir2022machine;
+@agonafir2022understanding].
+
+
+Four students will be selected to present their work in a workshop at
+the [2025 NYC Open Data Week](https://2025.open-data.nyc). You are
+welcome to invite your family and friends to join the the workshop.
+
+
 
 ## Final Project
 
@@ -60,15 +67,15 @@ Students are encouraged to start designing their final projects from
 the beginning of the semester. There are many open data that can be
 used. Here is a list of data challenges that you may find useful:
 
-+ [ASA Data Challenge Expo](https://community.amstat.org/dataexpo/home)
++ [ASA Data Challenge
+  Expo](https://community.amstat.org/dataexpo/home): big data in 2025
 + [Kaggle](https://www.kaggle.com)
 + [DrivenData](https://www.drivendata.org)
-+ [Top 10 Data Science Competitions in
-  2024](https://www.knowledgehut.com/blog/data-science/data-science-competitions)
++ [15 Data Science Hackathons to Test Your Skills in 2025](https://www.fynd.academy/blog/data-science-hackathons}
 
 If you work on sports analytics, you are welcome to submit a
-poster to [UConn Sports Analytics Symposium
-(UCSAS) 2024](https://statds.org/events/ucsas2024/).
+poster to [Connecticut Sports Analytics Symposium
+(CSAS) 2025](https://statds.org/events/csas2025/).
 
 
 ## Adapting to Rapid Skill Acquisition
