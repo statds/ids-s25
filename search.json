@@ -1,0 +1,252 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Introduction to Data Science",
+    "section": "",
+    "text": "Preliminaries\nThe notes were developed with Quarto; for details about Quarto, visit https://quarto.org/docs/books.\nThis book free and is licensed under a Creative Commons Attribution-NonCommercial-NoDerivs 3.0 United States License.",
+    "crumbs": [
+      "Preliminaries"
+    ]
+  },
+  {
+    "objectID": "index.html#sources-at-github",
+    "href": "index.html#sources-at-github",
+    "title": "Introduction to Data Science",
+    "section": "Sources at GitHub",
+    "text": "Sources at GitHub\nThese lecture notes for STAT 3255/5255 in Fall 2024 represent a collaborative effort between Professor Jun Yan and the students enrolled in the course. This cooperative approach to education was facilitated through the use of GitHub, a platform that encourages collaborative coding and content development. To view these contributions and the lecture notes in their entirety, please visit our GitHub repository at https://github.com/statds/ids-f24.\nStudents contributed to the lecture notes by submitting pull requests to our GitHub repository. This method not only enriched the course material but also provided students with practical experience in collaborative software development and version control.\nFor those interested in exploring the lecture notes from the previous years, the Spring 2024, Spring 2023 and Spring 2022 are also publicly accessible. These archives offer insights into the evolution of the course content and the different perspectives brought by successive student cohorts.",
+    "crumbs": [
+      "Preliminaries"
+    ]
+  },
+  {
+    "objectID": "index.html#compiling-the-classnotes",
+    "href": "index.html#compiling-the-classnotes",
+    "title": "Introduction to Data Science",
+    "section": "Compiling the Classnotes",
+    "text": "Compiling the Classnotes\nTo reproduce the classnotes output on your own computer, here are the necessary steps:\n\nClone the classnotes repository to an appropriate location on your computer.\nSet up a Python virtual environment in the root folder of the source.\nInstall all the packages specified in requirements.txt.\nFor some chapters that need to interact with Google map services, you need to save your API key in a file named api_key.txt in the root folder of the source.\nRender the book with quarto render from the root folder on a terminal; the rendered book will be stored under _book.",
+    "crumbs": [
+      "Preliminaries"
+    ]
+  },
+  {
+    "objectID": "index.html#midterm-project",
+    "href": "index.html#midterm-project",
+    "title": "Introduction to Data Science",
+    "section": "Midterm Project",
+    "text": "Midterm Project\nNYC noise complaints made to NYPD in the week of July 4, 2024. See details in the exercises.",
+    "crumbs": [
+      "Preliminaries"
+    ]
+  },
+  {
+    "objectID": "index.html#final-project",
+    "href": "index.html#final-project",
+    "title": "Introduction to Data Science",
+    "section": "Final Project",
+    "text": "Final Project\nStudents are encouraged to start designing their final projects from the beginning of the semester. There are many open data that can be used. Here is a list of data challenges that you may find useful:\n\nASA Data Challenge Expo\nKaggle\nDrivenData\nTop 10 Data Science Competitions in 2024\n\nIf you work on sports analytics, you are welcome to submit a poster to UConn Sports Analytics Symposium (UCSAS) 2024.",
+    "crumbs": [
+      "Preliminaries"
+    ]
+  },
+  {
+    "objectID": "index.html#adapting-to-rapid-skill-acquisition",
+    "href": "index.html#adapting-to-rapid-skill-acquisition",
+    "title": "Introduction to Data Science",
+    "section": "Adapting to Rapid Skill Acquisition",
+    "text": "Adapting to Rapid Skill Acquisition\nIn this course, students are expected to rapidly acquire new skills, a critical aspect of data science. To emphasize this, consider this insightful quote from VanderPlas (2016):\n\nWhen a technologically-minded person is asked to help a friend, family member, or colleague with a computer problem, most of the time it’s less a matter of knowing the answer as much as knowing how to quickly find an unknown answer. In data science it’s the same: searchable web resources such as online documentation, mailing-list threads, and StackOverflow answers contain a wealth of information, even (especially?) if it is a topic you’ve found yourself searching before. Being an effective practitioner of data science is less about memorizing the tool or command you should use for every possible situation, and more about learning to effectively find the information you don’t know, whether through a web search engine or another means.\n\nThis quote captures the essence of what we aim to develop in our students: the ability to swiftly navigate and utilize the vast resources available to solve complex problems in data science. Examples tasks are: install needed software (or even hardware); search and find solutions to encountered problems.",
+    "crumbs": [
+      "Preliminaries"
+    ]
+  },
+  {
+    "objectID": "index.html#wishlist",
+    "href": "index.html#wishlist",
+    "title": "Introduction to Data Science",
+    "section": "Wishlist",
+    "text": "Wishlist\nThis is a wish list from all members of the class (alphabetical order, last name first, comma, then first name). Here is an example.\n\nYan, Jun\n\nMake practical data science tools accessible to undergraduates\nCo-develop a Quarto book in collaboration with the students\nTrain students to participate real data science competitions\n\n\nAdd yours through a pull request; note the syntax of nested list in Markdown.\n\nStudents in 3255\n\nAckerman, John\nAlsadadi, Ammar Shaker\nChen, Yifei\nEl Zein, Amer Hani\nFebles, Xavier Milan\nHorn, Alyssa Noelle\nHutchins, Isabella Grace\nJun, Joann\nKline, Daniel Esteban\nLagutin, Vladislav\nLang, Lang\nLi, Shiyi\nLin, Selena\nLong, Ethan Kenneth\nNasejje, Ruth Nicole\nPfeifer, Nicholas Theodore\nReed, Kyle Daniel\nRoy, Luke William\nSchittina, Thomas\nSchlessel, Jacob E\nSymula, Sebastian\nTamhane, Shubhan\nTomaino, Mario Anthony\n\n\n\nStudents in 5255\n\nFerris, Spencer\nGogoj, Anatol Mateusz\nMundiwala, Mohammad Moiz\nVellore, Ajeeth Krishna\nZhang, Gaofei",
+    "crumbs": [
+      "Preliminaries"
+    ]
+  },
+  {
+    "objectID": "index.html#presentation-orders",
+    "href": "index.html#presentation-orders",
+    "title": "Introduction to Data Science",
+    "section": "Presentation Orders",
+    "text": "Presentation Orders\nThe topic presentation order is set up in class.\n\nwith open('rosters/3255.txt', 'r') as file:\n    ug = [line.strip() for line in file]\nwith open('rosters/5255.txt', 'r') as file:\n    gr = [line.strip() for line in file]\npresenters = ug + gr\ntarget = \"Blanchard\"  # pre-arranged 1st presenter\npresenters = [name for name in presenters if target not in name]\n\nimport random\n## seed jointly set by the class\nrandom.seed(5347 + 2896 + 9050 + 1687 + 63)\nrandom.sample(presenters, len(presenters))\n## random.shuffle(presenters) # This would shuffle the list in place\n\n['Schittina,Thomas',\n 'Mundiwala,Mohammad Moiz',\n 'Jun,Joann',\n '',\n 'Li,Shiyi',\n 'Lagutin,Vladislav',\n 'Lin,Selena',\n 'Ferris,Spencer',\n 'Long,Ethan Kenneth',\n 'Alsadadi,Ammar Shaker',\n 'Tomaino,Mario Anthony',\n 'Chen,Yifei',\n 'Tamhane,Shubhan',\n 'Lang,Lang',\n 'Symula,Sebastian',\n 'Pfeifer,Nicholas Theodore',\n 'Zhang,Gaofei',\n 'El Zein,Amer Hani',\n 'Schlessel,Jacob E',\n 'Hutchins,Isabella Grace',\n 'Roy,Luke William',\n 'Febles,Xavier Milan',\n 'Ackerman,John',\n 'Horn,Alyssa Noelle',\n 'Kline,Daniel Esteban',\n 'Vellore,Ajeeth Krishna',\n 'Nasejje,Ruth Nicole',\n 'Gogoj,Anatol Mateusz',\n 'Reed,Kyle Daniel',\n '']\n\n\nSwitching slots is allowed as long as you find someone who is willing to switch with you. In this case, make a pull request to switch the order and let me know.\nYou are welcome to choose a topic that you are interested the most, subject to some order restrictions. For example, decision tree should be presented before random forest or extreme gradient boosting. This justifies certain requests for switching slots.",
+    "crumbs": [
+      "Preliminaries"
+    ]
+  },
+  {
+    "objectID": "index.html#course-logistics",
+    "href": "index.html#course-logistics",
+    "title": "Introduction to Data Science",
+    "section": "Course Logistics",
+    "text": "Course Logistics\n\nPresentation Task Board\nHere are some example tasks:\n\nMaking presentations with Quarto\nData science ethics\nData science communication skills\nImport/Export data\nArrow as a cross-platform data format\nDatabase operation with Structured query language (SQL)\nGrammer of graphics\nHandling spatial data\nVisualize spatial data in a Google map\nAnimation\nClassification and regression trees\nSupport vector machine\nRandom forest\nNaive Bayes\nBagging vs boosting\nNeural networks\nDeep learning\nTensorFlow\nAutoencoders\nReinforcement learning\nCalling C/C++ from Python\nCalling R from Python and vice versa\nDeveloping a Python package\n\nPlease use the following table to sign up.\n\n\n\n\n\n\n\n\nDate\nPresenter\nTopic\n\n\n\n\n09/11\nZachary Blanchard\nPresentation with Quarto\n\n\n09/16\nDeyu Xu\nImport/Export data\n\n\n09/18\nSara Clokey\nCommunications in Data Science\n\n\n09/23\nDorathea Johnson\nDatabase with SQL\n\n\n09/25\nXavier Febles\nStatistical tests\n\n\n09/30\nJack Bienvenue\nVisualizing Spatial Data in a Google Map\n\n\n10/02\nJulia Mazzola\nData VisualiZation with Plotnine\n\n\n10/07\nSuha Akach\nNaive Bayes classifier\n\n\n10/09\nRahul Manna\nAnimation\n\n\n10/23\nJaden Astle\nClassification and Regression Trees\n\n\n10/23\nOlivia Kashalapov\nSynthetic Minority Oversampling Technique (SMOTE)\n\n\n10/28\nData science alumni panel\n\n\n\n10/30\nEmily Borowski\nRandom Forest\n\n\n10/30\nAditya Paricharak\nNeural Networks\n\n\n11/04\nMelanie Desroches\nWeb Scraping\n\n\n11/06\nQianruo Tan\nReinforcement Learning\n\n\n11/11\nAansh Jha\nK-means Clustering\n\n\n11/11\nOwen Babiec\nCalling R from Python and Vice Versa\n\n\n11/13\nStef Baptista\n\n\n\n11/13\nMohammad Parvez\nExtracting and Analyzing Census Data\n\n\n\n\n\nFinal Project Presentation Schedule\nWe use the same order as the topic presentation for undergraduate final presentation. An introduction on how to use Quarto to prepare presentation slides is availabe under the templates directory in the classnotes source tree, thank to Zachary Blanchard, which can be used as a template to start with.\n\n\n\n\n\n\n\nDate\nPresenter\n\n\n\n\n11/18\nSara Clokey; Dorothea Johnson; Xavier Febles; Jack Bienvenue\n\n\n11/20\nJulia Mazzola; Suha Akach; Rahul Manna; Jaden Astle\n\n\n12/02\nOlivia Kashalapov; Emily Borowski；Qianruo Tan; Melanie Desroches\n\n\n12/04\nAditya Paricharak; Aansh Jha; Owen Babiec; Stef Baptista\n\n\n\n\n\nContributing to the Class Notes\nContribution to the class notes is through a `pull request’.\n\nStart a new branch and switch to the new branch.\nOn the new branch, add a qmd file for your presentation\nIf using Python, create and activate a virtual environment with requirements.txt\nEdit _quarto.yml add a line for your qmd file to include it in the notes.\nWork on your qmd file, test with quarto render.\nWhen satisfied, commit and make a pull request with your quarto files and an updated requirements.txt.\n\nI have added a template file mysection.qmd and a new line to _quarto.yml as an example.\nFor more detailed style guidance, please see my notes on statistical writing.\nPlagiarism is to be prevented. Remember that these class notes are publicly available online with your names attached. Here are some resources on how to avoid plagiarism. In particular, in our course, one convenient way to avoid plagiarism is to use our own data (e.g., NYC Open Data). Combined with your own explanation of the code chunks, it would be hard to plagiarize.\n\n\nHomework Requirements\n\nUse the repo from Git Classroom to submit your work. See Section 2  Project Management.\n\nKeep the repo clean (no tracking generated files).\n\nNever “Upload” your files; use the git command lines.\nMake commit message informative (think about the readers).\n\nMake at least 10 commits and form a style of frequent small commits.\n\nUse quarto source only. See 3  Reproducible Data Science.\nFor the convenience of grading, add your standalone html or pdf output to a release in your repo.\nFor standalone pdf output, you will need to have LaTeX installed.",
+    "crumbs": [
+      "Preliminaries"
+    ]
+  },
+  {
+    "objectID": "index.html#practical-tips",
+    "href": "index.html#practical-tips",
+    "title": "Introduction to Data Science",
+    "section": "Practical Tips",
+    "text": "Practical Tips\n\nData analysis\n\nUse an IDE so you can play with the data interactively\nCollect codes that have tested out into a script for batch processing\nDuring data cleaning, keep in mind how each variable will be used later\nNo keeping large data files in a repo; assume a reasonable location with your collaborators\n\n\n\nPresentation\n\nDon’t forget to introduce yourself if there is no moderator.\nHighlight your research questions and results, not code.\nGive an outline, carry it out, and summarize.\nUse your own examples to reduce the risk of plagiarism.",
+    "crumbs": [
+      "Preliminaries"
+    ]
+  },
+  {
+    "objectID": "index.html#my-presentation-topic-template",
+    "href": "index.html#my-presentation-topic-template",
+    "title": "Introduction to Data Science",
+    "section": "My Presentation Topic (Template)",
+    "text": "My Presentation Topic (Template)\nThis section was prepared by John Smith.\nUse Markdown syntax. If not clear on what to do, learn from the class notes sources.\n\nPay attention to the sectioning levels.\nCite references with their bib key.\nIn examples, maximize usage of data set that the class is familiar with.\nCould use datasets in Python packages or downloadable on the fly.\nTest your section by quarto render &lt;filename.qmd&gt;.\n\n\nIntroduction\nHere is an overview.\n\n\nSub Topic 1\nPut materials on topic 1 here\nPython examples can be put into python code chunks:\n\n# import pandas as pd\n\n# do something\n\n\n\nSub Topic 2\nPut materials on topic 2 here.\n\n\nSub Topic 3\nPut matreials on topic 3 here.\n\n\nConclusion\nPut sumaries here.\n\n\nFurther Readings\nPut links to further materials.\n\n\n\n\nVanderPlas, J. (2016). Python data science handbook: Essential tools for working with data. O’Reilly Media, Inc.",
+    "crumbs": [
+      "Preliminaries"
+    ]
+  },
+  {
+    "objectID": "intro.html",
+    "href": "intro.html",
+    "title": "1  Introduction",
+    "section": "",
+    "text": "1.1 What Is Data Science?\nData science is a multifaceted field, often conceptualized as resting on three fundamental pillars: mathematics/statistics, computer science, and domain-specific knowledge. This framework helps to underscore the interdisciplinary nature of data science, where expertise in one area is often complemented by foundational knowledge in the others.\nA compelling definition was offered by Prof. Bin Yu in her 2014 Presidential Address to the Institute of Mathematical Statistics. She defines \\[\\begin{equation*}\n\\mbox{Data Science} =\n\\mbox{S}\\mbox{D}\\mbox{C}^3,\n\\end{equation*}\\] where\nComputing underscores the need for proficiency in programming and algorithmic thinking, collaboration/teamwork reflects the inherently collaborative nature of data science projects, often requiring teams with diverse skill sets, and communication to outsiders emphasizes the importance of translating complex data insights into understandable and actionable information for non-experts.\nThis definition neatly captures the essence of data science, emphasizing a balance between technical skills, teamwork, and the ability to communicate effectively.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
+    ]
+  },
+  {
+    "objectID": "intro.html#what-is-data-science",
+    "href": "intro.html#what-is-data-science",
+    "title": "1  Introduction",
+    "section": "",
+    "text": "‘S’ represents Statistics, signifying the crucial role of statistical methods in understanding and interpreting data;\n‘D’ stands for domain or science knowledge, indicating the importance of specialized expertise in a particular field of study;\nthe three ’C’s denotes computing, collaboration/teamwork, and communication to outsiders.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
+    ]
+  },
+  {
+    "objectID": "intro.html#expectations-from-this-course",
+    "href": "intro.html#expectations-from-this-course",
+    "title": "1  Introduction",
+    "section": "1.2 Expectations from This Course",
+    "text": "1.2 Expectations from This Course\nIn this course, students will be expected to achieve the following outcomes:\n\nProficiency in Project Management with Git: Develop a solid understanding of Git for efficient and effective project management. This involves mastering version control, branching, and collaboration through this powerful tool.\nProficiency in Project Reporting with Quarto: Gain expertise in using Quarto for professional-grade project reporting. This encompasses creating comprehensive and visually appealing reports that effectively communicate your findings.\nHands-On Experience with Real-World Data Science Projects: Engage in practical data science projects that reflect real-world scenarios. This hands-on approach is designed to provide you with direct experience in tackling actual data science challenges.\nCompetency in Using Python and Its Extensions for Data Science: Build strong skills in Python, focusing on its extensions relevant to data science. This includes libraries like Pandas, NumPy, and Matplotlib, among others, which are critical for data analysis and visualization.\nFull Grasp of the Meaning of Results from Data Science Algorithms: Learn to not only apply data science algorithms but also to deeply understand the implications and meanings of their results. This is crucial for making informed decisions based on these outcomes.\nBasic Understanding of the Principles of Data Science Methods: Acquire a foundational knowledge of the underlying principles of various data science methods. This understanding is key to effectively applying these methods in practice.\nCommitment to the Ethics of Data Science: Emphasize the importance of ethical considerations in data science. This includes understanding data privacy, bias in data and algorithms, and the broader social implications of data science work.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
+    ]
+  },
+  {
+    "objectID": "intro.html#computing-environment",
+    "href": "intro.html#computing-environment",
+    "title": "1  Introduction",
+    "section": "1.3 Computing Environment",
+    "text": "1.3 Computing Environment\nAll setups are operating system dependent. As soon as possible, stay away from Windows. Otherwise, good luck (you will need it).\n\n1.3.1 Command Line Interface\nOn Linux or MacOS, simply open a terminal.\nOn Windows, several options can be considered.\n\nWindows Subsystem Linux (WSL): https://learn.microsoft.com/en-us/windows/wsl/\nCygwin (with X): https://x.cygwin.com\nGit Bash: https://www.gitkraken.com/blog/what-is-git-bash\n\nTo jump start, here is a tutorial: Ubunto Linux for beginners.\nAt least, you need to know how to handle files and traverse across directories. The tab completion and introspection supports are very useful.\nHere are several commonly used shell commands:\n\ncd: change directory; .. means parent directory.\npwd: present working directory.\nls: list the content of a folder; -l long version; -a show hidden files; -t ordered by modification time.\nmkdir: create a new directory.\ncp: copy file/folder from a source to a target.\nmv: move file/folder from a source to a target.\nrm: remove a file a folder.\n\n\n\n1.3.2 Python\nSet up Python on your computer:\n\nPython 3.\nPython package manager miniconda or pip.\nIntegrated Development Environment (IDE) (Jupyter Notebook; RStudio; VS Code; Emacs; etc.)\n\nI will be using VS Code in class.\nReadability is important! Check your Python coding styles against the recommended styles: https://peps.python.org/pep-0008/. A good place to start is the Section on “Code Lay-out”.\nOnline books on Python for data science:\n\n“Python Data Science Handbook: Essential Tools for Working with Data,” First Edition, by Jake VanderPlas, O’Reilly Media, 2016.\n\n\n“Python for Data Analysis: Data Wrangling with Pandas, NumPy, and IPython.” Third Edition, by Wes McK- inney, O’Reilly Media, 2022.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
+    ]
+  },
+  {
+    "objectID": "git.html",
+    "href": "git.html",
+    "title": "2  Project Management",
+    "section": "",
+    "text": "2.1 Set Up Git/GitHub\nMany tutorials are available in different formats. Here is a YouTube video ``Git and GitHub for Beginners — Crash Course’’. The video also covers GitHub, a cloud service for Git which provides a cloud back up of your work and makes collaboration with co-workers easy. Similar services are, for example, bitbucket and GitLab.\nThere are tools that make learning Git easy.\nDownload Git if you don’t have it already.\nTo set up GitHub (other services like Bitbucket or GitLab are similar), you need to\nSee how to get started with GitHub account.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Project Management</span>"
+    ]
+  },
+  {
+    "objectID": "git.html#set-up-gitgithub",
+    "href": "git.html#set-up-gitgithub",
+    "title": "2  Project Management",
+    "section": "",
+    "text": "Generate an SSH key if you don’t have one already.\nSign up an GitHub account.\nAdd the SSH key to your GitHub account",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Project Management</span>"
+    ]
+  },
+  {
+    "objectID": "git.html#most-frequently-used-git-commands",
+    "href": "git.html#most-frequently-used-git-commands",
+    "title": "2  Project Management",
+    "section": "2.2 Most Frequently Used Git Commands",
+    "text": "2.2 Most Frequently Used Git Commands\n\ngit clone:\n\nUsed to clone a repository to a local folder.\nRequires either HTTPS link or SSH key to authenticate.\n\ngit pull:\n\nDownloads any updates made to the remote repository and automatically updates the local repository.\n\ngit status:\n\nReturns the state of the working directory.\nLists the files that have been modified, and are yet to be or have been staged and/or committed.\nShows if the local repository is begind or ahead a remote branch.\n\ngit add:\n\nAdds new or modified files to the Git staging area.\nGives the option to select which files are to be sent to the remote repository\n\ngit rm:\n\nUsed to remove files from the staging index or the local repository.\n\ngit commit:\n\nCommits changes made to the local repository and saves it like a snapshot.\nA message is recommended with every commit to keep track of changes made.\n\ngit push:\n\nUsed to send commits made on local repository to the remote repository.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Project Management</span>"
+    ]
+  },
+  {
+    "objectID": "git.html#tips-on-using-git",
+    "href": "git.html#tips-on-using-git",
+    "title": "2  Project Management",
+    "section": "2.3 Tips on using Git:",
+    "text": "2.3 Tips on using Git:\n\nUse the command line interface instead of the web interface (e.g., upload on GitHub)\nMake frequent small commits instead of rare large commits.\nMake commit messages informative and meaningful.\nName your files/folders by some reasonable convention.\n\nLower cases are better than upper cases.\nNo blanks in file/folder names.\n\nKeep the repo clean by not tracking generated files.\nCreat a .gitignore file for better output from git status.\nKeep the linewidth of sources to under 80 for better git diff view.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Project Management</span>"
+    ]
+  },
+  {
+    "objectID": "git.html#pull-request",
+    "href": "git.html#pull-request",
+    "title": "2  Project Management",
+    "section": "2.4 Pull Request",
+    "text": "2.4 Pull Request\nTo contribute to an open source project (e.g., our classnotes), use pull requests. Pull requests “let you tell others about changes you’ve pushed to a branch in a repository on GitHub. Once a pull request is opened, you can discuss and review the potential changes with collaborators and add follow-up commits before your changes are merged into the base branch.”\nWatch this YouTube video: GitHub pull requests in 100 seconds.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Project Management</span>"
+    ]
+  },
+  {
+    "objectID": "quarto.html",
+    "href": "quarto.html",
+    "title": "3  Reproducible Data Science",
+    "section": "",
+    "text": "3.1 Introduction to Quarto\nData science projects should be reproducible to be trustworthy. Dynamic documents facilitate reproducibility. Quarto is an open-source dynamic document preparation system, ideal for scientific and technical publishing. From the official websites, Quarto can be used to:\nTo get started with Quarto, see documentation at Quarto.\nFor a clean style, I suggest that you use VS Code as your IDE. The ipynb files have extra formats in plain texts, which are not as clean as qmd files. There are, of course, tools to convert between the two representations of a notebook. For example:\nWe will use Quarto for homework assignments, classnotes, and presentations. You will see them in action through in-class demonstrations. The following sections in the Quarto Guide are immediately useful.\nA template for homework is in this repo (hwtemp.qmd) to get you started with homework assignments.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Reproducible Data Science</span>"
+    ]
+  },
+  {
+    "objectID": "quarto.html#introduction-to-quarto",
+    "href": "quarto.html#introduction-to-quarto",
+    "title": "3  Reproducible Data Science",
+    "section": "",
+    "text": "quarto convert hello.ipynb # converts to qmd\nquarto convert hello.qmd   # converts to ipynb\n\n\nMarkdown basics\nUsing Python\nPresentations",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Reproducible Data Science</span>"
+    ]
+  },
+  {
+    "objectID": "quarto.html#compiling-the-classnotes",
+    "href": "quarto.html#compiling-the-classnotes",
+    "title": "3  Reproducible Data Science",
+    "section": "3.2 Compiling the Classnotes",
+    "text": "3.2 Compiling the Classnotes\nThe sources of the classnotes are at https://github.com/statds/ids-f24. This is also the source tree that you will contributed to this semester. I expect that you clone the repository to your own computer, update it frequently, and compile the latest version on your computer (reproducibility).\nTo compile the classnotes, you need the following tools: Git, Quarto, and Python.\n\n3.2.1 Set up your Python Virtual Environment\nI suggest that a Python virtual environment for the classnotes be set up in the current directory for reproducibility. A Python virtual environment is simply a directory with a particular file structure, which contains a specific Python interpreter and software libraries and binaries needed to support a project. It allows us to isolate our Python development projects from our system installed Python and other Python environments.\nTo create a Python virtual environment for our classnotes:\npython3 -m venv .ids-f24-venv\nHere .ids-f24-venv is the name of the virtual environment to be created. Choose an informative name. This only needs to be set up once.\nTo activate this virtual environment:\n. .ids-f24-venv/bin/activate\nAfter activating the virtual environment, you will see (.ids-f24-venv) at the beginning of your shell prompt. Then, the Python interpreter and packages needed will be the local versions in this virtual environment without interfering your system-wide installation or other virtual environments.\nTo install the Python packages that are needed to compile the classnotes, we have a requirements.txt file that specifies the packages and their versions. They can be installed easily with:\npip install -r requirements.txt\nIf you are interested in learning how to create the requirements.txt file, just put your question into a Google search.\nTo exit the virtual environment, simply type deactivate in your command line. This will return you to your system’s global Python environment.\n\n\n3.2.2 Clone the Repository\nClone the repository to your own computer. In a terminal (command line), go to an appropriate directory (folder), and clone the repo. For example, if you use ssh for authentication:\ngit clone git@github.com:statds/ids-f24.git\n\n\n3.2.3 Render the Classnotes\nAssuming quarto has been set up, we render the classnotes in the cloned repository\ncd ids-f24\nquarto render\nIf there are error messages, search and find solutions to clear them. Otherwise, the html version of the notes will be available under _book/index.html, which is default location of the output.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Reproducible Data Science</span>"
+    ]
+  },
+  {
+    "objectID": "exercises.html",
+    "href": "exercises.html",
+    "title": "4  Exercises",
+    "section": "",
+    "text": "Quarto and Git setup Quarto and Git are two important tools for data science. Get familiar with them through the following tasks. Please use the templates/hw.qmd template.\n\nInstall Quarto onto your computer following the instructions of Get Started. Document the obstacles you encountered and how you overcame them.\nPick a tool of your choice (e.g., VS Code, Jupyter Notebook, Emacs, etc.), follow the instructions to reproduce the example of line plot on polar axis.\nRender the homework into a pdf file and put the file into a release in your GitHub repo. Document any obstacles you have and how you overcome them.\n\nGit basics and GitHub setup Learn the Git basics and set up an account on GitHub if you do not already have one. Practice the tips on Git in the notes. By going through the following tasks, ensure your repo has at least 10 commits, each with an informative message. Regularly check the status of your repo using git status. The specific tasks are:\n\nClone the class notes repo to an appropriate folder on your computer.\nAdd all the files to your designated homework repo from GitHub Classroom and work on that repo for the rest of the problem.\nAdd your name and wishes to the Wishlist; commit.\nRemove the Last, First entry from the list; commit.\nCreate a new file called add.qmd containing a few lines of texts; commit.\nRemove add.qmd (pretending that this is by accident); commit.\nRecover the accidentally removed file add.qmd; add a long line (a paragraph without a hard break); add a short line (under 80 characters); commit.\nChange one word in the long line and one word in the short line; use git diff to see the difference from the last commit; commit.\nPlay with other git operations and commit.\n\nContributing to the Class Notes To contribute to the classnotes, you need to have a working copy of the sources on your computer. Document the following steps in a qmd file as if you are explaining them to someone who want to contribute too.\n\nCreate a fork of the notes repo into your own GitHub account.\nClone it to an appropriate folder on your computer.\nRender the classnotes on your computer; document the obstacles and solutions.\nMake a new branch (and name it appropriately) to experiment with your changes.\nCheckout your branch and add your wishes to the wish list; commit with an informative message; and push the changes to your GitHub account.\nMake a pull request to class notes repo from your fork at GitHub. Make sure you have clear messages to document the changes.\n\nMonty Hall Consider a generalized Monty Hall experiment. Suppose that the game start with \\(n\\) doors; after you pick one, the host opens \\(m \\le n - 2\\) doors, that show no award. Include sufficient text around the code chunks to explain them.\n\nWrite a function to simulate the experiment once. The function takes two arguments ndoors and nempty, which represent the number of doors and the number of empty doors showed by the host, respectively, It returns the result of two strategies, switch and no-switch, from playing this game.\nPlay this game with 3 doors and 1 empty a few times.\nPlay this game with 10 doors and 8 empty a few times.\nWrite a function to play this game ntrial times and return the proportion of wins for both strategies.\nApply your function to play this game 1000 times, with 3 doors and 10 doors, and summarize your results.\nWrite a function to demonstrate the Monty Hall problem through simulation. The function takes two arguments ndoors and ntrials, representing the number of doors in the experiment and the number of trials in a simulation, respectively. The function should return the proportion of wins for both the switch and no-switch strategy.\nApply your function with 3 doors and 5 doors, both with 1000 trials. Summarize your results.\n\nApproximating \\(\\pi\\) Write a function to do a Monte Carlo approximation of \\(\\pi\\). The function takes a Monte Carlo sample size n as input, and returns a point estimate of \\(\\pi\\) and a 95% confidence interval. Apply your function with sample size 1000, 2000, 4000, and 8000. Repeat the experiment 1000 times for each sample size and check the empirical probability that the confidence intervals cover the true value of \\(\\pi\\). Comment on the results.\nGoogle Billboard Ad Find the first 10-digit prime number occurring in consecutive digits of \\(e\\). This was a Google recruiting ad.\nGame 24 The math game 24 is one of the addictive games among number lovers. With four randomly selected cards form a deck of poker cards, use all four values and elementary arithmetic operations (\\(+-\\times /\\)) to come up with 24. Let \\(\\square\\) be one of the four numbers. Let \\(\\bigcirc\\) represent one of the four operators. For example, \\[\\begin{equation*}\n(\\square \\bigcirc \\square) \\bigcirc (\\square \\bigcirc \\square)\n\\end{equation*}\\] is one way to group the the operations.\n\nList all the possible ways to group the four numbers.\nHow many possible ways are there to check for a solution?\nWrite a function to solve the problem in a brutal force way. The inputs of the function are four numbers. The function returns a list of solutions. Some of the solutions will be equivalent, but let us not worry about that for now.\n\nNYC Crash Data Cleaning The NYC motor vehicle collisions data with documentation is available from NYC Open Data. The raw data needs some cleaning.\n\nUse the filter from the website to download the crash data of the week of June 30, 2024 in CSV format; save it under a directory data with an informative name (e.g., nyccrashes_2024w0630_by20240916.csv); read the data into a Panda data frame with careful handling of the date time variables.\nClean up the variable names. Use lower cases and replace spaces with underscores.\nGet the basic summaries of each variables: missing percentage; descriptive statistics for continuous variables; frequency tables for discrete variables.\nAre their invalid longitude and latitude in the data? If so, replace them with NA.\nAre there zip_code values that are not legit NYC zip codes? If so, replace them with NA.\nAre there missing in zip_code and borough? Do they always co-occur?\nAre there cases where zip_code and borough are missing but the geo codes are not missing? If so, fill in zip_code and borough using the geo codes.\nIs it redundant to keep both location and the longitude/latitude at the NYC Open Data server?\nCheck the frequency of crash_time by hour. Is there a matter of bad luck at exactly midnight? How would you interpret this?\nAre the number of persons killed/injured the summation of the numbers of pedestrians, cyclist, and motorists killed/injured? If so, is it redundant to keep these two columns at the NYC Open Data server?\nPrint the whole frequency table of contributing_factor_vehicle_1. Convert lower cases to uppercases and check the frequencies again.\nProvided an opportunity to meet the data provider, what suggestions would you make based on your data exploration experience?\n\nNYC Crash Data Exploration Except for the first question, use the cleaned crash data in feather format.\n\nConstruct a contigency table for missing in geocode (latitude and longitude) by borough. Is the missing pattern the same across boroughs? Formulate a hypothesis and test it.\nConstruct a hour variable with integer values from 0 to 23. Plot the histogram of the number of crashes by hour. Plot it by borough.\nOverlay the locations of the crashes on a map of NYC. The map could be a static map or Google map.\nCreate a new variable severe which is one if the number of persons injured or deaths is 1 or more; and zero otherwise. Construct a cross table for severe versus borough. Is the severity of the crashes the same across boroughs? Test the null hypothesis that the two variables are not associated with an appropriate test.\nMerge the crash data with the zip code database.\nFit a logistic model with severe as the outcome variable and covariates that are available in the data or can be engineered from the data. For example, zip code level covariates can be obtained by merging with the zip code database; crash hour; number of vehicles involved.\n\nNYC Crash severity modeling Using the cleaned NYC crash data, merged with zipcode level information, predict severe of a crash.\n\nSet random seed to 1234. Randomly select 20% of the crashes as testing data and leave the rest 80% as training data.\nFit a logistic model on the training data and validate the performance on the testing data. Explain the confusion matrix result from the testing data. Compute the F1 score.\nFit a logistic model on the training data with \\(L_1\\) regularization. Select the tuning parameter with 5-fold cross-validation in F1 score\nApply the regularized logistic regression to predict the severity of the crashes in the testing data. Compare the performance of the two logistic models in terms of accuracy, precision, recall, F1-score, and AUC.\n\nMidterm project: Noise complaints in NYC The NYC Open Data of 311 Service Requests contains all requests from 2010 to present. We consider a subset of it with requests to NYPD on noise complaints that are created between 00:00:00 06/30/2024 and 24:00:00 07/06/2024. The subset is available in CSV format as data/nypd311w063024noise_by100724.csv. Read the data dictionary online to understand the meaning of the variables.\n\nData cleaning.\n\nImport the data, rename the columns with our preferred styles.\nSummarize the missing information. Are there variables that are close to completely missing?\nAre there redundant information in the data? Try storing the data using the Arrow format and comment on the efficiency gain.\nAre there invalid NYC zipcode or borough? Justify and clean them if yes.\nAre there date errors? Examples are earlier closed_date than created_date; closed_date and created_date matching to the second; dates exactly at midnight or noon to the second; action_update_date after closed_date.\nSummarize your suggestions to the data curator in several bullet points.\n\nData exploration.\n\nIf we suspect that response time may depend on the time of day when a complaint is made, we can compare the response times for complaints submitted during nighttime and daytime. To do this, we can visualize the comparison by complaint type, borough, and weekday (vs weekend/holiday).\nPerform a formal hypothesis test to confirm the observations from your visualization. Formally state your hypotheses and summarize your conclusions in plain English.\nCreate a binary variable over2h to indicate that a service request took two hours or longer to close.\nDoes over2h depend on the complaint type, borough, or weekday (vs weekend/holiday)? State your hypotheses and summarize your conclusions in plain English.\n\nData analysis.\n\nThe addresses of NYC police precincts are stored in data/nypd_precincts.csv. Use geocoding tools to find their geocode (longitude and latitude) from the addresses.\nCreate a variable dist2pp which represent the distance from each request incidence to the nearest police precinct.\nCreate zip code level variables by merging with data from package uszipcode.\nRandomly select 20% of the complaints as testing data with seeds 1234. Build a logistic model to predict over2h for the noise complaints with the training data, using all the variables you can engineer from the available data. If you have tuning parameters, justify how they were selected.\nAssess the performance of your model in terms of commonly used metrics. Summarize your results to a New Yorker who is not data science savvy.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Exercises</span>"
+    ]
+  },
+  {
+    "objectID": "references.html",
+    "href": "references.html",
+    "title": "References",
+    "section": "",
+    "text": "VanderPlas, J. (2016). Python data science handbook:\nEssential tools for working with data. O’Reilly Media,\nInc.",
+    "crumbs": [
+      "References"
+    ]
+  }
+]
