@@ -16,6 +16,7 @@ book:
     - intro.qmd
     - git.qmd
     - quarto.qmd
+    - python.qmd
     - exercises.qmd
     - references.qmd
 
