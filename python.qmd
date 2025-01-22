@@ -32,7 +32,7 @@ has its own package management system. For example:
     Linux applications and tools. This is particularly useful for
     developers and data scientists who need to run Linux-specific
     software or scripts. It saves a lot of trouble Windows users used
-    to have before its time.    
+    to have before its time.
 
 Understanding the package management system of your operating system
 is crucial for effectively managing and installing software,
