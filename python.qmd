@@ -1,4 +1,4 @@
-# Python Refreshment
+# Python Refreshment {#sec-python}
 
 
 ## Know Your Computer
@@ -399,7 +399,7 @@ print(np.finfo(np.float32).eps)
 ```
 
 
-## Virtual Environment
+## Virtual Environment {#sec-python-venv}
 Virtual environments in Python are essential tools for managing
 dependencies and ensuring consistency across projects. They allow
 you to create isolated environments for each project, with its

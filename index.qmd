@@ -38,9 +38,9 @@ To reproduce the classnotes output on your own computer, here are the
 necessary steps:
 
 + Clone the classnotes repository to an appropriate location on your
-  computer.
+  computer; see Chapter @sec-git for using Git.
 + Set up a Python virtual environment in the root folder of the
-  source.
+  source; see Section @sec-python-venv.
 + Install all the packages specified in `requirements.txt`.
 + For some chapters that need to interact with Google map services,
   you need to save your API key in a file named `api_key.txt` in the
@@ -58,7 +58,6 @@ Reproduce NYC street flood research [@agonafir2022machine;
 Four students will be selected to present their work in a workshop at
 the [2025 NYC Open Data Week](https://2025.open-data.nyc). You are
 welcome to invite your family and friends to join the the workshop.
-
 
 
 ## Final Project
@@ -108,9 +107,10 @@ order, last name first, comma, then first name). Here is an example.
 
 
 + Yan, Jun
-    - Make practical data science tools accessible to undergraduates
-    - Co-develop a Quarto book in collaboration with the students
-    - Train students to participate real data science competitions
+    - Make practical data science tools accessible to undergraduates.
+    - Pass real-world data science project experience to students.
+    - Co-develop a Quarto book in collaboration with the students.
+    - Train students to participate real data science competitions.
 
 
 Add yours through a pull request; note the syntax of nested list in
@@ -193,7 +193,7 @@ boosting. This justifies certain requests for switching slots.
 Here are some example tasks:
 
 + Making presentations with Quarto
-+ Data science ethics
++ Markdown jumpstart
 + Data science communication skills
 + Import/Export data
 + Arrow as a cross-platform data format
@@ -212,9 +212,8 @@ Here are some example tasks:
 + TensorFlow
 + Autoencoders
 + Reinforcement learning
-+ Calling C/C++ from Python
-+ Calling R from Python and vice versa
 + Developing a Python package
++ Web scraping
 
 
 Please use the following table to sign up.
@@ -288,12 +287,12 @@ code chunks, it would be hard to plagiarize.
 
 ### Homework Requirements
 
-+ Use the repo from Git Classroom to submit your work. See Section @sec-git.
++ Use the repo from Git Classroom to submit your work. See Chapter @sec-git.
     - Keep the repo clean (no tracking generated files).
         - Never "Upload" your files; use the git command lines.
         - Make commit message informative (think about the readers).
     - Make at least 10 commits and form a style of frequent small commits.
-+ Use `quarto` source only. See @sec-quarto.
++ Use `quarto` source only. See Chapter @sec-quarto.
 + For the convenience of grading, add your standalone html or pdf
   output to a release in your repo.
 + For standalone pdf output, you will need to have
