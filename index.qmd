@@ -143,16 +143,15 @@ Markdown.
 + Tomaino, Mario Anthony
 
 ### Students in 5255
-+ Ferris, Spencer
-+ Gogoj, Anatol Mateusz
++ Edo, Mezmur Wossenu
 + Mundiwala, Mohammad Moiz 
 + Vellore, Ajeeth Krishna
 + Zhang, Gaofei
 
 
 
-
-## Presentation Orders
+## Course Logistics
+### Presentation Orders
 
 The topic presentation order is set up in class.
 ```{python}
@@ -184,9 +183,6 @@ tree should be presented before random forest or extreme gradient
 boosting. This justifies certain requests for switching slots.
 
 
-
-
-## Course Logistics
 
 ### Presentation Task Board
 
@@ -298,6 +294,18 @@ code chunks, it would be hard to plagiarize.
 + For standalone pdf output, you will need to have
   [LaTeX](https://www.latex-project.org/get/) installed.
 
+### Quizzes about Syllabus
+
++ Do I accept late homework?
++ Could you list a few examples of email etiquette?
++ How would you lose style points?
++ Would you use CLI and GUI?
++ How many students will present at 2025 NYC ODW and when will the
+  presentations be?
++ What's the first date on which you have to complete something about
+  your final project?
++ Can you use AI for any task in this course? 
++ Anybody needs a reference letter? How could you help me to help you?
 
 ## Practical Tips
 
