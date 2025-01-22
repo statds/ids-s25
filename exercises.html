@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>4&nbsp; Exercises – Introduction to Data Science</title>
+<title>5&nbsp; Exercises – Introduction to Data Science</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -31,7 +31,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./references.html" rel="next">
-<link href="./quarto.html" rel="prev">
+<link href="./python.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -110,7 +110,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./exercises.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Exercises</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./exercises.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Exercises</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -161,8 +161,14 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./python.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Python Refreshment</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./exercises.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Exercises</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Exercises</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -184,7 +190,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-ex" class="quarto-section-identifier"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Exercises</span></span></h1>
+<h1 class="title"><span id="sec-ex" class="quarto-section-identifier"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Exercises</span></span></h1>
 </div>
 
 
@@ -202,25 +208,14 @@ window.Quarto = {
 
 
 <ol type="1">
-<li><p><strong>Quarto and Git setup</strong> Quarto and Git are two important tools for data science. Get familiar with them through the following tasks. Please use the <a href="https://github.com/statds/ids-f24/blob/main/templates/hw.qmd"><code>templates/hw.qmd</code></a> template.</p>
+<li><p><strong>Quarto and Git setup</strong> Quarto and Git are two important tools for data science. Get familiar with them through the following tasks. Please use the <a href="https://github.com/statds/ids-f24/blob/main/templates/hw.qmd"><code>templates/hw.qmd</code></a> template to document, for each step, what you did, the obstacles you encountered, and how you overcame them. Think of this as a user manual for students who are new to this. Use the command line interface.</p>
 <ol type="a">
-<li>Install Quarto onto your computer following the instructions of <a href="https://quarto.org/docs/get-started/">Get Started</a>. Document the obstacles you encountered and how you overcame them.</li>
+<li>Set up SSH authentication between your computer and your GitHub account.</li>
+<li>Install Quarto onto your computer following the instructions of <a href="https://quarto.org/docs/get-started/">Get Started</a>.</li>
 <li>Pick a tool of your choice (e.g., VS Code, Jupyter Notebook, Emacs, etc.), follow the instructions to reproduce the example of line plot on polar axis.</li>
-<li>Render the homework into a pdf file and put the file into a release in your GitHub repo. Document any obstacles you have and how you overcome them.</li>
+<li>Render the homework into a pdf file and put the file into a release in your GitHub repo.</li>
 </ol></li>
-<li><p><strong>Git basics and GitHub setup</strong> Learn the Git basics and set up an account on GitHub if you do not already have one. Practice the tips on Git in the notes. By going through the following tasks, ensure your repo has at least 10 commits, each with an informative message. Regularly check the status of your repo using <code>git status</code>. The specific tasks are:</p>
-<ol type="a">
-<li>Clone the class notes repo to an appropriate folder on your computer.</li>
-<li>Add all the files to your designated homework repo from GitHub Classroom and work on that repo for the rest of the problem.</li>
-<li>Add your name and wishes to the Wishlist; commit.</li>
-<li>Remove the <code>Last, First</code> entry from the list; commit.</li>
-<li>Create a new file called <code>add.qmd</code> containing a few lines of texts; commit.</li>
-<li>Remove <code>add.qmd</code> (pretending that this is by accident); commit.</li>
-<li>Recover the accidentally removed file <code>add.qmd</code>; add a long line (a paragraph without a hard break); add a short line (under 80 characters); commit.</li>
-<li>Change one word in the long line and one word in the short line; use <code>git diff</code> to see the difference from the last commit; commit.</li>
-<li>Play with other git operations and commit.</li>
-</ol></li>
-<li><p><strong>Contributing to the Class Notes</strong> To contribute to the classnotes, you need to have a working copy of the sources on your computer. Document the following steps in a <code>qmd</code> file as if you are explaining them to someone who want to contribute too.</p>
+<li><p><strong>Contributing to the Class Notes</strong> To contribute to the classnotes, you need to have a working copy of the sources on your computer. Document the following steps in a <code>qmd</code> file in the form of a step-by-step manual, as if you are explaining them to someone who wants to contribute too. Make at least 10 commits for this task, each with an informativ emessage.</p>
 <ol type="a">
 <li>Create a fork of the notes repo into your own GitHub account.</li>
 <li>Clone it to an appropriate folder on your computer.</li>
@@ -731,8 +726,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./quarto.html" class="pagination-link" aria-label="Reproducible Data Science">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Reproducible Data Science</span></span>
+      <a href="./python.html" class="pagination-link" aria-label="Python Refreshment">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Python Refreshment</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

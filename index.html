@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Jun Yan and Students in Spring 2025">
-<meta name="dcterms.date" content="2025-01-21">
+<meta name="dcterms.date" content="2025-01-22">
 
 <title>Introduction to Data Science</title>
 <style>
@@ -187,8 +187,14 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./python.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Python Refreshment</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./exercises.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Exercises</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Exercises</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -268,7 +274,7 @@ div.csl-indent {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">January 21, 2025</p>
+      <p class="date">January 22, 2025</p>
     </div>
   </div>
   
@@ -286,16 +292,16 @@ div.csl-indent {
 <p>This book free and is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/us/">Creative Commons Attribution-NonCommercial-NoDerivs 3.0 United States License</a>.</p>
 <section id="sources-at-github" class="level2">
 <h2 class="anchored" data-anchor-id="sources-at-github">Sources at GitHub</h2>
-<p>These lecture notes for STAT 3255/5255 in Fall 2024 represent a collaborative effort between Professor Jun Yan and the students enrolled in the course. This cooperative approach to education was facilitated through the use of GitHub, a platform that encourages collaborative coding and content development. To view these contributions and the lecture notes in their entirety, please visit our GitHub repository at <a href="https://github.com/statds/ids-f24" class="uri">https://github.com/statds/ids-f24</a>.</p>
+<p>These lecture notes for STAT 3255/5255 in Spring 2025 represent a collaborative effort between Professor Jun Yan and the students enrolled in the course. This cooperative approach to education was facilitated through the use of GitHub, a platform that encourages collaborative coding and content development. To view these contributions and the lecture notes in their entirety, please visit our GitHub repository at <a href="https://github.com/statds/ids-s25" class="uri">https://github.com/statds/ids-s25</a>.</p>
 <p>Students contributed to the lecture notes by submitting pull requests to our GitHub repository. This method not only enriched the course material but also provided students with practical experience in collaborative software development and version control.</p>
-<p>For those interested in exploring the lecture notes from the previous years, the <a href="https://statds.github.io/ids-s24">Spring 2024</a>, <a href="https://statds.github.io/ids-s23">Spring 2023</a> and <a href="https://statds.github.io/ids-s22/">Spring 2022</a> are also publicly accessible. These archives offer insights into the evolution of the course content and the different perspectives brought by successive student cohorts.</p>
+<p>For those interested, class notes from <a href="https://statds.github.io/ids-f24">Fall 2024</a>, <a href="https://statds.github.io/ids-s24">Spring 2024</a>, <a href="https://statds.github.io/ids-s23">Spring 2023</a>, and <a href="https://statds.github.io/ids-s22/">Spring 2022</a> are also publicly accessible. These archives offer insights into the evolution of the course content and the different perspectives brought by successive student cohorts.</p>
 </section>
 <section id="compiling-the-classnotes" class="level2">
 <h2 class="anchored" data-anchor-id="compiling-the-classnotes">Compiling the Classnotes</h2>
 <p>To reproduce the classnotes output on your own computer, here are the necessary steps:</p>
 <ul>
-<li>Clone the classnotes repository to an appropriate location on your computer.</li>
-<li>Set up a Python virtual environment in the root folder of the source.</li>
+<li>Clone the classnotes repository to an appropriate location on your computer; see Chapter <a href="git.html" class="quarto-xref"><span>2&nbsp; Project Management</span></a> for using Git.</li>
+<li>Set up a Python virtual environment in the root folder of the source; see Section <a href="python.html#sec-python-venv" class="quarto-xref"><span>4.8 Virtual Environment</span></a>.</li>
 <li>Install all the packages specified in <code>requirements.txt</code>.</li>
 <li>For some chapters that need to interact with Google map services, you need to save your API key in a file named <code>api_key.txt</code> in the root folder of the source.</li>
 <li>Render the book with <code>quarto render</code> from the root folder on a terminal; the rendered book will be stored under <code>_book</code>.</li>
@@ -303,18 +309,19 @@ div.csl-indent {
 </section>
 <section id="midterm-project" class="level2">
 <h2 class="anchored" data-anchor-id="midterm-project">Midterm Project</h2>
-<p>NYC noise complaints made to NYPD in the week of July 4, 2024. See details in the exercises.</p>
+<p>Reproduce NYC street flood research <span class="citation" data-cites="agonafir2022machine agonafir2022understanding">(<a href="references.html#ref-agonafir2022machine" role="doc-biblioref">Agonafir, Lakhankar, et al., 2022</a>; <a href="references.html#ref-agonafir2022understanding" role="doc-biblioref">Agonafir, Pabon, et al., 2022</a>)</span>.</p>
+<p>Four students will be selected to present their work in a workshop at the <a href="https://2025.open-data.nyc">2025 NYC Open Data Week</a>. You are welcome to invite your family and friends to join the the workshop.</p>
 </section>
 <section id="final-project" class="level2">
 <h2 class="anchored" data-anchor-id="final-project">Final Project</h2>
 <p>Students are encouraged to start designing their final projects from the beginning of the semester. There are many open data that can be used. Here is a list of data challenges that you may find useful:</p>
 <ul>
-<li><a href="https://community.amstat.org/dataexpo/home">ASA Data Challenge Expo</a></li>
+<li><a href="https://community.amstat.org/dataexpo/home">ASA Data Challenge Expo</a>: big data in 2025</li>
 <li><a href="https://www.kaggle.com">Kaggle</a></li>
 <li><a href="https://www.drivendata.org">DrivenData</a></li>
-<li><a href="https://www.knowledgehut.com/blog/data-science/data-science-competitions">Top 10 Data Science Competitions in 2024</a></li>
+<li>[15 Data Science Hackathons to Test Your Skills in 2025](https://www.fynd.academy/blog/data-science-hackathons}</li>
 </ul>
-<p>If you work on sports analytics, you are welcome to submit a poster to <a href="https://statds.org/events/ucsas2024/">UConn Sports Analytics Symposium (UCSAS) 2024</a>.</p>
+<p>If you work on sports analytics, you are welcome to submit a poster to <a href="https://statds.org/events/csas2025/">Connecticut Sports Analytics Symposium (CSAS) 2025</a>.</p>
 </section>
 <section id="adapting-to-rapid-skill-acquisition" class="level2">
 <h2 class="anchored" data-anchor-id="adapting-to-rapid-skill-acquisition">Adapting to Rapid Skill Acquisition</h2>
@@ -330,9 +337,10 @@ div.csl-indent {
 <ul>
 <li>Yan, Jun
 <ul>
-<li>Make practical data science tools accessible to undergraduates</li>
-<li>Co-develop a Quarto book in collaboration with the students</li>
-<li>Train students to participate real data science competitions</li>
+<li>Make practical data science tools accessible to undergraduates.</li>
+<li>Pass real-world data science project experience to students.</li>
+<li>Co-develop a Quarto book in collaboration with the students.</li>
+<li>Train students to participate real data science competitions.</li>
 </ul></li>
 </ul>
 <p>Add yours through a pull request; note the syntax of nested list in Markdown.</p>
@@ -378,7 +386,7 @@ div.csl-indent {
 <section id="presentation-orders" class="level2">
 <h2 class="anchored" data-anchor-id="presentation-orders">Presentation Orders</h2>
 <p>The topic presentation order is set up in class.</p>
-<div id="c3d639c2" class="cell" data-execution_count="1">
+<div id="8d5f1015" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'rosters/3255.txt'</span>, <span class="st">'r'</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    ug <span class="op">=</span> [line.strip() <span class="cf">for</span> line <span class="kw">in</span> <span class="bu">file</span>]</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'rosters/5255.txt'</span>, <span class="st">'r'</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
@@ -394,7 +402,7 @@ div.csl-indent {
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">## random.shuffle(presenters) # This would shuffle the list in place</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <pre><code>['Schittina,Thomas',
- 'Mundiwala,Mohammad Moiz',
+ 'Vellore,Ajeeth Krishna',
  'Jun,Joann',
  '',
  'Li,Shiyi',
@@ -403,26 +411,25 @@ div.csl-indent {
  'Ferris,Spencer',
  'Long,Ethan Kenneth',
  'Alsadadi,Ammar Shaker',
- 'Tomaino,Mario Anthony',
- 'Chen,Yifei',
  'Tamhane,Shubhan',
- 'Lang,Lang',
+ 'Chen,Yifei',
  'Symula,Sebastian',
- 'Pfeifer,Nicholas Theodore',
- 'Zhang,Gaofei',
- 'El Zein,Amer Hani',
- 'Schlessel,Jacob E',
- 'Hutchins,Isabella Grace',
- 'Roy,Luke William',
- 'Febles,Xavier Milan',
+ 'Lang,Lang',
  'Ackerman,John',
- 'Horn,Alyssa Noelle',
- 'Kline,Daniel Esteban',
- 'Vellore,Ajeeth Krishna',
+ 'Schlessel,Jacob E',
+ 'Roy,Luke William',
+ 'El Zein,Amer Hani',
+ 'Mundiwala,Mohammad Moiz',
+ 'Hutchins,Isabella Grace',
+ 'Tomaino,Mario Anthony',
+ 'Febles,Xavier Milan',
+ 'Zhang,Gaofei',
  'Nasejje,Ruth Nicole',
+ 'Pfeifer,Nicholas Theodore',
+ 'Horn,Alyssa Noelle',
  'Gogoj,Anatol Mateusz',
- 'Reed,Kyle Daniel',
- '']</code></pre>
+ 'Kline,Daniel Esteban',
+ 'Reed,Kyle Daniel']</code></pre>
 </div>
 </div>
 <p>Switching slots is allowed as long as you find someone who is willing to switch with you. In this case, make a pull request to switch the order and let me know.</p>
@@ -435,7 +442,7 @@ div.csl-indent {
 <p>Here are some example tasks:</p>
 <ul>
 <li>Making presentations with Quarto</li>
-<li>Data science ethics</li>
+<li>Markdown jumpstart</li>
 <li>Data science communication skills</li>
 <li>Import/Export data</li>
 <li>Arrow as a cross-platform data format</li>
@@ -454,9 +461,8 @@ div.csl-indent {
 <li>TensorFlow</li>
 <li>Autoencoders</li>
 <li>Reinforcement learning</li>
-<li>Calling C/C++ from Python</li>
-<li>Calling R from Python and vice versa</li>
 <li>Developing a Python package</li>
+<li>Web scraping</li>
 </ul>
 <p>Please use the following table to sign up.</p>
 <table class="caption-top table">
@@ -628,7 +634,7 @@ div.csl-indent {
 <section id="homework-requirements" class="level3">
 <h3 class="anchored" data-anchor-id="homework-requirements">Homework Requirements</h3>
 <ul>
-<li>Use the repo from Git Classroom to submit your work. See Section <a href="git.html" class="quarto-xref"><span>2&nbsp; Project Management</span></a>.
+<li>Use the repo from Git Classroom to submit your work. See Chapter <a href="git.html" class="quarto-xref"><span>2&nbsp; Project Management</span></a>.
 <ul>
 <li>Keep the repo clean (no tracking generated files).
 <ul>
@@ -637,7 +643,7 @@ div.csl-indent {
 </ul></li>
 <li>Make at least 10 commits and form a style of frequent small commits.</li>
 </ul></li>
-<li>Use <code>quarto</code> source only. See <a href="quarto.html" class="quarto-xref"><span>3&nbsp; Reproducible Data Science</span></a>.</li>
+<li>Use <code>quarto</code> source only. See Chapter <a href="quarto.html" class="quarto-xref"><span>3&nbsp; Reproducible Data Science</span></a>.</li>
 <li>For the convenience of grading, add your standalone html or pdf output to a release in your repo.</li>
 <li>For standalone pdf output, you will need to have <a href="https://www.latex-project.org/get/">LaTeX</a> installed.</li>
 </ul>
@@ -684,7 +690,7 @@ div.csl-indent {
 <h3 class="anchored" data-anchor-id="sub-topic-1">Sub Topic 1</h3>
 <p>Put materials on topic 1 here</p>
 <p>Python examples can be put into <code>python</code> code chunks:</p>
-<div id="7ad8193f" class="cell" data-execution_count="2">
+<div id="dac6721a" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import pandas as pd</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># do something</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -708,6 +714,12 @@ div.csl-indent {
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
+<div id="ref-agonafir2022machine" class="csl-entry" role="listitem">
+Agonafir, C., Lakhankar, T., Khanbilvardi, R., Krakauer, N., Radell, D., &amp; Devineni, N. (2022). A machine learning approach to evaluate the spatial variability of <span>N</span>ew <span>Y</span>ork <span>C</span>ity’s 311 street flooding complaints. <em>Computers, Environment and Urban Systems</em>, <em>97</em>, 101854.
+</div>
+<div id="ref-agonafir2022understanding" class="csl-entry" role="listitem">
+Agonafir, C., Pabon, A. R., Lakhankar, T., Khanbilvardi, R., &amp; Devineni, N. (2022). Understanding <span>N</span>ew <span>Y</span>ork <span>C</span>ity street flooding through 311 complaints. <em>Journal of Hydrology</em>, <em>605</em>, 127300.
+</div>
 <div id="ref-vanderplas2016python" class="csl-entry" role="listitem">
 VanderPlas, J. (2016). <em>Python data science handbook: <span>E</span>ssential tools for working with data</em>. O’Reilly Media, Inc.
 </div>
