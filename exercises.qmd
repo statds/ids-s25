@@ -4,45 +4,27 @@
   Quarto and Git are two important tools for data science. Get
   familiar with them through the following tasks. Please use
   the [`templates/hw.qmd`](https://github.com/statds/ids-f24/blob/main/templates/hw.qmd)
-  template.
+  template to document, for each step, what you did, the obstacles you
+  encountered, and how you overcame them. Think of this as a user
+  manual for students who are new to this. Use the command line
+  interface.
+    a.  Set up SSH authentication between your computer and your
+	GitHub account.
     a.  Install Quarto onto your computer following the instructions
-    of [Get Started](https://quarto.org/docs/get-started/). Document
-    the obstacles you encountered and how you overcame them.
+    of [Get Started](https://quarto.org/docs/get-started/). 
     a.  Pick a tool of your choice (e.g., VS Code, Jupyter Notebook,
     Emacs, etc.), follow the instructions to reproduce the example
     of line plot on polar axis.
     a.  Render the homework into a pdf file and put the file into
-    a release in your GitHub repo. Document any obstacles you have
-    and how you overcome them.
+    a release in your GitHub repo.
     
-
-1. **Git basics and GitHub setup**
-  Learn the Git basics and set up an account on GitHub if you do not
-  already have one. Practice the tips on Git in the notes. By going
-  through the following tasks, ensure your repo has at least 10
-  commits, each with an informative message. Regularly check the
-  status of your repo using `git status`. The specific tasks are:
-    a.  Clone the class notes repo to an appropriate folder on your computer.
-    a.  Add all the files to your designated homework repo from
-    GitHub Classroom and work on that repo for the rest of the problem.
-    a.  Add your name and wishes to the Wishlist; commit.
-    a.  Remove the `Last, First` entry from the list; commit.
-    a.  Create a new file called `add.qmd` containing a few lines of
-    texts; commit.
-    a.  Remove `add.qmd` (pretending that this is by accident); commit.
-    a.  Recover the accidentally removed file `add.qmd`; add a long line
-  (a paragraph without a hard break); add a short line (under 80
-  characters); commit.
-    a.  Change one word in the long line and one word in the short
-  line; use `git diff` to see the difference from the last commit;
-  commit.
-    a.  Play with other git operations and commit.
 
 1. **Contributing to the Class Notes**
   To contribute to the classnotes, you need to have a working
   copy of the sources on your computer. Document the following
-  steps in a `qmd` file as if you are explaining them to someone
-  who want to contribute too.
+  steps in a `qmd` file in the form of a step-by-step manual, as if
+  you are explaining them to someone who wants to contribute too. Make
+  at least 10 commits for this task, each with an informativ emessage.
     a.  Create a fork of the notes repo into your own GitHub account.
     a.  Clone it to an appropriate folder on your computer.
     a.  Render the classnotes on your computer; document the obstacles
