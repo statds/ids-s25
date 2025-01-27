@@ -18,6 +18,13 @@
     a.  Render the homework into a pdf file and put the file into
     a release in your GitHub repo.
     
+1. **Working on Homework Problems**
+    a.  What are the differences between binary and source files?
+    a.  Why do we not want to track binary files in a repo?
+    a.  Why do I require pdf output via release?
+    a.  Why do I not want your files added via 'upload'?
+    a.  Why do I require line width under 80?
+    a.  Why is it not a good idea to have spaces in file/folder names?
 
 1. **Contributing to the Class Notes**
   To contribute to the classnotes, you need to have a working
