@@ -41,7 +41,12 @@ necessary steps:
   computer; see Chapter @sec-git for using Git.
 + Set up a Python virtual environment in the root folder of the
   source; see Section @sec-python-venv.
-+ Install all the packages specified in `requirements.txt`.
++ Activate your virtual environment.
++ Install all the packages specified in `requirements.txt` in your
+  virtual environment:
+ ```
+ pip install -r requirements.txt
+ ```
 + For some chapters that need to interact with Google map services,
   you need to save your API key in a file named `api_key.txt` in the
   root folder of the source.
@@ -288,7 +293,7 @@ code chunks, it would be hard to plagiarize.
         - Never "Upload" your files; use the git command lines.
         - Make commit message informative (think about the readers).
     - Make at least 10 commits and form a style of frequent small commits.
-+ Use `quarto` source only. See Chapter @sec-quarto.
++ Track `quarto` sources only in your repo. See Chapter @sec-quarto.
 + For the convenience of grading, add your standalone html or pdf
   output to a release in your repo.
 + For standalone pdf output, you will need to have
