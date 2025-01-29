@@ -147,6 +147,7 @@ Markdown.
 + Schittina, Thomas
 + Schlessel, Jacob E
 + Symula, Sebastian
+    - Learn SQL
 + Tamhane, Shubhan
 + Tomaino, Mario Anthony
 
