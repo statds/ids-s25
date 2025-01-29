@@ -141,6 +141,7 @@ Markdown.
 + Pfeifer, Nicholas Theodore
     - Learn about data science techniques in python
     - Learn and thoroughly practice using git and github
+    - Get more comfortable with decision trees and random forests
 
 + Reed, Kyle Daniel
 + Roy, Luke William
