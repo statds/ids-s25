@@ -131,6 +131,8 @@ Markdown.
 + Horn, Alyssa Noelle
 + Hutchins, Isabella Grace
 + Jun, Joann
+    - Become proficient in using GitHub
+    - Learn more about the applications of data science
 + Kline, Daniel Esteban
 + Lagutin, Vladislav
 + Lang, Lang
