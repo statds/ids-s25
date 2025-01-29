@@ -289,8 +289,24 @@ our own data (e.g., NYC Open Data). Combined with your own explanation of the
 code chunks, it would be hard to plagiarize.
 
 
-### Homework Requirements
+### Homework Logistics
 
+
+#### Workflow of Submitting Homework Assisngment
+
++ Click the GitHub classroom assignment link in HuskCT announcement.
++ Accept the assignment and follow the instructions to an empty
+  repository.
++ Make a clone of the repo at an appropriate folder on your own
+  computer with `git clone`.
++ Go to this folder, add your qmd source, work on it, and group your
+  changes to different commits.
++ Push your work to your GitHub repo with `git push`.
++ Create a new release and put the generated pdf file in it for ease
+  of grading.
+
+
+#### Requirements
 + Use the repo from Git Classroom to submit your work. See Chapter @sec-git.
     - Keep the repo clean (no tracking generated files).
         - Never "Upload" your files; use the git command lines.
