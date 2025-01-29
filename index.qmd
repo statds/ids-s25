@@ -140,6 +140,7 @@ Markdown.
 + Nasejje, Ruth Nicole
 + Pfeifer, Nicholas Theodore
     - Learn about data science techniques in python
+    - Learn and thoroughly practice using git and github
 
 + Reed, Kyle Daniel
 + Roy, Luke William
