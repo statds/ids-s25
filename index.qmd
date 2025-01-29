@@ -126,6 +126,9 @@ Markdown.
 + Ackerman, John
 + Alsadadi, Ammar Shaker
 + Chen, Yifei
+    - Learn more advanced python programming skills.
+    - Learn to use github for future projects
+    - Get a good grade in this class. 
 + El Zein, Amer Hani
 + Febles, Xavier Milan
 + Horn, Alyssa Noelle
