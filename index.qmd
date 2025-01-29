@@ -149,6 +149,9 @@ Markdown.
 + Symula, Sebastian
 + Tamhane, Shubhan
 + Tomaino, Mario Anthony
++ Peiwen, Xu
+    - Learn how to apply data science techniques to real-world problems
+    - Learn how to use git and github effectively
 
 ### Students in 5255
 + Edo, Mezmur Wossenu
