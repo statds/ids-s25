@@ -137,6 +137,10 @@ Markdown.
 + Li, Shiyi
 + Lin, Selena
 + Long, Ethan Kenneth
+    - Become more comfortable using Git commands and CLI
+    - Learn more about the data science field
+    - Understand proper coding grammar
+    - Develop good learning habits
 + Nasejje, Ruth Nicole
 + Pfeifer, Nicholas Theodore
     - Learn about data science techniques in python
