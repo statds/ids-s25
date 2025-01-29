@@ -139,6 +139,8 @@ Markdown.
 + Long, Ethan Kenneth
 + Nasejje, Ruth Nicole
 + Pfeifer, Nicholas Theodore
+    - Learn about data science techniques in python
+
 + Reed, Kyle Daniel
 + Roy, Luke William
 + Schittina, Thomas
