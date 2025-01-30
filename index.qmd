@@ -148,6 +148,8 @@ Markdown.
 + Schlessel, Jacob E
 + Symula, Sebastian
     - Learn SQL
+    - Become better at working through each step in the data science 
+      pipeline to make better, cleaner looking projects
 + Tamhane, Shubhan
 + Tomaino, Mario Anthony
 
