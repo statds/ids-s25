@@ -163,7 +163,7 @@ Markdown.
   - Become adept with git and github. 
   - Be able to quickly and efficently process and analyze any data.
   - Gain better skills at data prep, organization, and visulization. 
-  - Learn new helpful statistical tools.
+  - Learn new helpful statistical tools for data.
 
 ## Course Logistics
 ### Presentation Orders
