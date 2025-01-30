@@ -159,7 +159,7 @@ Markdown.
 + Vellore, Ajeeth Krishna
 + Zhang, Gaofei
 + Kravette, Noah
-  - Become good at program collaboration.
+  - Become better at program collaboration. Be organized with others.
   - Become incredibly famillar and work well with git and github. 
   - Be able to quickly and easily process and analyze data.
   - Become better at data prep and visulization, while being organized and thorough. 
