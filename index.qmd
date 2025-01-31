@@ -144,6 +144,9 @@ Markdown.
     - Get more comfortable with decision trees and random forests
 
 + Reed, Kyle Daniel
+    - Gain full confidence using Git/GitHub and corresponding applications.
+    - Understand the workflow in professional data science projects.
+    - Build on existing python skills.
 + Roy, Luke William
 + Schittina, Thomas
 + Schlessel, Jacob E
