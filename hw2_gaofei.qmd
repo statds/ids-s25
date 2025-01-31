@@ -15,3 +15,19 @@ format:
 ##  docx: Never, unless to accommodate a collaborator
 ---
 
+# Contributing to the Class Notes
+
+This document explains how to contribute to the class notes repository. The steps include forking, cloning, rendering, making changes, and submitting a pull request.
+
+---
+
+## **Step 1: Fork the Repository**
+First, we fork the official **class notes repository** to our own GitHub account.
+
+- Go to: [https://github.com/statds/ids-s25](https://github.com/statds/ids-s25)
+- Click **Fork** (top-right corner).
+- Now we have a copy in our GitHub account.
+
+---
+
+
