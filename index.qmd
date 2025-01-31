@@ -150,7 +150,7 @@ Markdown.
 + Tamhane, Shubhan
     - Learn different machine learning algorithims such as logistic regression, support vector, and random forest
     - Learn about the intersection of git, SQL, Python in the context of solving a real data science problem 
-  - cleaning and prepping messy and unstructured data for analysis 
+    - Practice cleaning and prepping messy and unstructured data for analysis 
 + Tomaino, Mario Anthony
 
 ### Students in 5255
