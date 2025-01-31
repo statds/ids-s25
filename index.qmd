@@ -128,6 +128,9 @@ Markdown.
 + Chen, Yifei
 + El Zein, Amer Hani
 + Febles, Xavier Milan
+    - Further develop skills with git
+    - Learn more about specific tools used for data science
+    - Become more comfortable with sql
 + Horn, Alyssa Noelle
 + Hutchins, Isabella Grace
 + Jun, Joann
