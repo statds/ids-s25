@@ -77,17 +77,101 @@ Run Quarto Render
 quarto render
 ```
 
-## **Step 4: Create a New Branch**
-Before making any changes, we create a new branch.
+## **Step 4: Add wishlist**
+Open wishlist.qmd
 
-# Ensure we are on the latest version of the main branch
+## Wishlist
+
 ```{bash}
-git checkout main
-git pull origin main
+### **Students in 5255**
+- Edo, Mezmur Wossenu
+- Mundiwala, Mohammad Moiz
+- Vellore, Ajeeth Krishna
+- Zhang, Gaofei
+  - Gain hands-on experience with real-world data science projects.
+  - Improve proficiency in Git and collaborative workflows.
+  - Explore machine learning techniques and applications.
 ```
 
-# Create a new branch for our changes
+# save code
+
+Press CTRL + X in nano, enter Y to save, and press Enter to exit.
+
+First check which branch you are currently in:
+
+```{bash}
+git branch
+```
+If the output is:
+* main
+It means that you have not created the add-wishlist-item branch. 
+The correct way is:
+
 ```{bash}
 git checkout -b add-wishlist-item
+```
+This command will:
+Create the add-wishlist-item branch
+Switch to the new branch
+
+Expected output:
+
+Switched to a new branch 'add-wishlist-item'
+
+Make sure the changes are still there
+Run:
+```{bash}
+git status
+```
+If wishlist.qmd shows that the changes have been submitted, 
+you can jump directly to Step 5.
+
+If wishlist.qmd has not been modified (it has become clean), 
+you need to resubmit it:
+```{bash}
+git add wishlist.qmd
+git commit -m "Added gaofei's wishlist items"
+git push origin add-wishlist-item
+```
+
+
+## **Step 5: The goal now is to submit the hw2_gaofei.qmd file to the main branch and push it to GitHub. 
+Follow these steps:
+Make sure you are on the main branch
+First check which branch you are currently on:
+
+```{bash}
+git branch
+```
+If the output is:
+* main
+It means you are already on the main branch. 
+If not, switch back to main:
+
+```{bash}
+git checkout main
+```
+
+Make sure hw2_gaofei.qmd exists
+Run:
+```{bash}
+git status
+```
+If hw2_gaofei.qmd is shown as untracked or modified, continue to Step 6.
+If it is not in git status, check if it is in the correct directory:
+```{bash}
+ls -l hw2_gaofei.qmd
+```
+If the file is not in the current directory, 
+you may be in the wrong folder and need to cd to the ids-s25 directory:
+```{bash}
+cd /d/UConn/git/ids-s25
+```
+
+## **Step 6: Unlock hw2_gaofei.qmd in main
+```{bash}
+git checkout main
+git add hw2_gaofei.qmd
+git commit -m "Added HW2 solution"
 ```
 
