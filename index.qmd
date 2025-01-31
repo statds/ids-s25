@@ -136,6 +136,9 @@ Markdown.
 + Lang, Lang
 + Li, Shiyi
 + Lin, Selena
+  - Get a good grade in this class.
+  - Learn and get familier with using GitHub.
+  - Hands on experience with the data science skills learned in this class.
 + Long, Ethan Kenneth
 + Nasejje, Ruth Nicole
 + Pfeifer, Nicholas Theodore
