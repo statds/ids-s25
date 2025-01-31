@@ -127,6 +127,8 @@ Markdown.
 + Alsadadi, Ammar Shaker
 + Chen, Yifei
 + El Zein, Amer Hani
+  - To gain a deeper undestanding of data preparation. 
+  - To develop intution on what the best tool for a given project is.
 + Febles, Xavier Milan
 + Horn, Alyssa Noelle
 + Hutchins, Isabella Grace
