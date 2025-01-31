@@ -30,4 +30,64 @@ First, we fork the official **class notes repository** to our own GitHub account
 
 ---
 
+## **Step 2: Clone the Repository**
+Next, we clone the forked repository to our local machine.
+
+
+# Move to the directory where we want to clone
+```{bash}
+cd /d/UConn/git
+```
+
+# Clone the forked repository (replace YOUR_GITHUB_USERNAME)
+```{bash}
+git clone git@github.com:YOUR_GITHUB_USERNAME/ids-s25.git
+```
+
+# Move into the cloned directory
+```{bash}
+cd ids-s25
+```
+
+## **Step 3: Render the Class Notes**
+Once cloned, we render the class notes to ensure everything works correctly.
+
+Setup Python Environment
+
+# Create a virtual environment
+
+```{bash}
+python -m venv venv
+```
+
+# Activate the virtual environment
+```{bash}
+source venv/Scripts/activate  # Windows users
+```
+
+Install Dependencies
+
+```{bash}
+pip install -r requirements.txt
+```
+
+Run Quarto Render
+
+```{bash}
+quarto render
+```
+
+## **Step 4: Create a New Branch**
+Before making any changes, we create a new branch.
+
+# Ensure we are on the latest version of the main branch
+```{bash}
+git checkout main
+git pull origin main
+```
+
+# Create a new branch for our changes
+```{bash}
+git checkout -b add-wishlist-item
+```
 
