@@ -123,6 +123,7 @@ order, last name first, comma, then first name). Here is an example.
     - Learn to query, extract, and adjust structured and unstructured data in a big database.
     - Learn basics of artificial neural networks, CNNs for image data, NLP techniques.
     - Learn some of the data analysis models that will be commonly used in the workplace.
+    - Learn some common applications of optimization techniques in data analysis. 
     - Pass this course with an A grade.
 
 
