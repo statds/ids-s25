@@ -157,6 +157,13 @@ Markdown.
   - Become more familiar with collaboration process of programming so that I can be more orderly while working with others.
   - I hope to become more efficient processing data that is messy, unstructured, or unlabeled.
 + Vellore, Ajeeth Krishna
+  - Understand the utility provided by GitHub and practice using its tools
+  - Learn how to participate in a large-scale development project like how they
+    are done in industry
+  - Learn how to code properly and professionally instead of using "backyard"
+    computer science techniques and formatting
+  - Understand principles of coding documentation and readability while
+    practicing their application
 + Zhang, Gaofei
 
 
