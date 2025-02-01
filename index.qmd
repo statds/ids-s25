@@ -125,6 +125,8 @@ Markdown.
 ### Students in 3255
 + Ackerman, John
 + Alsadadi, Ammar Shaker
+    - Learn about the applications of Data Science in Finance
+    - Learn more about time series and random walk
 + Chen, Yifei
 + El Zein, Amer Hani
 + Febles, Xavier Milan
