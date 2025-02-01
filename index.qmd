@@ -133,6 +133,8 @@ Markdown.
 + Jun, Joann
 + Kline, Daniel Esteban
 + Lagutin, Vladislav
+    - Learn how to do data science projects in python and interact with them using git
+    - Learn how to do good visualizations of the data; explore appropriate libraries
 + Lang, Lang
 + Li, Shiyi
 + Lin, Selena
