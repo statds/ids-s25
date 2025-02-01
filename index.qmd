@@ -151,8 +151,8 @@ Markdown.
 + Tamhane, Shubhan
 + Tomaino, Mario Anthony
 + Peiwen, Xu
-    - Learn how to apply data science techniques to real-world problems
-    - Learn how to use git and github effectively
+    - Learn some data analysis techniques  
+    - Learn how to use git and other essential tools for data science
 
 ### Students in 5255
 + Edo, Mezmur Wossenu
