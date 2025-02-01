@@ -151,7 +151,7 @@ Markdown.
 + Tamhane, Shubhan
 + Tomaino, Mario Anthony
 + Xu, Peiwen
-    - Learn some data analysis techniques  
+    - Learn some data analysis techniques
     - Learn how to use git and other essential tools for data science
 
 ### Students in 5255
