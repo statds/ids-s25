@@ -154,8 +154,10 @@ Markdown.
 ### Students in 5255
 + Edo, Mezmur Wossenu
 + Mundiwala, Mohammad Moiz
-  - Become more familiar with collaboration process of programming so that I can be more orderly while working with others.
-  - I hope to become more efficient processing data that is messy, unstructured, or unlabeled.
+  - Become more familiar with collaboration process of programming
+    so that I can be more orderly while working with others.
+  - I hope to become more efficient processing data 
+    that is messy, unstructured, or unlabeled.
 + Vellore, Ajeeth Krishna
 + Zhang, Gaofei
 
