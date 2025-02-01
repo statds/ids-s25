@@ -143,6 +143,7 @@ Markdown.
 + Pfeifer, Nicholas Theodore
     - Learn about data science techniques in python
     - Learn and thoroughly practice using git and github
+    - Get more comfortable with decision trees and random forests
 
 + Reed, Kyle Daniel
 + Roy, Luke William
@@ -154,7 +155,9 @@ Markdown.
 
 ### Students in 5255
 + Edo, Mezmur Wossenu
-+ Mundiwala, Mohammad Moiz 
++ Mundiwala, Mohammad Moiz
+  - Become more familiar with collaboration process of programming so that I can be more orderly while working with others.
+  - I hope to become more efficient processing data that is messy, unstructured, or unlabeled.
 + Vellore, Ajeeth Krishna
 + Zhang, Gaofei
 
