@@ -119,7 +119,8 @@ order, last name first, comma, then first name). Here is an example.
 
 + Shiyi, Li 
     - Learn to visualize the plots and results using ggplot package.
-    
+    - Learn to query structured and unstructured data in a big database.
+
 
 
 
