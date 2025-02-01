@@ -115,7 +115,13 @@ order, last name first, comma, then first name). Here is an example.
     - Make practical data science tools accessible to undergraduates.
     - Pass real-world data science project experience to students.
     - Co-develop a Quarto book in collaboration with the students.
-    - Train students to participate real data science competitions.
+    - Train students to participate in real data science competitions.
+  
++ Roy, Luke
+    - Have fun
+    - Develop skills in fianncial data analyis using python and relevant libraries like numpy and pandas.
+    - Learn advanced data visualization skills with a focus on the Grammar of Graphics.
+    - Get an introduction to machine learning via scikit-learn, and explore applications in financial analysis and forensic accounting.
 
 
 Add yours through a pull request; note the syntax of nested list in
