@@ -117,15 +117,16 @@ order, last name first, comma, then first name). Here is an example.
     - Co-develop a Quarto book in collaboration with the students.
     - Train students to participate in real data science competitions.
 
+
+  Add yours through a pull request; note the syntax of nested list in
+Markdown. 
+
 + Roy, Luke
     - Have fun
     - Develop skills in financial data analysis using python and relevant libraries like pandas and numpy.
     - Learn advanced data visualization techniques with a focus on the grammar of graphics.
     - Get an introduction to machine learning via scikit-learn, and explore applications in financial analysis and forensic accoutning.
   
-
-Add yours through a pull request; note the syntax of nested list in
-Markdown. 
 
 
 ### Students in 3255
