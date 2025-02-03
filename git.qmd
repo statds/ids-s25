@@ -33,6 +33,9 @@ See [how to get started with GitHub account](https://docs.github.com/en/get-star
 
 ## Most Frequently Used Git Commands
 
+The following seven commands will get you started and they may be all
+that you need most of the time.
+
 + `git clone`:
     + Used to clone a repository to a local folder.
     + Requires either HTTPS link or SSH key to authenticate. 
@@ -54,6 +57,11 @@ See [how to get started with GitHub account](https://docs.github.com/en/get-star
     + Used to send commits made on local repository to the remote repository. 
 
 
+For more advanced usages:
+
++ `git diff`
++ `git branch`
++ `git reset`
 
 
 ## Tips on using Git:
