@@ -237,12 +237,10 @@ with open('rosters/3255.txt', 'r') as file:
 with open('rosters/5255.txt', 'r') as file:
     gr = [line.strip() for line in file]
 presenters = ug + gr
-target = "Blanchard"  # pre-arranged 1st presenter
-presenters = [name for name in presenters if target not in name]
 
 import random
 ## seed jointly set by the class
-random.seed(5347 + 2896 + 9050 + 1687 + 63)
+random.seed(6895 + 283 + 3184 + 3078 + 5901 + 36)
 random.sample(presenters, len(presenters))
 ## random.shuffle(presenters) # This would shuffle the list in place
 ```
