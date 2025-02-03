@@ -134,9 +134,9 @@ Markdown.
 + Kline, Daniel Esteban
 + Lagutin, Vladislav
 + Lang, Lang
-  -Learn about python and github
-  -Learn how to collaborate with colleague by github
-  -Learn more about data science
+    -Learn about python and github
+    -Learn how to collaborate with colleague by github
+    -Learn more about data science
 + Li, Shiyi
 + Lin, Selena
 + Long, Ethan Kenneth
