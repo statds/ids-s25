@@ -132,6 +132,8 @@ Markdown.
 + El Zein, Amer Hani
 + Febles, Xavier Milan
 + Horn, Alyssa Noelle
+    -Be confident in using Git and Github
+    -Learn how to collaborate with others on projects through Github
 + Hutchins, Isabella Grace
 + Jun, Joann
     - Become proficient in using GitHub
