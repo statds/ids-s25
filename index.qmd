@@ -131,6 +131,9 @@ Markdown.
     - Get a good grade in this class. 
 + El Zein, Amer Hani
 + Febles, Xavier Milan
+    - Further develop skills with git
+    - Learn more about specific tools used for data science
+    - Become more comfortable with sql
 + Horn, Alyssa Noelle
     -Be confident in using Git and Github
     -Learn how to collaborate with others on projects through Github
