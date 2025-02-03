@@ -134,6 +134,9 @@ Markdown.
 + Horn, Alyssa Noelle
 + Hutchins, Isabella Grace
 + Jun, Joann
+    - Become proficient in using GitHub
+    - Learn more about the applications of data science
+    
 + Kline, Daniel Esteban
 + Lagutin, Vladislav
     - Learn how to do data science projects in python and interact with them using git
