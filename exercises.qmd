@@ -31,7 +31,7 @@
   copy of the sources on your computer. Document the following
   steps in a `qmd` file in the form of a step-by-step manual, as if
   you are explaining them to someone who wants to contribute too. Make
-  at least 10 commits for this task, each with an informativ emessage.
+  at least 10 commits for this task, each with an informative message.
     a.  Create a fork of the notes repo into your own GitHub account.
     a.  Clone it to an appropriate folder on your computer.
     a.  Render the classnotes on your computer; document the obstacles

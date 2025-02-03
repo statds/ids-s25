@@ -187,6 +187,9 @@ Markdown.
       pipeline to make better, cleaner looking projects
 + Tamhane, Shubhan
 + Tomaino, Mario Anthony
++ Xu, Peiwen
+    - Learn some data analysis techniques
+    - Learn how to use git and other essential tools for data science
 
 ### Students in 5255
 + Edo, Mezmur Wossenu
@@ -195,8 +198,10 @@ Markdown.
   - I hope to learn about the different machine learning techniques.
 
 + Mundiwala, Mohammad Moiz
-  - Become more familiar with collaboration process of programming so that I can be more orderly while working with others.
-  - I hope to become more efficient processing data that is messy, unstructured, or unlabeled.
+  - Become more familiar with collaboration process of programming
+    so that I can be more orderly while working with others.
+  - I hope to become more efficient processing data 
+    that is messy, unstructured, or unlabeled.
 + Vellore, Ajeeth Krishna
   - Understand the utility provided by GitHub and practice using its tools
   - Learn how to participate in a large-scale development project like how they
