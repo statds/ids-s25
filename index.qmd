@@ -180,7 +180,7 @@ Markdown.
     - Have fun
     - Develop skills in financial data analysis using python and relevant libraries like pandas and numpy.
     - Learn advanced data visualization techniques with a focus on the grammar of graphics.
-    - Get an introduction to machine learning via scikit-learn, and explore applications in financial analysis and forensic accoutning.
+    - Get an introduction to machine learning via scikit-learn, and explore applications in financial analysis and forensic accounting.
  
 + Schittina, Thomas
     - Become more comfortable using git and GitHub
