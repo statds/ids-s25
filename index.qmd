@@ -139,7 +139,7 @@ Markdown.
 + Long, Ethan Kenneth
 + Nasejje, Ruth Nicole
     - Develop an organized coding style in python, quarto, & git
-    - Learn varies packages in python related to data science
+    - Learn various packages in python related to data science
     - Deepen knowledge in statistical modeling and data analysis
 
 + Pfeifer, Nicholas Theodore
