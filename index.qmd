@@ -140,8 +140,8 @@ Markdown.
     - Learn more about specific tools used for data science
     - Become more comfortable with sql
 + Horn, Alyssa Noelle
-    -Be confident in using Git and Github
-    -Learn how to collaborate with others on projects through Github
+    - Be confident in using Git and Github
+    - Learn how to collaborate with others on projects through Github
 + Hutchins, Isabella Grace
 + Jun, Joann
     - Become proficient in using GitHub
