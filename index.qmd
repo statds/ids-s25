@@ -155,6 +155,359 @@ Markdown.
 + Mundiwala, Mohammad Moiz 
 + Vellore, Ajeeth Krishna
 + Zhang, Gaofei
+
+
+
+## Course Logistics
+### Presentation Orders
+
+The topic presentation order is set up in class.
+```{python}
+#| eval: true
+
+with open('rosters/3255.txt', 'r') as file:
+    ug = [line.strip() for line in file]
+with open('rosters/5255.txt', 'r') as file:
+    gr = [line.strip() for line in file]
+presenters = ug + gr
+target = "Blanchard"  # pre-arranged 1st presenter
+presenters = [name for name in presenters if target not in name]
+
+import random
+## seed jointly set by the class
+random.seed(5347 + 2896 + 9050 + 1687 + 63)
+random.sample(presenters, len(presenters))
+## random.shuffle(presenters) # This would shuffle the list in place
+```
+
+Switching slots is allowed as long as you find someone who
+is willing to switch with you. In this case, make a pull request
+to switch the order and let me know.
+
+
+You are welcome to choose a topic that you are interested the 
+most, subject to some order restrictions. For example, decision
+tree should be presented before random forest or extreme gradient
+boosting. This justifies certain requests for switching slots.
+
+
+
+### Presentation Task Board
+
+Here are some example tasks:
+
++ Making presentations with Quarto
++ Markdown jumpstart
++ Data science communication skills
++ Import/Export data
++ Arrow as a cross-platform data format
++ Database operation with Structured query language (SQL)
++ Grammer of graphics
++ Handling spatial data
++ Visualize spatial data in a Google map
++ Animation
++ Classification and regression trees
++ Support vector machine
++ Random forest
++ Naive Bayes
++ Bagging vs boosting
++ Neural networks
++ Deep learning
++ TensorFlow
++ Autoencoders
++ Reinforcement learning
++ Developing a Python package
++ Web scraping
+
+
+Please use the following table to sign up.
+
+   Date  | Presenter              | Topic
+  ------ | ---------------------- | ------
+   09/11 | Zachary Blanchard    | Presentation with Quarto
+   09/16 | Deyu Xu                | Import/Export data
+   09/18 | Sara Clokey            | Communications in Data Science
+   09/23 | Dorathea Johnson       | Database with SQL
+   09/25 | Xavier Febles           | Statistical tests
+   09/30 | Jack Bienvenue         | Visualizing Spatial Data in a Google Map
+   10/02 | Julia Mazzola          | Data VisualiZation with Plotnine
+   10/07 | Suha Akach             | Naive Bayes classifier
+   10/09 | Rahul Manna            | Animation
+   10/23 | Jaden Astle            | Classification and Regression Trees 
+   10/23 | Olivia Kashalapov      | Synthetic Minority Oversampling Technique (SMOTE)
+   10/28 | Data science alumni panel |
+   10/30 | Emily Borowski         | Random Forest
+   10/30 | Aditya Paricharak      | Neural Networks
+   11/04 | Melanie Desroches      | Web Scraping
+   11/06 | Qianruo Tan            | Reinforcement Learning
+   11/11 | Aansh Jha              | K-means Clustering
+   11/11 | Owen Babiec            | Calling R from Python and Vice Versa
+   11/13 | Stef Baptista            |
+   11/13 | Mohammad Parvez   | Extracting and Analyzing Census Data
+
+
+### Final Project Presentation Schedule
+
+We use the same order as the topic presentation for undergraduate
+final presentation. An [introduction on how to use Quarto to prepare
+presentation slides](https://github.com/statds/ids-f24/blob/main/templates/presentation.qmd)
+is availabe under the `templates` directory in
+the classnotes source tree, thank to Zachary Blanchard, which can
+be used as a template to start with.
+
+   Date  | Presenter
+  ------ | ---------------------- 
+   11/18 | Sara Clokey; Dorothea Johnson; Xavier Febles; Jack Bienvenue
+   11/20 | Julia Mazzola; Suha Akach; Rahul Manna; Jaden Astle
+   12/02 | Olivia Kashalapov; Emily Borowski；Qianruo Tan; Melanie Desroches
+   12/04 | Aditya Paricharak; Aansh Jha; Owen Babiec; Stef Baptista
+
+
+### Contributing to the Class Notes
+
+Contribution to the class notes is through a `pull request'.
+
++ Start a new branch and switch to the new branch.
++ On the new branch, add a `qmd` file for your presentation
++ If using Python, create and activate a virtual environment with `requirements.txt` 
++ Edit `_quarto.yml` add a line for your `qmd` file to include it in the notes.
++ Work on your qmd file, test with `quarto render`.
++ When satisfied, commit and make a pull request with your quarto files and an updated `requirements.txt`.
+
+I have added a template file `mysection.qmd` and a new line to `_quarto.yml`
+as an example.
+
+For more detailed style guidance, please see my notes on [statistical
+writing](https://statds.github.io/stat-writing/using-the-right-tools-for-writing.html#latex-for-typesetting).
+
+
+Plagiarism is to be prevented. Remember that these class notes are publicly
+available online with your names attached.  Here are some resources on [how to
+avoid plagiarism](https://usingsources.fas.harvard.edu/how-avoid-plagiarism). 
+In particular, in our course, one convenient way to avoid plagiarism is to use
+our own data (e.g., NYC Open Data). Combined with your own explanation of the
+code chunks, it would be hard to plagiarize.
+
+
+### Homework Logistics
+
+
+#### Workflow of Submitting Homework Assisngment
+
++ Click the GitHub classroom assignment link in HuskCT announcement.
++ Accept the assignment and follow the instructions to an empty
+  repository.
++ Make a clone of the repo at an appropriate folder on your own
+  computer with `git clone`.
++ Go to this folder, add your qmd source, work on it, and group your
+  changes to different commits.
++ Push your work to your GitHub repo with `git push`.
++ Create a new release and put the generated pdf file in it for ease
+  of grading.
+
+
+#### Requirements
++ Use the repo from Git Classroom to submit your work. See Chapter @sec-git.
+    - Keep the repo clean (no tracking generated files).
+        - Never "Upload" your files; use the git command lines.
+        - Make commit message informative (think about the readers).
+    - Make at least 10 commits and form a style of frequent small commits.
++ Track `quarto` sources only in your repo. See Chapter @sec-quarto.
++ For the convenience of grading, add your standalone html or pdf
+  output to a release in your repo.
++ For standalone pdf output, you will need to have
+  [LaTeX](https://www.latex-project.org/get/) installed.
+
+### Quizzes about Syllabus
+
++ Do I accept late homework?
++ Could you list a few examples of email etiquette?
++ How would you lose style points?
++ Would you use CLI and GUI?
++ How many students will present at 2025 NYC ODW and when will the
+  presentations be?
++ What's the first date on which you have to complete something about
+  your final project?
++ Can you use AI for any task in this course? 
++ Anybody needs a reference letter? How could you help me to help you?
+
+## Practical Tips
+
+### Data analysis
+
++ Use an IDE so you can play with the data interactively
++ Collect codes that have tested out into a script for batch processing
++ During data cleaning, keep in mind how each variable will be used later
++ No keeping large data files in a repo; assume a reasonable location with your collaborators
+
+### Presentation
+
++ Don't forget to introduce yourself if there is no moderator.
++ Highlight your research questions and results, not code.
++ Give an outline, carry it out, and summarize.
++ Use your own examples to reduce the risk of plagiarism.
+
+
+<!-- Topic presentation template -->
+{{< include templates/_mysection.qmd >}}
+
+# Preliminaries {.unnumbered}
+
+The notes were developed with Quarto; for details about Quarto, visit
+<https://quarto.org/docs/books>.
+
+
+This book free and is licensed under a [Creative Commons
+Attribution-NonCommercial-NoDerivs 3.0 United States License](http://creativecommons.org/licenses/by-nc-nd/3.0/us/).
+
+## Sources at GitHub
+These lecture notes for STAT 3255/5255 in Spring 2025 represent a
+collaborative effort between Professor Jun Yan and the students
+enrolled in the course. This cooperative approach to education was
+facilitated through the use of GitHub, a platform that encourages
+collaborative coding and content development. To view
+these contributions and the lecture notes in their entirety, please
+visit our GitHub repository at <https://github.com/statds/ids-s25>.
+
+
+Students contributed to the lecture notes by submitting pull requests
+to our GitHub repository. This method not only enriched the
+course material but also provided students with practical experience
+in collaborative software development and version control. 
+
+
+For those interested, class notes from
+[Fall 2024](https://statds.github.io/ids-f24),
+[Spring 2024](https://statds.github.io/ids-s24),
+[Spring 2023](https://statds.github.io/ids-s23), and
+[Spring 2022](https://statds.github.io/ids-s22/)
+are also publicly accessible. These archives offer
+insights into the evolution of the course content and the
+different perspectives brought by successive student cohorts.
+
+
+## Compiling the Classnotes
+To reproduce the classnotes output on your own computer, here are the
+necessary steps:
+
++ Clone the classnotes repository to an appropriate location on your
+  computer; see Chapter @sec-git for using Git.
++ Set up a Python virtual environment in the root folder of the
+  source; see Section @sec-python-venv.
++ Activate your virtual environment.
++ Install all the packages specified in `requirements.txt` in your
+  virtual environment:
+ ```
+ pip install -r requirements.txt
+ ```
++ For some chapters that need to interact with Google map services,
+  you need to save your API key in a file named `api_key.txt` in the
+  root folder of the source.
++ Render the book with `quarto render` from the root folder on a
+  terminal; the rendered book will be stored under `_book`.
+
+
+## Midterm Project
+
+Reproduce NYC street flood research [@agonafir2022machine;
+@agonafir2022understanding].
+
+
+Four students will be selected to present their work in a workshop at
+the [2025 NYC Open Data Week](https://2025.open-data.nyc). You are
+welcome to invite your family and friends to join the the workshop.
+
+
+## Final Project
+
+Students are encouraged to start designing their final projects from
+the beginning of the semester. There are many open data that can be
+used. Here is a list of data challenges that you may find useful:
+
++ [ASA Data Challenge
+  Expo](https://community.amstat.org/dataexpo/home): big data in 2025
++ [Kaggle](https://www.kaggle.com)
++ [DrivenData](https://www.drivendata.org)
++ [15 Data Science Hackathons to Test Your Skills in 2025](https://www.fynd.academy/blog/data-science-hackathons}
+
+If you work on sports analytics, you are welcome to submit a
+poster to [Connecticut Sports Analytics Symposium
+(CSAS) 2025](https://statds.org/events/csas2025/).
+
+
+## Adapting to Rapid Skill Acquisition
+
+In this course, students are expected to rapidly acquire new skills, a
+critical aspect of data science. To emphasize this, consider this
+insightful quote from @vanderplas2016python:
+
+> When a technologically-minded person is asked to help a friend, family member,
+> or colleague with a computer problem, most of the time it's less a matter of
+> knowing the answer as much as knowing how to quickly find an unknown
+> answer. In data science it's the same: searchable web resources such as online
+> documentation, mailing-list threads, and StackOverflow answers contain a
+> wealth of information, even (especially?) if it is a topic you've found
+> yourself searching before. Being an effective practitioner of data science is
+> less about memorizing the tool or command you should use for every possible
+> situation, and more about learning to effectively find the information you
+> don't know, whether through a web search engine or another means.
+
+This quote captures the essence of what we aim to develop in our
+students: the ability to swiftly navigate and utilize the vast
+resources available to solve complex problems in data science.
+Examples tasks are: install needed software (or even hardware);
+search and find solutions to encountered problems. 
+
+## Wishlist
+
+This is a wish list from all members of the class (alphabetical
+order, last name first, comma, then first name). Here is an example.
+
+
++ Yan, Jun
+    - Make practical data science tools accessible to undergraduates.
+    - Pass real-world data science project experience to students.
+    - Co-develop a Quarto book in collaboration with the students.
+    - Train students to participate real data science competitions.
+
+
+Add yours through a pull request; note the syntax of nested list in
+Markdown. 
+
+
+### Students in 3255
++ Ackerman, John
++ Alsadadi, Ammar Shaker
++ Chen, Yifei
++ El Zein, Amer Hani
++ Febles, Xavier Milan
++ Horn, Alyssa Noelle
++ Hutchins, Isabella Grace
++ Jun, Joann
++ Kline, Daniel Esteban
++ Lagutin, Vladislav
++ Lang, Lang
++ Li, Shiyi
++ Lin, Selena
++ Long, Ethan Kenneth
++ Nasejje, Ruth Nicole
++ Pfeifer, Nicholas Theodore
+    - Learn about data science techniques in python
+    - Learn and thoroughly practice using git and github
+
++ Reed, Kyle Daniel
++ Roy, Luke William
++ Schittina, Thomas
++ Schlessel, Jacob E
++ Symula, Sebastian
++ Tamhane, Shubhan
++ Tomaino, Mario Anthony
+
+### Students in 5255
++ Edo, Mezmur Wossenu
++ Mundiwala, Mohammad Moiz 
++ Vellore, Ajeeth Krishna
++ Zhang, Gaofei
   - Gain hands-on experience with real-world data science projects.
   - Improve proficiency in Git and collaborative workflows.
   - Explore machine learning techniques and applications.
