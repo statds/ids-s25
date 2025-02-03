@@ -124,6 +124,9 @@ Markdown.
 
 ### Students in 3255
 + Ackerman, John
+    - Get comfortable with command line interface
+    - Hands-on experience with AI
+    - Learn practical tools & tricks for professional data scientist
 + Alsadadi, Ammar Shaker
 + Chen, Yifei
     - Learn more advanced python programming skills.
