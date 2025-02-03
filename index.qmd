@@ -75,9 +75,8 @@ used. Here is a list of data challenges that you may find useful:
   Expo](https://community.amstat.org/dataexpo/home): big data in 2025
 + [Kaggle](https://www.kaggle.com)
 + [DrivenData](https://www.drivendata.org)
-+ [15 Data Science Hackathons to Test Your Skills in 2025](https://www.fynd.academy/blog/data-science-hackathons}
-
-If you work on sports analytics, you are welcome to submit a
++ [15 Data Science Hackathons to Test Your Skills in 2025](https://www.fynd.academy/blog/data-science-hackathons)
++ If you work on sports analytics, you are welcome to submit a
 poster to [Connecticut Sports Analytics Symposium
 (CSAS) 2025](https://statds.org/events/csas2025/).
 
