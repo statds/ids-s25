@@ -5,4 +5,4 @@ render:
 	quarto render
 
 publish:
-	yes | quarto publish gh-pages 
+	printf "y\n" | quarto publish gh-pages
