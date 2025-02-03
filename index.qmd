@@ -128,6 +128,8 @@ Markdown.
     - Hands-on experience with AI
     - Learn practical tools & tricks for professional data scientist
 + Alsadadi, Ammar Shaker
+    - Learn about the applications of Data Science in Finance
+    - Learn more about time series and random walk
 + Chen, Yifei
     - Learn more advanced python programming skills.
     - Learn to use github for future projects
