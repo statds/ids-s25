@@ -179,8 +179,12 @@ Markdown.
   - I hope to become more efficient processing data that is messy, unstructured, or unlabeled.
 + Vellore, Ajeeth Krishna
 + Zhang, Gaofei
-
-
++ Kravette, Noah
+  - Become better at program collaboration.
+  - Become adept with git and github. 
+  - Be able to quickly and efficently process and analyze any data.
+  - Gain better skills at data prep, organization, and visulization. 
+  - Learn new helpful statistical tools for data.
 
 ## Course Logistics
 ### Presentation Orders
