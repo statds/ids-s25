@@ -178,6 +178,8 @@ Markdown.
     - Build on existing python skills.
 + Roy, Luke William
 + Schittina, Thomas
+    - Become more comfortable using git and GitHub
+    - Become more familiar with popular data science packages in Python
 + Schlessel, Jacob E
 + Symula, Sebastian
     - Learn SQL
