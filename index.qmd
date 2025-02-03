@@ -122,7 +122,6 @@ Add yours through a pull request; note the syntax of nested list in
 Markdown. 
 
 
-
 ### Students in 3255
 + Ackerman, John
     - Get comfortable with command line interface
