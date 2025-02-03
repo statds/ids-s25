@@ -159,11 +159,12 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#introduction-to-quarto" id="toc-introduction-to-quarto" class="nav-link active" data-scroll-target="#introduction-to-quarto"><span class="header-section-number">3.1</span> Introduction to Quarto</a></li>
-  <li><a href="#compiling-the-classnotes" id="toc-compiling-the-classnotes" class="nav-link" data-scroll-target="#compiling-the-classnotes"><span class="header-section-number">3.2</span> Compiling the Classnotes</a>
+  <li><a href="#sec-buildnotes" id="toc-sec-buildnotes" class="nav-link" data-scroll-target="#sec-buildnotes"><span class="header-section-number">3.2</span> Compiling the Classnotes</a>
   <ul class="collapse">
   <li><a href="#set-up-your-python-virtual-environment" id="toc-set-up-your-python-virtual-environment" class="nav-link" data-scroll-target="#set-up-your-python-virtual-environment"><span class="header-section-number">3.2.1</span> Set up your Python Virtual Environment</a></li>
   <li><a href="#clone-the-repository" id="toc-clone-the-repository" class="nav-link" data-scroll-target="#clone-the-repository"><span class="header-section-number">3.2.2</span> Clone the Repository</a></li>
   <li><a href="#render-the-classnotes" id="toc-render-the-classnotes" class="nav-link" data-scroll-target="#render-the-classnotes"><span class="header-section-number">3.2.3</span> Render the Classnotes</a></li>
+  <li><a href="#login-requirements" id="toc-login-requirements" class="nav-link" data-scroll-target="#login-requirements"><span class="header-section-number">3.2.4</span> Login Requirements</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -211,19 +212,19 @@ quarto convert hello.qmd   # converts to ipynb</code></pre>
 </ul>
 <p>A template for homework is in this repo (<code>hwtemp.qmd</code>) to get you started with homework assignments.</p>
 </section>
-<section id="compiling-the-classnotes" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="compiling-the-classnotes"><span class="header-section-number">3.2</span> Compiling the Classnotes</h2>
-<p>The sources of the classnotes are at <a href="https://github.com/statds/ids-f24" class="uri">https://github.com/statds/ids-f24</a>. This is also the source tree that you will contributed to this semester. I expect that you clone the repository to your own computer, update it frequently, and compile the latest version on your computer (reproducibility).</p>
+<section id="sec-buildnotes" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="sec-buildnotes"><span class="header-section-number">3.2</span> Compiling the Classnotes</h2>
+<p>The sources of the classnotes are at <a href="https://github.com/statds/ids-s25" class="uri">https://github.com/statds/ids-s25</a>. This is also the source tree that you will contributed to this semester. I expect that you clone the repository to your own computer, update it frequently, and compile the latest version on your computer (reproducibility).</p>
 <p>To compile the classnotes, you need the following tools: Git, Quarto, and Python.</p>
 <section id="set-up-your-python-virtual-environment" class="level3" data-number="3.2.1">
 <h3 data-number="3.2.1" class="anchored" data-anchor-id="set-up-your-python-virtual-environment"><span class="header-section-number">3.2.1</span> Set up your Python Virtual Environment</h3>
 <p>I suggest that a Python virtual environment for the classnotes be set up in the current directory for reproducibility. A Python virtual environment is simply a directory with a particular file structure, which contains a specific Python interpreter and software libraries and binaries needed to support a project. It allows us to isolate our Python development projects from our system installed Python and other Python environments.</p>
 <p>To create a Python virtual environment for our classnotes:</p>
-<pre><code>python3 -m venv .ids-f24-venv</code></pre>
-<p>Here <code>.ids-f24-venv</code> is the name of the virtual environment to be created. Choose an informative name. This only needs to be set up once.</p>
+<pre><code>python3 -m venv .ids-s25-venv</code></pre>
+<p>Here <code>.ids-s25-venv</code> is the name of the virtual environment to be created. Choose an informative name. This only needs to be set up once.</p>
 <p>To activate this virtual environment:</p>
-<pre><code>. .ids-f24-venv/bin/activate</code></pre>
-<p>After activating the virtual environment, you will see <code>(.ids-f24-venv)</code> at the beginning of your shell prompt. Then, the Python interpreter and packages needed will be the local versions in this virtual environment without interfering your system-wide installation or other virtual environments.</p>
+<pre><code>. .ids-s25-venv/bin/activate</code></pre>
+<p>After activating the virtual environment, you will see <code>(.ids-s25-venv)</code> at the beginning of your shell prompt. Then, the Python interpreter and packages needed will be the local versions in this virtual environment without interfering your system-wide installation or other virtual environments.</p>
 <p>To install the Python packages that are needed to compile the classnotes, we have a <code>requirements.txt</code> file that specifies the packages and their versions. They can be installed easily with:</p>
 <pre><code>pip install -r requirements.txt</code></pre>
 <p>If you are interested in learning how to create the <code>requirements.txt</code> file, just put your question into a Google search.</p>
@@ -232,14 +233,18 @@ quarto convert hello.qmd   # converts to ipynb</code></pre>
 <section id="clone-the-repository" class="level3" data-number="3.2.2">
 <h3 data-number="3.2.2" class="anchored" data-anchor-id="clone-the-repository"><span class="header-section-number">3.2.2</span> Clone the Repository</h3>
 <p>Clone the repository to your own computer. In a terminal (command line), go to an appropriate directory (folder), and clone the repo. For example, if you use <code>ssh</code> for authentication:</p>
-<pre><code>git clone git@github.com:statds/ids-f24.git</code></pre>
+<pre><code>git clone git@github.com:statds/ids-s25.git</code></pre>
 </section>
 <section id="render-the-classnotes" class="level3" data-number="3.2.3">
 <h3 data-number="3.2.3" class="anchored" data-anchor-id="render-the-classnotes"><span class="header-section-number">3.2.3</span> Render the Classnotes</h3>
 <p>Assuming <code>quarto</code> has been set up, we render the classnotes in the cloned repository</p>
-<pre><code>cd ids-f24
+<pre><code>cd ids-s25
 quarto render</code></pre>
 <p>If there are error messages, search and find solutions to clear them. Otherwise, the html version of the notes will be available under <code>_book/index.html</code>, which is default location of the output.</p>
+</section>
+<section id="login-requirements" class="level3" data-number="3.2.4">
+<h3 data-number="3.2.4" class="anchored" data-anchor-id="login-requirements"><span class="header-section-number">3.2.4</span> Login Requirements</h3>
+<p>For some illustrations, you need to interact with certain sites that require account information. For example, for Google map services, you need to save your API key in a file named <code>api_key.txt</code> in the root folder of the source. Another example is to access the US Census API, where you would need to register an account and get your Census API Key.</p>
 
 
 </section>
