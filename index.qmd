@@ -35,7 +35,7 @@ different perspectives brought by successive student cohorts.
 
 ## Compiling the Classnotes
 To reproduce the classnotes output on your own computer, here are the
-necessary steps:
+necessary steps. See Section @sec-buildnotes for details. 
 
 + Clone the classnotes repository to an appropriate location on your
   computer; see Chapter @sec-git for using Git.
@@ -47,7 +47,8 @@ necessary steps:
  ```
  pip install -r requirements.txt
  ```
-+ For some chapters that need to interact with Google map services,
++ For some chapters that need to interact with certain sites that
+  require account information. For example, for Google map services,
   you need to save your API key in a file named `api_key.txt` in the
   root folder of the source.
 + Render the book with `quarto render` from the root folder on a
