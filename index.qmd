@@ -132,6 +132,10 @@ Markdown.
 + Hutchins, Isabella Grace
 + Jun, Joann
 + Kline, Daniel Esteban
+    - Learn more about Github and Git repository
+    - Practice more with Git to make homework process easier
+    - explore and learn more about data science process
+    - Get better at terminal code
 + Lagutin, Vladislav
 + Lang, Lang
 + Li, Shiyi
