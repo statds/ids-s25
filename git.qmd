@@ -87,3 +87,39 @@ changes with collaborators and add follow-up commits before your changes are
 merged into the base branch."
 
 Watch this YouTube video: [GitHub pull requests in 100 seconds](https://youtu.be/8lGpZkjnkt4).
+
+### How to make a Pull Request
++ Create a fork of the class repository on the GitHub website.
+    + Make sure your fork is up to date by clicking **Sync fork** if necessary.
++ Clone your fork into a folder on your computer.
+    + `git clone https://github.com/GitHub_Username/ids-s25.git`
+    + Replace **GitHub_Username** with your personal GitHub Username.
++ Check to see if you can access the folder/cloned repository in your code editor.
+    + The class notes home page is located in the index.qmd file.
++ Make a branch and give it a good name.
+    + Move into the directory with the cloned repository.
+    + `git checkout -b branch_name`
+    + You can check your branches using:
+        + `git branch`
+        + The branch in use will have a asterisk to the left of it.
+    + If you are not in the right branch you can use the following command:
+        + `git checkout existing-branch`
+        + Replace **existing-branch** with the name of the branch you want to use.
++ Run `git status` to verify that no changes have been made.
++ Make changes to a file in the class notes repository.
+    + For example: add your wishes to the Wishlist in index.qmd using nested list syntax in markdown.
+    + Remember to save your changes.
++ Run `git status` again to see that changes have been made.
++ Use the add command.
+    + `git add filename.qmd`
+    + Example usage: `git add index.qmd`
++ Make a commit.
+    + `git commit -m “Informative Message”`
+    + Be clear about what you changed and perhaps include your name in the message.
++ Push the files to GitHub.
+    + `git push origin branch-name`
+    + Replace **branch-name** with the name of your current branch.
++ Go to your forked repository on GitHub and refresh the page, 
+you should see a button that says **Compare and Pull Request**.
+    + Describe the changes you made in the pull request.
+    + Click **Create pull request**.
