@@ -98,10 +98,12 @@ Watch this YouTube video: [GitHub pull requests in 100 seconds](https://youtu.be
     + The class notes home page is located in the index.qmd file.
 + Make a branch and give it a good name.
     + Move into the directory with the cloned repository.
-    + `git checkout -b branch_name`
+    + Create a branch using:
+        + `git checkout -b branch_name`
+        + Replace **branch_name** with a more descriptive name.
     + You can check your branches using:
         + `git branch`
-        + The branch in use will have a asterisk to the left of it.
+        + The branch in use will have an asterisk to the left of it.
     + If you are not in the right branch you can use the following command:
         + `git checkout existing-branch`
         + Replace **existing-branch** with the name of the branch you want to use.
@@ -111,10 +113,10 @@ Watch this YouTube video: [GitHub pull requests in 100 seconds](https://youtu.be
     + Remember to save your changes.
 + Run `git status` again to see that changes have been made.
 + Use the add command.
-    + `git add filename.qmd`
+    + `git add filename`
     + Example usage: `git add index.qmd`
 + Make a commit.
-    + `git commit -m “Informative Message”`
+    + `git commit -m "Informative Message"`
     + Be clear about what you changed and perhaps include your name in the message.
 + Push the files to GitHub.
     + `git push origin branch-name`
