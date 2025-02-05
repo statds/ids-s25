@@ -88,7 +88,9 @@ merged into the base branch."
 
 Watch this YouTube video: [GitHub pull requests in 100 seconds](https://youtu.be/8lGpZkjnkt4).
 
-### How to make a Pull Request
+The following are step-by-step instructions on how to make a pull
+request to the class notes contributed by **Nick Pfeifer**..
+
 + Create a fork of the class repository on the GitHub website.
     + Make sure your fork is up to date by clicking **Sync fork** if necessary.
 + Clone your fork into a folder on your computer.
