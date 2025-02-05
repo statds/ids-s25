@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Jun Yan and Students in Spring 2025">
-<meta name="dcterms.date" content="2025-02-04">
+<meta name="dcterms.date" content="2025-02-05">
 
 <title>Introduction to Data Science</title>
 <style>
@@ -268,14 +268,14 @@ div.csl-indent {
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>Jun Yan and Students in Spring 2025 </p>
+             <p><a href="https://statcomp.org">Jun Yan</a> and Students in Spring 2025 </p>
           </div>
   </div>
     
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">February 4, 2025</p>
+      <p class="date">February 5, 2025</p>
     </div>
   </div>
   
@@ -487,7 +487,7 @@ div.csl-indent {
 <section id="presentation-orders" class="level3">
 <h3 class="anchored" data-anchor-id="presentation-orders">Presentation Orders</h3>
 <p>The topic presentation order is set up in class.</p>
-<div id="45d8ca5c" class="cell" data-execution_count="1">
+<div id="b3a46a23" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'rosters/3255.txt'</span>, <span class="st">'r'</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    ug <span class="op">=</span> [line.strip() <span class="cf">for</span> line <span class="kw">in</span> <span class="bu">file</span>]</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'rosters/5255.txt'</span>, <span class="st">'r'</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
@@ -538,19 +538,18 @@ div.csl-indent {
 <ul>
 <li>Making presentations with Quarto</li>
 <li>Markdown jumpstart</li>
-<li>Data science communication skills</li>
+<li>Effective data science communication</li>
 <li>Import/Export data</li>
+<li>Accessing US census data</li>
 <li>Arrow as a cross-platform data format</li>
 <li>Database operation with Structured query language (SQL)</li>
 <li>Grammer of graphics</li>
 <li>Handling spatial data</li>
 <li>Visualize spatial data in a Google map</li>
 <li>Animation</li>
-<li>Classification and regression trees</li>
 <li>Support vector machine</li>
 <li>Random forest</li>
 <li>Naive Bayes</li>
-<li>Bagging vs boosting</li>
 <li>Neural networks</li>
 <li>Deep learning</li>
 <li>TensorFlow</li>
@@ -558,14 +557,10 @@ div.csl-indent {
 <li>Reinforcement learning</li>
 <li>Developing a Python package</li>
 <li>Web scraping</li>
+<li>Personal webpage on GitHub</li>
 </ul>
 <p>Please use the following table to sign up.</p>
 <table class="caption-top table">
-<colgroup>
-<col style="width: 17%">
-<col style="width: 64%">
-<col style="width: 17%">
-</colgroup>
 <thead>
 <tr class="header">
 <th>Date</th>
@@ -575,104 +570,139 @@ div.csl-indent {
 </thead>
 <tbody>
 <tr class="odd">
-<td>09/11</td>
-<td>Zachary Blanchard</td>
-<td>Presentation with Quarto</td>
-</tr>
-<tr class="even">
-<td>09/16</td>
-<td>Deyu Xu</td>
-<td>Import/Export data</td>
-</tr>
-<tr class="odd">
-<td>09/18</td>
-<td>Sara Clokey</td>
-<td>Communications in Data Science</td>
-</tr>
-<tr class="even">
-<td>09/23</td>
-<td>Dorathea Johnson</td>
-<td>Database with SQL</td>
-</tr>
-<tr class="odd">
-<td>09/25</td>
-<td>Xavier Febles</td>
-<td>Statistical tests</td>
-</tr>
-<tr class="even">
-<td>09/30</td>
-<td>Jack Bienvenue</td>
-<td>Visualizing Spatial Data in a Google Map</td>
-</tr>
-<tr class="odd">
-<td>10/02</td>
-<td>Julia Mazzola</td>
-<td>Data VisualiZation with Plotnine</td>
-</tr>
-<tr class="even">
-<td>10/07</td>
-<td>Suha Akach</td>
-<td>Naive Bayes classifier</td>
-</tr>
-<tr class="odd">
-<td>10/09</td>
-<td>Rahul Manna</td>
-<td>Animation</td>
-</tr>
-<tr class="even">
-<td>10/23</td>
-<td>Jaden Astle</td>
-<td>Classification and Regression Trees</td>
-</tr>
-<tr class="odd">
-<td>10/23</td>
-<td>Olivia Kashalapov</td>
-<td>Synthetic Minority Oversampling Technique (SMOTE)</td>
-</tr>
-<tr class="even">
-<td>10/28</td>
-<td>Data science alumni panel</td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>10/30</td>
-<td>Emily Borowski</td>
-<td>Random Forest</td>
-</tr>
-<tr class="even">
-<td>10/30</td>
-<td>Aditya Paricharak</td>
-<td>Neural Networks</td>
-</tr>
-<tr class="odd">
-<td>11/04</td>
-<td>Melanie Desroches</td>
-<td>Web Scraping</td>
-</tr>
-<tr class="even">
-<td>11/06</td>
-<td>Qianruo Tan</td>
-<td>Reinforcement Learning</td>
-</tr>
-<tr class="odd">
-<td>11/11</td>
-<td>Aansh Jha</td>
-<td>K-means Clustering</td>
-</tr>
-<tr class="even">
-<td>11/11</td>
-<td>Owen Babiec</td>
-<td>Calling R from Python and Vice Versa</td>
-</tr>
-<tr class="odd">
-<td>11/13</td>
-<td>Stef Baptista</td>
+<td>02/10</td>
+<td>Li, Shiyi</td>
 <td></td>
 </tr>
 <tr class="even">
-<td>11/13</td>
-<td>Mohammad Parvez</td>
-<td>Extracting and Analyzing Census Data</td>
+<td>02/12</td>
+<td>Jun, Joann</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>02/17</td>
+<td>Alsadadi, Ammar Shaker</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>02/19</td>
+<td>Lang, Lang</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>02/24</td>
+<td>Ackerman, John</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>02/26</td>
+<td>Horn, Alyssa Noelle</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>03/03</td>
+<td>Xu, Peiwen</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>03/05</td>
+<td>Schittina, Thomas</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>03/10</td>
+<td>Kline, Daniel Esteban</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>03/12</td>
+<td>Edo, Mezmur Wossenu</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>03/24</td>
+<td>Roy, Luke William</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>03/24</td>
+<td>Fables, Xavier Milan</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>03/31</td>
+<td>Tamhane, Shubhan</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>03/31</td>
+<td>Nasejje, Ruth Nicole</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>04/02</td>
+<td>Lagutin, Vladislav</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>04/02</td>
+<td>Zhang, Gaofei</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>04/07</td>
+<td>Long, Ethan Kenneth</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>04/07</td>
+<td>El Zein, Amer Hani</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>04/09</td>
+<td>Kravette, Noah</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>04/09</td>
+<td>Symula, Sebastian</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>04/09</td>
+<td>Tomaino, Mario Anthony</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>04/12</td>
+<td>Reed, Kyle Daniel</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>04/12</td>
+<td>Chen, Yifei</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>04/12</td>
+<td>Mundiwala, Mohammad Moiz</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>04/16</td>
+<td>Lin, Selena</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>04/16</td>
+<td>Pfeifer, Nicholas Theodore</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>04/16</td>
+<td>Vellore, Ajeeth Krishna</td>
+<td></td>
 </tr>
 </tbody>
 </table>
@@ -693,20 +723,24 @@ div.csl-indent {
 </thead>
 <tbody>
 <tr class="odd">
-<td>11/18</td>
-<td>Sara Clokey; Dorothea Johnson; Xavier Febles; Jack Bienvenue</td>
+<td>04/21</td>
+<td>Shiyi Li; Joann Jun; Ammar Alsadadi; Lang Lang; John Ackerman</td>
 </tr>
 <tr class="even">
-<td>11/20</td>
-<td>Julia Mazzola; Suha Akach; Rahul Manna; Jaden Astle</td>
+<td>04/23</td>
+<td>Alyssa Horn; Peiwen Xu; Thomas Schittina; Daniel Kline; Luke Roy</td>
 </tr>
 <tr class="odd">
-<td>12/02</td>
-<td>Olivia Kashalapov; Emily Borowski；Qianruo Tan; Melanie Desroches</td>
+<td>04/28</td>
+<td>Xavier Fables; Shubhan Tamhane; Ruth Nasejje; Vladislav Lagutin; Ethan Long</td>
 </tr>
 <tr class="even">
-<td>12/04</td>
-<td>Aditya Paricharak; Aansh Jha; Owen Babiec; Stef Baptista</td>
+<td>04/30</td>
+<td>Amer El Zein; Sebastian Symula; Mario Tomiano; Kyle Reed; Yifei Chen</td>
+</tr>
+<tr class="odd">
+<td>05/??</td>
+<td>Selena Lin; Nick Pfeifer</td>
 </tr>
 </tbody>
 </table>
@@ -812,7 +846,7 @@ div.csl-indent {
 <h3 class="anchored" data-anchor-id="sub-topic-1">Sub Topic 1</h3>
 <p>Put materials on topic 1 here</p>
 <p>Python examples can be put into <code>python</code> code chunks:</p>
-<div id="702d578d" class="cell" data-execution_count="2">
+<div id="f6512e73" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import pandas as pd</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># do something</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
