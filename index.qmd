@@ -144,6 +144,8 @@ Markdown.
     - Learn to use github for future projects
     - Get a good grade in this class. 
 + El Zein, Amer Hani
+  - To gain a deeper undestanding of data preparation. 
+  - To develop intution on what the best tool for a given project is.
 + Febles, Xavier Milan
     - Further develop skills with git
     - Learn more about specific tools used for data science
