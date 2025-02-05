@@ -257,7 +257,13 @@ boosting. This justifies certain requests for switching slots.
 
 ### Presentation Task Board
 
-Here are some example tasks:
+The topic presentation is 20 points. It includes:
+
++ Topic selection consultation (4 points)
++ Deliver the presentation (10 points)
++ Contribute to the class notes (6 points)
+
+Talk to the professor about your topics. Here are some example tasks:
 
 + Making presentations with Quarto
 + Markdown jumpstart
@@ -281,6 +287,8 @@ Here are some example tasks:
 + Developing a Python package
 + Web scraping
 + Personal webpage on GitHub
+
+
 
 Please use the following table to sign up.
 
