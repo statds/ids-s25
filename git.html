@@ -269,6 +269,68 @@ ul.task-list li input[type="checkbox"] {
 <h2 data-number="2.4" class="anchored" data-anchor-id="pull-request"><span class="header-section-number">2.4</span> Pull Request</h2>
 <p>To contribute to an open source project (e.g., our classnotes), use pull requests. <a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests">Pull requests</a> “let you tell others about changes you’ve pushed to a branch in a repository on GitHub. Once a pull request is opened, you can discuss and review the potential changes with collaborators and add follow-up commits before your changes are merged into the base branch.”</p>
 <p>Watch this YouTube video: <a href="https://youtu.be/8lGpZkjnkt4">GitHub pull requests in 100 seconds</a>.</p>
+<p>The following are step-by-step instructions on how to make a pull request to the class notes contributed by <strong>Nick Pfeifer</strong>..</p>
+<ul>
+<li>Create a fork of the class repository on the GitHub website.
+<ul>
+<li>Make sure your fork is up to date by clicking <strong>Sync fork</strong> if necessary.</li>
+</ul></li>
+<li>Clone your fork into a folder on your computer.
+<ul>
+<li><code>git clone https://github.com/GitHub_Username/ids-s25.git</code></li>
+<li>Replace <strong>GitHub_Username</strong> with your personal GitHub Username.</li>
+</ul></li>
+<li>Check to see if you can access the folder/cloned repository in your code editor.
+<ul>
+<li>The class notes home page is located in the index.qmd file.</li>
+</ul></li>
+<li>Make a branch and give it a good name.
+<ul>
+<li>Move into the directory with the cloned repository.</li>
+<li>Create a branch using:
+<ul>
+<li><code>git checkout -b branch_name</code></li>
+<li>Replace <strong>branch_name</strong> with a more descriptive name.</li>
+</ul></li>
+<li>You can check your branches using:
+<ul>
+<li><code>git branch</code></li>
+<li>The branch in use will have an asterisk to the left of it.</li>
+</ul></li>
+<li>If you are not in the right branch you can use the following command:
+<ul>
+<li><code>git checkout existing-branch</code></li>
+<li>Replace <strong>existing-branch</strong> with the name of the branch you want to use.</li>
+</ul></li>
+</ul></li>
+<li>Run <code>git status</code> to verify that no changes have been made.</li>
+<li>Make changes to a file in the class notes repository.
+<ul>
+<li>For example: add your wishes to the Wishlist in index.qmd using nested list syntax in markdown.</li>
+<li>Remember to save your changes.</li>
+</ul></li>
+<li>Run <code>git status</code> again to see that changes have been made.</li>
+<li>Use the add command.
+<ul>
+<li><code>git add filename</code></li>
+<li>Example usage: <code>git add index.qmd</code></li>
+</ul></li>
+<li>Make a commit.
+<ul>
+<li><code>git commit -m "Informative Message"</code></li>
+<li>Be clear about what you changed and perhaps include your name in the message.</li>
+</ul></li>
+<li>Push the files to GitHub.
+<ul>
+<li><code>git push origin branch-name</code></li>
+<li>Replace <strong>branch-name</strong> with the name of your current branch.</li>
+</ul></li>
+<li>Go to your forked repository on GitHub and refresh the page, you should see a button that says <strong>Compare and Pull Request</strong>.
+<ul>
+<li>Describe the changes you made in the pull request.</li>
+<li>Click <strong>Create pull request</strong>.</li>
+</ul></li>
+</ul>
 
 
 </section>
