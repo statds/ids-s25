@@ -58,14 +58,10 @@
    no-switch, from playing this game. 
     a.  Play this game with 3 doors and 1 empty a few times.
 	a.  Play this game with 10 doors and 8 empty a few times.
-	a.  Write a function to play this game `ntrial` times and return
-   the proportion of wins for both strategies.
-    a.  Apply your function to play this game 1000 times, with 3 doors
-   and 10 doors, and summarize your results.
     a.  Write a function to demonstrate the Monty Hall problem through
-   simulation. The function takes two arguments `ndoors` and
-   `ntrials`, representing the number of doors in the experiment and
-   the number of trials in a simulation, respectively. The function
+   simulation. The function takes three arguments `ndoors`, `nempty`,
+   and  `ntrials`, where `ntrial` is
+   the number of trials in a simulation. The function
    should return the proportion of wins for both the switch and
    no-switch strategy. 
     a.  Apply your function with 3 doors (1 empty) and 10 doors (8 empty),
