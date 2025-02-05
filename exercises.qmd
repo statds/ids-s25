@@ -19,6 +19,8 @@
     a release in your GitHub repo.
     
 1. **Working on Homework Problems**
+  All the requirements on homework styles have reasons. Reviewing
+  these questions help you to understand them.
     a.  What are the differences between binary and source files?
     a.  Why do we not want to track binary files in a repo?
     a.  Why do I require pdf output via release?
@@ -66,7 +68,7 @@
    the number of trials in a simulation, respectively. The function
    should return the proportion of wins for both the switch and
    no-switch strategy. 
-    a.  Apply your function with 3 doors and 5 doors,
+    a.  Apply your function with 3 doors (1 empty) and 10 doors (8 empty),
    both with 1000 trials. Summarize your results.
 
 1.  **Approximating $\pi$**
