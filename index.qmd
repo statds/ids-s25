@@ -117,6 +117,15 @@ order, last name first, comma, then first name). Here is an example.
     - Co-develop a Quarto book in collaboration with the students.
     - Train students to participate in real data science competitions.
 
++ Shiyi, Li 
+    - Learn to visualize the plots and results using the ggplot package.
+    - Learn to use the common functions of the SciPy, scikit-learn, and statsmodels libraries in Python
+    - Learn how to query, extract, and manipulate structured and unstructured data in a large database.
+    - Learn the basics of artificial neural networks, CNNs for image data, NLP techniques.
+    - Learn some of the data analysis models that will be commonly used in the workplace.
+    - Learn some common applications of optimization techniques in data analysis. 
+    - Pass this course with an A grade.
+
 
 Add yours through a pull request; note the syntax of nested list in
 Markdown. 
