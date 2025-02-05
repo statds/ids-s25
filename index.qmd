@@ -261,19 +261,18 @@ Here are some example tasks:
 
 + Making presentations with Quarto
 + Markdown jumpstart
-+ Data science communication skills
++ Effective data science communication
 + Import/Export data
++ Accessing US census data
 + Arrow as a cross-platform data format
 + Database operation with Structured query language (SQL)
 + Grammer of graphics
 + Handling spatial data
 + Visualize spatial data in a Google map
 + Animation
-+ Classification and regression trees
 + Support vector machine
 + Random forest
 + Naive Bayes
-+ Bagging vs boosting
 + Neural networks
 + Deep learning
 + TensorFlow
@@ -281,32 +280,39 @@ Here are some example tasks:
 + Reinforcement learning
 + Developing a Python package
 + Web scraping
-
++ Personal webpage on GitHub
 
 Please use the following table to sign up.
 
    Date  | Presenter              | Topic
   ------ | ---------------------- | ------
-   09/11 | Zachary Blanchard    | Presentation with Quarto
-   09/16 | Deyu Xu                | Import/Export data
-   09/18 | Sara Clokey            | Communications in Data Science
-   09/23 | Dorathea Johnson       | Database with SQL
-   09/25 | Xavier Febles           | Statistical tests
-   09/30 | Jack Bienvenue         | Visualizing Spatial Data in a Google Map
-   10/02 | Julia Mazzola          | Data VisualiZation with Plotnine
-   10/07 | Suha Akach             | Naive Bayes classifier
-   10/09 | Rahul Manna            | Animation
-   10/23 | Jaden Astle            | Classification and Regression Trees 
-   10/23 | Olivia Kashalapov      | Synthetic Minority Oversampling Technique (SMOTE)
-   10/28 | Data science alumni panel |
-   10/30 | Emily Borowski         | Random Forest
-   10/30 | Aditya Paricharak      | Neural Networks
-   11/04 | Melanie Desroches      | Web Scraping
-   11/06 | Qianruo Tan            | Reinforcement Learning
-   11/11 | Aansh Jha              | K-means Clustering
-   11/11 | Owen Babiec            | Calling R from Python and Vice Versa
-   11/13 | Stef Baptista            |
-   11/13 | Mohammad Parvez   | Extracting and Analyzing Census Data
+   02/10 |  Li, Shiyi     |
+   02/12 |  Jun, Joann     |
+   02/17 |  Alsadadi, Ammar Shaker     |
+   02/19 |  Lang, Lang     |
+   02/24 |  Ackerman, John     |
+   02/26 |  Horn, Alyssa Noelle     |
+   03/03 |  Xu, Peiwen     |
+   03/05 |  Schittina, Thomas     |
+   03/10 |  Kline, Daniel Esteban     |
+   03/12 |  Edo, Mezmur Wossenu      |
+   03/24 |  Roy, Luke William     |
+   03/24 |  Fables, Xavier Milan     |
+   03/31 |  Tamhane, Shubhan     |
+   03/31 |  Nasejje, Ruth Nicole     |
+   04/02 |  Lagutin, Vladislav     |
+   04/02 |  Zhang, Gaofei    |
+   04/07 |  Long, Ethan Kenneth     |
+   04/07 |  El Zein, Amer Hani   | 
+   04/09 |  Kravette, Noah   | 
+   04/09 |  Symula, Sebastian   | 
+   04/09 |  Tomaino, Mario Anthony   | 
+   04/12 |  Reed, Kyle Daniel   | 
+   04/12 |  Chen, Yifei   | 
+   04/12 |  Mundiwala, Mohammad Moiz   | 
+   04/16 |  Lin, Selena   | 
+   04/16 |  Pfeifer, Nicholas Theodore   | 
+   04/16 |  Vellore, Ajeeth Krishna | 
 
 
 ### Final Project Presentation Schedule
@@ -320,11 +326,11 @@ be used as a template to start with.
 
    Date  | Presenter
   ------ | ---------------------- 
-   11/18 | Sara Clokey; Dorothea Johnson; Xavier Febles; Jack Bienvenue
-   11/20 | Julia Mazzola; Suha Akach; Rahul Manna; Jaden Astle
-   12/02 | Olivia Kashalapov; Emily Borowski；Qianruo Tan; Melanie Desroches
-   12/04 | Aditya Paricharak; Aansh Jha; Owen Babiec; Stef Baptista
-
+   04/21 | Shiyi Li; Joann Jun; Ammar Alsadadi; Lang Lang; John Ackerman
+   04/23 | Alyssa Horn; Peiwen Xu; Thomas Schittina; Daniel Kline; Luke Roy
+   04/28 | Xavier Fables; Shubhan Tamhane; Ruth Nasejje; Vladislav Lagutin; Ethan Long
+   04/30 | Amer El Zein; Sebastian Symula; Mario Tomiano; Kyle Reed; Yifei Chen
+   05/??  | Selena Lin; Nick Pfeifer
 
 ### Contributing to the Class Notes
 
