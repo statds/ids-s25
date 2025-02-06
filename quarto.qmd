@@ -46,9 +46,9 @@ A template for homework is in this repo (`hwtemp.qmd`) to get you
 started with homework assignments.
 
 
-## Compiling the Classnotes
+## Compiling the Classnotes {#sec-buildnotes}
 
-The sources of the classnotes are at <https://github.com/statds/ids-f24>.
+The sources of the classnotes are at <https://github.com/statds/ids-s25>.
 This is also the source tree that you will contributed to this semester.
 I expect that you clone the repository to your own computer, update it
 frequently, and compile the latest version on your computer (reproducibility).
@@ -70,10 +70,10 @@ installed Python and other Python environments.
 
 To create a Python virtual environment for our classnotes:
 ```
-python3 -m venv .ids-f24-venv
+python3 -m venv .ids-s25-venv
 ```
 
-Here `.ids-f24-venv` is the name of the virtual environment 
+Here `.ids-s25-venv` is the name of the virtual environment 
 to be created. Choose an informative name. This only needs to
 be set up once.
 
@@ -81,11 +81,11 @@ be set up once.
 To activate this virtual environment:
 
 ```
-. .ids-f24-venv/bin/activate
+. .ids-s25-venv/bin/activate
 ```
 
 After activating the virtual environment, you will see
-`(.ids-f24-venv)` at the beginning of your shell prompt.
+`(.ids-s25-venv)` at the beginning of your shell prompt.
 Then, the Python interpreter and packages needed will be
 the local versions in this virtual environment without
 interfering your system-wide installation or other virtual
@@ -117,7 +117,7 @@ go to an appropriate directory (folder), and clone the repo. For example,
 if you use `ssh` for authentication: 
 
 ```
-git clone git@github.com:statds/ids-f24.git
+git clone git@github.com:statds/ids-s25.git
 ```
 
 ### Render the Classnotes
@@ -126,10 +126,21 @@ Assuming `quarto` has been set up, we render
 the classnotes in the cloned repository
 
 ```
-cd ids-f24
+cd ids-s25
 quarto render
 ```
 
 If there are error messages, search and find solutions to clear
 them. Otherwise, the html version of the notes will be available under
 `_book/index.html`, which is default location of the output.
+
+
+### Login Requirements
+
+For some illustrations, you need to interact with certain sites that
+require account information. For example, for Google map services,
+you need to save your API key in a file named `api_key.txt` in the
+root folder of the source. Another example is to access the US Census
+API, where you would need to register an account and get your Census
+API Key.
+

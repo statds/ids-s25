@@ -92,6 +92,75 @@ In this course, students will be expected to achieve the following outcomes:
 All setups are operating system dependent. As soon as possible, stay away from
 Windows. Otherwise, good luck (you will need it).
 
+### Operating System
+Your computer has an operating system (OS), which is responsible for
+managing the software packages on your computer. Each operating system
+has its own package management system. For example:
+
+
+- **Linux:** Linux distributions have a variety of package managers
+    depending on the distribution. For instance, Ubuntu uses APT
+    (Advanced Package Tool), Fedora uses DNF (Dandified Yum), and Arch
+    Linux uses Pacman. These package managers are integral to the
+    Linux experience, allowing users to install, update, and manage
+    software packages easily from repositories.
+
+
+- **macOS:** macOS uses Homebrew as its primary package
+    manager. Homebrew simplifies the installation of software and
+    tools that aren't included in the standard macOS installation,
+    using simple commands in the terminal.
+
+
+- **Windows:** Windows users often rely on the Microsoft Store for
+    apps and software. For more developer-focused package management,
+    tools like Chocolatey and Windows Package Manager (Winget) are
+    used. Additionally, recent versions of Windows have introduced the
+    Windows Subsystem for Linux (WSL). WSL allows Windows users to run
+    a Linux environment directly on Windows, unifying Windows and
+    Linux applications and tools. This is particularly useful for
+    developers and data scientists who need to run Linux-specific
+    software or scripts. It saves a lot of trouble Windows users used
+    to have before its time.
+
+Understanding the package management system of your operating system
+is crucial for effectively managing and installing software,
+especially for data science tools and applications.
+
+### File System
+
+A file system is a fundamental aspect of a computer's operating
+system, responsible for managing how data is stored and retrieved on a
+storage device, such as a hard drive, SSD, or USB flash
+drive. Essentially, it provides a way for the OS and users to organize
+and keep track of files. Different operating systems typically use
+different file systems. For instance, NTFS and FAT32 are common in
+Windows, APFS and HFS+ in macOS, and Ext4 in many Linux
+distributions. Each file system has its own set of rules for
+controlling the allocation of space on the drive and the naming,
+storage, and access of files, which impacts performance, security, and
+compatibility. Understanding file systems is crucial for tasks such as
+data recovery, disk partitioning, and managing file permissions,
+making it an important concept for anyone working with computers,
+especially in data science and IT fields.
+
+
+Navigating through folders in the command line, especially in
+Unix-like environments such as Linux or macOS, and Windows Subsystem
+for Linux (WSL), is an essential skill for effective file
+management. The command cd (change directory) is central to this
+process. To move into a specific directory, you use `cd` followed by the
+directory name, like `cd Documents`. To go up one level in the directory
+hierarchy, you use `cd ..`. To return to the home directory, simply
+typing `cd` or `cd ~` will suffice. The `ls` command lists all files and
+folders in the current directory, providing a clear view of your
+options for navigation. Mastering these commands, along with others
+like `pwd` (print working directory), which displays your current
+directory, equips you with the basics of moving around the file system
+in the command line, an indispensable skill for a wide range of
+computing tasks in Unix-like systems.
+
+
 ### Command Line Interface
 
 On Linux or MacOS, simply open a terminal.

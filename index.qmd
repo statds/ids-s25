@@ -35,7 +35,7 @@ different perspectives brought by successive student cohorts.
 
 ## Compiling the Classnotes
 To reproduce the classnotes output on your own computer, here are the
-necessary steps:
+necessary steps. See Section @sec-buildnotes for details. 
 
 + Clone the classnotes repository to an appropriate location on your
   computer; see Chapter @sec-git for using Git.
@@ -47,7 +47,8 @@ necessary steps:
  ```
  pip install -r requirements.txt
  ```
-+ For some chapters that need to interact with Google map services,
++ For some chapters that need to interact with certain sites that
+  require account information. For example, for Google map services,
   you need to save your API key in a file named `api_key.txt` in the
   root folder of the source.
 + Render the book with `quarto render` from the root folder on a
@@ -75,9 +76,8 @@ used. Here is a list of data challenges that you may find useful:
   Expo](https://community.amstat.org/dataexpo/home): big data in 2025
 + [Kaggle](https://www.kaggle.com)
 + [DrivenData](https://www.drivendata.org)
-+ [15 Data Science Hackathons to Test Your Skills in 2025](https://www.fynd.academy/blog/data-science-hackathons}
-
-If you work on sports analytics, you are welcome to submit a
++ [15 Data Science Hackathons to Test Your Skills in 2025](https://www.fynd.academy/blog/data-science-hackathons)
++ If you work on sports analytics, you are welcome to submit a
 poster to [Connecticut Sports Analytics Symposium
 (CSAS) 2025](https://statds.org/events/csas2025/).
 
@@ -115,7 +115,16 @@ order, last name first, comma, then first name). Here is an example.
     - Make practical data science tools accessible to undergraduates.
     - Pass real-world data science project experience to students.
     - Co-develop a Quarto book in collaboration with the students.
-    - Train students to participate real data science competitions.
+    - Train students to participate in real data science competitions.
+
++ Shiyi, Li 
+    - Learn to visualize the plots and results using the ggplot package.
+    - Learn to use the common functions of the SciPy, scikit-learn, and statsmodels libraries in Python
+    - Learn how to query, extract, and manipulate structured and unstructured data in a large database.
+    - Learn the basics of artificial neural networks, CNNs for image data, NLP techniques.
+    - Learn some of the data analysis models that will be commonly used in the workplace.
+    - Learn some common applications of optimization techniques in data analysis. 
+    - Pass this course with an A grade.
 
 
 Add yours through a pull request; note the syntax of nested list in
@@ -124,39 +133,106 @@ Markdown.
 
 ### Students in 3255
 + Ackerman, John
+    - Get comfortable with command line interface
+    - Hands-on experience with AI
+    - Learn practical tools & tricks for professional data scientist
 + Alsadadi, Ammar Shaker
+    - Learn about the applications of Data Science in Finance
+    - Learn more about time series and random walk
 + Chen, Yifei
+    - Learn more advanced python programming skills.
+    - Learn to use github for future projects
+    - Get a good grade in this class. 
 + El Zein, Amer Hani
+  - To gain a deeper undestanding of data preparation. 
+  - To develop intution on what the best tool for a given project is.
 + Febles, Xavier Milan
+    - Further develop skills with git
+    - Learn more about specific tools used for data science
+    - Become more comfortable with sql
 + Horn, Alyssa Noelle
+    - Be confident in using Git and Github
+    - Learn how to collaborate with others on projects through Github
 + Hutchins, Isabella Grace
 + Jun, Joann
+    - Become proficient in using GitHub
+    - Learn more about the applications of data science
+    
 + Kline, Daniel Esteban
 + Lagutin, Vladislav
+    - Learn how to do data science projects in python and interact with them using git
+    - Learn how to do good visualizations of the data; explore appropriate libraries
 + Lang, Lang
 + Li, Shiyi
 + Lin, Selena
+  - Get a good grade in this class.
+  - Learn and get familier with using GitHub.
+  - Hands on experience with the data science skills learned in this class.
 + Long, Ethan Kenneth
+    - Become more comfortable using Git commands and CLI
+    - Learn more about the data science field
+    - Understand proper coding grammar
+    - Develop good learning habits
 + Nasejje, Ruth Nicole
+    - Develop an organized coding style in python, quarto, & git
+    - Learn various packages in python related to data science
+    - Deepen knowledge in statistical modeling and data analysis
+
 + Pfeifer, Nicholas Theodore
     - Learn about data science techniques in python
     - Learn and thoroughly practice using git and github
+    - Get more comfortable with decision trees and random forests
 
 + Reed, Kyle Daniel
+    - Gain full confidence using Git/GitHub and corresponding applications.
+    - Understand the workflow in professional data science projects.
+    - Build on existing python skills.
 + Roy, Luke William
+    - Have fun
+    - Develop skills in financial data analysis using python and relevant libraries like pandas and numpy.
+    - Learn advanced data visualization techniques with a focus on the grammar of graphics.
+    - Get an introduction to machine learning via scikit-learn, and explore applications in financial analysis and forensic accounting.
+ 
 + Schittina, Thomas
+    - Become more comfortable using git and GitHub
+    - Become more familiar with popular data science packages in Python
 + Schlessel, Jacob E
 + Symula, Sebastian
+    - Learn SQL
+    - Become better at working through each step in the data science 
+      pipeline to make better, cleaner looking projects
 + Tamhane, Shubhan
 + Tomaino, Mario Anthony
++ Xu, Peiwen
+    - Learn some data analysis techniques
+    - Learn how to use git and other essential tools for data science
 
 ### Students in 5255
 + Edo, Mezmur Wossenu
-+ Mundiwala, Mohammad Moiz 
+  - I hope to become adept working with github.
+  - I hope to work on real-World data science projects.
+  - I hope to learn about the different machine learning techniques.
+
++ Mundiwala, Mohammad Moiz
+  - Become more familiar with collaboration process of programming
+    so that I can be more orderly while working with others.
+  - I hope to become more efficient processing data 
+    that is messy, unstructured, or unlabeled.
 + Vellore, Ajeeth Krishna
+  - Understand the utility provided by GitHub and practice using its tools
+  - Learn how to participate in a large-scale development project like how they
+    are done in industry
+  - Learn how to code properly and professionally instead of using "backyard"
+    computer science techniques and formatting
+  - Understand principles of coding documentation and readability while
+    practicing their application
 + Zhang, Gaofei
-
-
++ Kravette, Noah
+  - Become better at program collaboration.
+  - Become adept with git and github. 
+  - Be able to quickly and efficently process and analyze any data.
+  - Gain better skills at data prep, organization, and visulization. 
+  - Learn new helpful statistical tools for data.
 
 ## Course Logistics
 ### Presentation Orders
@@ -170,12 +246,10 @@ with open('rosters/3255.txt', 'r') as file:
 with open('rosters/5255.txt', 'r') as file:
     gr = [line.strip() for line in file]
 presenters = ug + gr
-target = "Blanchard"  # pre-arranged 1st presenter
-presenters = [name for name in presenters if target not in name]
 
 import random
 ## seed jointly set by the class
-random.seed(5347 + 2896 + 9050 + 1687 + 63)
+random.seed(6895 + 283 + 3184 + 3078 + 5901 + 36)
 random.sample(presenters, len(presenters))
 ## random.shuffle(presenters) # This would shuffle the list in place
 ```
@@ -194,23 +268,28 @@ boosting. This justifies certain requests for switching slots.
 
 ### Presentation Task Board
 
-Here are some example tasks:
+The topic presentation is 20 points. It includes:
+
++ Topic selection consultation (4 points)
++ Deliver the presentation (10 points)
++ Contribute to the class notes (6 points)
+
+Talk to the professor about your topics. Here are some example tasks:
 
 + Making presentations with Quarto
 + Markdown jumpstart
-+ Data science communication skills
++ Effective data science communication
 + Import/Export data
++ Accessing US census data
 + Arrow as a cross-platform data format
 + Database operation with Structured query language (SQL)
 + Grammer of graphics
 + Handling spatial data
 + Visualize spatial data in a Google map
 + Animation
-+ Classification and regression trees
 + Support vector machine
 + Random forest
 + Naive Bayes
-+ Bagging vs boosting
 + Neural networks
 + Deep learning
 + TensorFlow
@@ -218,32 +297,41 @@ Here are some example tasks:
 + Reinforcement learning
 + Developing a Python package
 + Web scraping
++ Personal webpage on GitHub
+
 
 
 Please use the following table to sign up.
 
    Date  | Presenter              | Topic
   ------ | ---------------------- | ------
-   09/11 | Zachary Blanchard    | Presentation with Quarto
-   09/16 | Deyu Xu                | Import/Export data
-   09/18 | Sara Clokey            | Communications in Data Science
-   09/23 | Dorathea Johnson       | Database with SQL
-   09/25 | Xavier Febles           | Statistical tests
-   09/30 | Jack Bienvenue         | Visualizing Spatial Data in a Google Map
-   10/02 | Julia Mazzola          | Data VisualiZation with Plotnine
-   10/07 | Suha Akach             | Naive Bayes classifier
-   10/09 | Rahul Manna            | Animation
-   10/23 | Jaden Astle            | Classification and Regression Trees 
-   10/23 | Olivia Kashalapov      | Synthetic Minority Oversampling Technique (SMOTE)
-   10/28 | Data science alumni panel |
-   10/30 | Emily Borowski         | Random Forest
-   10/30 | Aditya Paricharak      | Neural Networks
-   11/04 | Melanie Desroches      | Web Scraping
-   11/06 | Qianruo Tan            | Reinforcement Learning
-   11/11 | Aansh Jha              | K-means Clustering
-   11/11 | Owen Babiec            | Calling R from Python and Vice Versa
-   11/13 | Stef Baptista            |
-   11/13 | Mohammad Parvez   | Extracting and Analyzing Census Data
+   02/10 |  Li, Shiyi     |
+   02/12 |  Jun, Joann     |
+   02/17 |  Alsadadi, Ammar Shaker     |
+   02/19 |  Lang, Lang     |
+   02/24 |  Ackerman, John     |
+   02/26 |  Horn, Alyssa Noelle     |
+   03/03 |  Xu, Peiwen     |
+   03/05 |  Schittina, Thomas     |
+   03/10 |  Kline, Daniel Esteban     |
+   03/12 |  Edo, Mezmur Wossenu      |
+   03/24 |  Roy, Luke William     |
+   03/24 |  Fables, Xavier Milan     |
+   03/31 |  Tamhane, Shubhan     |
+   03/31 |  Nasejje, Ruth Nicole     |
+   04/02 |  Lagutin, Vladislav     |
+   04/02 |  Zhang, Gaofei    |
+   04/07 |  Long, Ethan Kenneth     |
+   04/07 |  El Zein, Amer Hani   | 
+   04/09 |  Kravette, Noah   | 
+   04/09 |  Symula, Sebastian   | 
+   04/09 |  Tomaino, Mario Anthony   | 
+   04/12 |  Reed, Kyle Daniel   | 
+   04/12 |  Chen, Yifei   | 
+   04/12 |  Mundiwala, Mohammad Moiz   | 
+   04/16 |  Lin, Selena   | 
+   04/16 |  Pfeifer, Nicholas Theodore   | 
+   04/16 |  Vellore, Ajeeth Krishna | 
 
 
 ### Final Project Presentation Schedule
@@ -257,11 +345,11 @@ be used as a template to start with.
 
    Date  | Presenter
   ------ | ---------------------- 
-   11/18 | Sara Clokey; Dorothea Johnson; Xavier Febles; Jack Bienvenue
-   11/20 | Julia Mazzola; Suha Akach; Rahul Manna; Jaden Astle
-   12/02 | Olivia Kashalapov; Emily Borowski；Qianruo Tan; Melanie Desroches
-   12/04 | Aditya Paricharak; Aansh Jha; Owen Babiec; Stef Baptista
-
+   04/21 | Shiyi Li; Joann Jun; Ammar Alsadadi; Lang Lang; John Ackerman
+   04/23 | Alyssa Horn; Peiwen Xu; Thomas Schittina; Daniel Kline; Luke Roy
+   04/28 | Xavier Fables; Shubhan Tamhane; Ruth Nasejje; Vladislav Lagutin; Ethan Long
+   04/30 | Amer El Zein; Sebastian Symula; Mario Tomiano; Kyle Reed; Yifei Chen
+   05/??  | Selena Lin; Nick Pfeifer
 
 ### Contributing to the Class Notes
 
