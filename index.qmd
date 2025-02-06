@@ -227,6 +227,10 @@ Markdown.
   - Understand principles of coding documentation and readability while
     practicing their application
 + Zhang, Gaofei
+  - Gain hands-on experience with real-world data science projects.
+  - Improve proficiency in Git and collaborative workflows.
+  - Explore machine learning techniques and applications.
+
 + Kravette, Noah
   - Become better at program collaboration.
   - Become adept with git and github. 
