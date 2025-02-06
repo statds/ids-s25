@@ -85,7 +85,7 @@
 
 1. **Game 24**
    The [math game 24](http://en.wikipedia.org/wiki/24_Game) is one of the
-   addictive games among number lovers. With four randomly selected cards form
+   addictive games among number lovers. With four randomly selected cards from
    a deck of poker cards, use all four values and elementary arithmetic
    operations ($+-\times /$) to come up with 24. Let $\square$ be one of
    the four numbers. Let $\bigcirc$ represent one of the four operators.
