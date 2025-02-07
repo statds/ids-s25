@@ -307,7 +307,7 @@ Please use the following table to sign up.
   ------ | ---------------------- | ------
    02/10 |  Li, Shiyi     |
    02/12 |  Jun, Joann     |
-   02/17 |  Alsadadi, Ammar Shaker     |
+   02/17 |  Roy, Luke William     | Grammar of Graphics with Plotnine
    02/19 |  Lang, Lang     |
    02/24 |  Ackerman, John     |
    02/26 |  Horn, Alyssa Noelle     |
@@ -315,7 +315,7 @@ Please use the following table to sign up.
    03/05 |  Schittina, Thomas     |
    03/10 |  Kline, Daniel Esteban     |
    03/12 |  Edo, Mezmur Wossenu      |
-   03/24 |  Roy, Luke William     |
+   03/24 |  Alsadadi, Ammar Shaker     |
    03/24 |  Fables, Xavier Milan     |
    03/31 |  Tamhane, Shubhan     |
    03/31 |  Nasejje, Ruth Nicole     |
