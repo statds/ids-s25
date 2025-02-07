@@ -148,6 +148,8 @@ Markdown.
 + Schlessel, Jacob E
 + Symula, Sebastian
 + Tamhane, Shubhan
+    - Learn various machine learning algorithims such as logistic regression and random forest
+    - Learn about the intersection of SQL, git, and python when solving a real data science problem
 + Tomaino, Mario Anthony
 
 ### Students in 5255
