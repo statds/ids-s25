@@ -266,12 +266,6 @@ boosting. This justifies certain requests for switching slots.
 
 ### Presentation Task Board
 
-The topic presentation is 20 points. It includes:
-
-+ Topic selection consultation (4 points)
-+ Deliver the presentation (10 points)
-+ Contribute to the class notes (6 points)
-
 Talk to the professor about your topics. Here are some example tasks:
 
 + Making presentations with Quarto
@@ -297,14 +291,20 @@ Talk to the professor about your topics. Here are some example tasks:
 + Web scraping
 + Personal webpage on GitHub
 
+### Topic Presentation Schedule
 
+The topic presentation is 20 points. It includes:
+
++ Topic selection consultation (4 points)
++ Delivering the presentation in class (10 points)
++ Contribute to the class notes within two weeks following the presentation (6 points)
 
 Please use the following table to sign up.
 
    Date  | Presenter              | Topic
   ------ | ---------------------- | ------
-   02/10 |  Li, Shiyi     |
-   02/12 |  Jun, Joann     |
+   02/10 |  Li, Shiyi     | A Primer of Markdown
+   02/12 |  Jun, Joann     | Making Presentations with Quarto
    02/17 |  Roy, Luke William     | Grammar of Graphics with Plotnine
    02/19 |  Lang, Lang     |
    02/24 |  Ackerman, John     |
