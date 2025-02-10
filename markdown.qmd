@@ -1,0 +1,867 @@
+
+## A Primer of Markdown
+
+This section was prepared by Shiyi Li.
+
+
+
+### Introduction
+
+Hi! I am Shiyi Li. I am currently a senior majoring in Math/Stat and aiming to graduate in August this year. During this presentation, I want to present some primer on markdown. Markdown is a plain text format, an easy way to write content for a web interface. It is widely used in open-source documentation, including GitHub, R Markdown, Quarto, Jupyter Notebooks, etc. Its syntax is easy to learn, write, read, and seamlessly convert to HTML, PDF, and DOCX formats. I will divide this topic into four sections, Structuring the Document, Formatting Text, Enhancing Content, and Presenting Data & Advanced Features.
+
+\
+
+### Structuring the Document
+
+There are some elements can define sections and hierarchy to help organize content in a clear and structured manner.
+
+#### Headings
+
+1. To create heading levels for topics, sections, or subsections, you can add number signs, "#", before you write any content for them.
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+# Heading 1 (Main Title)
+
+## Heading 2 (Section)
+
+### Heading 3 (Subsection)
+
+......
+```
+
+- This will create a structural context for you, like this:
+
+# Heading 1 (Main Title)
+
+## Heading 2 (Section)
+
+### Heading 3 (Subsection)
+
+**. . . . . .**
+
+\
+
+> Be careful, you need to make sure that there is a blank line before and after your heading levels and a space between your number sign "#" and the heading name.
+
+\
+
+2. Alternatively, you can also use any number of double equal sign, "==", or double dashes sign, "--", to create a heading.
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+Heading 1 (Main Title)
+======
+Heading 2 (Section)
+------
+```
+
+- This code chunk will output like this:
+
+Heading 1 (Main Title)
+======
+Heading 2 (Section)
+------
+
+\
+
+> However, this method can only be used to create two heading levels like above.
+
+\
+
+#### Horizontal Rules - line Seperator
+
+- A horizontal rule adds a visual break between parts of text by adding three or more asterisks, "***", dashes, "---", or underscores, "___", on a line by themselves.
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+This is the part 1.
+
+--------
+
+This is the part 2.
+
+********
+
+This is the part 3.
+
+_________
+
+This is the part 4.
+```
+- This code chunk will output like this:
+
+This is the part 1.
+
+--------
+
+This is the part 2.
+
+********
+
+This is the part 3.
+
+_________
+
+This is the part 4.
+
+\
+
+> Be careful. You need to make sure you add a blank line before and after your separator line.
+
+\
+
+#### Paragraphs
+
+- To create paragraphs, you can add a blank line between two paragraphs just like you usually create paragraphs in an essay.
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+This is the first paragraph ........................................
+.....................................................................
+.....................................................................
+... end the first paragraph.
+
+This is the second paragraph .........................................................
+...................................................................
+.....................................................................
+...end the second paragraph.
+```
+
+\
+
+> We generally don't intent paragraphs with spaces or tabs.
+
+\
+
+#### Blockquotes
+
+1. To highlight multiple line important text, cite multiple line references, or quote multiple line important points, you can add a greater than sign, ">", at the begining of the text.
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+> This is an important text.
+> This is a citation/reference.
+> This is a quotation.
+```
+
+- This code will output like this:
+
+> This is an important text.
+> This is a citation/reference.
+> This is a quotation.
+
+2. You can also nest blockquotes by adding two or more greater than signs, ">>".
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+> This is an important text.
+>
+>> This is a citation/reference.
+>>
+>>> This is a quotation.
+```
+
+- This code will output like this:
+
+> This is an important text.
+>
+>> This is a citation/reference.
+>>
+>>> This is a quotation.
+
+\
+
+***Be careful, you need to add a blank line before the first line of your blockquotes, otherwise, it will not look right.***
+
+\
+
+### Formatting Text
+
+There are some elements to make text stand out, improving emphasis and readability like Bold, Italic, and Strikethrough text.
+
+#### Bold
+
+- To bold text, you can add two asterisks, "**", or underscores, "__", before and after the text.
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+**This is the first important text.**
+
+__This is the second important text.__
+
+This is the __third important__ text.
+
+This is the **fourth important** text.
+
+This is the f**if**th important text.
+```
+
+- This will output like this:
+
+**This is the first important text.**
+
+__This is the second important text.__
+
+This is the __third important__ text.
+
+This is the **fourth important** text.
+
+This is the fifth im**portan**t text.
+
+\
+
+> Be careful do not use underscores, "__", to bold charachers inside a word, like this "This is the fifth im__portan__t text".***
+
+\
+
+#### Italic
+
+- To italize a text, you can add one asterisk, "*", or one underscore, "_", before and after a text.
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+*ThIs Is the fIrst Important TexT.*
+
+_ThIs Is the second Important TexT._
+
+This is the _Third ImportanT_ text.
+
+This is the *fourth ImportanT* text.
+
+Fifth im*PORtaN*t text.
+```
+
+- This code chunk will output like this:
+
+*ThIs Is the fIrst Important TexT.*
+
+_ThIs Is the second Important TexT._
+
+This is the _Third ImportanT_ text.
+
+This is the *fourth ImportanT* text.
+
+Fifth im*PORtaN*t text.
+
+\
+
+> Be careful don't use underscores, "_", to italize charachers inside a word, like this "Fifth im_porta_nt text".
+
+\
+
+#### Bold & Italic
+
+To bold and italize a text simulately, you can use three asterisks, "***", or one underscores, "___", before and after a text.
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+***This is the first important text.***
+
+___This is the second important text.___
+
+This is the ___third important___ text.
+
+This is the ***fourth important*** text.
+
+Fifth i***mportan***t text.
+```
+
+- This code chunk will output like this:
+
+***This is the first important text.***
+
+___This is the second important text.___
+
+This is the ___third important___ text.
+
+This is the ***fourth important*** text.
+
+Fifth i***mportan***t text.
+
+\
+
+> Be careful don't use underscores, "\___", to bold and italize charachers inside a word, like this "Fifth im\___porta\___nt text".
+
+\
+
+#### Highlight
+
+- To highlight a text, you can add this sign, <mark>, before the text and add this sign, "</mark>", after the text.
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+<mark>This is a text that needs to be highlighted.</mark>
+
+This is a te<mark>xt that needs to be high</mark>lighted.
+```
+
+- This code chunk will output like this:
+
+<mark>This is a text that needs to be highlighted.</mark>
+
+This is a te<mark>xt that needs to be high</mark>lighted.
+
+\
+
+#### Strikethrough - Deleted or Removed Text
+
+- To show a deletion or correction on a text, you can add double tilde signs, "~~", before and after the part of the deletion or correction on your text. 
+
+- Example:
+
+```markdown
+```{markdown}
+~~This text is struck through~~ This is the correct text.
+```
+
+- This code chunk will output like this:
+
+~~This text is struck through~~ This is the correct text.
+
+\
+
+### Enhancing Content
+
+To enhance the illustrative capabilities of your content, there are several elements you can add to your document, including lists, task lists, tables, links, images, code blocks, math notations, and code blocks.
+
+#### Lists
+
+To organize a list (nested list), you can use ordered or unordered numbers or alphabets followed by a period sign, ".", dashes, "-", asterisks, "*", or plus signs, "+", in front of line items. Markdown is smart, it will automatically detect and organize a list for you.
+
+\
+
+**1. Using Ordered numbers followed by a period sign:**
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+1. First item
+2. Second item
+    1. Third item
+    2. Fourth item
+3. Fifth item
+```
+
+- This code chunk will output like this:
+
+Using Ordered numbers followed by a period sign:
+
+1. First item
+2. Second item
+    1. Third item
+    2. Fourth item
+3. Fifth item
+
+\
+
+**2. Using Unordered numbers followed by a period sign:**
+
+- Example:
+
+You can code like this:
+
+```markdown
+```{markdown}
+2. First item
+2. Second item
+    2. Third item
+    2. Fourth item
+2. Fifth item
+
+2. First item
+7. Second item
+    9. Third item
+    2. Fourth item
+10. Fifth item
+```
+
+- This code chunk will output like this:
+
+Using Unordered numbers followed by a period sign:
+
+2. First item
+2. Second item
+    2. Third item
+    2. Fourth item
+2. Fifth item
+
+2. First item
+7. Second item
+    9. Third item
+    2. Fourth item
+10. Fifth item
+
+\
+
+> Be careful, for an unordered list to work as you want, you need to take care of the first number or letter of the first item of your (nested) list, because markdown will order the list starting with the first number or alphabet of your (nested) list.
+
+\
+
+**3. Using dashes:**
+
+- Example:
+
+You can code like this:
+
+```markdown
+```{markdown}
+- First item
+- Second item
+    - Third item
+    - Fourth item
+- Fifth item
+```
+
+- This code chunk will output like this:
+
+Using dashes:
+
+- First item
+- Second item
+    - Third item
+    - Fourth item
+- Fifth item
+
+\
+
+**4. Using asterisks:**
+
+- Example:
+
+You can code like this:
+
+```markdown
+```{markdown}
+* First item
+* Second item
+    * Third item
+    * Fourth item
+* Fifth item
+```
+
+- This code chunk will output like this:
+
+Using asterisks:
+
+* First item
+* Second item
+    * Third item
+    * Fourth item
+* Fifth item
+
+\
+
+**5. Using plus signs:**
+
+- Example:
+
+You can code like this:
+
+```markdown
+```{markdown}
++ First item
++ Second item
+    + Third item
+    + Fourth item
++ Fifth item
+```
+
+- This code chunk will output like this:
+
+Using plus signs:
+
++ First item
++ Second item
+    + Third item
+    + Fourth item
++ Fifth item
+
+\
+
+**6. Using alphabets:**
+
+- Example:
+
+You can code like this:
+
+```markdown
+```{markdown}
+a. First item
+b. Second item
+    a. Third item
+    b. Fourth item
+c. Fifth item
+
+w. First item
+a. Second item
+    c. Third item
+    y. Fourth item
+a. Fifth item
+```
+
+- This code chunk will output like this:
+
+Using alphabets:
+
+a. First item
+b. Second item
+    a. Third item
+    b. Fourth item
+c. Fifth item
+
+w. First item
+a. Second item
+    c. Third item
+    y. Fourth item
+a. Fifth item
+
+\
+
+**7. Using different delimiters:**
+
+- Example:
+
+You can code like this:
+
+```markdown
+```{markdown}
++ First item
+- Second item
+    * Third item
+    + Fourth item
+* Fifth item
+```
+
+- This code chunk will output like this:
+
+Using different delimiters:
+
+1. First item
+2. Second item
+    * Third item
+    + Fourth item
+    - Fifth item
+3. Sixth item
+
+\
+
+> Using different delimiters in the same list has no effect on the list organized by markdown.
+
+\
+
+**8. This is a Wrong example:**
+
+- Example:
+
+You can code like this:
+
+```markdown
+```{markdown}
+a. First item
+1. Second item
+    f. Third item
+    w. Fourth item
+3. Fifth item
+```
+
+- This code chunk will output like this:
+
+Wrong example:
+
+a. First item
+1. Second item
+    f. Third item
+    w. Fourth item
+3. Fifth item
+
+\
+
+> Be careful, you need to make sure you add a blank line before the list starts.
+> You can also use a backslash, "\", to escape a period, ".", if you do not want to create a list and still need a period after a number or alphabet.
+
+\
+
+#### Task Lists - To-Do List
+
+- To add a task/to-do list, you can add this sign, "- [] ", or this sign, "- [x] ", before each item in your task/to-do list.
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+- [ ] Task not completed
+- [x] Task completed
+```
+
+- This code chunk will output like this:
+
+- [ ] Task not completed
+- [x] Task completed
+
+\
+
+> In your rendered HTML file, you can check or uncheck the completion marks in the small box at the front of each task.
+
+\
+
+#### Links
+
+1. You can add a link in your text by enclosing your added link with parentheses, "( )". In addition, you also can optionally add a name or a short description for the link by enclosing them with brackets, "[ ]", and this will appear as a tooltip when the user hovers over the link.
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+We can use the Markdown Cheat Sheet to learn a general framework about markdown syntax. [Markdown Cheat Sheet](https://www.markdownguide.org/basic-syntax/#code-blocks)
+```
+
+- This code chunk will output like this:
+
+We can use the Markdown Cheat Sheet to learn a general framework about markdown syntax. [Markdown Cheat Sheet](https://www.markdownguide.org/basic-syntax/#code-blocks)
+
+2. You can add an Reference Style Link by enclosing the link and a number pointed to the link with separated brackets, "[ ]".
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+We can use the Markdown Cheat Sheet [https://www.markdownguide.org/basic-syntax/#code-blocks][4] to learn a general framework about markdown syntax. 
+```
+
+- This code chunk will output like this:
+
+We can use the Markdown Cheat Sheet to learn a general framework about markdown syntax. (https://www.markdownguide.org/basic-syntax/#code-blocks)[4]
+
+\
+
+#### Images
+
+- To add images from your local computer or a website, you can add an exclamation mark, "!", followed by a description or other text enclosing with brackets, "[ ]", and a path/URL to the image enclosing with parentheses, "( )".
+
+- Example:
+
+```markdown
+```{markdown}
+![This is a description to an online image](https://today.uconn.edu/2023/01/uconn-on-campus-construction-update-january-2023/)
+
+![This is a description to a local image](/Users/shiyili/
+Desktop/UCONN.jpg)
+```
+
+- The render output will show like this:
+
+![This is a description to an online image.](https://today.uconn.edu/wp-content/uploads/2023/01/snow220108a084-1536x1023.jpg)
+
+\
+
+#### Tables
+
+- To create a table, you can use three or more hyphens, "---", and pipes, "|", to create and separate each column respectively.
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+1. Each cell with the same width in code chunk:
+
+1. Each cell with the same width in code chunk:
+
+|            | 1st Column | 2nd Column | 3rd Column | ...... |
+| ---------- | ---------- | ---------- | ---------- | ------ |
+| 1st Row    |    123     |     123    |     123    |   123  |
+| 2nd Row    |    123     |     123    |     123    |   123  |
+| 3rd Row    |    123     |     123    |     123    |   123  |
+| ......     |    123     |     123    |     123    |   123  |
+
+\
+2. Each cell with vary width in code chunk:
+
+|            | 1st Column | 2nd Column | 3rd Column | ...... |
+| ------ | ---------- | ---------- | ---------- | ------ |
+| 1st Row |     123       |      123      |     123       |    123    |
+| 2nd Row      |     123       |     123       |      123      |   123     |
+| 3rd Row  |      123      |      123      |     123       |    123    |
+| ......         |      123      |     123       |      123      |    123    |
+
+```
+
+\
+
+- This code chunk will output like this:
+
+\
+
+1. Each cell with the same width in code chunk:
+
+|            | 1st Column | 2nd Column | 3rd Column | ...... |
+| ---------- | ---------- | ---------- | ---------- | ------ |
+| 1st Row    |    123        |     123       |      123      |    123    |
+| 2nd Row    |     123       |     123       |      123      |   123     |
+| 3rd Row    |     123       |     123       |      123      |    123    |
+| ......     |     123       |     123       |      123      |    123    |
+
+\
+2. Each cell with vary width in code chunk:
+
+|            | 1st Column | 2nd Column | 3rd Column | ...... |
+| ------ | ---------- | ---------- | ---------- | ------ |
+| 1st Row |     123       |      123      |     123       |    123    |
+| 2nd Row      |     123       |     123       |      123      |   123     |
+| 3rd Row  |      123      |      123      |     123       |    123    |
+| ......         |      123      |     123       |      123      |    123    |
+
+\
+
+> Cell width can vary, because markdown will automatically detect and organize the table for you with the same width.***
+
+\
+
+3. You can align text in the columns to the left, right, or center by adding a colon, ":", to the left, right, or on both side of the hyphens, "---", within the header row.
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+|            | 1st Column | 2nd Column | 3rd Column | ...... |
+| :---------- | :----------: | ----------: | :----------: | ------: |
+| 1st Row    |            123|       123     |  123          |        123|
+| 2nd Row    |123            |    123        |           123 |123        |
+| 3rd Row    |     123       |123            |     123       |   123     |
+| ......     |   123         |            123| 123           |123        |
+```
+
+- This code chunk will output like this:
+
+|            | 1st Column | 2nd Column | 3rd Column | ...... |
+| :---------- | :---------- | :----------: | ----------: | ------: |
+| 1st Row    |            123|       123     |  123          |        123|
+| 2nd Row    |123            |    123        |           123 |123        |
+| 3rd Row    |     123       |123            |     123       |   123     |
+| ......     |   123         |            123| 123           |123        |
+
+\
+
+#### Math Notation - Using LaTeX in Markdown
+
+1. To displace a math equation, you can add a dollar sign, "$", before and after the math equation.
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+This is a quadratic equation, $ax^2+bx+c=0$.
+
+This is a quadratic equation roots formula, $x = \frac{-b \pm \sqrt{b^2-4ac}}{2b}$.
+```
+
+- This code chunk will output like this:
+
+This is a quadratic equation, $ax^2+bx+c=0$.
+
+This is a quadratic equation roots formula, $x = \frac{-b \pm \sqrt{b^2-4ac}}{2b}$.
+
+2. You can center an math equation by adding double dollar signs, "$$", before and after the math equation.
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+This is a quadratic equation, 
+$$
+ax^2+bx+c=0
+$$.
+
+This is a quadratic equation roots formula, 
+$$
+x = \frac{-b \pm \sqrt{b^2-4ac}}{2b}
+$$.
+```
+
+- This code chunk will output like this:
+
+This is a quadratic equation, 
+$$
+ax^2+bx+c=0
+$$.
+
+This is a quadratic equation roots formula, 
+$$
+x = \frac{-b \pm \sqrt{b^2-4ac}}{2b}
+$$.
+
+\
+
+### Conclusion
+
+Markdown is a simple yet powerful way to format text for documentation, blogging, and technical writing. With its easy-to-read syntax, you can structure documents, highlight key points, and present data effectively. It’s widely used in open-source projects, academic writing, and web content due to its flexibility and seamless conversion to HTML, PDF, and DOCX. Mastering Markdown helps you create clear, well-organized content with minimal effort. 
+
+### Further Readings
+
+1. [Markdown Cheet Sheet](https://www.markdownguide.org/cheat-sheet/): A quick reference to the Markdown syntax.
+2. [GitHub Flavored Markdown (GFM)](https://github.github.com/gfm/): Markdown features specific to GitHub.
+3. [Markdown Tutorial](https://www.markdowntutorial.com/): Hands-on learning with examples.
+4. [Quarto Markdown Basic](https://quarto.org/docs/authoring/markdown-basics.html): Markdown basic for Quarto.
+5. [Jupyter Notebook Markdown](https://pandoc.org/MANUAL.html#pandocs-markdown): Use Markdown for interactive data science.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Use Markdown syntax. If not clear on what to do, learn from the class
+notes sources.
+
++ Pay attention to the sectioning levels.
++ Cite references with their bib key.
++ In examples, maximize usage of data set that the class is familiar with.
++ Could use datasets in Python packages or downloadable on the fly.
++ Test your section by `quarto render <filename.qmd>`.
