@@ -117,15 +117,6 @@ order, last name first, comma, then first name). Here is an example.
     - Co-develop a Quarto book in collaboration with the students.
     - Train students to participate in real data science competitions.
 
-+ Shiyi, Li 
-    - Learn to visualize the plots and results using the ggplot package.
-    - Learn to use the common functions of the SciPy, scikit-learn, and statsmodels libraries in Python
-    - Learn how to query, extract, and manipulate structured and unstructured data in a large database.
-    - Learn the basics of artificial neural networks, CNNs for image data, NLP techniques.
-    - Learn some of the data analysis models that will be commonly used in the workplace.
-    - Learn some common applications of optimization techniques in data analysis. 
-    - Pass this course with an A grade.
-
 
 Add yours through a pull request; note the syntax of nested list in
 Markdown. 
@@ -153,17 +144,22 @@ Markdown.
 + Horn, Alyssa Noelle
     - Be confident in using Git and Github
     - Learn how to collaborate with others on projects through Github
-+ Hutchins, Isabella Grace
 + Jun, Joann
     - Become proficient in using GitHub
     - Learn more about the applications of data science
-    
 + Kline, Daniel Esteban
 + Lagutin, Vladislav
     - Learn how to do data science projects in python and interact with them using git
     - Learn how to do good visualizations of the data; explore appropriate libraries
 + Lang, Lang
 + Li, Shiyi
+    - Learn to visualize the plots and results using the ggplot package.
+    - Learn to use the common functions of the SciPy, scikit-learn, and statsmodels libraries in Python
+    - Learn how to query, extract, and manipulate structured and unstructured data in a large database.
+    - Learn the basics of artificial neural networks, CNNs for image data, NLP techniques.
+    - Learn some of the data analysis models that will be commonly used in the workplace.
+    - Learn some common applications of optimization techniques in data analysis. 
+    - Pass this course with an A grade.
 + Lin, Selena
   - Get a good grade in this class.
   - Learn and get familier with using GitHub.
@@ -177,12 +173,10 @@ Markdown.
     - Develop an organized coding style in python, quarto, & git
     - Learn various packages in python related to data science
     - Deepen knowledge in statistical modeling and data analysis
-
 + Pfeifer, Nicholas Theodore
     - Learn about data science techniques in python
     - Learn and thoroughly practice using git and github
     - Get more comfortable with decision trees and random forests
-
 + Reed, Kyle Daniel
     - Gain full confidence using Git/GitHub and corresponding applications.
     - Understand the workflow in professional data science projects.
@@ -192,11 +186,9 @@ Markdown.
     - Develop skills in financial data analysis using python and relevant libraries like pandas and numpy.
     - Learn advanced data visualization techniques with a focus on the grammar of graphics.
     - Get an introduction to machine learning via scikit-learn, and explore applications in financial analysis and forensic accounting.
- 
 + Schittina, Thomas
     - Become more comfortable using git and GitHub
     - Become more familiar with popular data science packages in Python
-+ Schlessel, Jacob E
 + Symula, Sebastian
     - Learn SQL
     - Become better at working through each step in the data science 
@@ -272,23 +264,19 @@ boosting. This justifies certain requests for switching slots.
 
 ### Presentation Task Board
 
-The topic presentation is 20 points. It includes:
-
-+ Topic selection consultation (4 points)
-+ Deliver the presentation (10 points)
-+ Contribute to the class notes (6 points)
-
 Talk to the professor about your topics. Here are some example tasks:
 
 + Making presentations with Quarto
 + Markdown jumpstart
 + Effective data science communication
 + Import/Export data
++ Data manipulation with Pandas
 + Accessing US census data
 + Arrow as a cross-platform data format
 + Database operation with Structured query language (SQL)
 + Grammer of graphics
 + Handling spatial data
++ Spatial data with GeoPandas
 + Visualize spatial data in a Google map
 + Animation
 + Support vector machine
@@ -303,15 +291,33 @@ Talk to the professor about your topics. Here are some example tasks:
 + Web scraping
 + Personal webpage on GitHub
 
+### Topic Presentation Schedule
 
+The topic presentation is 20 points. It includes:
+
++ Topic selection consultation on week in advance (4 points).
++ Delivering the presentation in class (10 points).
++ Contribute to the class notes within two weeks following the
+  presentation (6 points).
+  
+Tips on topic contribution:
+
++ No plagiarism (see instructions on Contributing to Class Notes).
++ Avoid external graphics.
++ Use simulated data.
++ Use data from homework assignments.
++ Cite article/book references (learn how from our sources).
++ Include a subsection of Further Readings.
++ Test on your own computer before making a pull request.
++ Send me your presentation two days in advance for feedbacks.
 
 Please use the following table to sign up.
 
    Date  | Presenter              | Topic
   ------ | ---------------------- | ------
-   02/10 |  Li, Shiyi     |
-   02/12 |  Jun, Joann     |
-   02/17 |  Alsadadi, Ammar Shaker     |
+   02/10 |  Li, Shiyi     | A Primer of Markdown
+   02/12 |  Jun, Joann     | Making Presentations with Quarto
+   02/17 |  Roy, Luke William     | Grammar of Graphics with Plotnine
    02/19 |  Lang, Lang     |
    02/24 |  Ackerman, John     |
    02/26 |  Horn, Alyssa Noelle     |
@@ -319,7 +325,7 @@ Please use the following table to sign up.
    03/05 |  Schittina, Thomas     |
    03/10 |  Kline, Daniel Esteban     |
    03/12 |  Edo, Mezmur Wossenu      |
-   03/24 |  Roy, Luke William     |
+   03/24 |  Alsadadi, Ammar Shaker     |
    03/24 |  Fables, Xavier Milan     |
    03/31 |  Tamhane, Shubhan     |
    03/31 |  Nasejje, Ruth Nicole     |
