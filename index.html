@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Jun Yan and Students in Spring 2025">
-<meta name="dcterms.date" content="2025-02-07">
+<meta name="dcterms.date" content="2025-02-10">
 
 <title>Introduction to Data Science</title>
 <style>
@@ -193,8 +193,14 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./manipulation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data Manipulation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./exercises.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Exercises</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Exercises</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -276,7 +282,7 @@ div.csl-indent {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">February 7, 2025</p>
+      <p class="date">February 10, 2025</p>
     </div>
   </div>
   
@@ -386,7 +392,6 @@ div.csl-indent {
 <li>Be confident in using Git and Github</li>
 <li>Learn how to collaborate with others on projects through Github</li>
 </ul></li>
-<li>Hutchins, Isabella Grace</li>
 <li>Jun, Joann
 <ul>
 <li>Become proficient in using GitHub</li>
@@ -452,7 +457,6 @@ div.csl-indent {
 <li>Become more comfortable using git and GitHub</li>
 <li>Become more familiar with popular data science packages in Python</li>
 </ul></li>
-<li>Schlessel, Jacob E</li>
 <li>Symula, Sebastian
 <ul>
 <li>Learn SQL</li>
@@ -505,7 +509,7 @@ div.csl-indent {
 <section id="presentation-orders" class="level3">
 <h3 class="anchored" data-anchor-id="presentation-orders">Presentation Orders</h3>
 <p>The topic presentation order is set up in class.</p>
-<div id="119ee4d0" class="cell" data-execution_count="1">
+<div id="e56278e8" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'rosters/3255.txt'</span>, <span class="st">'r'</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    ug <span class="op">=</span> [line.strip() <span class="cf">for</span> line <span class="kw">in</span> <span class="bu">file</span>]</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'rosters/5255.txt'</span>, <span class="st">'r'</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
@@ -558,11 +562,13 @@ div.csl-indent {
 <li>Markdown jumpstart</li>
 <li>Effective data science communication</li>
 <li>Import/Export data</li>
+<li>Data manipulation with Pandas</li>
 <li>Accessing US census data</li>
 <li>Arrow as a cross-platform data format</li>
 <li>Database operation with Structured query language (SQL)</li>
 <li>Grammer of graphics</li>
 <li>Handling spatial data</li>
+<li>Spatial data with GeoPandas</li>
 <li>Visualize spatial data in a Google map</li>
 <li>Animation</li>
 <li>Support vector machine</li>
@@ -582,9 +588,20 @@ div.csl-indent {
 <h3 class="anchored" data-anchor-id="topic-presentation-schedule">Topic Presentation Schedule</h3>
 <p>The topic presentation is 20 points. It includes:</p>
 <ul>
-<li>Topic selection consultation (4 points)</li>
-<li>Delivering the presentation in class (10 points)</li>
-<li>Contribute to the class notes within two weeks following the presentation (6 points)</li>
+<li>Topic selection consultation on week in advance (4 points).</li>
+<li>Delivering the presentation in class (10 points).</li>
+<li>Contribute to the class notes within two weeks following the presentation (6 points).</li>
+</ul>
+<p>Tips on topic contribution:</p>
+<ul>
+<li>No plagiarism (see instructions on Contributing to Class Notes).</li>
+<li>Avoid external graphics.</li>
+<li>Use simulated data.</li>
+<li>Use data from homework assignments.</li>
+<li>Cite article/book references (learn how from our sources).</li>
+<li>Include a subsection of Further Readings.</li>
+<li>Test on your own computer before making a pull request.</li>
+<li>Send me your presentation two days in advance for feedbacks.</li>
 </ul>
 <p>Please use the following table to sign up.</p>
 <table class="caption-top table">
@@ -873,7 +890,7 @@ div.csl-indent {
 <h3 class="anchored" data-anchor-id="sub-topic-1">Sub Topic 1</h3>
 <p>Put materials on topic 1 here</p>
 <p>Python examples can be put into <code>python</code> code chunks:</p>
-<div id="4f2be1cd" class="cell" data-execution_count="2">
+<div id="bfe4d8c2" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import pandas as pd</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># do something</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
