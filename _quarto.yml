@@ -17,6 +17,7 @@ book:
     - git.qmd
     - quarto.qmd
     - python.qmd
+    - manipulation.qmd
     - exercises.qmd
     - references.qmd
 

@@ -305,6 +305,7 @@ Tips on topic contribution:
 + Cite article/book references (learn how from our sources).
 + Include a subsection of Further Readings.
 + Test on your own computer before making a pull request.
++ Send me your presentation two days in advance for feedbacks.
 
 Please use the following table to sign up.
 
