@@ -266,11 +266,13 @@ Talk to the professor about your topics. Here are some example tasks:
 + Markdown jumpstart
 + Effective data science communication
 + Import/Export data
++ Data manipulation with Pandas
 + Accessing US census data
 + Arrow as a cross-platform data format
 + Database operation with Structured query language (SQL)
 + Grammer of graphics
 + Handling spatial data
++ Spatial data with GeoPandas
 + Visualize spatial data in a Google map
 + Animation
 + Support vector machine
@@ -289,9 +291,20 @@ Talk to the professor about your topics. Here are some example tasks:
 
 The topic presentation is 20 points. It includes:
 
-+ Topic selection consultation (4 points)
-+ Delivering the presentation in class (10 points)
-+ Contribute to the class notes within two weeks following the presentation (6 points)
++ Topic selection consultation on week in advance (4 points).
++ Delivering the presentation in class (10 points).
++ Contribute to the class notes within two weeks following the
+  presentation (6 points).
+  
+Tips on topic contribution:
+
++ No plagiarism (see instructions on Contributing to Class Notes).
++ Avoid external graphics.
++ Use simulated data.
++ Use data from homework assignments.
++ Cite article/book references (learn how from our sources).
++ Include a subsection of Further Readings.
++ Test on your own computer before making a pull request.
 
 Please use the following table to sign up.
 
