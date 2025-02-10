@@ -115,15 +115,15 @@ all_valid_zips = [
     10306, 10307, 10308, 10309, 10312
 ]
 
+    
 # Calculate the frequency of invalid ZIP codes using all_valid_zips
 invalid_zip_freq_direct = (
     df[~df['zip_code'].apply(lambda x: int(x) in all_valid_zips if pd.notnull(x) else False)]
     ['zip_code']
     .value_counts(dropna=False)
     .reset_index()
-    .rename(columns={'index': 'zip_code', 'zip_code': 'frequency'})
 )
-
+invalid_zip_freq_direct.columns = ['zip_code', 'frequency']
 invalid_zip_freq_direct
 ```
 
