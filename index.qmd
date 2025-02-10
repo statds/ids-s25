@@ -316,7 +316,7 @@ Please use the following table to sign up.
    02/17 |  Roy, Luke William     | Grammar of Graphics with Plotnine
    02/19 |  Lang, Lang     |
    02/24 |  Ackerman, John     |
-   02/26 |  Horn, Alyssa Noelle     |
+   02/26 |  Horn, Alyssa Noelle     | Data Manipulation with Pandas
    03/03 |  Xu, Peiwen     |
    03/05 |  Schittina, Thomas     |
    03/10 |  Kline, Daniel Esteban     |
