@@ -144,11 +144,9 @@ Markdown.
 + Horn, Alyssa Noelle
     - Be confident in using Git and Github
     - Learn how to collaborate with others on projects through Github
-+ Hutchins, Isabella Grace
 + Jun, Joann
     - Become proficient in using GitHub
     - Learn more about the applications of data science
-    
 + Kline, Daniel Esteban
 + Lagutin, Vladislav
     - Learn how to do data science projects in python and interact with them using git
@@ -175,12 +173,10 @@ Markdown.
     - Develop an organized coding style in python, quarto, & git
     - Learn various packages in python related to data science
     - Deepen knowledge in statistical modeling and data analysis
-
 + Pfeifer, Nicholas Theodore
     - Learn about data science techniques in python
     - Learn and thoroughly practice using git and github
     - Get more comfortable with decision trees and random forests
-
 + Reed, Kyle Daniel
     - Gain full confidence using Git/GitHub and corresponding applications.
     - Understand the workflow in professional data science projects.
@@ -190,11 +186,9 @@ Markdown.
     - Develop skills in financial data analysis using python and relevant libraries like pandas and numpy.
     - Learn advanced data visualization techniques with a focus on the grammar of graphics.
     - Get an introduction to machine learning via scikit-learn, and explore applications in financial analysis and forensic accounting.
- 
 + Schittina, Thomas
     - Become more comfortable using git and GitHub
     - Become more familiar with popular data science packages in Python
-+ Schlessel, Jacob E
 + Symula, Sebastian
     - Learn SQL
     - Become better at working through each step in the data science 
@@ -272,11 +266,13 @@ Talk to the professor about your topics. Here are some example tasks:
 + Markdown jumpstart
 + Effective data science communication
 + Import/Export data
++ Data manipulation with Pandas
 + Accessing US census data
 + Arrow as a cross-platform data format
 + Database operation with Structured query language (SQL)
 + Grammer of graphics
 + Handling spatial data
++ Spatial data with GeoPandas
 + Visualize spatial data in a Google map
 + Animation
 + Support vector machine
@@ -295,9 +291,21 @@ Talk to the professor about your topics. Here are some example tasks:
 
 The topic presentation is 20 points. It includes:
 
-+ Topic selection consultation (4 points)
-+ Delivering the presentation in class (10 points)
-+ Contribute to the class notes within two weeks following the presentation (6 points)
++ Topic selection consultation on week in advance (4 points).
++ Delivering the presentation in class (10 points).
++ Contribute to the class notes within two weeks following the
+  presentation (6 points).
+  
+Tips on topic contribution:
+
++ No plagiarism (see instructions on Contributing to Class Notes).
++ Avoid external graphics.
++ Use simulated data.
++ Use data from homework assignments.
++ Cite article/book references (learn how from our sources).
++ Include a subsection of Further Readings.
++ Test on your own computer before making a pull request.
++ Send me your presentation two days in advance for feedbacks.
 
 Please use the following table to sign up.
 
