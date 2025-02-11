@@ -1,13 +1,11 @@
-
 ## A Primer of Markdown
 
 This section was prepared by Shiyi Li.
 
 
-
 ### Introduction
 
-Hi! I am Shiyi Li. I am currently a senior majoring in Math/Stat and aiming to graduate in August this year. Today's presentation, I want to present some primer on markdown. Markdown is a plain text format, an easy way to write content for a web interface. It is widely used in open-source documentation, including GitHub, R Markdown, Quarto, Jupyter Notebooks, etc. Its syntax is easy to learn, write, read, and seamlessly convert to HTML, PDF, and DOCX formats. I will divide this topic into three subsections, Structuring the Document, Formatting Text, and Enhancing Content.
+Hi! I am Shiyi Li. I am currently a senior majoring in Math/Stat and aiming to graduate in August this year. Today's presentation, I will introduce some basic syntax on markdown. Markdown is a plain text format, an easy way to write content for a web interface. It is widely used in open-source documentation, including GitHub, R Markdown, Quarto, Jupyter Notebooks, etc. Its syntax is easy to learn, write, read, and seamlessly convert to HTML, PDF, and DOCX formats. I will divide my presentation into three parts, Structuring the Document, Formatting Text, and Enhancing Content.
 
 \
 
@@ -30,7 +28,11 @@ You can code like this:
 
 ### Heading 3 (Subsection)
 
-......
+#### Heading 4
+
+##### Heading 5
+
+###### Heading 6
 ```
 
 - This will create a structural context for you, like this:
@@ -41,7 +43,11 @@ You can code like this:
 
 ### Heading 3 (Subsection)
 
-**. . . . . .**
+#### Heading 4
+
+##### Heading 5
+
+###### Heading 6
 
 \
 
@@ -139,6 +145,18 @@ This is the second paragraph ...................................................
 .....................................................................
 ...end the second paragraph.
 ```
+
+- This will output like this:
+
+This is the first paragraph ........................................
+.....................................................................
+.....................................................................
+... end the first paragraph.
+
+This is the second paragraph .........................................................
+...................................................................
+.....................................................................
+...end the second paragraph.
 
 \
 
@@ -420,7 +438,7 @@ This is a subscript within a number:
 
 \
 
-> Be sure not to add any spaces or tabs between the two tilde symbols, "~...~".
+> Be sure not to add any spaces or tabs between the two tilde symbols, "~   ~".
 
 \
 
@@ -730,20 +748,20 @@ You can code like this:
 
 #### Links
 
-1. You can add a link in your text by enclosing your added link with parentheses, "()". In addition, you can also optionally add a name or a short description for the link by enclosing them with brackets, "[]", before the link and this will appear as a tooltip when the user hovers over the link. [@cone2025markdown]
+1. You can add a link in your text by enclosing your added link with parentheses, "()". In addition, you can also optionally add a name or a short description for the link by enclosing them with brackets, "[]", before the link and this will appear as a tooltip when the user hovers over the link @cone2025markdown.
 
 - Example:
 
 You can code like this:
 ```markdown
 ```{markdown}
-We can use the [Markdown Cheat Sheet] (https://www.markdownguide.org/
+We can use the [Markdown Cheat Sheet](https://www.markdownguide.org/
 basic-syntax/#code-blocks) to learn more generally used markdown syntax. 
 ```
 
 - This code chunk will output like this:
 
-We can use the [Markdown Cheat Sheet] (https://www.markdownguide.org/basic-syntax/#code-blocks) to learn more generally used markdown syntax. 
+We can use the [Markdown Cheat Sheet](https://www.markdownguide.org/basic-syntax/#code-blocks) to learn more generally used markdown syntax. 
 
 \
 
@@ -854,7 +872,7 @@ You can code like this:
 
 \
 
-3. You can align text in the columns to the left, right, or center by adding a colon, ":", to the left, right, or on both side of the hyphens, "---", within the header row[@cone2025markdown]. 
+3. You can align text in the columns to the left, right, or center by adding a colon, ":", to the left, right, or on both side of the hyphens, "---", within the header [@cone2025markdown]. 
 
 - Example:
 
@@ -862,7 +880,7 @@ You can code like this:
 ```markdown
 ```{markdown}
 |            | 1st Column | 2nd Column | 3rd Column | ...... |
-| :---------- | :----------: | ----------: | :----------: | ------: |
+| :----------: | :---------- | :----------: | ----------: | ------: |
 | 1st Row    |            123|       123     |  123          |        123|
 | 2nd Row    |123            |    123        |           123 |123        |
 | 3rd Row    |     123       |123            |     123       |   123     |
@@ -872,11 +890,227 @@ You can code like this:
 - This code chunk will output like this:
 
 |            | 1st Column | 2nd Column | 3rd Column | ...... |
-| :---------- | :---------- | :----------: | ----------: | ------: |
+| :----------: | :---------- | :----------: | ----------: | ------: |
 | 1st Row    |            123|       123     |  123          |        123|
 | 2nd Row    |123            |    123        |           123 |123        |
 | 3rd Row    |     123       |123            |     123       |   123     |
 | ......     |   123         |            123| 123           |123        |
+
+\
+
+#### Code
+
+1. To add an inline code, you can add a backtick, "`", before and after a word or a text.
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+This is my `inline` code.
+
+`This is my inline code.`
+```
+
+- This will output like this:
+
+This is my `inline` code.
+
+`This is my inline code.`
+
+2. If you want to display a text with a backtick, "`"", as an inline code, you can add a double backtick, "``", before and after the text.
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+``This is a `text` with backticks.``
+```
+
+- This will output like this:
+
+``This is a `text` with backticks.``
+
+3. To add a code block, you can indent each line of the text with more than four spaces or one tab.
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+    This is a code block.
+
+        This is a code block.
+
+            This is a code block.
+
+    This is a code block.
+```
+
+- This will output like this:
+
+```
+    This is a code block.
+
+        This is a code block.
+
+            This is a code block.
+
+    This is a code block.
+```
+
+4. To add a fenced code block, you can add a blank line begining with three backticks, "```", or three tilde signs, "~~~", before and after your code blok.
+
+- Example:
+
+You can code like this:
+
+```markdown
+```{markdown}
+    ```
+    {
+    This is my fenced code block.
+    This is my fenced code block.
+    }
+    ```
+```
+
+- This will output like this:
+
+```
+{
+This is my fenced code block.
+This is my fenced code block.
+}
+```
+
+5. To add a nonexecutive Python code chunk, you can first add a fence code block for your code, then add a word, "python", after the three backticks, "```", in the first line of your fence code block.
+
+- Example :
+
+You can code like this:
+```python
+    ```python
+    print("This is a Python code chunk.")
+    ```
+```
+
+- This will output like this:
+
+```python
+print("This is a Python code chunk.")
+```
+
+6. To add an executive Python code chunk, you can first add a fence code block for your code, then add a word, "python", with brackets, "{}"after the three backticks, "```", in the first line of your fence code block.
+
+- Example:
+
+You can code like this:
+```python
+    ```{{python}}
+    print("This is a Python code chunk.")
+    ```
+```
+
+- This will output like this:
+
+```{python}
+print("This is a Python code chunk.")
+```
+
+7. You can also make an executive Python code chunk not execute the commands inside the code chunk by adding "#| eval: false" to the first line of your code block.
+
+- Example:
+
+You can code like this:
+```python
+    ```{{python}}
+    #| eval: false
+
+    print("This is a Python code chunk.")
+    ```
+```
+
+- This will output like this:
+
+```{python}
+#| eval: false
+
+print("This is a Python code chunk.")
+```
+
+\
+
+> If you add just "#| eval: true" to your code chunk, this code chunk will execute the commands as usual and output the results.
+>
+> If you just add "#| echo: false" to your code chunk, then your code chunk will not be displayed in your rendered output, but the commands in your code chunk will still be executed as usual and the result of the code chunk will be displayed.
+>
+> If you just add "#| output: false" to your code chunk, then the commands in your code chunk will be displayed as usual in the rendered output, but the result of your code chunk will not be displayed.
+
+\
+
+#### Math Notation - Using LaTeX in Markdown
+
+1. To displace an inline math equation, you can add a dollar sign, "$", before and after the math equation.
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+This is a quadratic equation, $ax^2+bx+c=0$.
+
+This is a quadratic equation roots formula, $x = {(-b \pm \sqrt{b^2-4ac})}/{2b}$.
+```
+
+- This code chunk will output like this:
+
+This is a quadratic equation, $ax^2+bx+c=0$.
+
+This is a quadratic equation roots formula, $x = {(-b \pm \sqrt{b^2-4ac})}/{2b}$.
+
+\
+
+> In an inline math equation, make sure you use the division symbol instead of "\\frac{}{}".
+
+\
+
+2. You can center an math equation by adding double dollar signs, "$$", before and after the math equation.
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+This is a quadratic equation 
+$$
+ax^2+bx+c=0.
+$$
+
+This is a quadratic equation roots formula 
+$$
+x = {(-b \pm \sqrt{b^2-4ac})}/{2b}.
+$$
+```
+
+- This code chunk will output like this:
+
+This is a quadratic equation 
+$$
+ax^2+bx+c=0.
+$$
+
+This is a quadratic equation roots formula 
+$$
+x = {(-b \pm \sqrt{b^2-4ac})}/{2b}.
+$$
+
+\
+
+> Be careful not to add punctuation before a centered math equation.
+>
+> If you want to add a period after a centered math equation, make sure you add it after the end of the math equation and before the second double dollar sign, "$$".
 
 \
 
@@ -929,78 +1163,18 @@ This is a body paragraph, and I have two notes [^short_footnotes] want to add he
 
 \
 
-#### Math Notation - Using LaTeX in Markdown
-
-1. To displace a math equation, you can add a dollar sign, "$", before and after the math equation.
-
-- Example:
-
-You can code like this:
-```markdown
-```{markdown}
-This is a quadratic equation, $ax^2+bx+c=0$.
-
-This is a quadratic equation roots formula, $x = \frac{-b \pm \sqrt{b^2-4ac}}{2b}$.
-```
-
-- This code chunk will output like this:
-
-This is a quadratic equation, $ax^2+bx+c=0$.
-
-This is a quadratic equation roots formula, $x = \frac{-b \pm \sqrt{b^2-4ac}}{2b}$.
-
-2. You can center an math equation by adding double dollar signs, "$$", before and after the math equation.
-
-- Example:
-
-You can code like this:
-```markdown
-```{markdown}
-This is a quadratic equation, 
-$$
-ax^2+bx+c=0
-$$.
-
-This is a quadratic equation roots formula, 
-$$
-x = \frac{-b \pm \sqrt{b^2-4ac}}{2b}
-$$.
-```
-
-- This code chunk will output like this:
-
-This is a quadratic equation, 
-$$
-ax^2+bx+c=0
-$$.
-
-This is a quadratic equation roots formula, 
-$$
-x = \frac{-b \pm \sqrt{b^2-4ac}}{2b}
-$$.
-
-\
-
 ### Conclusion
 
 Markdown is a simple yet powerful way to format text for documentation, blogging, and technical writing. With its easy-to-read syntax, you can structure documents, highlight key points, and present data effectively. It’s widely used in open-source projects, academic writing, and web content due to its flexibility and seamless conversion to HTML, PDF, and DOCX. Mastering Markdown can help you create clear, well-organized content with minimal effort. 
 
+\
+
 ### Further Readings
 
-1. [Markdown Cheet Sheet](https://www.markdownguide.org/cheat-sheet/): A quick reference to the Markdown syntax.
-2. [GitHub Flavored Markdown (GFM)](https://github.github.com/gfm/): Markdown features specific to GitHub.
-3. [Markdown Tutorial](https://www.markdowntutorial.com/): Hands-on learning with examples.
-4. [Quarto Markdown Basic](https://quarto.org/docs/authoring/markdown-basics.html): Markdown basic for Quarto.
-5. [Jupyter Notebook Markdown](https://pandoc.org/MANUAL.html#pandocs-markdown): Use Markdown for interactive data science.
-
-
-
-
-
-
-
-
-
+1. [Markdown Cheet Sheet] [@cone2025markdown]: A quick reference to the Markdown syntax.
+2. [Quarto Markdown Basic](https://quarto.org/docs/authoring/markdown-basics.html): Markdown basic for Quarto.
+3. [GitHub Flavored Markdown (GFM)](https://github.github.com/gfm/): Markdown features specific to GitHub. 
+4. [Jupyter Notebook Markdown](https://pandoc.org/MANUAL.html#pandocs-markdown): Use Markdown for interactive data science.
 
 
 
