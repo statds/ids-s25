@@ -152,6 +152,10 @@ Markdown.
     - Learn how to do data science projects in python and interact with them using git
     - Learn how to do good visualizations of the data; explore appropriate libraries
 + Lang, Lang
+    - Become more proficient with python
+    - Learn about the applications of Data Science
+    - Learn how to make collaborative project by using GitHub
+    - Have a good grade in this course
 + Li, Shiyi
     - Learn to visualize the plots and results using the ggplot package.
     - Learn to use the common functions of the SciPy, scikit-learn, and statsmodels libraries in Python
