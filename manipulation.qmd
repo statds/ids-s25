@@ -33,20 +33,40 @@ Consider a subset of the NYC Crash Data, which contains all
 NYC motor vehicle collisions data with documentation from
 [NYC Open Data](https://data.cityofnewyork.us/Public-Safety/Motor-Vehicle-Collisions-Crashes/h9gi-nx95).
 We downloaded the crash data for the week of June 30, 2024,
-on September 16, 2024, in CSC format.
+on February 12, 2025, in CSC format.
 ```{python}
+import numpy as np
 import pandas as pd
 
 # Load the dataset
-file_path = 'data/nyccrashes_2024w0630_by20240916.csv'
-df = pd.read_csv(file_path)
+file_path = 'data/nyccrashes_2024w0630_by20250212.csv'
+df = pd.read_csv(file_path,
+                 dtype={'LATITUDE': np.float32,
+                        'LONGITUDE': np.float32,
+                        'ZIP_CODE': str})
 
 # Replace column names: convert to lowercase and replace spaces with underscores
 df.columns = df.columns.str.lower().str.replace(' ', '_')
 
-# Display the first few rows of the dataset to understand its structure
+# Convert ZIP codes to strings, but handle missing values separately
+df['zip_code'] = df['zip_code'].apply(lambda x: str(int(x)).zfill(5) if pd.notnull(x) else np.nan)
+
+# Check for missing values
+df.isnull().sum()
+```
+
+
+Take a peek at the first five rows:
+```{python}
 df.head()
 ```
+
+
+A quick summary of the data types of the columns:
+```{python}
+df.info()
+```
+
 
 Now we can do some cleaning after a quick browse.
 ```{python}
@@ -55,10 +75,6 @@ df.loc[(df['latitude'] == 0) & (df['longitude'] == 0),
        ['latitude', 'longitude']] = pd.NA
 df['latitude'] = df['latitude'].replace(0, pd.NA)
 df['longitude'] = df['longitude'].replace(0, pd.NA)
-
-# Longitude/latitude don't need double precision
-df['latitude'] = df['latitude'].astype('float32', errors='ignore')
-df['longitude'] = df['longitude'].astype('float32', errors='ignore')
 
 # Drop the redundant 'location' column
 df = df.drop(columns=['location'])
@@ -82,6 +98,7 @@ borough_freq.columns = ['borough', 'count']
 # Frequency table for 'zip_code' without filling missing values
 zip_code_freq = df['zip_code'].value_counts(dropna=False).reset_index()
 zip_code_freq.columns = ['zip_code', 'count']
+zip_code_freq
 ```
 
 A comprehensive list of ZIP codes by borough can be obtained, for
@@ -92,7 +109,7 @@ data.
 ```{python}
 # List of valid NYC ZIP codes compiled from UHF codes
 # Define all_valid_zips based on the earlier extracted ZIP codes
-all_valid_zips = [
+all_valid_zips = {
     10463, 10471, 10466, 10469, 10470, 10475, 10458, 10467, 10468,
     10461, 10462, 10464, 10465, 10472, 10473, 10453, 10457, 10460,
     10451, 10452, 10456, 10454, 10455, 10459, 10474, 11211, 11222,
@@ -113,18 +130,19 @@ all_valid_zips = [
     11422, 11426, 11427, 11428, 11429, 11691, 11692, 11693, 11694,
     11695, 11697, 10302, 10303, 10310, 10301, 10304, 10305, 10314,
     10306, 10307, 10308, 10309, 10312
-]
+}
 
-    
-# Calculate the frequency of invalid ZIP codes using all_valid_zips
-invalid_zip_freq_direct = (
-    df[~df['zip_code'].apply(lambda x: int(x) in all_valid_zips if pd.notnull(x) else False)]
-    ['zip_code']
-    .value_counts(dropna=False)
-    .reset_index()
-)
-invalid_zip_freq_direct.columns = ['zip_code', 'frequency']
-invalid_zip_freq_direct
+# Convert ZIP codes to numeric, invalid entries become NaN
+df['zip_code_numeric'] = pd.to_numeric(df['zip_code'], errors='coerce')
+
+# Identify invalid ZIP codes (including NaN)
+invalid_zips = df[df['zip_code_numeric'].isna() | ~df['zip_code_numeric'].isin(all_valid_zips)]['zip_code']
+
+# Calculate frequency of invalid ZIP codes
+invalid_zip_freq = invalid_zips.value_counts(dropna=False).reset_index()
+invalid_zip_freq.columns = ['zip_code', 'frequency']
+
+invalid_zip_freq
 ```
 
 
@@ -139,7 +157,7 @@ total_missing_borough = df['borough'].isnull().sum()
 
 # If missing in both columns always co-occur, the number of missing
 # co-occurrences should be equal to the total missing in either column
-[missing_cooccur, total_missing_zip_code, total_missing_borough]
+np.array([missing_cooccur, total_missing_zip_code, total_missing_borough])
 ```
 
 Are there cases where zip_code and borough are missing
@@ -261,7 +279,7 @@ df.to_feather('data/nyccrashes_cleaned.feather')
 import os
 
 # File paths
-csv_file = 'data/nyccrashes_2024w0630_by20240916.csv'
+csv_file = 'data/nyccrashes_2024w0630_by20250212.csv'
 feather_file = 'data/nyccrashes_cleaned.feather'
 
 # Get file sizes in bytes
