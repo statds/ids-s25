@@ -318,7 +318,7 @@ Please use the following table to sign up.
    02/10 |  Li, Shiyi     | A Primer of Markdown
    02/12 |  Jun, Joann     | Making Presentations with Quarto
    02/17 |  Roy, Luke William     | Grammar of Graphics with Plotnine
-   02/19 |  Lang, Lang     |
+   02/19 |  Lang, Lang     | Data manipulation with Pandas
    02/24 |  Ackerman, John     |
    02/26 |  Horn, Alyssa Noelle     |
    03/03 |  Xu, Peiwen     |
