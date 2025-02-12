@@ -244,20 +244,63 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="nyc-crash-data" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="nyc-crash-data"><span class="header-section-number">5.2</span> NYC Crash Data</h2>
-<p>Consider a subset of the NYC Crash Data, which contains all NYC motor vehicle collisions data with documentation from <a href="https://data.cityofnewyork.us/Public-Safety/Motor-Vehicle-Collisions-Crashes/h9gi-nx95">NYC Open Data</a>. We downloaded the crash data for the week of June 30, 2024, on September 16, 2024, in CSC format.</p>
-<div id="7ed47d1b" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the dataset</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>file_path <span class="op">=</span> <span class="st">'data/nyccrashes_2024w0630_by20240916.csv'</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(file_path)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace column names: convert to lowercase and replace spaces with underscores</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>df.columns <span class="op">=</span> df.columns.<span class="bu">str</span>.lower().<span class="bu">str</span>.replace(<span class="st">' '</span>, <span class="st">'_'</span>)</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the first few rows of the dataset to understand its structure</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Consider a subset of the NYC Crash Data, which contains all NYC motor vehicle collisions data with documentation from <a href="https://data.cityofnewyork.us/Public-Safety/Motor-Vehicle-Collisions-Crashes/h9gi-nx95">NYC Open Data</a>. We downloaded the crash data for the week of June 30, 2024, on February 12, 2025, in CSC format.</p>
+<div id="b3eb5a61" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the dataset</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>file_path <span class="op">=</span> <span class="st">'data/nyccrashes_2024w0630_by20250212.csv'</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(file_path,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>                 dtype<span class="op">=</span>{<span class="st">'LATITUDE'</span>: np.float32,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'LONGITUDE'</span>: np.float32,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'ZIP_CODE'</span>: <span class="bu">str</span>})</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace column names: convert to lowercase and replace spaces with underscores</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>df.columns <span class="op">=</span> df.columns.<span class="bu">str</span>.lower().<span class="bu">str</span>.replace(<span class="st">' '</span>, <span class="st">'_'</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert ZIP codes to strings, but handle missing values separately</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'zip_code'</span>] <span class="op">=</span> df[<span class="st">'zip_code'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="bu">str</span>(<span class="bu">int</span>(x)).zfill(<span class="dv">5</span>) <span class="cf">if</span> pd.notnull(x) <span class="cf">else</span> np.nan)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Check for missing values</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>df.isnull().<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
+<pre><code>crash_date                          0
+crash_time                          0
+borough                           542
+zip_code                          542
+latitude                          131
+longitude                         131
+location                          131
+on_street_name                    546
+cross_street_name                 932
+off_street_name                  1330
+number_of_persons_injured           0
+number_of_persons_killed            0
+number_of_pedestrians_injured       0
+number_of_pedestrians_killed        0
+number_of_cyclist_injured           0
+number_of_cyclist_killed            0
+number_of_motorist_injured          0
+number_of_motorist_killed           0
+contributing_factor_vehicle_1      11
+contributing_factor_vehicle_2     450
+contributing_factor_vehicle_3    1702
+contributing_factor_vehicle_4    1824
+contributing_factor_vehicle_5    1862
+collision_id                        0
+vehicle_type_code_1                33
+vehicle_type_code_2               645
+vehicle_type_code_3              1714
+vehicle_type_code_4              1828
+vehicle_type_code_5              1862
+dtype: int64</code></pre>
+</div>
+</div>
+<p>Take a peek at the first five rows:</p>
+<div id="a6415d65" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
 <div>
 
 
@@ -292,23 +335,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
 <td>06/30/2024</td>
-<td>17:30</td>
+<td>23:17</td>
+<td>BRONX</td>
+<td>10460</td>
+<td>40.838844</td>
+<td>-73.878166</td>
+<td>(40.838844, -73.87817)</td>
+<td>EAST 177 STREET</td>
+<td>DEVOE AVENUE</td>
 <td>NaN</td>
-<td>NaN</td>
-<td>0.00000</td>
-<td>0.00000</td>
-<td>(0.0, 0.0)</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>GOLD STREET</td>
 <td>...</td>
 <td>Unspecified</td>
 <td>NaN</td>
 <td>NaN</td>
 <td>NaN</td>
-<td>4736746</td>
+<td>4737486</td>
 <td>Sedan</td>
-<td>Sedan</td>
+<td>Pick-up Truck</td>
 <td>NaN</td>
 <td>NaN</td>
 <td>NaN</td>
@@ -316,23 +359,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
 <td>06/30/2024</td>
-<td>0:32</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>BELT PARKWAY RAMP</td>
-<td>NaN</td>
+<td>8:30</td>
+<td>BRONX</td>
+<td>10468</td>
+<td>40.862732</td>
+<td>-73.903328</td>
+<td>(40.862732, -73.90333)</td>
+<td>WEST FORDHAM ROAD</td>
+<td>GRAND AVENUE</td>
 <td>NaN</td>
 <td>...</td>
 <td>Unspecified</td>
 <td>NaN</td>
 <td>NaN</td>
 <td>NaN</td>
-<td>4736768</td>
-<td>Station Wagon/Sport Utility Vehicle</td>
-<td>Station Wagon/Sport Utility Vehicle</td>
+<td>4737502</td>
+<td>Sedan</td>
+<td>NaN</td>
 <td>NaN</td>
 <td>NaN</td>
 <td>NaN</td>
@@ -340,35 +383,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
 <td>06/30/2024</td>
-<td>7:05</td>
-<td>BROOKLYN</td>
-<td>11235.0</td>
-<td>40.58106</td>
-<td>-73.96744</td>
-<td>(40.58106, -73.96744)</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>2797 OCEAN PARKWAY</td>
-<td>...</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>4737060</td>
-<td>Station Wagon/Sport Utility Vehicle</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">3</td>
-<td>06/30/2024</td>
 <td>20:47</td>
 <td>NaN</td>
 <td>NaN</td>
-<td>40.76363</td>
-<td>-73.95330</td>
+<td>40.763630</td>
+<td>-73.953300</td>
 <td>(40.76363, -73.9533)</td>
 <td>FDR DRIVE</td>
 <td>NaN</td>
@@ -385,26 +404,50 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>NaN</td>
 <td>NaN</td>
 </tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>06/30/2024</td>
+<td>13:10</td>
+<td>BROOKLYN</td>
+<td>11234</td>
+<td>40.617031</td>
+<td>-73.919891</td>
+<td>(40.61703, -73.91989)</td>
+<td>EAST 57 STREET</td>
+<td>AVENUE O</td>
+<td>NaN</td>
+<td>...</td>
+<td>Driver Inattention/Distraction</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>4737499</td>
+<td>Sedan</td>
+<td>Sedan</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
 <td>06/30/2024</td>
-<td>10:14</td>
-<td>BROOKLYN</td>
-<td>11222.0</td>
-<td>40.73046</td>
-<td>-73.95149</td>
-<td>(40.73046, -73.95149)</td>
-<td>GREENPOINT AVENUE</td>
-<td>MC GUINNESS BOULEVARD</td>
+<td>16:42</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>33 STREET</td>
+<td>ASTORIA BOULEVARD</td>
 <td>NaN</td>
 <td>...</td>
 <td>Unspecified</td>
 <td>NaN</td>
 <td>NaN</td>
 <td>NaN</td>
-<td>4736759</td>
-<td>Bus</td>
-<td>Box Truck</td>
+<td>4736925</td>
+<td>Sedan</td>
+<td>Station Wagon/Sport Utility Vehicle</td>
 <td>NaN</td>
 <td>NaN</td>
 <td>NaN</td>
@@ -416,76 +459,190 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<p>A quick summary of the data types of the columns:</p>
+<div id="65bed551" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df.info()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
+RangeIndex: 1876 entries, 0 to 1875
+Data columns (total 29 columns):
+ #   Column                         Non-Null Count  Dtype  
+---  ------                         --------------  -----  
+ 0   crash_date                     1876 non-null   object 
+ 1   crash_time                     1876 non-null   object 
+ 2   borough                        1334 non-null   object 
+ 3   zip_code                       1334 non-null   object 
+ 4   latitude                       1745 non-null   float32
+ 5   longitude                      1745 non-null   float32
+ 6   location                       1745 non-null   object 
+ 7   on_street_name                 1330 non-null   object 
+ 8   cross_street_name              944 non-null    object 
+ 9   off_street_name                546 non-null    object 
+ 10  number_of_persons_injured      1876 non-null   int64  
+ 11  number_of_persons_killed       1876 non-null   int64  
+ 12  number_of_pedestrians_injured  1876 non-null   int64  
+ 13  number_of_pedestrians_killed   1876 non-null   int64  
+ 14  number_of_cyclist_injured      1876 non-null   int64  
+ 15  number_of_cyclist_killed       1876 non-null   int64  
+ 16  number_of_motorist_injured     1876 non-null   int64  
+ 17  number_of_motorist_killed      1876 non-null   int64  
+ 18  contributing_factor_vehicle_1  1865 non-null   object 
+ 19  contributing_factor_vehicle_2  1426 non-null   object 
+ 20  contributing_factor_vehicle_3  174 non-null    object 
+ 21  contributing_factor_vehicle_4  52 non-null     object 
+ 22  contributing_factor_vehicle_5  14 non-null     object 
+ 23  collision_id                   1876 non-null   int64  
+ 24  vehicle_type_code_1            1843 non-null   object 
+ 25  vehicle_type_code_2            1231 non-null   object 
+ 26  vehicle_type_code_3            162 non-null    object 
+ 27  vehicle_type_code_4            48 non-null     object 
+ 28  vehicle_type_code_5            14 non-null     object 
+dtypes: float32(2), int64(9), object(18)
+memory usage: 410.5+ KB</code></pre>
+</div>
+</div>
 <p>Now we can do some cleaning after a quick browse.</p>
-<div id="7e5da9f7" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace invalid coordinates (latitude=0, longitude=0 or NaN) with NaN</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df.loc[(df[<span class="st">'latitude'</span>] <span class="op">==</span> <span class="dv">0</span>) <span class="op">&amp;</span> (df[<span class="st">'longitude'</span>] <span class="op">==</span> <span class="dv">0</span>), </span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>       [<span class="st">'latitude'</span>, <span class="st">'longitude'</span>]] <span class="op">=</span> pd.NA</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'latitude'</span>] <span class="op">=</span> df[<span class="st">'latitude'</span>].replace(<span class="dv">0</span>, pd.NA)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'longitude'</span>] <span class="op">=</span> df[<span class="st">'longitude'</span>].replace(<span class="dv">0</span>, pd.NA)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Longitude/latitude don't need double precision</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'latitude'</span>] <span class="op">=</span> df[<span class="st">'latitude'</span>].astype(<span class="st">'float32'</span>, errors<span class="op">=</span><span class="st">'ignore'</span>)</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'longitude'</span>] <span class="op">=</span> df[<span class="st">'longitude'</span>].astype(<span class="st">'float32'</span>, errors<span class="op">=</span><span class="st">'ignore'</span>)</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop the redundant 'location' column</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.drop(columns<span class="op">=</span>[<span class="st">'location'</span>])</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Converting 'crash_date' and 'crash_time' columns into a single datetime column</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'crash_datetime'</span>] <span class="op">=</span> pd.to_datetime(df[<span class="st">'crash_date'</span>] <span class="op">+</span> <span class="st">' '</span> </span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>                       <span class="op">+</span> df[<span class="st">'crash_time'</span>], <span class="bu">format</span><span class="op">=</span><span class="st">'%m/</span><span class="sc">%d</span><span class="st">/%Y %H:%M'</span>, errors<span class="op">=</span><span class="st">'coerce'</span>)</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop the original 'crash_date' and 'crash_time' columns</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.drop(columns<span class="op">=</span>[<span class="st">'crash_date'</span>, <span class="st">'crash_time'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="abce2e43" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace invalid coordinates (latitude=0, longitude=0 or NaN) with NaN</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>df.loc[(df[<span class="st">'latitude'</span>] <span class="op">==</span> <span class="dv">0</span>) <span class="op">&amp;</span> (df[<span class="st">'longitude'</span>] <span class="op">==</span> <span class="dv">0</span>), </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>       [<span class="st">'latitude'</span>, <span class="st">'longitude'</span>]] <span class="op">=</span> pd.NA</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'latitude'</span>] <span class="op">=</span> df[<span class="st">'latitude'</span>].replace(<span class="dv">0</span>, pd.NA)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'longitude'</span>] <span class="op">=</span> df[<span class="st">'longitude'</span>].replace(<span class="dv">0</span>, pd.NA)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop the redundant 'location' column</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.drop(columns<span class="op">=</span>[<span class="st">'location'</span>])</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Converting 'crash_date' and 'crash_time' columns into a single datetime column</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'crash_datetime'</span>] <span class="op">=</span> pd.to_datetime(df[<span class="st">'crash_date'</span>] <span class="op">+</span> <span class="st">' '</span> </span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>                       <span class="op">+</span> df[<span class="st">'crash_time'</span>], <span class="bu">format</span><span class="op">=</span><span class="st">'%m/</span><span class="sc">%d</span><span class="st">/%Y %H:%M'</span>, errors<span class="op">=</span><span class="st">'coerce'</span>)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Drop the original 'crash_date' and 'crash_time' columns</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.drop(columns<span class="op">=</span>[<span class="st">'crash_date'</span>, <span class="st">'crash_time'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s get some basic frequency tables of <code>borough</code> and <code>zip_code</code>, whose values could be used to check their validity against the legitmate values.</p>
-<div id="2884dd24" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Frequency table for 'borough' without filling missing values</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>borough_freq <span class="op">=</span> df[<span class="st">'borough'</span>].value_counts(dropna<span class="op">=</span><span class="va">False</span>).reset_index()</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>borough_freq.columns <span class="op">=</span> [<span class="st">'borough'</span>, <span class="st">'count'</span>]</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Frequency table for 'zip_code' without filling missing values</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>zip_code_freq <span class="op">=</span> df[<span class="st">'zip_code'</span>].value_counts(dropna<span class="op">=</span><span class="va">False</span>).reset_index()</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>zip_code_freq.columns <span class="op">=</span> [<span class="st">'zip_code'</span>, <span class="st">'count'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="6c348a0f" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Frequency table for 'borough' without filling missing values</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>borough_freq <span class="op">=</span> df[<span class="st">'borough'</span>].value_counts(dropna<span class="op">=</span><span class="va">False</span>).reset_index()</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>borough_freq.columns <span class="op">=</span> [<span class="st">'borough'</span>, <span class="st">'count'</span>]</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Frequency table for 'zip_code' without filling missing values</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>zip_code_freq <span class="op">=</span> df[<span class="st">'zip_code'</span>].value_counts(dropna<span class="op">=</span><span class="va">False</span>).reset_index()</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>zip_code_freq.columns <span class="op">=</span> [<span class="st">'zip_code'</span>, <span class="st">'count'</span>]</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>zip_code_freq</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">zip_code</th>
+<th data-quarto-table-cell-role="th">count</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>NaN</td>
+<td>542</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>11207</td>
+<td>31</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>11208</td>
+<td>28</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>11236</td>
+<td>28</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>11101</td>
+<td>23</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">164</td>
+<td>10470</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">165</td>
+<td>11040</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">166</td>
+<td>11693</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">167</td>
+<td>11415</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">168</td>
+<td>10025</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+
+<p>169 rows × 2 columns</p>
+</div>
+</div>
 </div>
 <p>A comprehensive list of ZIP codes by borough can be obtained, for example, from <a href="https://www.nyc.gov/assets/doh/downloads/pdf/ah/zipcodetable.pdf">the New York City Department of Health’s UHF Codes</a>. We can use this list to check the validity of the zip codes in the data.</p>
-<div id="c95c2c37" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># List of valid NYC ZIP codes compiled from UHF codes</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Define all_valid_zips based on the earlier extracted ZIP codes</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>all_valid_zips <span class="op">=</span> [</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="dv">10463</span>, <span class="dv">10471</span>, <span class="dv">10466</span>, <span class="dv">10469</span>, <span class="dv">10470</span>, <span class="dv">10475</span>, <span class="dv">10458</span>, <span class="dv">10467</span>, <span class="dv">10468</span>,</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="dv">10461</span>, <span class="dv">10462</span>, <span class="dv">10464</span>, <span class="dv">10465</span>, <span class="dv">10472</span>, <span class="dv">10473</span>, <span class="dv">10453</span>, <span class="dv">10457</span>, <span class="dv">10460</span>,</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="dv">10451</span>, <span class="dv">10452</span>, <span class="dv">10456</span>, <span class="dv">10454</span>, <span class="dv">10455</span>, <span class="dv">10459</span>, <span class="dv">10474</span>, <span class="dv">11211</span>, <span class="dv">11222</span>,</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="dv">11201</span>, <span class="dv">11205</span>, <span class="dv">11215</span>, <span class="dv">11217</span>, <span class="dv">11231</span>, <span class="dv">11213</span>, <span class="dv">11212</span>, <span class="dv">11216</span>, <span class="dv">11233</span>,</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="dv">11238</span>, <span class="dv">11207</span>, <span class="dv">11208</span>, <span class="dv">11220</span>, <span class="dv">11232</span>, <span class="dv">11204</span>, <span class="dv">11218</span>, <span class="dv">11219</span>, <span class="dv">11230</span>,</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="dv">11203</span>, <span class="dv">11210</span>, <span class="dv">11225</span>, <span class="dv">11226</span>, <span class="dv">11234</span>, <span class="dv">11236</span>, <span class="dv">11239</span>, <span class="dv">11209</span>, <span class="dv">11214</span>,</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="dv">11228</span>, <span class="dv">11223</span>, <span class="dv">11224</span>, <span class="dv">11229</span>, <span class="dv">11235</span>, <span class="dv">11206</span>, <span class="dv">11221</span>, <span class="dv">11237</span>, <span class="dv">10031</span>,</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="dv">10032</span>, <span class="dv">10033</span>, <span class="dv">10034</span>, <span class="dv">10040</span>, <span class="dv">10026</span>, <span class="dv">10027</span>, <span class="dv">10030</span>, <span class="dv">10037</span>, <span class="dv">10039</span>,</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="dv">10029</span>, <span class="dv">10035</span>, <span class="dv">10023</span>, <span class="dv">10024</span>, <span class="dv">10025</span>, <span class="dv">10021</span>, <span class="dv">10028</span>, <span class="dv">10044</span>, <span class="dv">10128</span>,</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="dv">10001</span>, <span class="dv">10011</span>, <span class="dv">10018</span>, <span class="dv">10019</span>, <span class="dv">10020</span>, <span class="dv">10036</span>, <span class="dv">10010</span>, <span class="dv">10016</span>, <span class="dv">10017</span>,</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="dv">10022</span>, <span class="dv">10012</span>, <span class="dv">10013</span>, <span class="dv">10014</span>, <span class="dv">10002</span>, <span class="dv">10003</span>, <span class="dv">10009</span>, <span class="dv">10004</span>, <span class="dv">10005</span>,</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="dv">10006</span>, <span class="dv">10007</span>, <span class="dv">10038</span>, <span class="dv">10280</span>, <span class="dv">11101</span>, <span class="dv">11102</span>, <span class="dv">11103</span>, <span class="dv">11104</span>, <span class="dv">11105</span>,</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="dv">11106</span>, <span class="dv">11368</span>, <span class="dv">11369</span>, <span class="dv">11370</span>, <span class="dv">11372</span>, <span class="dv">11373</span>, <span class="dv">11377</span>, <span class="dv">11378</span>, <span class="dv">11354</span>,</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="dv">11355</span>, <span class="dv">11356</span>, <span class="dv">11357</span>, <span class="dv">11358</span>, <span class="dv">11359</span>, <span class="dv">11360</span>, <span class="dv">11361</span>, <span class="dv">11362</span>, <span class="dv">11363</span>,</span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    <span class="dv">11364</span>, <span class="dv">11374</span>, <span class="dv">11375</span>, <span class="dv">11379</span>, <span class="dv">11385</span>, <span class="dv">11365</span>, <span class="dv">11366</span>, <span class="dv">11367</span>, <span class="dv">11414</span>,</span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    <span class="dv">11415</span>, <span class="dv">11416</span>, <span class="dv">11417</span>, <span class="dv">11418</span>, <span class="dv">11419</span>, <span class="dv">11420</span>, <span class="dv">11421</span>, <span class="dv">11412</span>, <span class="dv">11423</span>,</span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    <span class="dv">11432</span>, <span class="dv">11433</span>, <span class="dv">11434</span>, <span class="dv">11435</span>, <span class="dv">11436</span>, <span class="dv">11004</span>, <span class="dv">11005</span>, <span class="dv">11411</span>, <span class="dv">11413</span>,</span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    <span class="dv">11422</span>, <span class="dv">11426</span>, <span class="dv">11427</span>, <span class="dv">11428</span>, <span class="dv">11429</span>, <span class="dv">11691</span>, <span class="dv">11692</span>, <span class="dv">11693</span>, <span class="dv">11694</span>,</span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    <span class="dv">11695</span>, <span class="dv">11697</span>, <span class="dv">10302</span>, <span class="dv">10303</span>, <span class="dv">10310</span>, <span class="dv">10301</span>, <span class="dv">10304</span>, <span class="dv">10305</span>, <span class="dv">10314</span>,</span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    <span class="dv">10306</span>, <span class="dv">10307</span>, <span class="dv">10308</span>, <span class="dv">10309</span>, <span class="dv">10312</span></span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the frequency of invalid ZIP codes using all_valid_zips</span></span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>invalid_zip_freq_direct <span class="op">=</span> (</span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>    df[<span class="op">~</span>df[<span class="st">'zip_code'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="bu">int</span>(x) <span class="kw">in</span> all_valid_zips <span class="cf">if</span> pd.notnull(x) <span class="cf">else</span> <span class="va">False</span>)]</span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>    [<span class="st">'zip_code'</span>]</span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>    .value_counts(dropna<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>    .reset_index()</span>
-<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>invalid_zip_freq_direct.columns <span class="op">=</span> [<span class="st">'zip_code'</span>, <span class="st">'frequency'</span>]</span>
-<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>invalid_zip_freq_direct</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="4">
+<div id="849028c9" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># List of valid NYC ZIP codes compiled from UHF codes</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Define all_valid_zips based on the earlier extracted ZIP codes</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>all_valid_zips <span class="op">=</span> {</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="dv">10463</span>, <span class="dv">10471</span>, <span class="dv">10466</span>, <span class="dv">10469</span>, <span class="dv">10470</span>, <span class="dv">10475</span>, <span class="dv">10458</span>, <span class="dv">10467</span>, <span class="dv">10468</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="dv">10461</span>, <span class="dv">10462</span>, <span class="dv">10464</span>, <span class="dv">10465</span>, <span class="dv">10472</span>, <span class="dv">10473</span>, <span class="dv">10453</span>, <span class="dv">10457</span>, <span class="dv">10460</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="dv">10451</span>, <span class="dv">10452</span>, <span class="dv">10456</span>, <span class="dv">10454</span>, <span class="dv">10455</span>, <span class="dv">10459</span>, <span class="dv">10474</span>, <span class="dv">11211</span>, <span class="dv">11222</span>,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="dv">11201</span>, <span class="dv">11205</span>, <span class="dv">11215</span>, <span class="dv">11217</span>, <span class="dv">11231</span>, <span class="dv">11213</span>, <span class="dv">11212</span>, <span class="dv">11216</span>, <span class="dv">11233</span>,</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="dv">11238</span>, <span class="dv">11207</span>, <span class="dv">11208</span>, <span class="dv">11220</span>, <span class="dv">11232</span>, <span class="dv">11204</span>, <span class="dv">11218</span>, <span class="dv">11219</span>, <span class="dv">11230</span>,</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="dv">11203</span>, <span class="dv">11210</span>, <span class="dv">11225</span>, <span class="dv">11226</span>, <span class="dv">11234</span>, <span class="dv">11236</span>, <span class="dv">11239</span>, <span class="dv">11209</span>, <span class="dv">11214</span>,</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="dv">11228</span>, <span class="dv">11223</span>, <span class="dv">11224</span>, <span class="dv">11229</span>, <span class="dv">11235</span>, <span class="dv">11206</span>, <span class="dv">11221</span>, <span class="dv">11237</span>, <span class="dv">10031</span>,</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="dv">10032</span>, <span class="dv">10033</span>, <span class="dv">10034</span>, <span class="dv">10040</span>, <span class="dv">10026</span>, <span class="dv">10027</span>, <span class="dv">10030</span>, <span class="dv">10037</span>, <span class="dv">10039</span>,</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="dv">10029</span>, <span class="dv">10035</span>, <span class="dv">10023</span>, <span class="dv">10024</span>, <span class="dv">10025</span>, <span class="dv">10021</span>, <span class="dv">10028</span>, <span class="dv">10044</span>, <span class="dv">10128</span>,</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="dv">10001</span>, <span class="dv">10011</span>, <span class="dv">10018</span>, <span class="dv">10019</span>, <span class="dv">10020</span>, <span class="dv">10036</span>, <span class="dv">10010</span>, <span class="dv">10016</span>, <span class="dv">10017</span>,</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    <span class="dv">10022</span>, <span class="dv">10012</span>, <span class="dv">10013</span>, <span class="dv">10014</span>, <span class="dv">10002</span>, <span class="dv">10003</span>, <span class="dv">10009</span>, <span class="dv">10004</span>, <span class="dv">10005</span>,</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="dv">10006</span>, <span class="dv">10007</span>, <span class="dv">10038</span>, <span class="dv">10280</span>, <span class="dv">11101</span>, <span class="dv">11102</span>, <span class="dv">11103</span>, <span class="dv">11104</span>, <span class="dv">11105</span>,</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    <span class="dv">11106</span>, <span class="dv">11368</span>, <span class="dv">11369</span>, <span class="dv">11370</span>, <span class="dv">11372</span>, <span class="dv">11373</span>, <span class="dv">11377</span>, <span class="dv">11378</span>, <span class="dv">11354</span>,</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    <span class="dv">11355</span>, <span class="dv">11356</span>, <span class="dv">11357</span>, <span class="dv">11358</span>, <span class="dv">11359</span>, <span class="dv">11360</span>, <span class="dv">11361</span>, <span class="dv">11362</span>, <span class="dv">11363</span>,</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    <span class="dv">11364</span>, <span class="dv">11374</span>, <span class="dv">11375</span>, <span class="dv">11379</span>, <span class="dv">11385</span>, <span class="dv">11365</span>, <span class="dv">11366</span>, <span class="dv">11367</span>, <span class="dv">11414</span>,</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    <span class="dv">11415</span>, <span class="dv">11416</span>, <span class="dv">11417</span>, <span class="dv">11418</span>, <span class="dv">11419</span>, <span class="dv">11420</span>, <span class="dv">11421</span>, <span class="dv">11412</span>, <span class="dv">11423</span>,</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    <span class="dv">11432</span>, <span class="dv">11433</span>, <span class="dv">11434</span>, <span class="dv">11435</span>, <span class="dv">11436</span>, <span class="dv">11004</span>, <span class="dv">11005</span>, <span class="dv">11411</span>, <span class="dv">11413</span>,</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    <span class="dv">11422</span>, <span class="dv">11426</span>, <span class="dv">11427</span>, <span class="dv">11428</span>, <span class="dv">11429</span>, <span class="dv">11691</span>, <span class="dv">11692</span>, <span class="dv">11693</span>, <span class="dv">11694</span>,</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    <span class="dv">11695</span>, <span class="dv">11697</span>, <span class="dv">10302</span>, <span class="dv">10303</span>, <span class="dv">10310</span>, <span class="dv">10301</span>, <span class="dv">10304</span>, <span class="dv">10305</span>, <span class="dv">10314</span>,</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    <span class="dv">10306</span>, <span class="dv">10307</span>, <span class="dv">10308</span>, <span class="dv">10309</span>, <span class="dv">10312</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert ZIP codes to numeric, invalid entries become NaN</span></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'zip_code_numeric'</span>] <span class="op">=</span> pd.to_numeric(df[<span class="st">'zip_code'</span>], errors<span class="op">=</span><span class="st">'coerce'</span>)</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Identify invalid ZIP codes (including NaN)</span></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>invalid_zips <span class="op">=</span> df[df[<span class="st">'zip_code_numeric'</span>].isna() <span class="op">|</span> <span class="op">~</span>df[<span class="st">'zip_code_numeric'</span>].isin(all_valid_zips)][<span class="st">'zip_code'</span>]</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate frequency of invalid ZIP codes</span></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>invalid_zip_freq <span class="op">=</span> invalid_zips.value_counts(dropna<span class="op">=</span><span class="va">False</span>).reset_index()</span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>invalid_zip_freq.columns <span class="op">=</span> [<span class="st">'zip_code'</span>, <span class="st">'frequency'</span>]</span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>invalid_zip_freq</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
 <div>
 
 
@@ -501,26 +658,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
 <td>NaN</td>
-<td>541</td>
+<td>542</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
-<td>10065.0</td>
+<td>10065</td>
 <td>7</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
-<td>11249.0</td>
+<td>11249</td>
 <td>4</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
-<td>10112.0</td>
+<td>10112</td>
 <td>1</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
-<td>11040.0</td>
+<td>11040</td>
 <td>1</td>
 </tr>
 </tbody>
@@ -530,59 +687,59 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>Are missing in zip code and borough always co-occur?</p>
-<div id="74e53ac3" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check if missing values in 'zip_code' and 'borough' always co-occur</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Count rows where both are missing</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>missing_cooccur <span class="op">=</span> df[[<span class="st">'zip_code'</span>, <span class="st">'borough'</span>]].isnull().<span class="bu">all</span>(axis<span class="op">=</span><span class="dv">1</span>).<span class="bu">sum</span>()</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Count total missing in 'zip_code' and 'borough', respectively</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>total_missing_zip_code <span class="op">=</span> df[<span class="st">'zip_code'</span>].isnull().<span class="bu">sum</span>()</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>total_missing_borough <span class="op">=</span> df[<span class="st">'borough'</span>].isnull().<span class="bu">sum</span>()</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># If missing in both columns always co-occur, the number of missing</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co"># co-occurrences should be equal to the total missing in either column</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>[missing_cooccur, total_missing_zip_code, total_missing_borough]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="5">
-<pre><code>[np.int64(541), np.int64(541), np.int64(541)]</code></pre>
+<div id="b0ec0fe4" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check if missing values in 'zip_code' and 'borough' always co-occur</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Count rows where both are missing</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>missing_cooccur <span class="op">=</span> df[[<span class="st">'zip_code'</span>, <span class="st">'borough'</span>]].isnull().<span class="bu">all</span>(axis<span class="op">=</span><span class="dv">1</span>).<span class="bu">sum</span>()</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Count total missing in 'zip_code' and 'borough', respectively</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>total_missing_zip_code <span class="op">=</span> df[<span class="st">'zip_code'</span>].isnull().<span class="bu">sum</span>()</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>total_missing_borough <span class="op">=</span> df[<span class="st">'borough'</span>].isnull().<span class="bu">sum</span>()</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co"># If missing in both columns always co-occur, the number of missing</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co"># co-occurrences should be equal to the total missing in either column</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>np.array([missing_cooccur, total_missing_zip_code, total_missing_borough])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>array([542, 542, 542])</code></pre>
 </div>
 </div>
 <p>Are there cases where zip_code and borough are missing but the geo codes are not missing? If so, fill in <code>zip_code</code> and <code>borough</code> using the geo codes by reverse geocoding.</p>
 <p>First make sure <code>geopy</code> is installed.</p>
 <pre class="shell"><code>pip install geopy</code></pre>
 <p>Now we use model <code>Nominatim</code> in package <code>geopy</code> to reverse geocode.</p>
-<div id="afbdc59a" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> geopy.geocoders <span class="im">import</span> Nominatim</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize the geocoder; the `user_agent` is your identifier </span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co"># when using the service. Be mindful not to crash the server</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co"># by unlimited number of queries, especially invalid code.</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>geolocator <span class="op">=</span> Nominatim(user_agent<span class="op">=</span><span class="st">"jyGeopyTry"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="2813e2b4" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> geopy.geocoders <span class="im">import</span> Nominatim</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize the geocoder; the `user_agent` is your identifier </span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co"># when using the service. Be mindful not to crash the server</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co"># by unlimited number of queries, especially invalid code.</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>geolocator <span class="op">=</span> Nominatim(user_agent<span class="op">=</span><span class="st">"jyGeopyTry"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We write a function to do the reverse geocoding given lattitude and longitude.</p>
-<div id="b1dd6b5d" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to fill missing zip_code</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_zip_code(latitude, longitude):</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>        location <span class="op">=</span> geolocator.reverse((latitude, longitude), timeout<span class="op">=</span><span class="dv">10</span>)</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> location:</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>            address <span class="op">=</span> location.raw[<span class="st">'address'</span>]</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>            zip_code <span class="op">=</span> address.get(<span class="st">'postcode'</span>, <span class="va">None</span>)</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> zip_code</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">None</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Error: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss"> for coordinates </span><span class="sc">{</span>latitude<span class="sc">}</span><span class="ss">, </span><span class="sc">{</span>longitude<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">None</span></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">finally</span>:</span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>        time.sleep(<span class="dv">1</span>)  <span class="co"># Delay to avoid overwhelming the service</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="1b3d79bf" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to fill missing zip_code</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_zip_code(latitude, longitude):</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>        location <span class="op">=</span> geolocator.reverse((latitude, longitude), timeout<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> location:</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>            address <span class="op">=</span> location.raw[<span class="st">'address'</span>]</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>            zip_code <span class="op">=</span> address.get(<span class="st">'postcode'</span>, <span class="va">None</span>)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> zip_code</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Error: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss"> for coordinates </span><span class="sc">{</span>latitude<span class="sc">}</span><span class="ss">, </span><span class="sc">{</span>longitude<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">finally</span>:</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>        time.sleep(<span class="dv">1</span>)  <span class="co"># Delay to avoid overwhelming the service</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s try it out:</p>
-<div id="6caa9916" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example usage</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>latitude <span class="op">=</span> <span class="fl">40.730610</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>longitude <span class="op">=</span> <span class="op">-</span><span class="fl">73.935242</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>get_zip_code(latitude, longitude)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="8">
+<div id="cadf4de6" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example usage</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>latitude <span class="op">=</span> <span class="fl">40.730610</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>longitude <span class="op">=</span> <span class="op">-</span><span class="fl">73.935242</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>get_zip_code(latitude, longitude)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
 <pre><code>'11101'</code></pre>
 </div>
 </div>
@@ -601,31 +758,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>First, ensure you have <code>pyarrow</code> installed on your computer (and preferrably, in your current virtual environment):</p>
 <pre class="shell"><code>pip install pyarrow</code></pre>
 <p>Feather is a fast, lightweight, and easy-to-use binary file format for storing data frames, optimized for speed and efficiency, particularly for IPC and data sharing between Python and R or Julia.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>df.to_feather(<span class="st">'data/nyccrashes_cleaned.feather'</span>)</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare the file sizes of the feather format and the CSV format</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co"># File paths</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>csv_file <span class="op">=</span> <span class="st">'data/nyccrashes_2024w0630_by20240916.csv'</span></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>feather_file <span class="op">=</span> <span class="st">'data/nyccrashes_cleaned.feather'</span></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Get file sizes in bytes</span></span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>csv_size <span class="op">=</span> os.path.getsize(csv_file)</span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>feather_size <span class="op">=</span> os.path.getsize(feather_file)</span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert bytes to a more readable format (e.g., MB)</span></span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>csv_size_mb <span class="op">=</span> csv_size <span class="op">/</span> (<span class="dv">1024</span> <span class="op">*</span> <span class="dv">1024</span>)</span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>feather_size_mb <span class="op">=</span> feather_size <span class="op">/</span> (<span class="dv">1024</span> <span class="op">*</span> <span class="dv">1024</span>)</span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the file sizes</span></span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"CSV file size: </span><span class="sc">{</span>csv_size_mb<span class="sc">:.2f}</span><span class="ss"> MB"</span>)</span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Feather file size: </span><span class="sc">{</span>feather_size_mb<span class="sc">:.2f}</span><span class="ss"> MB"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>df.to_feather(<span class="st">'data/nyccrashes_cleaned.feather'</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare the file sizes of the feather format and the CSV format</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co"># File paths</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>csv_file <span class="op">=</span> <span class="st">'data/nyccrashes_2024w0630_by20250212.csv'</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>feather_file <span class="op">=</span> <span class="st">'data/nyccrashes_cleaned.feather'</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Get file sizes in bytes</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>csv_size <span class="op">=</span> os.path.getsize(csv_file)</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>feather_size <span class="op">=</span> os.path.getsize(feather_file)</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert bytes to a more readable format (e.g., MB)</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>csv_size_mb <span class="op">=</span> csv_size <span class="op">/</span> (<span class="dv">1024</span> <span class="op">*</span> <span class="dv">1024</span>)</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>feather_size_mb <span class="op">=</span> feather_size <span class="op">/</span> (<span class="dv">1024</span> <span class="op">*</span> <span class="dv">1024</span>)</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the file sizes</span></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"CSV file size: </span><span class="sc">{</span>csv_size_mb<span class="sc">:.2f}</span><span class="ss"> MB"</span>)</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Feather file size: </span><span class="sc">{</span>feather_size_mb<span class="sc">:.2f}</span><span class="ss"> MB"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Read the feather file back in:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>dff <span class="op">=</span> pd.read_feather(<span class="st">"data/nyccrashes_cleaned.feather"</span>)</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>dff.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>dff <span class="op">=</span> pd.read_feather(<span class="st">"data/nyccrashes_cleaned.feather"</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>dff.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>
