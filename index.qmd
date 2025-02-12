@@ -80,6 +80,7 @@ used. Here is a list of data challenges that you may find useful:
 + If you work on sports analytics, you are welcome to submit a
 poster to [Connecticut Sports Analytics Symposium
 (CSAS) 2025](https://statds.org/events/csas2025/).
++ A good resource for sports analytics if [ScoreNetwork](https://scorenetwork.org).
 
 
 ## Adapting to Rapid Skill Acquisition
@@ -266,13 +267,15 @@ Talk to the professor about your topics. Here are some example tasks:
 + Markdown jumpstart
 + Effective data science communication
 + Import/Export data
-+ Data manipulation with Pandas
++ Data manipulation with `Pandas`
++ Using package `ace_tools`
 + Accessing US census data
 + Arrow as a cross-platform data format
++ Statistical analysis for proporations and rates
 + Database operation with Structured query language (SQL)
 + Grammer of graphics
 + Handling spatial data
-+ Spatial data with GeoPandas
++ Spatial data with `GeoPandas`
 + Visualize spatial data in a Google map
 + Animation
 + Support vector machine
