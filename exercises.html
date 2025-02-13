@@ -261,6 +261,7 @@ window.Quarto = {
 <ol type="a">
 <li>Use the filter from the website to download the crash data of the week of June 30, 2024 in CSV format; save it under a directory <code>data</code> with an informative name (e.g., <code>nyccrashes_2024w0630_by20240916.csv</code>); read the data into a Panda data frame with careful handling of the date time variables.</li>
 <li>Clean up the variable names. Use lower cases and replace spaces with underscores.</li>
+<li>Check the crash date and time to see if they really match the filter we intented. Remove the extra rows if needed.</li>
 <li>Get the basic summaries of each variables: missing percentage; descriptive statistics for continuous variables; frequency tables for discrete variables.</li>
 <li>Are their invalid <code>longitude</code> and <code>latitude</code> in the data? If so, replace them with <code>NA</code>.</li>
 <li>Are there <code>zip_code</code> values that are not legit NYC zip codes? If so, replace them with <code>NA</code>.</li>
