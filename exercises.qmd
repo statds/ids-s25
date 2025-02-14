@@ -112,6 +112,8 @@
     handling of the date time variables.
     a.  Clean up the variable names. Use lower cases and replace
     spaces with underscores.
+    a.  Check the crash date and time to see if they really match the
+   filter we intented. Remove the extra rows if needed.	
     a.  Get the basic summaries of each variables:
     missing percentage; descriptive statistics for continuous variables;
     frequency tables for discrete variables.
