@@ -224,6 +224,10 @@ Markdown.
   - Understand principles of coding documentation and readability while
     practicing their application
 + Zhang, Gaofei
+  - Gain confidence in using Git and GitHub for version control and collaboration.**  
+  - Develop a structured approach to data cleaning and preprocessing for complex datasets.**  
+  - Enhance skills in statistical modeling and machine learning techniques relevant to public health research.**  
+  - Improve efficiency in working with large-scale data using Python and SQL.**  
 + Kravette, Noah
   - Become better at program collaboration.
   - Become adept with git and github. 
