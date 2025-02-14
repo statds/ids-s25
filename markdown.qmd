@@ -1172,9 +1172,9 @@ Markdown is a simple yet powerful way to format text for documentation, blogging
 ### Further Readings
 
 1. [Markdown Cheet Sheet] [@cone2025markdown]: A quick reference to the Markdown syntax.
-2. [Quarto Markdown Basic](https://quarto.org/docs/authoring/markdown-basics.html): Markdown basic for Quarto.
-3. [GitHub Flavored Markdown (GFM)](https://github.github.com/gfm/): Markdown features specific to GitHub. 
-4. [Jupyter Notebook Markdown](https://pandoc.org/MANUAL.html#pandocs-markdown): Use Markdown for interactive data science.
+2. [Quarto Markdown Basic] [@dervieux2025markdown]: Markdown basic for Quarto.
+3. [GitHub Flavored Markdown (GFM)] [@macfarlane2019github]: Markdown features specific to GitHub. 
+4. [Jupyter Notebook Markdown] [@macfarlane2025pandoc]: Use Markdown for interactive data science.
 
 
 
