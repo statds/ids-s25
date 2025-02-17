@@ -329,14 +329,12 @@ Let's set up the query to request the ACS data, and process the
 returned data.
 ```{python}
 acs_data = c.acs5.get(
-    list(ACS_VARIABLES.keys()), {'for': 'zip code tabulation area:*'}
-)
+    list(ACS_VARIABLES.keys()), 
+    {'for': f'zip code tabulation area:{",".join(all_valid_zips)}'}
+    )
 
 # Convert to DataFrame
 df_acs = pd.DataFrame(acs_data)
-
-# Filter to valid ZIPs only
-df_acs = df_acs[df_acs["zip code tabulation area"].isin(all_valid_zips)]
 
 # Rename columns
 df_acs.rename(columns=ACS_VARIABLES, inplace=True)
