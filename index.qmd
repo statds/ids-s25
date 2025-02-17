@@ -323,7 +323,7 @@ Please use the following table to sign up.
    02/17 |  Roy, Luke William     | Grammar of Graphics with Plotnine
    02/19 |  Lang, Lang     | Data manipulation with Pandas
    02/24 |  Ackerman, John     |
-   02/26 |  Horn, Alyssa Noelle     |
+   02/26 |  Horn, Alyssa Noelle     | Database operation with Structured query language (SQL)
    03/03 |  Xu, Peiwen     |
    03/05 |  Schittina, Thomas     |
    03/10 |  Kline, Daniel Esteban     |
