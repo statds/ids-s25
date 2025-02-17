@@ -1,13 +1,11 @@
 ## A Primer of Markdown
 
-This section was prepared by Shiyi Li.
+This section was prepared by Shiyi Li. (Add more to introduce yourself)
 
 
 ### Introduction
 
 Hi! I am Shiyi Li. I am currently a senior majoring in Math/Stat and aiming to graduate in August this year. Today's presentation, I will introduce some basic syntax on markdown. Markdown is a plain text format, an easy way to write content for a web interface. It is widely used in open-source documentation, including GitHub, R Markdown, Quarto, Jupyter Notebooks, etc. Its syntax is easy to learn, write, read, and seamlessly convert to HTML, PDF, and DOCX formats. I will divide my presentation into three parts, Structuring the Document, Formatting Text, and Enhancing Content.
-
-\
 
 ### Structuring the Document
 
@@ -35,7 +33,7 @@ You can code like this:
 ###### Heading 6
 ```
 
-- This will create a structural context for you, like this:
+- This will create a structural context for you, like this:   (找到可以只显示结果的方法，但不影响整个introduction section 的structure。)
 
 # Heading 1 (Main Title)
 
@@ -49,11 +47,9 @@ You can code like this:
 
 ###### Heading 6
 
-\
 
 > Be careful, you need to make sure that there is a blank line before and after your heading levels and a space between your number sign "#" and the heading name.
 
-\
 
 2. Alternatively, you can also use any number of double equal sign, "==", or double dashes sign, "--", to create a heading.
 
@@ -75,11 +71,9 @@ Heading 1 (Main Title)
 Heading 2 (Section)
 ------
 
-\
 
 > However, this method can only be used to create two heading levels like above.
 
-\
 
 #### Horizontal Rules - line Seperator
 
@@ -120,11 +114,9 @@ _________
 
 This is the part 4.
 
-\
 
 > Be careful. You need to make sure you add a blank line before and after your separator line.
 
-\
 
 #### Paragraphs
 
@@ -158,7 +150,6 @@ This is the second paragraph ...................................................
 .....................................................................
 ...end the second paragraph.
 
-\
 
 #### Blockquotes
 
@@ -224,11 +215,9 @@ You can code like this:
 >>
 >>> This is a quotation.
 
-\
 
 ***Be sure to add a blank line before the first line of your blockquotes, otherwise, it will not look right.***
 
-\
 
 ### Formatting Text
 
@@ -266,11 +255,9 @@ This is the **fourth important** text.
 
 This is the fifth im**portan**t text.
 
-\
 
 > Be careful do not use underscores, "__", to bold charachers inside a word, like this "This is the fifth im__portan__t text".***
 
-\
 
 #### Italic
 
@@ -304,11 +291,9 @@ This is the *fourth ImportanT* text.
 
 Fifth im*PORtaN*t text.
 
-\
 
 > Be careful don't use underscores, "_", to italicize charachers inside a word, like this "Fifth im_porta_nt text".
 
-\
 
 #### Bold & Italic
 
@@ -342,11 +327,9 @@ This is the ***fourth important*** text.
 
 Fifth i***mportan***t text.
 
-\
 
 > Be careful don't use underscores, "\___", to bold and italicize charachers inside a word, like this "Fifth im\___porta\___nt text".
 
-\
 
 #### Highlight
 
@@ -368,7 +351,6 @@ This is a te<mark>xt that needs to be high</mark>lighted.
 
 This is a te<mark>xt that needs to be high</mark>lighted.
 
-\
 
 #### Strikethrough - Deleted or Removed Text
 
@@ -386,7 +368,6 @@ You can code like this:
 
 ~~This text is struck through~~ This is the correct text.
 
-\
 
 ### Enhancing Content
 
@@ -436,11 +417,9 @@ This is a subscript within a number:
 
 999~subscript~999
 
-\
 
 > Be sure not to add any spaces or tabs between the two tilde symbols, "~   ~".
 
-\
 
 #### Superscript
 
@@ -486,17 +465,14 @@ This is a superscript within a number:
 
 999^superscript^999
 
-\
 
 > Be sure not to add any spaces or tabs between the two caret symbols, "^...^".
 
-\
 
 #### Lists
 
 To organize a list (nested list), you can use ordered or unordered numbers or alphabets followed by a period sign, ".", dashes, "-", asterisks, "*", or plus signs, "+", in front of line items. Markdown is smart, it will automatically detect and organize a list for you.
 
-\
 
 **1. Using Ordered numbers followed by a period sign:**
 
@@ -522,7 +498,6 @@ Using Ordered numbers followed by a period sign:
     2. Fourth item
 3. Fifth item
 
-\
 
 **2. Using Unordered numbers followed by a period sign:**
 
@@ -561,11 +536,9 @@ Using Unordered numbers followed by a period sign:
     2. Fourth item
 10. Fifth item
 
-\
 
 > Be careful, for an unordered list to work as you want, you need to take care of the first number or letter of the first item of your (nested) list, because markdown will order the list starting with the first number or alphabet of your (nested) list.
 
-\
 
 **3. Using dashes:**
 
@@ -592,7 +565,6 @@ Using dashes:
     - Fourth item
 - Fifth item
 
-\
 
 **4. Using asterisks:**
 
@@ -619,7 +591,6 @@ Using asterisks:
     * Fourth item
 * Fifth item
 
-\
 
 **5. Using plus signs:**
 
@@ -646,7 +617,6 @@ Using plus signs:
     + Fourth item
 + Fifth item
 
-\
 
 **6. Using alphabets:**
 
@@ -685,7 +655,6 @@ a. Second item
     y. Fourth item
 a. Fifth item
 
-\
 
 **7. Using different delimiters:**
 
@@ -712,7 +681,6 @@ Using different delimiters:
     + Fourth item
 * Fifth item
 
-\
 
 > Using different delimiters in the same list has no effect on the list organized by markdown.
 >
@@ -720,7 +688,6 @@ Using different delimiters:
 >
 > You can also use a backslash, "\", to escape a period, ".", if you do not want to create a list and still need a period after a number or alphabet.
 
-\
 
 #### Task Lists - To-Do List
 
@@ -740,11 +707,9 @@ You can code like this:
 - [ ] Task not completed
 - [x] Task completed
 
-\
 
 > In your rendered HTML file, you can check or uncheck the completion marks in the small box at the front of each task.
 
-\
 
 #### Links
 
@@ -763,7 +728,6 @@ basic-syntax/#code-blocks) to learn more generally used markdown syntax.
 
 We can use the [Markdown Cheat Sheet](https://www.markdownguide.org/basic-syntax/#code-blocks) to learn more generally used markdown syntax. 
 
-\
 
 2. You can add an Reference Style Link by enclosing the name or description of the link and a number/word pointed to the link with brackets, "[]".
 
@@ -784,11 +748,9 @@ We can use the [Markdown Cheat Sheet][4] to learn more generally used markdown s
 
 [4]: https://www.markdownguide.org/basic-syntax/#code-blocks
 
-\
 
 > Remember to start a new line and add the link as a footnote after the number or word pointed to the reference enclosed by brackets, "[]".
 
-\
 
 #### Images
 
@@ -810,7 +772,6 @@ Desktop/UCONN.jpg)
 
 ![This is a description to an online image.](https://today.uconn.edu/wp-content/uploads/2023/01/snow220108a084-1536x1023.jpg)
 
-\
 
 #### Tables
 
@@ -841,11 +802,9 @@ You can code like this:
 
 ```
 
-\
 
 - This code chunk will output like this:
 
-\
 
 1. Each cell with the same width in code chunk:
 
@@ -856,7 +815,6 @@ You can code like this:
 | 3rd Row    |     123       |     123       |      123      |    123    |
 | ......     |     123       |     123       |      123      |    123    |
 
-\
 2. Each cell with vary width in code chunk:
 
 |            | 1st Column | 2nd Column | 3rd Column | ...... |
@@ -866,11 +824,9 @@ You can code like this:
 | 3rd Row  |      123      |      123      |     123       |    123    |
 | ......         |      123      |     123       |      123      |    123    |
 
-\
 
 > Cell width can vary, because markdown will automatically detect and organize the table for you with the same width.***
 
-\
 
 3. You can align text in the columns to the left, right, or center by adding a colon, ":", to the left, right, or on both side of the hyphens, "---", within the header [@cone2025markdown]. 
 
@@ -896,7 +852,6 @@ You can code like this:
 | 3rd Row    |     123       |123            |     123       |   123     |
 | ......     |   123         |            123| 123           |123        |
 
-\
 
 #### Code
 
@@ -1040,7 +995,6 @@ You can code like this:
 print("This is a Python code chunk.")
 ```
 
-\
 
 > If you add just "#| eval: true" to your code chunk, this code chunk will execute the commands as usual and output the results.
 >
@@ -1048,7 +1002,6 @@ print("This is a Python code chunk.")
 >
 > If you just add "#| output: false" to your code chunk, then the commands in your code chunk will be displayed as usual in the rendered output, but the result of your code chunk will not be displayed.
 
-\
 
 #### Math Notation - Using LaTeX in Markdown
 
@@ -1070,11 +1023,9 @@ This is a quadratic equation, $ax^2+bx+c=0$.
 
 This is a quadratic equation roots formula, $x = {(-b \pm \sqrt{b^2-4ac})}/{2b}$.
 
-\
 
 > In an inline math equation, make sure you use the division symbol instead of "\\frac{}{}".
 
-\
 
 2. You can center an math equation by adding double dollar signs, "$$", before and after the math equation.
 
@@ -1106,13 +1057,11 @@ $$
 x = {(-b \pm \sqrt{b^2-4ac})}/{2b}.
 $$
 
-\
 
 > Be careful not to add punctuation before a centered math equation.
 >
 > If you want to add a period after a centered math equation, make sure you add it after the end of the math equation and before the second double dollar sign, "$$".
 
-\
 
 #### Footnotes
 
@@ -1153,7 +1102,6 @@ This is a body paragraph, and I have two notes [^short_footnotes] want to add he
     ```
     This is the end of this footnote.
 
-\
 
 > Clicking on the footnote number in the body content, will take you to the location where the footnote exists in the document.
 >
@@ -1161,13 +1109,11 @@ This is a body paragraph, and I have two notes [^short_footnotes] want to add he
 >
 >> In the rendered HTML file, each footnote displayed at the end of the document is followed by a link that, when clicked, takes you back to the specific location of the footnote in your body content. You can also move your mouse over the footnote number in the body content, and the content of the footnote will automatically appear below the footnote number.
 
-\
 
 ### Conclusion
 
 Markdown is a simple yet powerful way to format text for documentation, blogging, and technical writing. With its easy-to-read syntax, you can structure documents, highlight key points, and present data effectively. It’s widely used in open-source projects, academic writing, and web content due to its flexibility and seamless conversion to HTML, PDF, and DOCX. Mastering Markdown can help you create clear, well-organized content with minimal effort. 
 
-\
 
 ### Further Readings
 
