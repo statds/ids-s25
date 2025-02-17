@@ -203,7 +203,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">5.1</span> Introduction</a></li>
   <li><a href="#nyc-crash-data" id="toc-nyc-crash-data" class="nav-link" data-scroll-target="#nyc-crash-data"><span class="header-section-number">5.2</span> NYC Crash Data</a></li>
-  <li><a href="#cross-platform-data-format-arrow" id="toc-cross-platform-data-format-arrow" class="nav-link" data-scroll-target="#cross-platform-data-format-arrow"><span class="header-section-number">5.3</span> Cross-platform Data Format <code>Arrow</code></a></li>
+  <li><a href="#accessing-census-data" id="toc-accessing-census-data" class="nav-link" data-scroll-target="#accessing-census-data"><span class="header-section-number">5.3</span> Accessing Census Data</a>
+  <ul class="collapse">
+  <li><a href="#python-tools-for-accessing-census-data" id="toc-python-tools-for-accessing-census-data" class="nav-link" data-scroll-target="#python-tools-for-accessing-census-data"><span class="header-section-number">5.3.1</span> Python Tools for Accessing Census Data</a></li>
+  <li><a href="#zip-code-level-for-nyc-crash-data" id="toc-zip-code-level-for-nyc-crash-data" class="nav-link" data-scroll-target="#zip-code-level-for-nyc-crash-data"><span class="header-section-number">5.3.2</span> Zip-Code Level for NYC Crash Data</a></li>
+  </ul></li>
+  <li><a href="#cross-platform-data-format-arrow" id="toc-cross-platform-data-format-arrow" class="nav-link" data-scroll-target="#cross-platform-data-format-arrow"><span class="header-section-number">5.4</span> Cross-platform Data Format <code>Arrow</code></a></li>
   </ul>
 </nav>
     </div>
@@ -245,7 +250,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="nyc-crash-data" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="nyc-crash-data"><span class="header-section-number">5.2</span> NYC Crash Data</h2>
 <p>Consider a subset of the NYC Crash Data, which contains all NYC motor vehicle collisions data with documentation from <a href="https://data.cityofnewyork.us/Public-Safety/Motor-Vehicle-Collisions-Crashes/h9gi-nx95">NYC Open Data</a>. We downloaded the crash data for the week of June 30, 2024, on February 12, 2025, in CSC format.</p>
-<div id="b3eb5a61" class="cell" data-execution_count="1">
+<div id="1cde58ef" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -254,16 +259,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(file_path,</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>                 dtype<span class="op">=</span>{<span class="st">'LATITUDE'</span>: np.float32,</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'LONGITUDE'</span>: np.float32,</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'ZIP_CODE'</span>: <span class="bu">str</span>})</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'ZIP CODE'</span>: <span class="bu">str</span>})</span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace column names: convert to lowercase and replace spaces with underscores</span></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>df.columns <span class="op">=</span> df.columns.<span class="bu">str</span>.lower().<span class="bu">str</span>.replace(<span class="st">' '</span>, <span class="st">'_'</span>)</span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert ZIP codes to strings, but handle missing values separately</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'zip_code'</span>] <span class="op">=</span> df[<span class="st">'zip_code'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="bu">str</span>(<span class="bu">int</span>(x)).zfill(<span class="dv">5</span>) <span class="cf">if</span> pd.notnull(x) <span class="cf">else</span> np.nan)</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Check for missing values</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>df.isnull().<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Check for missing values</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>df.isnull().<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
 <pre><code>crash_date                          0
 crash_time                          0
@@ -298,7 +300,7 @@ dtype: int64</code></pre>
 </div>
 </div>
 <p>Take a peek at the first five rows:</p>
-<div id="a6415d65" class="cell" data-execution_count="2">
+<div id="887bcf2c" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <div>
@@ -460,7 +462,7 @@ dtype: int64</code></pre>
 </div>
 </div>
 <p>A quick summary of the data types of the columns:</p>
-<div id="65bed551" class="cell" data-execution_count="3">
+<div id="f541d259" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df.info()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
@@ -502,7 +504,7 @@ memory usage: 410.5+ KB</code></pre>
 </div>
 </div>
 <p>Now we can do some cleaning after a quick browse.</p>
-<div id="abce2e43" class="cell" data-execution_count="4">
+<div id="45df5540" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace invalid coordinates (latitude=0, longitude=0 or NaN) with NaN</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>df.loc[(df[<span class="st">'latitude'</span>] <span class="op">==</span> <span class="dv">0</span>) <span class="op">&amp;</span> (df[<span class="st">'longitude'</span>] <span class="op">==</span> <span class="dv">0</span>), </span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>       [<span class="st">'latitude'</span>, <span class="st">'longitude'</span>]] <span class="op">=</span> pd.NA</span>
@@ -520,7 +522,7 @@ memory usage: 410.5+ KB</code></pre>
 <span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.drop(columns<span class="op">=</span>[<span class="st">'crash_date'</span>, <span class="st">'crash_time'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s get some basic frequency tables of <code>borough</code> and <code>zip_code</code>, whose values could be used to check their validity against the legitmate values.</p>
-<div id="6c348a0f" class="cell" data-execution_count="5">
+<div id="73a3a4a5" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Frequency table for 'borough' without filling missing values</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>borough_freq <span class="op">=</span> df[<span class="st">'borough'</span>].value_counts(dropna<span class="op">=</span><span class="va">False</span>).reset_index()</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>borough_freq.columns <span class="op">=</span> [<span class="st">'borough'</span>, <span class="st">'count'</span>]</span>
@@ -605,7 +607,7 @@ memory usage: 410.5+ KB</code></pre>
 </div>
 </div>
 <p>A comprehensive list of ZIP codes by borough can be obtained, for example, from <a href="https://www.nyc.gov/assets/doh/downloads/pdf/ah/zipcodetable.pdf">the New York City Department of Health’s UHF Codes</a>. We can use this list to check the validity of the zip codes in the data.</p>
-<div id="849028c9" class="cell" data-execution_count="6">
+<div id="723efe0d" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># List of valid NYC ZIP codes compiled from UHF codes</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Define all_valid_zips based on the earlier extracted ZIP codes</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>all_valid_zips <span class="op">=</span> {</span>
@@ -635,13 +637,15 @@ memory usage: 410.5+ KB</code></pre>
 <span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'zip_code_numeric'</span>] <span class="op">=</span> pd.to_numeric(df[<span class="st">'zip_code'</span>], errors<span class="op">=</span><span class="st">'coerce'</span>)</span>
 <span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Identify invalid ZIP codes (including NaN)</span></span>
-<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>invalid_zips <span class="op">=</span> df[df[<span class="st">'zip_code_numeric'</span>].isna() <span class="op">|</span> <span class="op">~</span>df[<span class="st">'zip_code_numeric'</span>].isin(all_valid_zips)][<span class="st">'zip_code'</span>]</span>
-<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate frequency of invalid ZIP codes</span></span>
-<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>invalid_zip_freq <span class="op">=</span> invalid_zips.value_counts(dropna<span class="op">=</span><span class="va">False</span>).reset_index()</span>
-<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>invalid_zip_freq.columns <span class="op">=</span> [<span class="st">'zip_code'</span>, <span class="st">'frequency'</span>]</span>
-<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>invalid_zip_freq</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>invalid_zips <span class="op">=</span> df[</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">'zip_code_numeric'</span>].isna() <span class="op">|</span> <span class="op">~</span>df[<span class="st">'zip_code_numeric'</span>].isin(all_valid_zips)</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>    ][<span class="st">'zip_code'</span>]</span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate frequency of invalid ZIP codes</span></span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>invalid_zip_freq <span class="op">=</span> invalid_zips.value_counts(dropna<span class="op">=</span><span class="va">False</span>).reset_index()</span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>invalid_zip_freq.columns <span class="op">=</span> [<span class="st">'zip_code'</span>, <span class="st">'frequency'</span>]</span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>invalid_zip_freq</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <div>
 
@@ -687,7 +691,7 @@ memory usage: 410.5+ KB</code></pre>
 </div>
 </div>
 <p>Are missing in zip code and borough always co-occur?</p>
-<div id="b0ec0fe4" class="cell" data-execution_count="7">
+<div id="c983601b" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check if missing values in 'zip_code' and 'borough' always co-occur</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Count rows where both are missing</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>missing_cooccur <span class="op">=</span> df[[<span class="st">'zip_code'</span>, <span class="st">'borough'</span>]].isnull().<span class="bu">all</span>(axis<span class="op">=</span><span class="dv">1</span>).<span class="bu">sum</span>()</span>
@@ -706,7 +710,7 @@ memory usage: 410.5+ KB</code></pre>
 <p>First make sure <code>geopy</code> is installed.</p>
 <pre class="shell"><code>pip install geopy</code></pre>
 <p>Now we use model <code>Nominatim</code> in package <code>geopy</code> to reverse geocode.</p>
-<div id="2813e2b4" class="cell" data-execution_count="8">
+<div id="44d5dd00" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> geopy.geocoders <span class="im">import</span> Nominatim</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -716,7 +720,7 @@ memory usage: 410.5+ KB</code></pre>
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>geolocator <span class="op">=</span> Nominatim(user_agent<span class="op">=</span><span class="st">"jyGeopyTry"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We write a function to do the reverse geocoding given lattitude and longitude.</p>
-<div id="1b3d79bf" class="cell" data-execution_count="9">
+<div id="a53ac81c" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to fill missing zip_code</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_zip_code(latitude, longitude):</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
@@ -734,7 +738,7 @@ memory usage: 410.5+ KB</code></pre>
 <span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>        time.sleep(<span class="dv">1</span>)  <span class="co"># Delay to avoid overwhelming the service</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s try it out:</p>
-<div id="cadf4de6" class="cell" data-execution_count="10">
+<div id="882c88ea" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example usage</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>latitude <span class="op">=</span> <span class="fl">40.730610</span></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>longitude <span class="op">=</span> <span class="op">-</span><span class="fl">73.935242</span></span>
@@ -746,8 +750,224 @@ memory usage: 410.5+ KB</code></pre>
 <p>The function <code>get_zip_code</code> can then be applied to rows where zip code is missing but geocodes are not to fill the missing zip code.</p>
 <p>Once zip code is known, figuring out <code>burough</code> is simple because valid zip codes from each borough are known.</p>
 </section>
-<section id="cross-platform-data-format-arrow" class="level2" data-number="5.3">
-<h2 data-number="5.3" class="anchored" data-anchor-id="cross-platform-data-format-arrow"><span class="header-section-number">5.3</span> Cross-platform Data Format <code>Arrow</code></h2>
+<section id="accessing-census-data" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="accessing-census-data"><span class="header-section-number">5.3</span> Accessing Census Data</h2>
+<p>The U.S. Census Bureau provides extensive demographic, economic, and social data through multiple surveys, including the decennial Census, the American Community Survey (ACS), and the Economic Census. These datasets offer valuable insights into population trends, economic conditions, and community characteristics at multiple geographic levels.</p>
+<p>There are several ways to access Census data:</p>
+<ul>
+<li><strong>Census API</strong>: The <a href="https://www.census.gov/data/developers/data-sets.html">Census API</a> allows programmatic access to various datasets. It supports queries for different geographic levels and time periods.</li>
+<li><strong>data.census.gov</strong>: The official <a href="https://data.census.gov/">web interface</a> for searching and downloading Census data.</li>
+<li><strong>IPUMS USA</strong>: Provides harmonized microdata for longitudinal research. Available at <a href="https://usa.ipums.org/usa/">IPUMS USA</a>.</li>
+<li><strong>NHGIS</strong>: Offers historical Census data with geographic information. Visit <a href="https://www.nhgis.org/">NHGIS</a>.</li>
+</ul>
+<p>In addition, Python tools simplify API access and data retrieval.</p>
+<section id="python-tools-for-accessing-census-data" class="level3" data-number="5.3.1">
+<h3 data-number="5.3.1" class="anchored" data-anchor-id="python-tools-for-accessing-census-data"><span class="header-section-number">5.3.1</span> Python Tools for Accessing Census Data</h3>
+<p>Several Python libraries facilitate Census data retrieval:</p>
+<ul>
+<li><code>censusapi</code>: The <a href="https://github.com/uscensusbureau/census-api">official API wrapper</a> for direct access to Census datasets.</li>
+<li><code>census</code>: A high-level interface to the Census API, supporting ACS and decennial Census queries. See <a href="https://pypi.org/project/census/">census on PyPI</a>.</li>
+<li><code>censusdata</code>: A package for downloading and processing Census data directly in Python. Available at <a href="https://jtleider.github.io/censusdata/">censusdata documentation</a>.</li>
+<li><code>uszipcode</code>: A library for retrieving Census and geographic information by ZIP code. See <a href="https://pypi.org/project/uszipcode/">uszipcode on PyPI</a>.</li>
+</ul>
+</section>
+<section id="zip-code-level-for-nyc-crash-data" class="level3" data-number="5.3.2">
+<h3 data-number="5.3.2" class="anchored" data-anchor-id="zip-code-level-for-nyc-crash-data"><span class="header-section-number">5.3.2</span> Zip-Code Level for NYC Crash Data</h3>
+<p>Now that we have NYC crash data, we might want to analyze patterns at the zip-code level to understand whether certain demographic or economic factors correlate with traffic incidents. While the crash dataset provides details about individual accidents, such as location, time, and severity, it does not contain contextual information about the neighborhoods where these crashes occur.</p>
+<p>To perform meaningful zip-code-level analysis, we need additional data sources that provide relevant demographic, economic, and geographic variables. For example, understanding whether high-income areas experience fewer accidents, or whether population density influences crash frequency, requires integrating Census data. Key variables such as population size, median household income, employment rate, and population density can provide valuable context for interpreting crash trends across different zip codes.</p>
+<p>Since the Census Bureau provides detailed estimates for these variables at the zip-code level, we can use the Census API or other tools to retrieve relevant data and merge it with the NYC crash dataset. To access the Census API, you need an API key, which is free and easy to obtain. Visit the <a href="https://api.census.gov/data/key_signup.html">Census API Request page</a> and submit your email address to receive a key. Once you have the key, you must include it in your API requests to access Census data. The following demonstration assumes that you have registered, obtained your API key, and saved it in a file called <code>censusAPIkey.txt</code>.</p>
+<div id="ba288970" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import modules</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> census <span class="im">import</span> Census</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> us <span class="im">import</span> states</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> io</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">"censusAPIkey.txt"</span>) <span class="im">as</span> f:</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    api_key <span class="op">=</span> f.read().strip()</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> Census(api_key)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Suppose that we want to get some basic info from ACS data of the year of 2023 for all the NYC zip codes.</p>
+<div id="b8ae186c" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>ACS_YEAR <span class="op">=</span> <span class="dv">2023</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>ACS_DATASET <span class="op">=</span> <span class="st">"acs/acs5"</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Important ACS variables (including land area for density calculation)</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>ACS_VARIABLES <span class="op">=</span> {</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"B01003_001E"</span>: <span class="st">"Total Population"</span>,</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"B19013_001E"</span>: <span class="st">"Median Household Income"</span>,</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"B02001_002E"</span>: <span class="st">"White Population"</span>,</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"B02001_003E"</span>: <span class="st">"Black Population"</span>,</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"B02001_005E"</span>: <span class="st">"Asian Population"</span>,</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"B15003_022E"</span>: <span class="st">"Bachelor’s Degree Holders"</span>,</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"B15003_025E"</span>: <span class="st">"Graduate Degree Holders"</span>,</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"B23025_002E"</span>: <span class="st">"Labor Force"</span>,</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"B23025_005E"</span>: <span class="st">"Unemployed"</span>,</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"B25077_001E"</span>: <span class="st">"Median Home Value"</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert set to list of strings</span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>all_valid_zips <span class="op">=</span> <span class="bu">list</span>(<span class="bu">map</span>(<span class="bu">str</span>, all_valid_zips))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s set up the query to request the ACS data, and process the returned data.</p>
+<div id="0b9937fb" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>acs_data <span class="op">=</span> c.acs5.get(</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">list</span>(ACS_VARIABLES.keys()), {<span class="st">'for'</span>: <span class="st">'zip code tabulation area:*'</span>}</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to DataFrame</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>df_acs <span class="op">=</span> pd.DataFrame(acs_data)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter to valid ZIPs only</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>df_acs <span class="op">=</span> df_acs[df_acs[<span class="st">"zip code tabulation area"</span>].isin(all_valid_zips)]</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Rename columns</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>df_acs.rename(columns<span class="op">=</span>ACS_VARIABLES, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>df_acs.rename(columns<span class="op">=</span>{<span class="st">"zip code tabulation area"</span>: <span class="st">"ZIP Code"</span>}, inplace<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The population density could be an important factor for crash likelihood. To obtain the population densities, we need the areas of the zip codes. The shape files can be obtained from NYC Open Data.</p>
+<div id="f347b33a" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> zipfile</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the NYC MODZCTA shapefile URL and extraction directory</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>shapefile_url <span class="op">=</span> <span class="st">"https://data.cityofnewyork.us/api/geospatial/pri4-ifjk?method=export&amp;format=Shapefile"</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>extract_dir <span class="op">=</span> <span class="st">"MODZCTA_Shapefile"</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the directory if it doesn't exist</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>os.makedirs(extract_dir, exist_ok<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 1: Download and extract the shapefile</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Downloading MODZCTA shapefile..."</span>)</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> requests.get(shapefile_url)</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> zipfile.ZipFile(io.BytesIO(response.content), <span class="st">"r"</span>) <span class="im">as</span> z:</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>    z.extractall(extract_dir)</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Shapefile extracted to: </span><span class="sc">{</span>extract_dir<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Downloading MODZCTA shapefile...
+Shapefile extracted to: MODZCTA_Shapefile</code></pre>
+</div>
+</div>
+<p>Now we process the shape file to calculate the areas of the polygons.</p>
+<div id="5dc44bb6" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 2: Automatically detect the correct .shp file</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>shapefile_path <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> os.listdir(extract_dir):</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">file</span>.endswith(<span class="st">".shp"</span>):</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>        shapefile_path <span class="op">=</span> os.path.join(extract_dir, <span class="bu">file</span>)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">break</span>  <span class="co"># Use the first .shp file found</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> shapefile_path:</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> <span class="pp">FileNotFoundError</span>(<span class="st">"No .shp file found in extracted directory."</span>)</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Using shapefile: </span><span class="sc">{</span>shapefile_path<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 3: Load the shapefile into GeoPandas</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>gdf <span class="op">=</span> gpd.read_file(shapefile_path)</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 4: Convert to CRS with meters for accurate area calculation</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>gdf <span class="op">=</span> gdf.to_crs(epsg<span class="op">=</span><span class="dv">3857</span>)</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 5: Compute land area in square miles</span></span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>gdf[<span class="st">'Land Area (sq miles)'</span>] <span class="op">=</span> gdf[<span class="st">'geometry'</span>].area <span class="op">/</span> <span class="fl">2_589_988.11</span></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a><span class="co"># 1 square mile = 2,589,988.11 square meters</span></span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(gdf[[<span class="st">'modzcta'</span>, <span class="st">'Land Area (sq miles)'</span>]].head())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Using shapefile: MODZCTA_Shapefile/geo_export_d553a5b0-e77f-4879-9a0a-f779d7d2a564.shp
+  modzcta  Land Area (sq miles)
+0   10001              1.153516
+1   10002              1.534509
+2   10003              1.008318
+3   10026              0.581848
+4   10004              0.256876</code></pre>
+</div>
+</div>
+<p>Now we are ready to merge the two data frames.</p>
+<div id="553c5072" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge ACS data (`df_acs`) directly with MODZCTA land area (`gdf`)</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>gdf <span class="op">=</span> gdf.merge(df_acs, left_on<span class="op">=</span><span class="st">'modzcta'</span>, right_on<span class="op">=</span><span class="st">'ZIP Code'</span>, how<span class="op">=</span><span class="st">'left'</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate Population Density (people per square mile)</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>gdf[<span class="st">'Population Density (per sq mile)'</span>] <span class="op">=</span> (</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    gdf[<span class="st">'Total Population'</span>] <span class="op">/</span> gdf[<span class="st">'Land Area (sq miles)'</span>]</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Display first few rows</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(gdf[[<span class="st">'modzcta'</span>, <span class="st">'Total Population'</span>, <span class="st">'Land Area (sq miles)'</span>,</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Population Density (per sq mile)'</span>]].head())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  modzcta  Total Population  Land Area (sq miles)  \
+0   10001           27004.0              1.153516   
+1   10002           76518.0              1.534509   
+2   10003           53877.0              1.008318   
+3   10026           38265.0              0.581848   
+4   10004            4579.0              0.256876   
+
+   Population Density (per sq mile)  
+0                      23410.171200  
+1                      49864.797219  
+2                      53432.563117  
+3                      65764.650082  
+4                      17825.700993  </code></pre>
+</div>
+</div>
+<p>Some visualization of population density.</p>
+<div id="582dfb74" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Set up figure and axis</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">12</span>))</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the choropleth map</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>gdf.plot(column<span class="op">=</span><span class="st">'Population Density (per sq mile)'</span>, </span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>         cmap<span class="op">=</span><span class="st">'viridis'</span>,  <span class="co"># Use a visually appealing color map</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>         linewidth<span class="op">=</span><span class="fl">0.8</span>, </span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>         edgecolor<span class="op">=</span><span class="st">'black'</span>,</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>         legend<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>         legend_kwds<span class="op">=</span>{<span class="st">'label'</span>: <span class="st">"Population Density (per sq mile)"</span>,</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>             <span class="st">'orientation'</span>: <span class="st">"horizontal"</span>},</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>         ax<span class="op">=</span>ax)</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a title</span></span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Population Density by ZIP Code in NYC"</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove axes</span></span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>ax.set_xticks([])</span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>ax.set_yticks([])</span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>ax.set_frame_on(<span class="va">False</span>)</span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Show the plot</span></span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="manipulation_files/figure-html/cell-18-output-1.png" width="763" height="874" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Let’s save the merged data for future usage.</p>
+<div id="d5ae760e" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>csv_output <span class="op">=</span> <span class="st">"data/NYC_Zipcode_Data.csv"</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>gdf[[<span class="st">'modzcta'</span>, <span class="st">'Total Population'</span>, <span class="st">'Land Area (sq miles)'</span>,</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Population Density (per sq mile)'</span>]].to_csv(csv_output, index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"CSV file saved: </span><span class="sc">{</span>csv_output<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>CSV file saved: data/NYC_Zipcode_Data.csv</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="cross-platform-data-format-arrow" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="cross-platform-data-format-arrow"><span class="header-section-number">5.4</span> Cross-platform Data Format <code>Arrow</code></h2>
 <p>The CSV format (and related formats like TSV - tab-separated values) for data tables is ubiquitous, convenient, and can be read or written by many different data analysis environments, including spreadsheets. An advantage of the textual representation of the data in a CSV file is that the entire data table, or portions of it, can be previewed in a text editor. However, the textual representation can be ambiguous and inconsistent. The format of a particular column: Boolean, integer, floating-point, text, factor, etc. must be inferred from text representation, often at the expense of reading the entire file before these inferences can be made. Experienced data scientists are aware that a substantial part of an analysis or report generation is often the “data cleaning” involved in preparing the data for analysis. This can be an open-ended task — it required numerous trial-and-error iterations to create the list of different missing data representations we use for the sample CSV file and even now we are not sure we have them all.</p>
 <p>To read and export data efficiently, leveraging the Apache <code>Arrow</code> library can significantly improve performance and storage efficiency, especially with large datasets. The IPC (Inter-Process Communication) file format in the context of Apache Arrow is a key component for efficiently sharing data between different processes, potentially written in different programming languages. Arrow’s IPC mechanism is designed around two main file formats:</p>
 <ul>
@@ -758,31 +978,31 @@ memory usage: 410.5+ KB</code></pre>
 <p>First, ensure you have <code>pyarrow</code> installed on your computer (and preferrably, in your current virtual environment):</p>
 <pre class="shell"><code>pip install pyarrow</code></pre>
 <p>Feather is a fast, lightweight, and easy-to-use binary file format for storing data frames, optimized for speed and efficiency, particularly for IPC and data sharing between Python and R or Julia.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>df.to_feather(<span class="st">'data/nyccrashes_cleaned.feather'</span>)</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare the file sizes of the feather format and the CSV format</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co"># File paths</span></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>csv_file <span class="op">=</span> <span class="st">'data/nyccrashes_2024w0630_by20250212.csv'</span></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>feather_file <span class="op">=</span> <span class="st">'data/nyccrashes_cleaned.feather'</span></span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Get file sizes in bytes</span></span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>csv_size <span class="op">=</span> os.path.getsize(csv_file)</span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>feather_size <span class="op">=</span> os.path.getsize(feather_file)</span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert bytes to a more readable format (e.g., MB)</span></span>
-<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>csv_size_mb <span class="op">=</span> csv_size <span class="op">/</span> (<span class="dv">1024</span> <span class="op">*</span> <span class="dv">1024</span>)</span>
-<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>feather_size_mb <span class="op">=</span> feather_size <span class="op">/</span> (<span class="dv">1024</span> <span class="op">*</span> <span class="dv">1024</span>)</span>
-<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the file sizes</span></span>
-<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"CSV file size: </span><span class="sc">{</span>csv_size_mb<span class="sc">:.2f}</span><span class="ss"> MB"</span>)</span>
-<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Feather file size: </span><span class="sc">{</span>feather_size_mb<span class="sc">:.2f}</span><span class="ss"> MB"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>df.to_feather(<span class="st">'data/nyccrashes_cleaned.feather'</span>)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare the file sizes of the feather format and the CSV format</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="co"># File paths</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>csv_file <span class="op">=</span> <span class="st">'data/nyccrashes_2024w0630_by20250212.csv'</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>feather_file <span class="op">=</span> <span class="st">'data/nyccrashes_cleaned.feather'</span></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Get file sizes in bytes</span></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>csv_size <span class="op">=</span> os.path.getsize(csv_file)</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>feather_size <span class="op">=</span> os.path.getsize(feather_file)</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert bytes to a more readable format (e.g., MB)</span></span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>csv_size_mb <span class="op">=</span> csv_size <span class="op">/</span> (<span class="dv">1024</span> <span class="op">*</span> <span class="dv">1024</span>)</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>feather_size_mb <span class="op">=</span> feather_size <span class="op">/</span> (<span class="dv">1024</span> <span class="op">*</span> <span class="dv">1024</span>)</span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the file sizes</span></span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"CSV file size: </span><span class="sc">{</span>csv_size_mb<span class="sc">:.2f}</span><span class="ss"> MB"</span>)</span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Feather file size: </span><span class="sc">{</span>feather_size_mb<span class="sc">:.2f}</span><span class="ss"> MB"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Read the feather file back in:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>dff <span class="op">=</span> pd.read_feather(<span class="st">"data/nyccrashes_cleaned.feather"</span>)</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>dff.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>dff <span class="op">=</span> pd.read_feather(<span class="st">"data/nyccrashes_cleaned.feather"</span>)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>dff.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>
