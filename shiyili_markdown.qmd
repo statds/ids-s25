@@ -1,6 +1,6 @@
 ## A Primer of Markdown
 
-This section was prepared by Shiyi Li. (Add more to introduce yourself)
+This section was prepared by Shiyi Li. I am a senior majoring in Mathematics/Statistics and minoring in CSE. I aim to graduate from the University of Connecticut in August and continue my master's in Data Science program.
 
 
 ### Introduction
