@@ -215,8 +215,6 @@ Markdown.
     so that I can be more orderly while working with others.
   - I hope to become more efficient processing data 
     that is messy, unstructured, or unlabeled.
-  - Present engaging, intuitive, and interactive figures and animations for 
-    complex math and stat concepts. 
 + Vellore, Ajeeth Krishna
   - Understand the utility provided by GitHub and practice using its tools
   - Learn how to participate in a large-scale development project like how they
@@ -226,10 +224,13 @@ Markdown.
   - Understand principles of coding documentation and readability while
     practicing their application
 + Zhang, Gaofei
-  - Gain confidence in using Git and GitHub for version control and collaboration.**  
-  - Develop a structured approach to data cleaning and preprocessing for complex datasets.**  
-  - Enhance skills in statistical modeling and machine learning techniques relevant to public health research.**  
-  - Improve efficiency in working with large-scale data using Python and SQL.**  
+  - Gain confidence in using Git and GitHub for version control and collaboration.  
+  - Develop a structured approach to data cleaning and preprocessing for 
+    complex datasets.  
+  - Enhance skills in statistical modeling and machine learning techniques 
+    relevant to public health research.  
+  - Improve efficiency in working with large-scale data using Python and SQL.  
+
 + Kravette, Noah
   - Become better at program collaboration.
   - Become adept with git and github. 
@@ -329,7 +330,7 @@ Please use the following table to sign up.
    02/17 |  Roy, Luke William     | Grammar of Graphics with Plotnine
    02/19 |  Lang, Lang     | Data manipulation with Pandas
    02/24 |  Ackerman, John     |
-   02/26 |  Horn, Alyssa Noelle     | Database operation with Structured query language (SQL)
+   02/26 |  Horn, Alyssa Noelle     |
    03/03 |  Xu, Peiwen     |
    03/05 |  Schittina, Thomas     |
    03/10 |  Kline, Daniel Esteban     |
@@ -347,7 +348,7 @@ Please use the following table to sign up.
    04/09 |  Tomaino, Mario Anthony   | 
    04/12 |  Reed, Kyle Daniel   | 
    04/12 |  Chen, Yifei   | 
-   04/12 |  Mundiwala, Mohammad Moiz   | Math animations with manim
+   04/12 |  Mundiwala, Mohammad Moiz   | 
    04/16 |  Lin, Selena   | 
    04/16 |  Pfeifer, Nicholas Theodore   | 
    04/16 |  Vellore, Ajeeth Krishna | 
