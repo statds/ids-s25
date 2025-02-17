@@ -1,0 +1,303 @@
+# Data Manipulation
+
+## Introduction
+
+Data manipulation is crucial for transforming raw data into a
+more analyzable format, essential for uncovering patterns and
+ensuring accurate analysis. This chapter introduces the core
+techniques for data manipulation in Python, utilizing the Pandas
+library, a cornerstone for data handling within Python's data
+science toolkit.
+
+
+Python's ecosystem is rich with libraries that facilitate not
+just data manipulation but comprehensive data analysis. Pandas,
+in particular, provides extensive functionality for data
+manipulation tasks including reading, cleaning, transforming,
+and summarizing data. Using real-world datasets, we will explore
+how to leverage Python for practical data manipulation tasks.
+
+
+By the end of this chapter, you will learn to:
+
+- Import/export data from/to diverse sources.
+- Clean and preprocess data efficiently.
+- Transform and aggregate data to derive insights.
+- Merge and concatenate datasets from various origins.
+- Analyze real-world datasets using these techniques.
+
+
+## NYC Crash Data
+
+Consider a subset of the NYC Crash Data, which contains all
+NYC motor vehicle collisions data with documentation from
+[NYC Open Data](https://data.cityofnewyork.us/Public-Safety/Motor-Vehicle-Collisions-Crashes/h9gi-nx95).
+We downloaded the crash data for the week of June 30, 2024,
+on February 12, 2025, in CSC format.
+```{python}
+import numpy as np
+import pandas as pd
+
+# Load the dataset
+file_path = 'data/nyccrashes_2024w0630_by20250212.csv'
+df = pd.read_csv(file_path,
+                 dtype={'LATITUDE': np.float32,
+                        'LONGITUDE': np.float32,
+                        'ZIP_CODE': str})
+
+# Replace column names: convert to lowercase and replace spaces with underscores
+df.columns = df.columns.str.lower().str.replace(' ', '_')
+
+# Convert ZIP codes to strings, but handle missing values separately
+df['zip_code'] = df['zip_code'].apply(lambda x: str(int(x)).zfill(5) if pd.notnull(x) else np.nan)
+
+# Check for missing values
+df.isnull().sum()
+```
+
+
+Take a peek at the first five rows:
+```{python}
+df.head()
+```
+
+
+A quick summary of the data types of the columns:
+```{python}
+df.info()
+```
+
+
+Now we can do some cleaning after a quick browse.
+```{python}
+# Replace invalid coordinates (latitude=0, longitude=0 or NaN) with NaN
+df.loc[(df['latitude'] == 0) & (df['longitude'] == 0), 
+       ['latitude', 'longitude']] = pd.NA
+df['latitude'] = df['latitude'].replace(0, pd.NA)
+df['longitude'] = df['longitude'].replace(0, pd.NA)
+
+# Drop the redundant 'location' column
+df = df.drop(columns=['location'])
+
+# Converting 'crash_date' and 'crash_time' columns into a single datetime column
+df['crash_datetime'] = pd.to_datetime(df['crash_date'] + ' ' 
+                       + df['crash_time'], format='%m/%d/%Y %H:%M', errors='coerce')
+
+# Drop the original 'crash_date' and 'crash_time' columns
+df = df.drop(columns=['crash_date', 'crash_time'])
+```
+
+Let's get some basic frequency tables of `borough` and `zip_code`,
+whose values could be used to check their validity against the
+legitmate values.
+```{python}
+# Frequency table for 'borough' without filling missing values
+borough_freq = df['borough'].value_counts(dropna=False).reset_index()
+borough_freq.columns = ['borough', 'count']
+
+# Frequency table for 'zip_code' without filling missing values
+zip_code_freq = df['zip_code'].value_counts(dropna=False).reset_index()
+zip_code_freq.columns = ['zip_code', 'count']
+zip_code_freq
+```
+
+A comprehensive list of ZIP codes by borough can be obtained, for
+example, from [the New York City Department of Health's UHF
+Codes](https://www.nyc.gov/assets/doh/downloads/pdf/ah/zipcodetable.pdf). 
+We can use this list to check the validity of the zip codes in the
+data.
+```{python}
+# List of valid NYC ZIP codes compiled from UHF codes
+# Define all_valid_zips based on the earlier extracted ZIP codes
+all_valid_zips = {
+    10463, 10471, 10466, 10469, 10470, 10475, 10458, 10467, 10468,
+    10461, 10462, 10464, 10465, 10472, 10473, 10453, 10457, 10460,
+    10451, 10452, 10456, 10454, 10455, 10459, 10474, 11211, 11222,
+    11201, 11205, 11215, 11217, 11231, 11213, 11212, 11216, 11233,
+    11238, 11207, 11208, 11220, 11232, 11204, 11218, 11219, 11230,
+    11203, 11210, 11225, 11226, 11234, 11236, 11239, 11209, 11214,
+    11228, 11223, 11224, 11229, 11235, 11206, 11221, 11237, 10031,
+    10032, 10033, 10034, 10040, 10026, 10027, 10030, 10037, 10039,
+    10029, 10035, 10023, 10024, 10025, 10021, 10028, 10044, 10128,
+    10001, 10011, 10018, 10019, 10020, 10036, 10010, 10016, 10017,
+    10022, 10012, 10013, 10014, 10002, 10003, 10009, 10004, 10005,
+    10006, 10007, 10038, 10280, 11101, 11102, 11103, 11104, 11105,
+    11106, 11368, 11369, 11370, 11372, 11373, 11377, 11378, 11354,
+    11355, 11356, 11357, 11358, 11359, 11360, 11361, 11362, 11363,
+    11364, 11374, 11375, 11379, 11385, 11365, 11366, 11367, 11414,
+    11415, 11416, 11417, 11418, 11419, 11420, 11421, 11412, 11423,
+    11432, 11433, 11434, 11435, 11436, 11004, 11005, 11411, 11413,
+    11422, 11426, 11427, 11428, 11429, 11691, 11692, 11693, 11694,
+    11695, 11697, 10302, 10303, 10310, 10301, 10304, 10305, 10314,
+    10306, 10307, 10308, 10309, 10312
+}
+
+# Convert ZIP codes to numeric, invalid entries become NaN
+df['zip_code_numeric'] = pd.to_numeric(df['zip_code'], errors='coerce')
+
+# Identify invalid ZIP codes (including NaN)
+invalid_zips = df[df['zip_code_numeric'].isna() | ~df['zip_code_numeric'].isin(all_valid_zips)]['zip_code']
+
+# Calculate frequency of invalid ZIP codes
+invalid_zip_freq = invalid_zips.value_counts(dropna=False).reset_index()
+invalid_zip_freq.columns = ['zip_code', 'frequency']
+
+invalid_zip_freq
+```
+
+
+Are missing in zip code and borough always co-occur?
+```{python}
+# Check if missing values in 'zip_code' and 'borough' always co-occur
+# Count rows where both are missing
+missing_cooccur = df[['zip_code', 'borough']].isnull().all(axis=1).sum()
+# Count total missing in 'zip_code' and 'borough', respectively
+total_missing_zip_code = df['zip_code'].isnull().sum()
+total_missing_borough = df['borough'].isnull().sum()
+
+# If missing in both columns always co-occur, the number of missing
+# co-occurrences should be equal to the total missing in either column
+np.array([missing_cooccur, total_missing_zip_code, total_missing_borough])
+```
+
+Are there cases where zip_code and borough are missing
+but the geo codes are not missing? If so, fill in `zip_code`
+and `borough` using the geo codes by reverse geocoding.
+
+First make sure `geopy` is installed.
+``` shell
+pip install geopy
+```
+
+Now we use model `Nominatim` in package `geopy` to reverse geocode.
+```{python}
+from geopy.geocoders import Nominatim
+import time
+
+# Initialize the geocoder; the `user_agent` is your identifier 
+# when using the service. Be mindful not to crash the server
+# by unlimited number of queries, especially invalid code.
+geolocator = Nominatim(user_agent="jyGeopyTry")
+```
+
+We write a function to do the reverse geocoding given
+lattitude and longitude.
+```{python}
+# Function to fill missing zip_code
+def get_zip_code(latitude, longitude):
+    try:
+        location = geolocator.reverse((latitude, longitude), timeout=10)
+        if location:
+            address = location.raw['address']
+            zip_code = address.get('postcode', None)
+            return zip_code
+        else:
+            return None
+    except Exception as e:
+        print(f"Error: {e} for coordinates {latitude}, {longitude}")
+        return None
+    finally:
+        time.sleep(1)  # Delay to avoid overwhelming the service
+```
+
+Let's try it out:
+```{python}
+# Example usage
+latitude = 40.730610
+longitude = -73.935242
+get_zip_code(latitude, longitude)
+```
+
+The function `get_zip_code` can then be applied to
+rows where zip code is missing but geocodes are not to
+fill the missing zip code.
+
+Once zip code is known, figuring out `burough` is simple
+because valid zip codes from each borough are known.
+
+
+## Cross-platform Data Format `Arrow`
+
+The CSV format (and related formats like TSV - tab-separated values)
+for data tables is ubiquitous, convenient, and can be read or written
+by many different data analysis environments, including spreadsheets.
+An advantage of the textual representation of the data in a CSV file 
+is that the entire data table, or portions of it, can be previewed
+in a text editor. However, the textual representation can be ambiguous
+and inconsistent. The format of a particular column: Boolean, integer,
+floating-point, text, factor, etc. must be inferred from text
+representation, often at the expense of reading the entire file
+before these inferences can be made. Experienced data scientists are aware
+that a substantial part of an analysis or report generation is often
+the "data cleaning" involved in preparing the data for analysis. This
+can be an open-ended task --- it required numerous trial-and-error
+iterations to create the list of different missing data
+representations we use for the sample CSV file and even now we are
+not sure we have them all.
+
+To read and export data efficiently, leveraging the Apache `Arrow`
+library can significantly improve performance and storage efficiency,
+especially with large datasets. The IPC (Inter-Process Communication)
+file format in the context of Apache Arrow is a key component for
+efficiently sharing data between different processes, potentially
+written in different programming languages. Arrow's IPC mechanism is
+designed around two main file formats:
+
++ Stream Format: For sending an arbitrary length sequence of Arrow
+  record batches (tables). The stream format is useful for real-time
+  data exchange where the size of the data is not known upfront and can
+  grow indefinitely.
++ File (or Feather) Format: Optimized for storage and memory-mapped
+  access, allowing for fast random access to different sections of the
+  data. This format is ideal for scenarios where the entire dataset is
+  available upfront and can be stored in a file system for repeated
+  reads and writes.
+
+
+Apache Arrow provides a columnar
+memory format for flat and hierarchical data, optimized for efficient
+data analytics. It can be used in Python through the `pyarrow`
+package. Here's how you can use Arrow to read, manipulate, and export
+data, including a demonstration of storage savings.
+
+
+First, ensure you have `pyarrow` installed on your computer (and
+preferrably, in your current virtual environment):
+``` shell
+pip install pyarrow
+```
+
+Feather is a fast, lightweight, and easy-to-use binary file format for
+storing data frames, optimized for speed and efficiency, particularly
+for IPC and data sharing between Python and R or Julia.
+
+```python
+#| eval: false
+df.to_feather('data/nyccrashes_cleaned.feather')
+
+# Compare the file sizes of the feather format and the CSV format
+import os
+
+# File paths
+csv_file = 'data/nyccrashes_2024w0630_by20250212.csv'
+feather_file = 'data/nyccrashes_cleaned.feather'
+
+# Get file sizes in bytes
+csv_size = os.path.getsize(csv_file)
+feather_size = os.path.getsize(feather_file)
+
+# Convert bytes to a more readable format (e.g., MB)
+csv_size_mb = csv_size / (1024 * 1024)
+feather_size_mb = feather_size / (1024 * 1024)
+
+# Print the file sizes
+print(f"CSV file size: {csv_size_mb:.2f} MB")
+print(f"Feather file size: {feather_size_mb:.2f} MB")
+```
+
+Read the feather file back in:
+``` python
+#| eval: false
+dff = pd.read_feather("data/nyccrashes_cleaned.feather")
+dff.shape
+```

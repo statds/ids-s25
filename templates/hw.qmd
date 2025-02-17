@@ -8,6 +8,8 @@ format:
   html: 
     code-fold: true
     html-math-method: katex
+    embed-resources: true
+    self-contained-math: true	
   pdf: 
     geometry: 
       - top=30mm

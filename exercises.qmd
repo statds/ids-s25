@@ -19,6 +19,8 @@
     a release in your GitHub repo.
     
 1. **Working on Homework Problems**
+  All the requirements on homework styles have reasons. Reviewing
+  these questions help you to understand them.
     a.  What are the differences between binary and source files?
     a.  Why do we not want to track binary files in a repo?
     a.  Why do I require pdf output via release?
@@ -31,7 +33,7 @@
   copy of the sources on your computer. Document the following
   steps in a `qmd` file in the form of a step-by-step manual, as if
   you are explaining them to someone who wants to contribute too. Make
-  at least 10 commits for this task, each with an informativ emessage.
+  at least 10 commits for this task, each with an informative message.
     a.  Create a fork of the notes repo into your own GitHub account.
     a.  Clone it to an appropriate folder on your computer.
     a.  Render the classnotes on your computer; document the obstacles
@@ -56,17 +58,13 @@
    no-switch, from playing this game. 
     a.  Play this game with 3 doors and 1 empty a few times.
 	a.  Play this game with 10 doors and 8 empty a few times.
-	a.  Write a function to play this game `ntrial` times and return
-   the proportion of wins for both strategies.
-    a.  Apply your function to play this game 1000 times, with 3 doors
-   and 10 doors, and summarize your results.
     a.  Write a function to demonstrate the Monty Hall problem through
-   simulation. The function takes two arguments `ndoors` and
-   `ntrials`, representing the number of doors in the experiment and
-   the number of trials in a simulation, respectively. The function
+   simulation. The function takes three arguments `ndoors`, `nempty`,
+   and  `ntrials`, where `ntrial` is
+   the number of trials in a simulation. The function
    should return the proportion of wins for both the switch and
    no-switch strategy. 
-    a.  Apply your function with 3 doors and 5 doors,
+    a.  Apply your function with 3 doors (1 empty) and 10 doors (8 empty),
    both with 1000 trials. Summarize your results.
 
 1.  **Approximating $\pi$**
@@ -85,7 +83,7 @@
 
 1. **Game 24**
    The [math game 24](http://en.wikipedia.org/wiki/24_Game) is one of the
-   addictive games among number lovers. With four randomly selected cards form
+   addictive games among number lovers. With four randomly selected cards from
    a deck of poker cards, use all four values and elementary arithmetic
    operations ($+-\times /$) to come up with 24. Let $\square$ be one of
    the four numbers. Let $\bigcirc$ represent one of the four operators.
@@ -114,6 +112,8 @@
     handling of the date time variables.
     a.  Clean up the variable names. Use lower cases and replace
     spaces with underscores.
+    a.  Check the crash date and time to see if they really match the
+   filter we intented. Remove the extra rows if needed.	
     a.  Get the basic summaries of each variables:
     missing percentage; descriptive statistics for continuous variables;
     frequency tables for discrete variables.

@@ -5,7 +5,7 @@ book:
   title: "Introduction to Data Science"
   subtitle: "STAT 3255/5255 @ UConn, Spring 2025"
   author:
-    - name: "Jun Yan and Students in Spring 2025"
+    - name: "[Jun Yan](https://statcomp.org) and Students in Spring 2025"
   date: today
 
 #  sidebar:
@@ -17,6 +17,7 @@ book:
     - git.qmd
     - quarto.qmd
     - python.qmd
+    - manipulation.qmd
     - exercises.qmd
     - references.qmd
 
