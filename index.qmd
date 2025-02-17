@@ -199,8 +199,8 @@ Markdown.
     - Become better at working through each step in the data science 
       pipeline to make better, cleaner looking projects
 + Tamhane, Shubhan
-    - Learn various machine learning algorithims such as logistic regression and random forest
-    - Learn about the intersection of SQL, git, and python when solving a real data science problem
+    - Learn about the intersection between git, SQL, and Python in the context of solving a data science problem
+    - Learn different machine learning algorithims such as logistic regression, random forest, clustering, etc. 
 + Tomaino, Mario Anthony
 + Xu, Peiwen
     - Learn some data analysis techniques
