@@ -511,6 +511,7 @@ for IPC and data sharing between Python and R or Julia.
 
 ```{python}
 #| echo: true
+#| eval: false
 
 df = read_csv("")
 ```
