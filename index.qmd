@@ -199,6 +199,8 @@ Markdown.
     - Become better at working through each step in the data science 
       pipeline to make better, cleaner looking projects
 + Tamhane, Shubhan
+    - Learn intersection between SQL and Python for a data science project
+    - Learn machine learning algorithms like random forest and clustering
 + Tomaino, Mario Anthony
 + Xu, Peiwen
     - Learn some data analysis techniques
