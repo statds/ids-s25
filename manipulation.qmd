@@ -144,6 +144,12 @@ invalid_zip_freq.columns = ['zip_code', 'frequency']
 invalid_zip_freq
 ```
 
+As it turns out, the collection of valid NYC zip codes differ from
+different sources. From [United States Zip
+Codes](https://www.unitedstateszipcodes.org/), `10065` appears to be a
+valid NYC zip code. Under this circumstance, it might be safer to not
+remove any zip code from the data.
+
 
 Are missing in zip code and borough always co-occur?
 ```{python}
@@ -295,8 +301,7 @@ from us import states
 import os
 import io
 
-with open("censusAPIkey.txt") as f:
-    api_key = f.read().strip()
+api_key = open("censusAPIkey.txt").read().strip()
 c = Census(api_key)
 ```
 
@@ -504,7 +509,13 @@ Feather is a fast, lightweight, and easy-to-use binary file format for
 storing data frames, optimized for speed and efficiency, particularly
 for IPC and data sharing between Python and R or Julia.
 
-```python
+```{python}
+#| echo: true
+
+df = read_csv("")
+```
+
+```{python}
 #| eval: false
 df.to_feather('data/nyccrashes_cleaned.feather')
 
