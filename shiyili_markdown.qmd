@@ -1,0 +1,1202 @@
+## A Primer of Markdown
+
+This section was prepared by Shiyi Li. I am a senior majoring in Mathematics/
+Statistics and minoring in CSE. I aim to graduate from the University of 
+Connecticut in August and continue my master's in Data Science program.
+
+
+### Introduction
+
+Today's presentation, I will introduce some basic syntax on markdown. Markdown
+ is a plain text format, an easy way to write content for a web interface. It 
+ is widely used in open-source documentation, including GitHub, R Markdown, 
+ Quarto, Jupyter Notebooks, etc. Its syntax is easy to learn, write, read, and 
+ seamlessly convert to HTML, PDF, and DOCX formats. I will divide my 
+ presentation into three parts, Structuring the Document, Formatting Text, and 
+ Enhancing Content.
+
+### Structuring the Document
+
+There are some elements can define sections and hierarchy to help organize 
+content in a clear and structured manner.
+
+#### Headings
+
+1. To create heading levels for topics, sections, or subsections, you can 
+add number signs, "#", before you write any content for them.
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+# Heading 1 (Main Title)
+
+## Heading 2 (Section)
+
+### Heading 3 (Subsection)
+
+#### Heading 4
+
+##### Heading 5
+
+###### Heading 6
+```
+
+> Be careful, you need to make sure that there is a blank line before and 
+after your heading levels and a space between your number sign "#" and the 
+heading name.
+
+
+2. Alternatively, you can also use any number of double equal sign, "==", 
+or double dashes sign, "--", to create a heading.
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+Heading 1 (Main Title)
+======
+Heading 2 (Section)
+------
+```
+
+> However, this method can only be used to create two heading levels like 
+above.
+
+
+#### Horizontal Rules - line Seperator
+
+- A horizontal rule adds a visual break between parts of text by adding 
+three or more asterisks, "***", dashes, "---", or underscores, "___", on 
+a line by themselves.
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+This is the part 1.
+
+--------
+
+This is the part 2.
+
+********
+
+This is the part 3.
+
+_________
+
+This is the part 4.
+```
+- This code chunk will output like this:
+
+This is the part 1.
+
+--------
+
+This is the part 2.
+
+********
+
+This is the part 3.
+
+_________
+
+This is the part 4.
+
+
+> Be careful. You need to make sure you add a blank line before and after your 
+separator line.
+
+
+#### Paragraphs
+
+- To create paragraphs, you can add a blank line between two paragraphs just 
+like you usually create paragraphs in an essay.
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+This is the first paragraph ........................................
+.....................................................................
+.....................................................................
+... end the first paragraph.
+
+This is the second paragraph .........................................................
+...................................................................
+.....................................................................
+...end the second paragraph.
+```
+
+- This will output like this:
+
+This is the first paragraph ........................................
+.....................................................................
+.....................................................................
+... end the first paragraph.
+
+This is the second paragraph .........................................................
+...................................................................
+.....................................................................
+...end the second paragraph.
+
+
+#### Blockquotes
+
+1. To highlight multiple line important text, cite multiple line references, 
+or quote multiple line important points, you can add a greater than sign, ">", 
+at the begining of each line of the text.
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+> This is an important text.
+>
+> This is a citation/reference.
+>
+> This is a quotation.
+```
+
+- This code will output like this:
+
+> This is an important text.
+>
+> This is a citation/reference.
+>
+> This is a quotation.
+
+- Wrong Example:
+
+If you code like this:
+```markdown
+```{markdown}
+> This is an important text.
+> This is a citation/reference.
+> This is a quotation.
+```
+
+- It will output like this:
+
+> This is an important text.
+> This is a citation/reference.
+> This is a quotation.
+
+***Be sure to add a blank line with a greater-than sign, ">", otherwise the 
+output will display multiple lines of text in a single line.***
+
+2. You can also nest blockquotes by adding two or more greater than signs, 
+">>".
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+> This is an important text.
+>
+>> This is a citation/reference.
+>>
+>>> This is a quotation.
+```
+
+- This code will output like this:
+
+> This is an important text.
+>
+>> This is a citation/reference.
+>>
+>>> This is a quotation.
+
+
+***Be sure to add a blank line before the first line of your blockquotes, 
+otherwise, it will not look right.***
+
+
+### Formatting Text
+
+There are some elements to make text stand out, improving emphasis and 
+readability like Bold, Italic, and Strikethrough text.
+
+#### Bold
+
+- To bold text, you can add two asterisks, "**", or underscores, "__", before 
+and after the text.
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+**This is the first important text.**
+
+__This is the second important text.__
+
+This is the __third important__ text.
+
+This is the **fourth important** text.
+
+This is the f**if**th important text.
+```
+
+- This will output like this:
+
+**This is the first important text.**
+
+__This is the second important text.__
+
+This is the __third important__ text.
+
+This is the **fourth important** text.
+
+This is the fifth im**portan**t text.
+
+
+> Be careful do not use underscores, "__", to bold charachers inside a word, 
+like this "This is the fifth im__portan__t text".***
+
+
+#### Italic
+
+- To italicize a text, you can add one asterisk, "*", or one underscore, "_", 
+before and after a text.
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+*ThIs Is the fIrst Important TexT.*
+
+_ThIs Is the second Important TexT._
+
+This is the _Third ImportanT_ text.
+
+This is the *fourth ImportanT* text.
+
+Fifth im*PORtaN*t text.
+```
+
+- This code chunk will output like this:
+
+*ThIs Is the fIrst Important TexT.*
+
+_ThIs Is the second Important TexT._
+
+This is the _Third ImportanT_ text.
+
+This is the *fourth ImportanT* text.
+
+Fifth im*PORtaN*t text.
+
+
+> Be careful don't use underscores, "_", to italicize charachers inside a 
+word, like this "Fifth im_porta_nt text".
+
+
+#### Bold & Italic
+
+To bold and italicize for the same text, you can use three asterisks, "***", 
+or three underscores, "___", before and after a text.
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+***This is the first important text.***
+
+___This is the second important text.___
+
+This is the ___third important___ text.
+
+This is the ***fourth important*** text.
+
+Fifth i***mportan***t text.
+```
+
+- This code chunk will output like this:
+
+***This is the first important text.***
+
+___This is the second important text.___
+
+This is the ___third important___ text.
+
+This is the ***fourth important*** text.
+
+Fifth i***mportan***t text.
+
+
+> Be careful don't use underscores, "\___", to bold and italicize charachers 
+inside a word, like this "Fifth im\___porta\___nt text".
+
+
+#### Highlight
+
+- To highlight a text, you can add this sign, "\<mark>", before the text and 
+add this sign, "\</mark>", after the text.
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+<mark>This is a text that needs to be highlighted.</mark>
+
+This is a te<mark>xt that needs to be high</mark>lighted.
+```
+
+- This code chunk will output like this:
+
+<mark>This is a text that needs to be highlighted.</mark>
+
+This is a te<mark>xt that needs to be high</mark>lighted.
+
+
+#### Strikethrough - Deleted or Removed Text
+
+- To show a deletion or correction on a text, you can add double tilde signs, 
+"~~", before and after the part of the deletion or correction on your text. 
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+~~This text is struck through~~ This is the correct text.
+```
+
+- This code chunk will output like this:
+
+~~This text is struck through~~ This is the correct text.
+
+
+### Enhancing Content
+
+To enhance the illustrative capabilities of your content, there are several 
+elements you can add to your document, including subscript, superscript, 
+lists, tables, footnotes, links, images, math notations, etc.
+
+#### Subscript
+
+- To add a subscript before, after or within a number or word, you can add a 
+tilde symbol, "~", before and after the text you want to subscript.
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+This is a subscript before and after a word: 
+
+~subscript~word~subscript~
+
+This is a subscript within a word: 
+
+Wor~111000~ds
+
+This is a subscript before and after a number: 
+
+~7878~11111~7878~ 
+
+This is a subscript within a number: 
+
+999~subscript~999
+```
+
+- This code chunk will output like this:
+
+This is a subscript before and after a word: 
+
+~subscript~word~subscript~
+
+This is a subscript within a word: 
+
+Wor~111000~ds
+
+This is a subscript before and after a number: 
+
+~7878~11111~7878~ 
+
+This is a subscript within a number: 
+
+999~subscript~999
+
+
+> Be sure not to add any spaces or tabs between the two tilde symbols, "~   ~".
+
+
+#### Superscript
+
+- To add a superscript before, after or within a number or word, you can add a 
+caret symbol, "^", before and after the text you want to superscript.
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+This is a superscript before and after a word:
+
+^787878^Words^787878^
+
+This is a superscript within a word:
+
+Wor^787878^ds
+
+This is a superscript before and after a number:
+
+^superscript^1111111^superscript^  
+
+This is a superscript within a number:
+
+999^superscript^999
+```
+
+- This will output like this:
+
+This is a superscript before and after a word:
+
+^787878^Words^787878^
+
+This is a superscript within a word:
+
+Wor^787878^ds
+
+This is a superscript before and after a number:
+
+^superscript^1111111^superscript^  
+
+This is a superscript within a number:
+
+999^superscript^999
+
+
+> Be sure not to add any spaces or tabs between the two caret symbols, "^...^".
+
+
+#### Lists
+
+To organize a list (nested list), you can use ordered or unordered numbers or 
+alphabets followed by a period sign, ".", dashes, "-", asterisks, "*", or plus 
+signs, "+", in front of line items. Markdown is smart, it will automatically 
+detect and organize a list for you.
+
+
+**1. Using Ordered numbers followed by a period sign:**
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+1. First item
+2. Second item
+    1. Third item
+    2. Fourth item
+3. Fifth item
+```
+
+- This code chunk will output like this:
+
+Using Ordered numbers followed by a period sign:
+
+1. First item
+2. Second item
+    1. Third item
+    2. Fourth item
+3. Fifth item
+
+
+**2. Using Unordered numbers followed by a period sign:**
+
+- Example:
+
+You can code like this:
+
+```markdown
+```{markdown}
+2. First item
+2. Second item
+    2. Third item
+    2. Fourth item
+2. Fifth item
+
+2. First item
+7. Second item
+    9. Third item
+    2. Fourth item
+10. Fifth item
+```
+
+- This code chunk will output like this:
+
+Using Unordered numbers followed by a period sign:
+
+2. First item
+2. Second item
+    2. Third item
+    2. Fourth item
+2. Fifth item
+
+2. First item
+7. Second item
+    9. Third item
+    2. Fourth item
+10. Fifth item
+
+
+> Be careful, for an unordered list to work as you want, you need to take care 
+of the first number or letter of the first item of your (nested) list, because 
+markdown will order the list starting with the first number or alphabet of 
+your (nested) list.
+
+
+**3. Using dashes:**
+
+- Example:
+
+You can code like this:
+
+```markdown
+```{markdown}
+- First item
+- Second item
+    - Third item
+    - Fourth item
+- Fifth item
+```
+
+- This code chunk will output like this:
+
+Using dashes:
+
+- First item
+- Second item
+    - Third item
+    - Fourth item
+- Fifth item
+
+
+**4. Using asterisks:**
+
+- Example:
+
+You can code like this:
+
+```markdown
+```{markdown}
+* First item
+* Second item
+    * Third item
+    * Fourth item
+* Fifth item
+```
+
+- This code chunk will output like this:
+
+Using asterisks:
+
+* First item
+* Second item
+    * Third item
+    * Fourth item
+* Fifth item
+
+
+**5. Using plus signs:**
+
+- Example:
+
+You can code like this:
+
+```markdown
+```{markdown}
++ First item
++ Second item
+    + Third item
+    + Fourth item
++ Fifth item
+```
+
+- This code chunk will output like this:
+
+Using plus signs:
+
++ First item
++ Second item
+    + Third item
+    + Fourth item
++ Fifth item
+
+
+**6. Using alphabets:**
+
+- Example:
+
+You can code like this:
+
+```markdown
+```{markdown}
+a. First item
+b. Second item
+    a. Third item
+    b. Fourth item
+c. Fifth item
+
+w. First item
+a. Second item
+    c. Third item
+    y. Fourth item
+a. Fifth item
+```
+
+- This code chunk will output like this:
+
+Using alphabets:
+
+a. First item
+b. Second item
+    a. Third item
+    b. Fourth item
+c. Fifth item
+
+w. First item
+a. Second item
+    c. Third item
+    y. Fourth item
+a. Fifth item
+
+
+**7. Using different delimiters:**
+
+- Example:
+
+You can code like this:
+
+```markdown
+```{markdown}
++ First item
+- Second item
+    * Third item
+    + Fourth item
+* Fifth item
+```
+
+- This code chunk will output like this:
+
+Using different delimiters:
+
++ First item
+- Second item
+    * Third item
+    + Fourth item
+* Fifth item
+
+
+> Using different delimiters in the same list has no effect on the list 
+organized by markdown.
+>
+> Be careful, you need to make sure you add a blank line before the list 
+starts.
+>
+> You can also use a backslash, "\", to escape a period, ".", if you do not 
+want to create a list and still need a period after a number or alphabet.
+
+
+#### Task Lists - To-Do List
+
+- To add a task/to-do list, you can add this sign, "- [ ] ", or this sign, "- 
+[x] ", before each item in your task/to-do list.
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+- [ ] Task not completed
+- [x] Task completed
+```
+
+- This code chunk will output like this:
+
+- [ ] Task not completed
+- [x] Task completed
+
+
+> In your rendered HTML file, you can check or uncheck the completion marks in 
+the small box at the front of each task.
+
+
+#### Links
+
+1. You can add a link in your text by enclosing your added link with 
+parentheses, "()". In addition, you can also optionally add a name or a short 
+description for the link by enclosing them with brackets, "[]", before the 
+link and this will appear as a tooltip when the user hovers over the link 
+@cone2025markdown.
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+We can use the 
+[Markdown Cheat Sheet](https://www.markdownguide.org/basic-syntax/#code-blocks) 
+to learn more generally used markdown syntax. 
+```
+
+- This code chunk will output like this:
+
+We can use the 
+[Markdown Cheat Sheet](https://www.markdownguide.org/basic-syntax/#code-blocks) 
+to learn more generally used markdown syntax. 
+
+
+2. You can add an Reference Style Link by enclosing the name or description of 
+the link and a number/word pointed to the link with brackets, "[]".
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+We can use the [Markdown Cheat Sheet][4] to learn more generally used 
+markdown syntax. 
+
+[4]: https://www.markdownguide.org/basic-syntax/#code-blocks
+```
+
+- This code chunk will output like this:
+
+We can use the [Markdown Cheat Sheet][4] to learn more generally used markdown 
+syntax. 
+
+[4]: https://www.markdownguide.org/basic-syntax/#code-blocks
+
+
+> Remember to start a new line and add the link as a footnote after the number 
+or word pointed to the reference enclosed by brackets, "[]".
+
+
+#### Images
+
+- To add images from your local computer or a website, you can add an 
+exclamation mark, "!", followed by a description or other text enclosing with 
+brackets, "[]", and a path/URL to the image enclosing with parentheses, "()".
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+![This is a description to an online image](https://today.uconn.edu/2023/01/
+uconn-on-campus-construction-update-january-2023/)
+
+![This is a description to a local image](/Users/shiyili/
+Desktop/UCONN.jpg)
+```
+
+- The render output will show like this:
+
+![This is a description to an online image.](https://today.uconn.edu/wp-content/uploads/2023/01/snow220108a084-1536x1023.jpg)
+
+
+#### Tables
+
+- To create a table, you can use three or more hyphens, "---", and pipes, "|", 
+to create and separate each column respectively.
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+1. Each cell with the same width in code chunk:
+
+|            | 1st Column | 2nd Column | 3rd Column | ...... |
+| ---------- | ---------- | ---------- | ---------- | ------ |
+| 1st Row    |    123     |     123    |     123    |   123  |
+| 2nd Row    |    123     |     123    |     123    |   123  |
+| 3rd Row    |    123     |     123    |     123    |   123  |
+| ......     |    123     |     123    |     123    |   123  |
+
+2. Each cell with vary width in code chunk:
+
+|            | 1st Column | 2nd Column | 3rd Column | ...... |
+| ------ | ---------- | ---------- | ---------- | ------ |
+| 1st Row |     123       |      123      |     123       |    123    |
+| 2nd Row      |     123       |     123       |      123      |   123     |
+| 3rd Row  |      123      |      123      |     123       |    123    |
+| ......         |      123      |     123       |      123      |    123    |
+
+```
+
+
+- This code chunk will output like this:
+
+
+1. Each cell with the same width in code chunk:
+
+|            | 1st Column | 2nd Column | 3rd Column | ...... |
+| ---------- | ---------- | ---------- | ---------- | ------ |
+| 1st Row    |    123        |     123       |      123      |    123    |
+| 2nd Row    |     123       |     123       |      123      |   123     |
+| 3rd Row    |     123       |     123       |      123      |    123    |
+| ......     |     123       |     123       |      123      |    123    |
+
+2. Each cell with vary width in code chunk:
+
+|            | 1st Column | 2nd Column | 3rd Column | ...... |
+| ------ | ---------- | ---------- | ---------- | ------ |
+| 1st Row |     123       |      123      |     123       |    123    |
+| 2nd Row      |     123       |     123       |      123      |   123     |
+| 3rd Row  |      123      |      123      |     123       |    123    |
+| ......         |      123      |     123       |      123      |    123    |
+
+
+> Cell width can vary, because markdown will automatically detect and organize the 
+table for you with the same width.***
+
+
+3. You can align text in the columns to the left, right, or center by adding a 
+colon, ":", to the left, right, or on both side of the hyphens, "---", within the 
+header [@cone2025markdown]. 
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+|            | 1st Column | 2nd Column | 3rd Column | ...... |
+| :----------: | :---------- | :----------: | ----------: | ------: |
+| 1st Row    |            123|       123     |  123          |        123|
+| 2nd Row    |123            |    123        |           123 |123        |
+| 3rd Row    |     123       |123            |     123       |   123     |
+| ......     |   123         |            123| 123           |123        |
+```
+
+- This code chunk will output like this:
+
+|            | 1st Column | 2nd Column | 3rd Column | ...... |
+| :----------: | :---------- | :----------: | ----------: | ------: |
+| 1st Row    |            123|       123     |  123          |        123|
+| 2nd Row    |123            |    123        |           123 |123        |
+| 3rd Row    |     123       |123            |     123       |   123     |
+| ......     |   123         |            123| 123           |123        |
+
+
+#### Code
+
+1. To add an inline code, you can add a backtick, "`", before and after a word or a 
+text.
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+This is my `inline` code.
+
+`This is my inline code.`
+```
+
+- This will output like this:
+
+This is my `inline` code.
+
+`This is my inline code.`
+
+2. If you want to display a text with a backtick, "`"", as an inline code, you can 
+add a double backtick, "``", before and after the text.
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+``This is a `text` with backticks.``
+```
+
+- This will output like this:
+
+``This is a `text` with backticks.``
+
+3. To add a code block, you can indent each line of the text with more than four 
+spaces or one tab.
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+    This is a code block.
+
+        This is a code block.
+
+            This is a code block.
+
+    This is a code block.
+```
+
+- This will output like this:
+
+```
+    This is a code block.
+
+        This is a code block.
+
+            This is a code block.
+
+    This is a code block.
+```
+
+4. To add a fenced code block, you can add a blank line begining with three 
+backticks, "```", or three tilde signs, "~~~", before and after your code blok.
+
+- Example:
+
+You can code like this:
+
+```markdown
+```{markdown}
+    ```
+    {
+    This is my fenced code block.
+    This is my fenced code block.
+    }
+    ```
+```
+
+- This will output like this:
+
+```
+{
+This is my fenced code block.
+This is my fenced code block.
+}
+```
+
+5. To add a nonexecutive Python code chunk, you can first add a fence code block for 
+your code, then add a word, "python", after the three backticks, "```", in the first 
+line of your fence code block.
+
+- Example :
+
+You can code like this:
+```python
+    ```python
+    print("This is a Python code chunk.")
+    ```
+```
+
+- This will output like this:
+
+```python
+print("This is a Python code chunk.")
+```
+
+6. To add an executive Python code chunk, you can first add a fence code block for 
+your code, then add a word, "python", with brackets, "{}"after the three backticks, 
+"```", in the first line of your fence code block.
+
+- Example:
+
+You can code like this:
+```python
+    ```{{python}}
+    print("This is a Python code chunk.")
+    ```
+```
+
+- This will output like this:
+
+```{python}
+print("This is a Python code chunk.")
+```
+
+7. You can also make an executive Python code chunk not execute the commands inside 
+the code chunk by adding "#| eval: false" to the first line of your code block.
+
+- Example:
+
+You can code like this:
+```python
+    ```{{python}}
+    #| eval: false
+
+    print("This is a Python code chunk.")
+    ```
+```
+
+- This will output like this:
+
+```{python}
+#| eval: false
+
+print("This is a Python code chunk.")
+```
+
+
+> If you add just "#| eval: true" to your code chunk, this code chunk will execute 
+the commands as usual and output the results.
+>
+> If you just add "#| echo: false" to your code chunk, then your code chunk will not 
+be displayed in your rendered output, but the commands in your code chunk will still 
+be executed as usual and the result of the code chunk will be displayed.
+>
+> If you just add "#| output: false" to your code chunk, then the commands in your 
+code chunk will be displayed as usual in the rendered output, but the result of your 
+code chunk will not be displayed.
+
+
+#### Math Notation - Using LaTeX in Markdown
+
+1. To displace an inline math equation, you can add a dollar sign, "$", before and 
+after the math equation.
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+This is a quadratic equation, $ax^2+bx+c=0$.
+
+This is a quadratic equation roots formula, $x = {(-b \pm \sqrt{b^2-4ac})}/{2b}$.
+```
+
+- This code chunk will output like this:
+
+This is a quadratic equation, $ax^2+bx+c=0$.
+
+This is a quadratic equation roots formula, $x = {(-b \pm \sqrt{b^2-4ac})}/{2b}$.
+
+
+> In an inline math equation, make sure you use the division symbol instead of 
+"\\frac{}{}".
+
+
+2. You can center an math equation by adding double dollar signs, "$$", before and 
+after the math equation.
+
+- Example:
+
+You can code like this:
+```markdown
+```{markdown}
+This is a quadratic equation 
+$$
+ax^2+bx+c=0.
+$$
+
+This is a quadratic equation roots formula 
+$$
+x = {(-b \pm \sqrt{b^2-4ac})}/{2b}.
+$$
+```
+
+- This code chunk will output like this:
+
+This is a quadratic equation 
+$$
+ax^2+bx+c=0.
+$$
+
+This is a quadratic equation roots formula 
+$$
+x = {(-b \pm \sqrt{b^2-4ac})}/{2b}.
+$$
+
+
+> Be careful not to add punctuation before a centered math equation.
+>
+> If you want to add a period after a centered math equation, make sure you add it 
+after the end of the math equation and before the second double dollar sign, "$$".
+
+
+#### Footnotes
+
+- To add notes and refercences without confusing for body content, you can add a 
+caret sign, "^", follwed by a identifier number or words without any spaces and tabs 
+inside a brackets, "[]".
+
+- Example:
+
+you can code like this:
+```markdown
+```{markdown}
+This is a body paragraph, and I have a note [^short_footnotes] want to 
+add here. [^long_footnotes]
+
+[^short_footnotes]: This is a notes.
+
+[^long_footnotes]: This is a notes with multiple paragraphs.
+    You can include paragraphs in your footnotes using indentation like this.
+    ```
+    {
+        This is a fenced code block.
+    }
+    ```
+    This is the end of this footnote.
+```
+
+- This code chunk will output like this:
+
+This is a body paragraph, and I have two notes [^short_footnotes] want to add here. 
+[^long_footnotes]
+
+[^short_footnotes]: This is a notes.
+
+[^long_footnotes]: This is a notes with multiple paragraphs.
+    You can include paragraphs in your footnotes using indentation like this.
+    ```
+        print(This is a fenced code block.)
+
+        You can add any thing inside this fenced code block.
+    ```
+    This is the end of this footnote.
+
+
+> Clicking on the footnote number in the body content, will take you to the location 
+where the footnote exists in the document.
+>
+> All footnotes are automatically numbered sequentially at the end of the rendered 
+HTML files and at the bottom of the page where the footnote exists in rendered PDF 
+files.
+>
+>> In the rendered HTML file, each footnote displayed at the end of the document is 
+followed by a link that, when clicked, takes you back to the specific location of 
+the footnote in your body content. You can also move your mouse over the footnote 
+number in the body content, and the content of the footnote will automatically 
+appear below the footnote number.
+
+
+### Conclusion
+
+Markdown is a simple yet powerful way to format text for documentation, blogging, 
+and technical writing. With its easy-to-read syntax, you can structure documents, 
+highlight key points, and present data effectively. It’s widely used in open-source 
+projects, academic writing, and web content due to its flexibility and seamless 
+conversion to HTML, PDF, and DOCX. Mastering Markdown can help you create clear, 
+well-organized content with minimal effort. 
+
+
+### Further Readings
+
+1. [Markdown Cheet Sheet] [@cone2025markdown]: A quick reference to the Markdown 
+syntax.
+2. [Quarto Markdown Basic] [@dervieux2025markdown]: Markdown basic for Quarto.
+3. [GitHub Flavored Markdown (GFM)] [@macfarlane2019github]: Markdown features 
+specific to GitHub. 
+4. [Jupyter Notebook Markdown] [@macfarlane2025pandoc]: Use Markdown for interactive 
+data science.
+
+
+
