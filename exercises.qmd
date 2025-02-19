@@ -155,7 +155,7 @@
      table for `severe` versus borough. Is the severity of the crashes the
      same across boroughs? Test the null hypothesis that the two variables
      are not associated with an appropriate test.
-    a.  Merge the crash data with the zip code database.
+    a.  Merge the crash data with the Census zip code database. See if certain demographic or economic factors correlate with traffic incidents. 
     a.  Fit a logistic model with `severe` as the outcome variable and covariates
      that are available in the data or can be engineered from the data. For
      example, zip code level covariates can be obtained by merging with the
