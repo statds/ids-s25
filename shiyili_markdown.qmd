@@ -5,7 +5,7 @@ This section was prepared by Shiyi Li. I am a senior majoring in Mathematics/Sta
 
 ### Introduction
 
-Hi! I am Shiyi Li. I am currently a senior majoring in Math/Stat and aiming to graduate in August this year. Today's presentation, I will introduce some basic syntax on markdown. Markdown is a plain text format, an easy way to write content for a web interface. It is widely used in open-source documentation, including GitHub, R Markdown, Quarto, Jupyter Notebooks, etc. Its syntax is easy to learn, write, read, and seamlessly convert to HTML, PDF, and DOCX formats. I will divide my presentation into three parts, Structuring the Document, Formatting Text, and Enhancing Content.
+Today's presentation, I will introduce some basic syntax on markdown. Markdown is a plain text format, an easy way to write content for a web interface. It is widely used in open-source documentation, including GitHub, R Markdown, Quarto, Jupyter Notebooks, etc. Its syntax is easy to learn, write, read, and seamlessly convert to HTML, PDF, and DOCX formats. I will divide my presentation into three parts, Structuring the Document, Formatting Text, and Enhancing Content.
 
 ### Structuring the Document
 
@@ -33,21 +33,6 @@ You can code like this:
 ###### Heading 6
 ```
 
-- This will create a structural context for you, like this:   (找到可以只显示结果的方法，但不影响整个introduction section 的structure。)
-
-# Heading 1 (Main Title)
-
-## Heading 2 (Section)
-
-### Heading 3 (Subsection)
-
-#### Heading 4
-
-##### Heading 5
-
-###### Heading 6
-
-
 > Be careful, you need to make sure that there is a blank line before and after your heading levels and a space between your number sign "#" and the heading name.
 
 
@@ -63,14 +48,6 @@ Heading 1 (Main Title)
 Heading 2 (Section)
 ------
 ```
-
-- This code chunk will output like this:
-
-Heading 1 (Main Title)
-======
-Heading 2 (Section)
-------
-
 
 > However, this method can only be used to create two heading levels like above.
 
