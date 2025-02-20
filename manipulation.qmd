@@ -73,7 +73,7 @@ df.loc[(df['latitude'] == 0) & (df['longitude'] == 0),
 df['latitude'] = df['latitude'].replace(0, pd.NA)
 df['longitude'] = df['longitude'].replace(0, pd.NA)
 
-# Drop the redundant 'location' column
+# Drop the redundant `latitute` and `longitude` columns
 df = df.drop(columns=['location'])
 
 # Converting 'crash_date' and 'crash_time' columns into a single datetime column
@@ -509,18 +509,36 @@ Feather is a fast, lightweight, and easy-to-use binary file format for
 storing data frames, optimized for speed and efficiency, particularly
 for IPC and data sharing between Python and R or Julia.
 
+
+The following code processes the cleaned data in CSV format from
+Mohammad Mundiwala and write out in Arrow format.
+
 ```{python}
-#| echo: true
 #| eval: false
 
-df = read_csv("")
+import pandas as pd
+
+# Read CSV, ensuring 'zip_code' is string and 'crash_datetime' is parsed as datetime
+df = pd.read_csv('data/nyc_crashes_cleaned_mm.csv',
+                 dtype={'zip_code': str},
+                 parse_dates=['crash_datetime'])
+
+# Drop the 'date' and 'time' columns
+df = df.drop(columns=['crash_date', 'crash_time'])
+
+# Move 'crash_datetime' to the first column
+df = df[['crash_datetime'] + df.drop(columns=['crash_datetime']).columns.tolist()]
+
+df['zip_code'] = df['zip_code'].astype(str).str.rstrip('.0')
+
+df = df.sort_values(by='crash_datetime')
+
+df.to_feather('nyccrashes_cleaned.feather')
 ```
 
-```{python}
-#| eval: false
-df.to_feather('data/nyccrashes_cleaned.feather')
+Let's compare the file sizes of the feather format and the CSV format.
 
-# Compare the file sizes of the feather format and the CSV format
+```{python}
 import os
 
 # File paths
