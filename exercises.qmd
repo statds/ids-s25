@@ -83,7 +83,7 @@
 
 1. **Game 24**
    The [math game 24](http://en.wikipedia.org/wiki/24_Game) is one of the
-   addictive games among number lovers. With four randomly selected cards form
+   addictive games among number lovers. With four randomly selected cards from
    a deck of poker cards, use all four values and elementary arithmetic
    operations ($+-\times /$) to come up with 24. Let $\square$ be one of
    the four numbers. Let $\bigcirc$ represent one of the four operators.
@@ -112,6 +112,8 @@
     handling of the date time variables.
     a.  Clean up the variable names. Use lower cases and replace
     spaces with underscores.
+    a.  Check the crash date and time to see if they really match the
+   filter we intented. Remove the extra rows if needed.	
     a.  Get the basic summaries of each variables:
     missing percentage; descriptive statistics for continuous variables;
     frequency tables for discrete variables.
@@ -147,16 +149,17 @@
     a.  Construct a `hour` variable with integer values from 0 to 23. Plot the
      histogram of the number of crashes by `hour`. Plot it by borough.
     a.  Overlay the locations of the crashes on a map of NYC. The map could be a
-     static map or Google map.
+     static map or a Google map.
     a.  Create a new variable `severe` which is one if the number of persons
      injured or deaths is 1 or more; and zero otherwise. Construct a cross
      table for `severe` versus borough. Is the severity of the crashes the
      same across boroughs? Test the null hypothesis that the two variables
      are not associated with an appropriate test.
-    a.  Merge the crash data with the zip code database.
+    a.  Merge the crash data with the Census zip code database which
+   contains zip-code level demographic or socioeconomic variables.
     a.  Fit a logistic model with `severe` as the outcome variable and covariates
      that are available in the data or can be engineered from the data. For
-     example, zip code level covariates can be obtained by merging with the
+     example, zip code level covariates obtained from merging with the
      zip code database; crash hour; number of vehicles involved.
 
 1. **NYC Crash severity modeling**
