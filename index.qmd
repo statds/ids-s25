@@ -332,11 +332,7 @@ Please use the following table to sign up.
    02/19 |  Lang, Lang     | Data manipulation with Pandas
    02/24 |  Ackerman, John     | Performing Statistical Tests (SciPy)
    02/26 |  Horn, Alyssa Noelle     | Database operation with Structured query language (SQL)
-<<<<<<< HEAD
    03/03 |  El Zein, Amer Hani     |
-=======
-   03/03 |  Xu, Peiwen     |
->>>>>>> upstream/main
    03/05 |  Schittina, Thomas     |
    03/10 |  Kline, Daniel Esteban     |
    03/12 |  Edo, Mezmur Wossenu      |
