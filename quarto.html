@@ -20,7 +20,61 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -69,6 +123,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -178,6 +261,15 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#render-the-classnotes" id="toc-render-the-classnotes" class="nav-link" data-scroll-target="#render-the-classnotes"><span class="header-section-number">3.2.3</span> Render the Classnotes</a></li>
   <li><a href="#login-requirements" id="toc-login-requirements" class="nav-link" data-scroll-target="#login-requirements"><span class="header-section-number">3.2.4</span> Login Requirements</a></li>
   </ul></li>
+  <li><a href="#a-primer-of-markdown" id="toc-a-primer-of-markdown" class="nav-link" data-scroll-target="#a-primer-of-markdown"><span class="header-section-number">3.3</span> A Primer of Markdown</a>
+  <ul class="collapse">
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction"><span class="header-section-number">3.3.1</span> Introduction</a></li>
+  <li><a href="#structuring-the-document" id="toc-structuring-the-document" class="nav-link" data-scroll-target="#structuring-the-document"><span class="header-section-number">3.3.2</span> Structuring the Document</a></li>
+  <li><a href="#formatting-text" id="toc-formatting-text" class="nav-link" data-scroll-target="#formatting-text"><span class="header-section-number">3.3.3</span> Formatting Text</a></li>
+  <li><a href="#enhancing-content" id="toc-enhancing-content" class="nav-link" data-scroll-target="#enhancing-content"><span class="header-section-number">3.3.4</span> Enhancing Content</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="header-section-number">3.3.5</span> Conclusion</a></li>
+  <li><a href="#further-readings" id="toc-further-readings" class="nav-link" data-scroll-target="#further-readings"><span class="header-section-number">3.3.6</span> Further Readings</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -257,9 +349,1131 @@ quarto render</code></pre>
 <section id="login-requirements" class="level3" data-number="3.2.4">
 <h3 data-number="3.2.4" class="anchored" data-anchor-id="login-requirements"><span class="header-section-number">3.2.4</span> Login Requirements</h3>
 <p>For some illustrations, you need to interact with certain sites that require account information. For example, for Google map services, you need to save your API key in a file named <code>api_key.txt</code> in the root folder of the source. Another example is to access the US Census API, where you would need to register an account and get your Census API Key.</p>
-
-
+<!-- This section is to be included as a Primer of Markdown. -->
 </section>
+</section>
+<section id="a-primer-of-markdown" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="a-primer-of-markdown"><span class="header-section-number">3.3</span> A Primer of Markdown</h2>
+<p>This section was prepared by Shiyi Li. I am a senior majoring in Mathematics/ Statistics and minoring in CSE. I aim to graduate from the University of Connecticut in August and continue my master’s in Data Science program.</p>
+<section id="introduction" class="level3" data-number="3.3.1">
+<h3 data-number="3.3.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">3.3.1</span> Introduction</h3>
+<p>Today’s presentation, I will introduce some basic syntax on markdown. Markdown is a plain text format, an easy way to write content for a web interface. It is widely used in open-source documentation, including GitHub, R Markdown, Quarto, Jupyter Notebooks, etc. Its syntax is easy to learn, write, read, and seamlessly convert to HTML, PDF, and DOCX formats. I will divide my presentation into three parts, Structuring the Document, Formatting Text, and Enhancing Content.</p>
+</section>
+<section id="structuring-the-document" class="level3" data-number="3.3.2">
+<h3 data-number="3.3.2" class="anchored" data-anchor-id="structuring-the-document"><span class="header-section-number">3.3.2</span> Structuring the Document</h3>
+<p>There are some elements can define sections and hierarchy to help organize content in a clear and structured manner.</p>
+<section id="headings" class="level4" data-number="3.3.2.1">
+<h4 data-number="3.3.2.1" class="anchored" data-anchor-id="headings"><span class="header-section-number">3.3.2.1</span> Headings</h4>
+<ol type="1">
+<li>To create heading levels for topics, sections, or subsections, you can add number signs, “#”, before you write any content for them.</li>
+</ol>
+<ul>
+<li>Example:</li>
+</ul>
+<p>You can code like this:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{markdown}</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="in"># Heading 1 (Main Title)</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="in">## Heading 2 (Section)</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="in">### Heading 3 (Subsection)</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="in">#### Heading 4</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="in">##### Heading 5</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="in">###### Heading 6</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<blockquote class="blockquote">
+<p>Be careful, you need to make sure that there is a blank line before and after your heading levels and a space between your number sign “#” and the heading name.</p>
+</blockquote>
+<ol start="2" type="1">
+<li>Alternatively, you can also use any number of double equal sign, “==”, or double dashes sign, “–”, to create a heading.</li>
+</ol>
+<ul>
+<li>Example:</li>
+</ul>
+<p>You can code like this:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{markdown}</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="in">Heading 1 (Main Title)</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="in">======</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="in">Heading 2 (Section)</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="in">------</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<blockquote class="blockquote">
+<p>However, this method can only be used to create two heading levels like above.</p>
+</blockquote>
+</section>
+<section id="horizontal-rules---line-seperator" class="level4" data-number="3.3.2.2">
+<h4 data-number="3.3.2.2" class="anchored" data-anchor-id="horizontal-rules---line-seperator"><span class="header-section-number">3.3.2.2</span> Horizontal Rules - line Seperator</h4>
+<ul>
+<li><p>A horizontal rule adds a visual break between parts of text by adding three or more asterisks, “***“, dashes,”—“, or underscores,”___“, on a line by themselves.</p></li>
+<li><p>Example:</p></li>
+</ul>
+<p>You can code like this:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{markdown}</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="in">This is the part 1.</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="in">--------</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="in">This is the part 2.</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="in">********</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="in">This is the part 3.</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="in">_________</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="in">This is the part 4.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>This code chunk will output like this:</li>
+</ul>
+<p>This is the part 1.</p>
+<hr>
+<p>This is the part 2.</p>
+<hr>
+<p>This is the part 3.</p>
+<hr>
+<p>This is the part 4.</p>
+<blockquote class="blockquote">
+<p>Be careful. You need to make sure you add a blank line before and after your separator line.</p>
+</blockquote>
+</section>
+<section id="paragraphs" class="level4" data-number="3.3.2.3">
+<h4 data-number="3.3.2.3" class="anchored" data-anchor-id="paragraphs"><span class="header-section-number">3.3.2.3</span> Paragraphs</h4>
+<ul>
+<li><p>To create paragraphs, you can add a blank line between two paragraphs just like you usually create paragraphs in an essay.</p></li>
+<li><p>Example:</p></li>
+</ul>
+<p>You can code like this:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{markdown}</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="in">This is the first paragraph ........................................</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="in">.....................................................................</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="in">.....................................................................</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="in">... end the first paragraph.</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="in">This is the second paragraph .........................................................</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="in">...................................................................</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="in">.....................................................................</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="in">...end the second paragraph.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>This will output like this:</li>
+</ul>
+<p>This is the first paragraph …………………………………. …………………………………………………………… …………………………………………………………… … end the first paragraph.</p>
+<p>This is the second paragraph ………………………………………………… …………………………………………………………. …………………………………………………………… …end the second paragraph.</p>
+</section>
+<section id="blockquotes" class="level4" data-number="3.3.2.4">
+<h4 data-number="3.3.2.4" class="anchored" data-anchor-id="blockquotes"><span class="header-section-number">3.3.2.4</span> Blockquotes</h4>
+<ol type="1">
+<li>To highlight multiple line important text, cite multiple line references, or quote multiple line important points, you can add a greater than sign, “&gt;”, at the begining of each line of the text.</li>
+</ol>
+<ul>
+<li>Example:</li>
+</ul>
+<p>You can code like this:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{markdown}</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="in">&gt; This is an important text.</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="in">&gt;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="in">&gt; This is a citation/reference.</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="in">&gt;</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="in">&gt; This is a quotation.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>This code will output like this:</li>
+</ul>
+<blockquote class="blockquote">
+<p>This is an important text.</p>
+<p>This is a citation/reference.</p>
+<p>This is a quotation.</p>
+</blockquote>
+<ul>
+<li>Wrong Example:</li>
+</ul>
+<p>If you code like this:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{markdown}</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="in">&gt; This is an important text.</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="in">&gt; This is a citation/reference.</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="in">&gt; This is a quotation.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>It will output like this:</li>
+</ul>
+<blockquote class="blockquote">
+<p>This is an important text. This is a citation/reference. This is a quotation.</p>
+</blockquote>
+<p><strong><em>Be sure to add a blank line with a greater-than sign, “&gt;”, otherwise the output will display multiple lines of text in a single line.</em></strong></p>
+<ol start="2" type="1">
+<li>You can also nest blockquotes by adding two or more greater than signs, “&gt;&gt;”.</li>
+</ol>
+<ul>
+<li>Example:</li>
+</ul>
+<p>You can code like this:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{markdown}</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="in">&gt; This is an important text.</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="in">&gt;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="in">&gt;&gt; This is a citation/reference.</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="in">&gt;&gt;</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="in">&gt;&gt;&gt; This is a quotation.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>This code will output like this:</li>
+</ul>
+<blockquote class="blockquote">
+<p>This is an important text.</p>
+<blockquote class="blockquote">
+<p>This is a citation/reference.</p>
+<blockquote class="blockquote">
+<p>This is a quotation.</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p><strong><em>Be sure to add a blank line before the first line of your blockquotes, otherwise, it will not look right.</em></strong></p>
+</section>
+</section>
+<section id="formatting-text" class="level3" data-number="3.3.3">
+<h3 data-number="3.3.3" class="anchored" data-anchor-id="formatting-text"><span class="header-section-number">3.3.3</span> Formatting Text</h3>
+<p>There are some elements to make text stand out, improving emphasis and readability like Bold, Italic, and Strikethrough text.</p>
+<section id="bold" class="level4" data-number="3.3.3.1">
+<h4 data-number="3.3.3.1" class="anchored" data-anchor-id="bold"><span class="header-section-number">3.3.3.1</span> Bold</h4>
+<ul>
+<li><p>To bold text, you can add two asterisks, “**“, or underscores,”__“, before and after the text.</p></li>
+<li><p>Example:</p></li>
+</ul>
+<p>You can code like this:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{markdown}</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="in">**This is the first important text.**</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="in">__This is the second important text.__</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="in">This is the __third important__ text.</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="in">This is the **fourth important** text.</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="in">This is the f**if**th important text.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>This will output like this:</li>
+</ul>
+<p><strong>This is the first important text.</strong></p>
+<p><strong>This is the second important text.</strong></p>
+<p>This is the <strong>third important</strong> text.</p>
+<p>This is the <strong>fourth important</strong> text.</p>
+<p>This is the fifth im<strong>portan</strong>t text.</p>
+<blockquote class="blockquote">
+<p>Be careful do not use underscores, “__“, to bold charachers inside a word, like this”This is the fifth im__portan__t text”.***</p>
+</blockquote>
+</section>
+<section id="italic" class="level4" data-number="3.3.3.2">
+<h4 data-number="3.3.3.2" class="anchored" data-anchor-id="italic"><span class="header-section-number">3.3.3.2</span> Italic</h4>
+<ul>
+<li><p>To italicize a text, you can add one asterisk, “*“, or one underscore,”_“, before and after a text.</p></li>
+<li><p>Example:</p></li>
+</ul>
+<p>You can code like this:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{markdown}</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="in">*ThIs Is the fIrst Important TexT.*</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="in">_ThIs Is the second Important TexT._</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="in">This is the _Third ImportanT_ text.</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="in">This is the *fourth ImportanT* text.</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="in">Fifth im*PORtaN*t text.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>This code chunk will output like this:</li>
+</ul>
+<p><em>ThIs Is the fIrst Important TexT.</em></p>
+<p><em>ThIs Is the second Important TexT.</em></p>
+<p>This is the <em>Third ImportanT</em> text.</p>
+<p>This is the <em>fourth ImportanT</em> text.</p>
+<p>Fifth im<em>PORtaN</em>t text.</p>
+<blockquote class="blockquote">
+<p>Be careful don’t use underscores, “_“, to italicize charachers inside a word, like this”Fifth im_porta_nt text”.</p>
+</blockquote>
+</section>
+<section id="bold-italic" class="level4" data-number="3.3.3.3">
+<h4 data-number="3.3.3.3" class="anchored" data-anchor-id="bold-italic"><span class="header-section-number">3.3.3.3</span> Bold &amp; Italic</h4>
+<p>To bold and italicize for the same text, you can use three asterisks, “***“, or three underscores,”___“, before and after a text.</p>
+<ul>
+<li>Example:</li>
+</ul>
+<p>You can code like this:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{markdown}</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="in">***This is the first important text.***</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="in">___This is the second important text.___</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="in">This is the ___third important___ text.</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="in">This is the ***fourth important*** text.</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="in">Fifth i***mportan***t text.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>This code chunk will output like this:</li>
+</ul>
+<p><strong><em>This is the first important text.</em></strong></p>
+<p><strong><em>This is the second important text.</em></strong></p>
+<p>This is the <strong><em>third important</em></strong> text.</p>
+<p>This is the <strong><em>fourth important</em></strong> text.</p>
+<p>Fifth i<strong><em>mportan</em></strong>t text.</p>
+<blockquote class="blockquote">
+<p>Be careful don’t use underscores, “___“, to bold and italicize charachers inside a word, like this”Fifth im___porta___nt text”.</p>
+</blockquote>
+</section>
+<section id="highlight" class="level4" data-number="3.3.3.4">
+<h4 data-number="3.3.3.4" class="anchored" data-anchor-id="highlight"><span class="header-section-number">3.3.3.4</span> Highlight</h4>
+<ul>
+<li><p>To highlight a text, you can add this sign, “&lt;mark&gt;”, before the text and add this sign, “&lt;/mark&gt;”, after the text.</p></li>
+<li><p>Example:</p></li>
+</ul>
+<p>You can code like this:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{markdown}</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;mark&gt;This is a text that needs to be highlighted.&lt;/mark&gt;</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="in">This is a te&lt;mark&gt;xt that needs to be high&lt;/mark&gt;lighted.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>This code chunk will output like this:</li>
+</ul>
+<p><mark>This is a text that needs to be highlighted.</mark></p>
+<p>This is a te<mark>xt that needs to be high</mark>lighted.</p>
+</section>
+<section id="strikethrough---deleted-or-removed-text" class="level4" data-number="3.3.3.5">
+<h4 data-number="3.3.3.5" class="anchored" data-anchor-id="strikethrough---deleted-or-removed-text"><span class="header-section-number">3.3.3.5</span> Strikethrough - Deleted or Removed Text</h4>
+<ul>
+<li><p>To show a deletion or correction on a text, you can add double tilde signs, “~~”, before and after the part of the deletion or correction on your text.</p></li>
+<li><p>Example:</p></li>
+</ul>
+<p>You can code like this:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{markdown}</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="in">~~This text is struck through~~ This is the correct text.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>This code chunk will output like this:</li>
+</ul>
+<p><del>This text is struck through</del> This is the correct text.</p>
+</section>
+</section>
+<section id="enhancing-content" class="level3" data-number="3.3.4">
+<h3 data-number="3.3.4" class="anchored" data-anchor-id="enhancing-content"><span class="header-section-number">3.3.4</span> Enhancing Content</h3>
+<p>To enhance the illustrative capabilities of your content, there are several elements you can add to your document, including subscript, superscript, lists, tables, footnotes, links, images, math notations, etc.</p>
+<section id="subscript" class="level4" data-number="3.3.4.1">
+<h4 data-number="3.3.4.1" class="anchored" data-anchor-id="subscript"><span class="header-section-number">3.3.4.1</span> Subscript</h4>
+<ul>
+<li><p>To add a subscript before, after or within a number or word, you can add a tilde symbol, “~”, before and after the text you want to subscript.</p></li>
+<li><p>Example:</p></li>
+</ul>
+<p>You can code like this:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{markdown}</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="in">This is a subscript before and after a word: </span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="in">~subscript~word~subscript~</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="in">This is a subscript within a word: </span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="in">Wor~111000~ds</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="in">This is a subscript before and after a number: </span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="in">~7878~11111~7878~ </span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="in">This is a subscript within a number: </span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a><span class="in">999~subscript~999</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>This code chunk will output like this:</li>
+</ul>
+<p>This is a subscript before and after a word:</p>
+<p><sub>subscript</sub>word<sub>subscript</sub></p>
+<p>This is a subscript within a word:</p>
+<p>Wor<sub>111000</sub>ds</p>
+<p>This is a subscript before and after a number:</p>
+<p><sub>7878</sub>11111<sub>7878</sub></p>
+<p>This is a subscript within a number:</p>
+<p>999<sub>subscript</sub>999</p>
+<blockquote class="blockquote">
+<p>Be sure not to add any spaces or tabs between the two tilde symbols, “~ ~”.</p>
+</blockquote>
+</section>
+<section id="superscript" class="level4" data-number="3.3.4.2">
+<h4 data-number="3.3.4.2" class="anchored" data-anchor-id="superscript"><span class="header-section-number">3.3.4.2</span> Superscript</h4>
+<ul>
+<li><p>To add a superscript before, after or within a number or word, you can add a caret symbol, “^”, before and after the text you want to superscript.</p></li>
+<li><p>Example:</p></li>
+</ul>
+<p>You can code like this:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{markdown}</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="in">This is a superscript before and after a word:</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="in">^787878^Words^787878^</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="in">This is a superscript within a word:</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="in">Wor^787878^ds</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="in">This is a superscript before and after a number:</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="in">^superscript^1111111^superscript^  </span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="in">This is a superscript within a number:</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a><span class="in">999^superscript^999</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>This will output like this:</li>
+</ul>
+<p>This is a superscript before and after a word:</p>
+<p><sup>787878</sup>Words<sup>787878</sup></p>
+<p>This is a superscript within a word:</p>
+<p>Wor<sup>787878</sup>ds</p>
+<p>This is a superscript before and after a number:</p>
+<p><sup>superscript</sup>1111111<sup>superscript</sup></p>
+<p>This is a superscript within a number:</p>
+<p>999<sup>superscript</sup>999</p>
+<blockquote class="blockquote">
+<p>Be sure not to add any spaces or tabs between the two caret symbols, “<sup>…</sup>”.</p>
+</blockquote>
+</section>
+<section id="lists" class="level4" data-number="3.3.4.3">
+<h4 data-number="3.3.4.3" class="anchored" data-anchor-id="lists"><span class="header-section-number">3.3.4.3</span> Lists</h4>
+<p>To organize a list (nested list), you can use ordered or unordered numbers or alphabets followed by a period sign, “.”, dashes, “-”, asterisks, “*“, or plus signs,”+“, in front of line items. Markdown is smart, it will automatically detect and organize a list for you.</p>
+<p><strong>1. Using Ordered numbers followed by a period sign:</strong></p>
+<ul>
+<li>Example:</li>
+</ul>
+<p>You can code like this:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{markdown}</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="in">1. First item</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="in">2. Second item</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="in">    1. Third item</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="in">    2. Fourth item</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="in">3. Fifth item</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>This code chunk will output like this:</li>
+</ul>
+<p>Using Ordered numbers followed by a period sign:</p>
+<ol type="1">
+<li>First item</li>
+<li>Second item
+<ol type="1">
+<li>Third item</li>
+<li>Fourth item</li>
+</ol></li>
+<li>Fifth item</li>
+</ol>
+<p><strong>2. Using Unordered numbers followed by a period sign:</strong></p>
+<ul>
+<li>Example:</li>
+</ul>
+<p>You can code like this:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{markdown}</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="in">2. First item</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="in">2. Second item</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="in">    2. Third item</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="in">    2. Fourth item</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="in">2. Fifth item</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="in">2. First item</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="in">7. Second item</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="in">    9. Third item</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="in">    2. Fourth item</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="in">10. Fifth item</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>This code chunk will output like this:</li>
+</ul>
+<p>Using Unordered numbers followed by a period sign:</p>
+<ol start="2" type="1">
+<li><p>First item</p></li>
+<li><p>Second item</p>
+<ol start="2" type="1">
+<li>Third item</li>
+<li>Fourth item</li>
+</ol></li>
+<li><p>Fifth item</p></li>
+<li><p>First item</p></li>
+<li><p>Second item</p>
+<ol start="9" type="1">
+<li>Third item</li>
+<li>Fourth item</li>
+</ol></li>
+<li><p>Fifth item</p></li>
+</ol>
+<blockquote class="blockquote">
+<p>Be careful, for an unordered list to work as you want, you need to take care of the first number or letter of the first item of your (nested) list, because markdown will order the list starting with the first number or alphabet of your (nested) list.</p>
+</blockquote>
+<p><strong>3. Using dashes:</strong></p>
+<ul>
+<li>Example:</li>
+</ul>
+<p>You can code like this:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{markdown}</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="in">- First item</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="in">- Second item</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="in">    - Third item</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="in">    - Fourth item</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="in">- Fifth item</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>This code chunk will output like this:</li>
+</ul>
+<p>Using dashes:</p>
+<ul>
+<li>First item</li>
+<li>Second item
+<ul>
+<li>Third item</li>
+<li>Fourth item</li>
+</ul></li>
+<li>Fifth item</li>
+</ul>
+<p><strong>4. Using asterisks:</strong></p>
+<ul>
+<li>Example:</li>
+</ul>
+<p>You can code like this:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{markdown}</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="in">* First item</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="in">* Second item</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="in">    * Third item</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="in">    * Fourth item</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="in">* Fifth item</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>This code chunk will output like this:</li>
+</ul>
+<p>Using asterisks:</p>
+<ul>
+<li>First item</li>
+<li>Second item
+<ul>
+<li>Third item</li>
+<li>Fourth item</li>
+</ul></li>
+<li>Fifth item</li>
+</ul>
+<p><strong>5. Using plus signs:</strong></p>
+<ul>
+<li>Example:</li>
+</ul>
+<p>You can code like this:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{markdown}</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="in">+ First item</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="in">+ Second item</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="in">    + Third item</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="in">    + Fourth item</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="in">+ Fifth item</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>This code chunk will output like this:</li>
+</ul>
+<p>Using plus signs:</p>
+<ul>
+<li>First item</li>
+<li>Second item
+<ul>
+<li>Third item</li>
+<li>Fourth item</li>
+</ul></li>
+<li>Fifth item</li>
+</ul>
+<p><strong>6. Using alphabets:</strong></p>
+<ul>
+<li>Example:</li>
+</ul>
+<p>You can code like this:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{markdown}</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="in">a. First item</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="in">b. Second item</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="in">    a. Third item</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="in">    b. Fourth item</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="in">c. Fifth item</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="in">w. First item</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="in">a. Second item</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="in">    c. Third item</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="in">    y. Fourth item</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="in">a. Fifth item</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>This code chunk will output like this:</li>
+</ul>
+<p>Using alphabets:</p>
+<ol type="a">
+<li><p>First item</p></li>
+<li><p>Second item</p>
+<ol type="a">
+<li>Third item</li>
+<li>Fourth item</li>
+</ol></li>
+<li><p>Fifth item</p></li>
+<li><p>First item</p></li>
+<li><p>Second item</p>
+<ol start="3" type="a">
+<li>Third item</li>
+<li>Fourth item</li>
+</ol></li>
+<li><p>Fifth item</p></li>
+</ol>
+<p><strong>7. Using different delimiters:</strong></p>
+<ul>
+<li>Example:</li>
+</ul>
+<p>You can code like this:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{markdown}</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="in">+ First item</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="in">- Second item</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="in">    * Third item</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="in">    + Fourth item</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="in">* Fifth item</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>This code chunk will output like this:</li>
+</ul>
+<p>Using different delimiters:</p>
+<ul>
+<li>First item</li>
+<li>Second item
+<ul>
+<li>Third item</li>
+<li>Fourth item</li>
+</ul></li>
+<li>Fifth item</li>
+</ul>
+<blockquote class="blockquote">
+<p>Using different delimiters in the same list has no effect on the list organized by markdown.</p>
+<p>Be careful, you need to make sure you add a blank line before the list starts.</p>
+<p>You can also use a backslash, “", to escape a period,”.”, if you do not want to create a list and still need a period after a number or alphabet.</p>
+</blockquote>
+</section>
+<section id="task-lists---to-do-list" class="level4" data-number="3.3.4.4">
+<h4 data-number="3.3.4.4" class="anchored" data-anchor-id="task-lists---to-do-list"><span class="header-section-number">3.3.4.4</span> Task Lists - To-Do List</h4>
+<ul>
+<li><p>To add a task/to-do list, you can add this sign, “- [ ]”, or this sign, “- [x]”, before each item in your task/to-do list.</p></li>
+<li><p>Example:</p></li>
+</ul>
+<p>You can code like this:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{markdown}</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="in">- [ ] Task not completed</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="in">- [x] Task completed</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li><p>This code chunk will output like this:</p></li>
+<li><p><label><input type="checkbox">Task not completed</label></p></li>
+<li><p><label><input type="checkbox" checked="">Task completed</label></p></li>
+</ul>
+<blockquote class="blockquote">
+<p>In your rendered HTML file, you can check or uncheck the completion marks in the small box at the front of each task.</p>
+</blockquote>
+</section>
+<section id="links" class="level4" data-number="3.3.4.5">
+<h4 data-number="3.3.4.5" class="anchored" data-anchor-id="links"><span class="header-section-number">3.3.4.5</span> Links</h4>
+<ol type="1">
+<li>You can add a link in your text by enclosing your added link with parentheses, “()”. In addition, you can also optionally add a name or a short description for the link by enclosing them with brackets, “[]”, before the link and this will appear as a tooltip when the user hovers over the link</li>
+</ol>
+<ol class="example" type="1">
+<li></li>
+</ol>
+<ul>
+<li>Example:</li>
+</ul>
+<p>You can code like this:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{markdown}</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="in">We can use the </span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="in">[Markdown Cheat Sheet](https://www.markdownguide.org/basic-syntax/#code-blocks) </span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="in">to learn more generally used markdown syntax. </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>This code chunk will output like this:</li>
+</ul>
+<p>We can use the <a href="https://www.markdownguide.org/basic-syntax/#code-blocks">Markdown Cheat Sheet</a> to learn more generally used markdown syntax.</p>
+<ol start="2" type="1">
+<li>You can add an Reference Style Link by enclosing the name or description of the link and a number/word pointed to the link with brackets, “[]”.</li>
+</ol>
+<ul>
+<li>Example:</li>
+</ul>
+<p>You can code like this:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{markdown}</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="in">We can use the [Markdown Cheat Sheet][4] to learn more generally used </span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="in">markdown syntax. </span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="in">[4]: https://www.markdownguide.org/basic-syntax/#code-blocks</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>This code chunk will output like this:</li>
+</ul>
+<p>We can use the <a href="https://www.markdownguide.org/basic-syntax/#code-blocks">Markdown Cheat Sheet</a> to learn more generally used markdown syntax.</p>
+<blockquote class="blockquote">
+<p>Remember to start a new line and add the link as a footnote after the number or word pointed to the reference enclosed by brackets, “[]”.</p>
+</blockquote>
+</section>
+<section id="images" class="level4" data-number="3.3.4.6">
+<h4 data-number="3.3.4.6" class="anchored" data-anchor-id="images"><span class="header-section-number">3.3.4.6</span> Images</h4>
+<ul>
+<li><p>To add images from your local computer or a website, you can add an exclamation mark, “!”, followed by a description or other text enclosing with brackets, “[]”, and a path/URL to the image enclosing with parentheses, “()”.</p></li>
+<li><p>Example:</p></li>
+</ul>
+<p>You can code like this:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{markdown}</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="in">![This is a description to an online image](https://today.uconn.edu/2023/01/</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="in">uconn-on-campus-construction-update-january-2023/)</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="in">![This is a description to a local image](/Users/shiyili/</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="in">Desktop/UCONN.jpg)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>The render output will show like this:</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://today.uconn.edu/wp-content/uploads/2023/01/snow220108a084-1536x1023.jpg" class="img-fluid figure-img"></p>
+<figcaption>This is a description to an online image.</figcaption>
+</figure>
+</div>
+</section>
+<section id="tables" class="level4" data-number="3.3.4.7">
+<h4 data-number="3.3.4.7" class="anchored" data-anchor-id="tables"><span class="header-section-number">3.3.4.7</span> Tables</h4>
+<ul>
+<li><p>To create a table, you can use three or more hyphens, “—”, and pipes, “|”, to create and separate each column respectively.</p></li>
+<li><p>Example:</p></li>
+</ul>
+<p>You can code like this:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{markdown}</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="in">1. Each cell with the same width in code chunk:</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="in">|            | 1st Column | 2nd Column | 3rd Column | ...... |</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="in">| ---------- | ---------- | ---------- | ---------- | ------ |</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="in">| 1st Row    |    123     |     123    |     123    |   123  |</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="in">| 2nd Row    |    123     |     123    |     123    |   123  |</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="in">| 3rd Row    |    123     |     123    |     123    |   123  |</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="in">| ......     |    123     |     123    |     123    |   123  |</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a><span class="in">2. Each cell with vary width in code chunk:</span></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a><span class="in">|            | 1st Column | 2nd Column | 3rd Column | ...... |</span></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a><span class="in">| ------ | ---------- | ---------- | ---------- | ------ |</span></span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a><span class="in">| 1st Row |     123       |      123      |     123       |    123    |</span></span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a><span class="in">| 2nd Row      |     123       |     123       |      123      |   123     |</span></span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a><span class="in">| 3rd Row  |      123      |      123      |     123       |    123    |</span></span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a><span class="in">| ......         |      123      |     123       |      123      |    123    |</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>This code chunk will output like this:</li>
+</ul>
+<ol type="1">
+<li>Each cell with the same width in code chunk:</li>
+</ol>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 21%">
+<col style="width: 21%">
+<col style="width: 21%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>1st Column</th>
+<th>2nd Column</th>
+<th>3rd Column</th>
+<th>……</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1st Row</td>
+<td>123</td>
+<td>123</td>
+<td>123</td>
+<td>123</td>
+</tr>
+<tr class="even">
+<td>2nd Row</td>
+<td>123</td>
+<td>123</td>
+<td>123</td>
+<td>123</td>
+</tr>
+<tr class="odd">
+<td>3rd Row</td>
+<td>123</td>
+<td>123</td>
+<td>123</td>
+<td>123</td>
+</tr>
+<tr class="even">
+<td>……</td>
+<td>123</td>
+<td>123</td>
+<td>123</td>
+<td>123</td>
+</tr>
+</tbody>
+</table>
+<ol start="2" type="1">
+<li>Each cell with vary width in code chunk:</li>
+</ol>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 23%">
+<col style="width: 23%">
+<col style="width: 23%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>1st Column</th>
+<th>2nd Column</th>
+<th>3rd Column</th>
+<th>……</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1st Row</td>
+<td>123</td>
+<td>123</td>
+<td>123</td>
+<td>123</td>
+</tr>
+<tr class="even">
+<td>2nd Row</td>
+<td>123</td>
+<td>123</td>
+<td>123</td>
+<td>123</td>
+</tr>
+<tr class="odd">
+<td>3rd Row</td>
+<td>123</td>
+<td>123</td>
+<td>123</td>
+<td>123</td>
+</tr>
+<tr class="even">
+<td>……</td>
+<td>123</td>
+<td>123</td>
+<td>123</td>
+<td>123</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p>Cell width can vary, because markdown will automatically detect and organize the table for you with the same width.***</p>
+</blockquote>
+<ol start="3" type="1">
+<li>You can align text in the columns to the left, right, or center by adding a colon, “:”, to the left, right, or on both side of the hyphens, “—”, within the header <span class="citation" data-cites="cone2025markdown">(<a href="references.html#ref-cone2025markdown" role="doc-biblioref">Cone, 2025</a>)</span>.</li>
+</ol>
+<ul>
+<li>Example:</li>
+</ul>
+<p>You can code like this:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{markdown}</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="in">|            | 1st Column | 2nd Column | 3rd Column | ...... |</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="in">| :----------: | :---------- | :----------: | ----------: | ------: |</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="in">| 1st Row    |            123|       123     |  123          |        123|</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="in">| 2nd Row    |123            |    123        |           123 |123        |</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="in">| 3rd Row    |     123       |123            |     123       |   123     |</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="in">| ......     |   123         |            123| 123           |123        |</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>This code chunk will output like this:</li>
+</ul>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 22%">
+<col style="width: 20%">
+<col style="width: 22%">
+<col style="width: 20%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;"></th>
+<th style="text-align: left;">1st Column</th>
+<th style="text-align: center;">2nd Column</th>
+<th style="text-align: right;">3rd Column</th>
+<th style="text-align: right;">……</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1st Row</td>
+<td style="text-align: left;">123</td>
+<td style="text-align: center;">123</td>
+<td style="text-align: right;">123</td>
+<td style="text-align: right;">123</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2nd Row</td>
+<td style="text-align: left;">123</td>
+<td style="text-align: center;">123</td>
+<td style="text-align: right;">123</td>
+<td style="text-align: right;">123</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3rd Row</td>
+<td style="text-align: left;">123</td>
+<td style="text-align: center;">123</td>
+<td style="text-align: right;">123</td>
+<td style="text-align: right;">123</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">……</td>
+<td style="text-align: left;">123</td>
+<td style="text-align: center;">123</td>
+<td style="text-align: right;">123</td>
+<td style="text-align: right;">123</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="code" class="level4" data-number="3.3.4.8">
+<h4 data-number="3.3.4.8" class="anchored" data-anchor-id="code"><span class="header-section-number">3.3.4.8</span> Code</h4>
+<ol type="1">
+<li>To add an inline code, you can add a backtick, “`”, before and after a word or a text.</li>
+</ol>
+<ul>
+<li>Example:</li>
+</ul>
+<p>You can code like this:</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{markdown}</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="in">This is my `inline` code.</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="in">`This is my inline code.`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>This will output like this:</li>
+</ul>
+<p>This is my <code>inline</code> code.</p>
+<p><code>This is my inline code.</code></p>
+<ol start="2" type="1">
+<li>If you want to display a text with a backtick, “`”“, as an inline code, you can add a double backtick,”``“, before and after the text.</li>
+</ol>
+<ul>
+<li>Example:</li>
+</ul>
+<p>You can code like this:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{markdown}</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="in">``This is a `text` with backticks.``</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>This will output like this:</li>
+</ul>
+<p><code>This is a `text` with backticks.</code></p>
+<ol start="3" type="1">
+<li>To add a code block, you can indent each line of the text with more than four spaces or one tab.</li>
+</ol>
+<ul>
+<li>Example:</li>
+</ul>
+<p>You can code like this:</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{markdown}</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="in">    This is a code block.</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="in">        This is a code block.</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="in">            This is a code block.</span></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a><span class="in">    This is a code block.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>This will output like this:</li>
+</ul>
+<pre><code>    This is a code block.
+
+        This is a code block.
+
+            This is a code block.
+
+    This is a code block.</code></pre>
+<ol start="4" type="1">
+<li>To add a fenced code block, you can add a blank line begining with three backticks, “```”, or three tilde signs, “~~~”, before and after your code blok.</li>
+</ol>
+<ul>
+<li>Example:</li>
+</ul>
+<p>You can code like this:</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{markdown}</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="in">    ```</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    This is my fenced code block.</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    This is my fenced code block.</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>    <span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>This will output like this:</li>
+</ul>
+<pre><code>{
+This is my fenced code block.
+This is my fenced code block.
+}</code></pre>
+<ol start="5" type="1">
+<li>To add a nonexecutive Python code chunk, you can first add a fence code block for your code, then add a word, “python”, after the three backticks, “```”, in the first line of your fence code block.</li>
+</ol>
+<ul>
+<li>Example :</li>
+</ul>
+<p>You can code like this:</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>    ```python</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"This is a Python code chunk."</span>)</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    ```</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>This will output like this:</li>
+</ul>
+<div class="sourceCode" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"This is a Python code chunk."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="6" type="1">
+<li>To add an executive Python code chunk, you can first add a fence code block for your code, then add a word, “python”, with brackets, “{}”after the three backticks, “```”, in the first line of your fence code block.</li>
+</ol>
+<ul>
+<li>Example:</li>
+</ul>
+<p>You can code like this:</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>    ```{python}</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"This is a Python code chunk."</span>)</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>    ```</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>This will output like this:</li>
+</ul>
+<div id="fc7c948a" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"This is a Python code chunk."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>This is a Python code chunk.</code></pre>
+</div>
+</div>
+<ol start="7" type="1">
+<li>You can also make an executive Python code chunk not execute the commands inside the code chunk by adding “#| eval: false” to the first line of your code block.</li>
+</ol>
+<ul>
+<li>Example:</li>
+</ul>
+<p>You can code like this:</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>    ```{python}</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">#| eval: false</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"This is a Python code chunk."</span>)</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>    ```</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>This will output like this:</li>
+</ul>
+<div id="b9c5893b" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"This is a Python code chunk."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<blockquote class="blockquote">
+<p>If you add just “#| eval: true” to your code chunk, this code chunk will execute the commands as usual and output the results.</p>
+<p>If you just add “#| echo: false” to your code chunk, then your code chunk will not be displayed in your rendered output, but the commands in your code chunk will still be executed as usual and the result of the code chunk will be displayed.</p>
+<p>If you just add “#| output: false” to your code chunk, then the commands in your code chunk will be displayed as usual in the rendered output, but the result of your code chunk will not be displayed.</p>
+</blockquote>
+</section>
+<section id="math-notation---using-latex-in-markdown" class="level4" data-number="3.3.4.9">
+<h4 data-number="3.3.4.9" class="anchored" data-anchor-id="math-notation---using-latex-in-markdown"><span class="header-section-number">3.3.4.9</span> Math Notation - Using LaTeX in Markdown</h4>
+<ol type="1">
+<li>To displace an inline math equation, you can add a dollar sign, “$”, before and after the math equation.</li>
+</ol>
+<ul>
+<li>Example:</li>
+</ul>
+<p>You can code like this:</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{markdown}</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="in">This is a quadratic equation, $ax^2+bx+c=0$.</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="in">This is a quadratic equation roots formula, $x = {(-b \pm \sqrt{b^2-4ac})}/{2b}$.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>This code chunk will output like this:</li>
+</ul>
+<p>This is a quadratic equation, <span class="math inline">\(ax^2+bx+c=0\)</span>.</p>
+<p>This is a quadratic equation roots formula, <span class="math inline">\(x = {(-b \pm \sqrt{b^2-4ac})}/{2b}\)</span>.</p>
+<blockquote class="blockquote">
+<p>In an inline math equation, make sure you use the division symbol instead of “\frac{}{}”.</p>
+</blockquote>
+<ol start="2" type="1">
+<li>You can center an math equation by adding double dollar signs, “$$”, before and after the math equation.</li>
+</ol>
+<ul>
+<li>Example:</li>
+</ul>
+<p>You can code like this:</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{markdown}</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="in">This is a quadratic equation </span></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="in">$$</span></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a><span class="in">ax^2+bx+c=0.</span></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a><span class="in">$$</span></span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a><span class="in">This is a quadratic equation roots formula </span></span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a><span class="in">$$</span></span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a><span class="in">x = {(-b \pm \sqrt{b^2-4ac})}/{2b}.</span></span>
+<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a><span class="in">$$</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>This code chunk will output like this:</li>
+</ul>
+<p>This is a quadratic equation <span class="math display">\[
+ax^2+bx+c=0.
+\]</span></p>
+<p>This is a quadratic equation roots formula <span class="math display">\[
+x = {(-b \pm \sqrt{b^2-4ac})}/{2b}.
+\]</span></p>
+<blockquote class="blockquote">
+<p>Be careful not to add punctuation before a centered math equation.</p>
+<p>If you want to add a period after a centered math equation, make sure you add it after the end of the math equation and before the second double dollar sign, “$$”.</p>
+</blockquote>
+</section>
+<section id="footnotes" class="level4" data-number="3.3.4.10">
+<h4 data-number="3.3.4.10" class="anchored" data-anchor-id="footnotes"><span class="header-section-number">3.3.4.10</span> Footnotes</h4>
+<ul>
+<li><p>To add notes and refercences without confusing for body content, you can add a caret sign, “^”, follwed by a identifier number or words without any spaces and tabs inside a brackets, “[]”.</p></li>
+<li><p>Example:</p></li>
+</ul>
+<p>you can code like this:</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{markdown}</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="in">This is a body paragraph, and I have a note [^short_footnotes] want to </span></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a><span class="in">add here. [^long_footnotes]</span></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a><span class="in">[^short_footnotes]: This is a notes.</span></span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a><span class="in">[^long_footnotes]: This is a notes with multiple paragraphs.</span></span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a><span class="in">    You can include paragraphs in your footnotes using indentation like this.</span></span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a><span class="in">    ```</span></span>
+<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a>        This is a fenced code block.</span>
+<span id="cb49-12"><a href="#cb49-12" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb49-13"><a href="#cb49-13" aria-hidden="true" tabindex="-1"></a>    <span class="in">```</span></span>
+<span id="cb49-14"><a href="#cb49-14" aria-hidden="true" tabindex="-1"></a><span class="in">    This is the end of this footnote.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li>This code chunk will output like this:</li>
+</ul>
+<p>This is a body paragraph, and I have two notes <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> want to add here. <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<blockquote class="blockquote">
+<p>Clicking on the footnote number in the body content, will take you to the location where the footnote exists in the document.</p>
+<p>All footnotes are automatically numbered sequentially at the end of the rendered HTML files and at the bottom of the page where the footnote exists in rendered PDF files.</p>
+<blockquote class="blockquote">
+<p>In the rendered HTML file, each footnote displayed at the end of the document is followed by a link that, when clicked, takes you back to the specific location of the footnote in your body content. You can also move your mouse over the footnote number in the body content, and the content of the footnote will automatically appear below the footnote number.</p>
+</blockquote>
+</blockquote>
+</section>
+</section>
+<section id="conclusion" class="level3" data-number="3.3.5">
+<h3 data-number="3.3.5" class="anchored" data-anchor-id="conclusion"><span class="header-section-number">3.3.5</span> Conclusion</h3>
+<p>Markdown is a simple yet powerful way to format text for documentation, blogging, and technical writing. With its easy-to-read syntax, you can structure documents, highlight key points, and present data effectively. It’s widely used in open-source projects, academic writing, and web content due to its flexibility and seamless conversion to HTML, PDF, and DOCX. Mastering Markdown can help you create clear, well-organized content with minimal effort.</p>
+</section>
+<section id="further-readings" class="level3" data-number="3.3.6">
+<h3 data-number="3.3.6" class="anchored" data-anchor-id="further-readings"><span class="header-section-number">3.3.6</span> Further Readings</h3>
+<ol type="1">
+<li>[Markdown Cheet Sheet] <span class="citation" data-cites="cone2025markdown">(<a href="references.html#ref-cone2025markdown" role="doc-biblioref">Cone, 2025</a>)</span>: A quick reference to the Markdown syntax.</li>
+<li>[Quarto Markdown Basic] <span class="citation" data-cites="dervieux2025markdown">(<a href="references.html#ref-dervieux2025markdown" role="doc-biblioref">Dervieux, 2025</a>)</span>: Markdown basic for Quarto.</li>
+<li>[GitHub Flavored Markdown (GFM)] <span class="citation" data-cites="macfarlane2019github">(<a href="references.html#ref-macfarlane2019github" role="doc-biblioref">MacFarlane, 2019</a>)</span>: Markdown features specific to GitHub.</li>
+<li>[Jupyter Notebook Markdown] <span class="citation" data-cites="macfarlane2025pandoc">(<a href="references.html#ref-macfarlane2025pandoc" role="doc-biblioref">MacFarlane, 2006</a>)</span>: Use Markdown for interactive data science.</li>
+</ol>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
+<div id="ref-cone2025markdown" class="csl-entry" role="listitem">
+Cone, M. (2025). <em>Markdown cheat sheet | markdown guide</em>. <a href="https://www.markdownguide.org/cheat-sheet/">https://www.markdownguide.org/cheat-sheet/</a>
+</div>
+<div id="ref-dervieux2025markdown" class="csl-entry" role="listitem">
+Dervieux, C. (2025). <em>Markdown-basics</em>. <a href="https://quarto.org/docs/authoring/markdown-basics.html">https://quarto.org/docs/authoring/markdown-basics.html</a>
+</div>
+<div id="ref-macfarlane2025pandoc" class="csl-entry" role="listitem">
+MacFarlane, J. (2006). <em>Pandoc user’s guide</em>. <a href="https://pandoc.org/MANUAL.html#pandocs-markdown">https://pandoc.org/MANUAL.html#pandocs-markdown</a>
+</div>
+<div id="ref-macfarlane2019github" class="csl-entry" role="listitem">
+MacFarlane, J. (2019). <em>GitHub flavored markdown spec</em>. <a href="https://github.github.com/gfm/">https://github.github.com/gfm/</a>
+</div>
+</div>
+</section>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>This is a notes.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>This is a notes with multiple paragraphs. You can include paragraphs in your footnotes using indentation like this.</p>
+<pre><code>    print(This is a fenced code block.)
+
+    You can add any thing inside this fenced code block.</code></pre>
+<p>This is the end of this footnote.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
 </section>
 
 </main> <!-- /main -->
