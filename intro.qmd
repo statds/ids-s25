@@ -215,5 +215,3 @@ Online books on Python for data science:
 {{< include _ethics.qmd >}}
 
 
-<!-- This section is to be included as a Primer of Markdown. -->
-{{< include shiyili_markdown.qmd >}}

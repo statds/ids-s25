@@ -144,3 +144,6 @@ root folder of the source. Another example is to access the US Census
 API, where you would need to register an account and get your Census
 API Key.
 
+
+<!-- This section is to be included as a Primer of Markdown. -->
+{{< include _markdown.qmd >}}
