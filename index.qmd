@@ -217,6 +217,8 @@ Markdown.
     so that I can be more orderly while working with others.
   - I hope to become more efficient processing data 
     that is messy, unstructured, or unlabeled.
+  - Present engaging, intuitive, and interactive figures and animations for 
+    complex math and stat concepts. 
 + Vellore, Ajeeth Krishna
   - Understand the utility provided by GitHub and practice using its tools
   - Learn how to participate in a large-scale development project like how they
@@ -226,6 +228,12 @@ Markdown.
   - Understand principles of coding documentation and readability while
     practicing their application
 + Zhang, Gaofei
+  - Gain confidence in using Git and GitHub for version control and collaboration.
+  - Develop a structured approach to data cleaning and preprocessing for 
+   complex datasets.
+  - Enhance skills in statistical modeling and machine learning techniques 
+   relevant to public health research.
+  - Improve efficiency in working with large-scale data using Python and SQL.
 + Kravette, Noah
   - Become better at program collaboration.
   - Become adept with git and github. 
@@ -319,15 +327,15 @@ Tips on topic contribution:
 Please use the following table to sign up.
 
    Date  | Presenter              | Topic
-  ------ | ---------------------- | ------
+  ----- | ------------- | -------------------------
    02/10 |  Li, Shiyi     | A Primer of Markdown
    02/12 |  Jun, Joann     | Making Presentations with Quarto
    02/17 |  Roy, Luke William     | Grammar of Graphics with Plotnine
    02/19 |  Lang, Lang     | Data manipulation with Pandas
-   02/24 |  Ackerman, John     |
-   02/26 |  Horn, Alyssa Noelle     |
-   03/03 |  Xu, Peiwen     |
-   03/05 |  Schittina, Thomas     |
+   02/24 |  Ackerman, John     | Performing Statistical Tests (SciPy)
+   02/26 |  Horn, Alyssa Noelle     | Database operation with Structured query language (SQL)
+   03/03 |  El Zein, Amer Hani     |
+   03/05 |  Schittina, Thomas     | Spatial Data With Geopandas & Google Maps
    03/10 |  Kline, Daniel Esteban     |
    03/12 |  Edo, Mezmur Wossenu      |
    03/24 |  Alsadadi, Ammar Shaker     |
@@ -335,15 +343,15 @@ Please use the following table to sign up.
    03/31 |  Tamhane, Shubhan     |
    03/31 |  Nasejje, Ruth Nicole     |
    04/02 |  Lagutin, Vladislav     |
-   04/02 |  Zhang, Gaofei    |
+   04/02 |  Zhang, Gaofei    | Random forest
    04/07 |  Long, Ethan Kenneth     |
-   04/07 |  El Zein, Amer Hani   | 
+   04/07 |  Xu, Peiwen   | 
    04/09 |  Kravette, Noah   | 
    04/09 |  Symula, Sebastian   | 
    04/09 |  Tomaino, Mario Anthony   | 
    04/12 |  Reed, Kyle Daniel   | 
    04/12 |  Chen, Yifei   | 
-   04/12 |  Mundiwala, Mohammad Moiz   | 
+   04/12 |  Mundiwala, Mohammad Moiz   | Math animations with manim
    04/16 |  Lin, Selena   | 
    04/16 |  Pfeifer, Nicholas Theodore   | 
    04/16 |  Vellore, Ajeeth Krishna | 
