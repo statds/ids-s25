@@ -150,6 +150,9 @@ Markdown.
 + Symula, Sebastian
 + Tamhane, Shubhan
 + Tomaino, Mario Anthony
+    - Become comfortable using git and github
+    - Learn more about common data science python libraries
+    - Learn how to clean and analyze large datasets using Python
 
 ### Students in 5255
 + Edo, Mezmur Wossenu
