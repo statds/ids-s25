@@ -188,37 +188,38 @@ Poisson regression, and gamma regression.
 
 + Normal Regression (Linear Regression).
 In normal regression, the response variable has a normal distribution. The
-identity link function ($g(\mu) = \mu$) is typically used, making this case
+identity link function is typically used, making this case
 equivalent to classical linear regression.
     - Use Case: Modeling continuous data where residuals are normally distributed.
-    - Link Function: Identity ($g(\mu) = \mu$)
-    - Distribution: Normal
+    - Link Function: Identity, $g(\mu) = \mu$.
+    - Distribution: Normal.
+
 + Logistic Regression.
 Logistic regression is used for binary response variables. It employs the
 logit link function to model the probability that an observation falls into
 one of two categories.
     - Use Case: Binary outcomes (e.g., success/failure).
-    - Link Function: Logit ($g(\mu) = \log\frac{\mu}{1-\mu}$)
-    - Distribution: Binomial
+    - Link Function: Logit, $g(\mu) = \log\frac{\mu}{1-\mu}$.
+    - Distribution: Binomial.
+
 + Poisson Regression.
 Poisson regression models count data using the Poisson distribution. It's
 ideal for modeling the rate at which events occur.
     - Use Case: Count data, such as the number of occurrences of an event.
-    - Link Function: Log ($g(\mu) = \log(\mu)$)
-    - Distribution: Poisson
+    - Link Function: Log, $g(\mu) = \log(\mu)$
+    - Distribution: Poisson.
+
 + Gamma Regression.
 Gamma regression is suited for modeling positive continuous variables, 
 especially when data are skewed and variance increases with the mean.
     - Use Case: Positive continuous outcomes with non-constant variance.
-    - Link Function: Inverse ($g(\mu) = \frac{1}{\mu}$)
-    - Distribution: Gamma
+    - Link Function: Inverse $g(\mu) = \frac{1}{\mu}$.
+    - Distribution: Gamma.
 
 Each GLM variant addresses specific types of data and research questions,
 enabling precise modeling and inference based on the underlying data
-distribution.
-
-
-A logistic regression can be fit with `statsmodels.api.glm`.
+distribution. Prediction will need the inverse link function which
+transforms the linear predictor to the expectation of the outcome.
 
 To demonstrate the validation of logistic regression models, we first
 create a simulated dataset with binary outcomes. This setup involves
@@ -237,7 +238,7 @@ np.random.seed(42)
 simdat = pd.DataFrame(np.random.randn(1000, 5), columns=['x1', 'x2', 'x3', 'x4', 'x5'])
 
 # Calculating the linear combination of inputs plus an intercept
-eta = simdat.dot([2, 2, 2, 2, 2]) - 5
+eta = simdat.dot([2, 2, 2, 0, 0]) - 5
 
 # Applying the logistic function to get probabilities using statsmodels' logit link
 p = sm.families.links.Logit().inverse(eta)
@@ -265,6 +266,67 @@ print(fit.summary())
 ```
 
 
+## Interpreting Logistic Regression Results
+
+Once a logistic regression model is fitted, interpreting its results
+is crucial for understanding how predictor variables influence the
+probability of the outcome. Logistic regression models the log-odds of
+the response variable as a linear function of the predictor
+variables. To ease the intrepretation, consider a logistic model with
+a single binary predictor (e.g., treatment indicator):
+
+$$
+\log\left(\frac{\mu}{1 - \mu}\right) = \beta_0 + \beta_1 X
+$$
+
+where $\mu = E(Y \mid X)$ represents the probability of the positive
+class, and $\beta_1$ is the estimated coefficient for the binary
+predictor $X$.
+
+
+### Interpreting Coefficients
+
+If $X$ is a binary variable (e.g., 0 for "No" and 1 for "Yes"),
+$\beta_1$ represents the difference in log-odds between the two
+groups. Exponentiating $\beta_1$ gives the odds ratio:
+
+$$
+\text{Odds Ratio} = \frac{\exp(\beta_0 + \beta_1)}{\exp(\beta_0)} = e^{\beta_1}.
+$$
+
+- If $e^{\beta_1} > 1$, the outcome is more likely when $X = 1$ than when $X = 0$.
+- If $e^{\beta_1} < 1$, the outcome is less likely when $X = 1$.
+- If $e^{\beta_1} = 1$, there is no effect of $X$ on the odds of the outcome.
+
+Equivalently, $\beta_1$ is the log odds ratio between the two groups.
+
+When there are multiple predictors, the intrepretation needs to state
+that all the other predictors are unchanged.
+
+How would you intreprete the coefficient of a continuous predictor?
+
+### Probabilistic Interpretation
+
+We can transform the linear predictor into a probability estimate
+using the inverse logit function:
+
+$$
+\Pr(Y=1 | X) = \frac{e^{\beta_0 + \beta_1 X}}{1 + e^{\beta_0 + \beta_1 X}}.
+$$
+
+This allows for a direct interpretation of how being in one category
+of $X$ influences the predicted probability of the outcome. By
+construction, this value is always in $(0, 1)$.
+
+### Evaluating Statistical Significance
+
+The significance of $\beta_1$ is assessed using standard errors and
+p-values:
+
+- A small p-value (e.g., < 0.05) suggests that $X$ has a statistically
+  significant effect on the outcome.
+- Confidence intervals for $e^{\beta_1}$ help understand the precision
+  of odds ratio estimates.
 
 ## Validating the Results of Logistic Regression
 
@@ -277,7 +339,8 @@ curve (AUC). Using simulated data, we will demonstrate how to
 calculate and interpret these metrics using Python.
 
 ### Confusion Matrix
-The confusion matrix is a fundamental tool used for calculating
+The [confusion matrix](https://en.wikipedia.org/wiki/Confusion_matrix)
+is a fundamental tool used for calculating
 several other classification metrics. It is a table used to describe
 the performance of a classification model on a set of data for which
 the true values are known. The matrix displays the actual values
@@ -289,7 +352,6 @@ correct and incorrect predictions.
   Actual Positive   | True Positive (TP)     | False Negative (FN) 
   Actual Negative  | False Positive (FP)    | True Negative (TN)
 
-<https://en.wikipedia.org/wiki/Confusion_matrix>
 
 Four entries in the confusion matrix:
 
@@ -377,7 +439,6 @@ find all relevant cases (all actual positives).
   in contexts where both false positives and false negatives carry
   significant costs or risks.
   
-
 
 ### F-beta Score
 The F-beta score is a weighted harmonic mean of precision and recall,
