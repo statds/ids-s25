@@ -347,7 +347,7 @@ Please use the following table to sign up.
    04/07 |  Long, Ethan Kenneth     |
    04/07 |  Xu, Peiwen   | 
    04/09 |  Kravette, Noah   | 
-   04/09 |  Symula, Sebastian   | 
+   04/09 |  Symula, Sebastian   | Imputation Methods for Missing Data
    04/09 |  Tomaino, Mario Anthony   | 
    04/12 |  Reed, Kyle Daniel   | 
    04/12 |  Chen, Yifei   | 
