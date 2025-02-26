@@ -147,3 +147,6 @@ API Key.
 
 <!-- This section is to be included as a Primer of Markdown. -->
 {{< include _markdown.qmd >}}
+
+<!-- This section is to be included as a tutorial for Quarto Presentations. -->
+{{< include _quarto_presentation.qmd >}}

@@ -213,5 +213,3 @@ Online books on Python for data science:
 
 <!-- This section is to be included as a template for student contributions. -->
 {{< include _ethics.qmd >}}
-
-
