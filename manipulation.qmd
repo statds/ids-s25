@@ -129,12 +129,13 @@ all_valid_zips = {
     10306, 10307, 10308, 10309, 10312
 }
 
-# Convert ZIP codes to numeric, invalid entries become NaN
-df['zip_code_numeric'] = pd.to_numeric(df['zip_code'], errors='coerce')
+    
+# Convert set to list of strings
+all_valid_zips = list(map(str, all_valid_zips))
 
 # Identify invalid ZIP codes (including NaN)
 invalid_zips = df[
-    df['zip_code_numeric'].isna() | ~df['zip_code_numeric'].isin(all_valid_zips)
+    df['zip_code'].isna() | ~df['zip_code'].isin(all_valid_zips)
     ]['zip_code']
 
 # Calculate frequency of invalid ZIP codes
@@ -150,6 +151,18 @@ Codes](https://www.unitedstateszipcodes.org/), `10065` appears to be a
 valid NYC zip code. Under this circumstance, it might be safer to not
 remove any zip code from the data.
 
+
+To be safe, let's concatenate valid and invalid zips.
+```{python}
+# Convert invalid ZIP codes to a set of strings
+invalid_zips_set = set(invalid_zip_freq['zip_code'].dropna().astype(str))
+
+# Convert all_valid_zips to a set of strings (if not already)
+valid_zips_set = set(map(str, all_valid_zips))
+
+# Merge both sets
+merged_zips = invalid_zips_set | valid_zips_set  # Union of both sets
+```
 
 Are missing in zip code and borough always co-occur?
 ```{python}
@@ -328,7 +341,7 @@ ACS_VARIABLES = {
 }
 
 # Convert set to list of strings
-all_valid_zips = list(map(str, all_valid_zips))
+merged_zips = list(map(str, merged_zips))
 ```
 
 Let's set up the query to request the ACS data, and process the
@@ -336,7 +349,7 @@ returned data.
 ```{python}
 acs_data = c.acs5.get(
     list(ACS_VARIABLES.keys()), 
-    {'for': f'zip code tabulation area:{",".join(all_valid_zips)}'}
+    {'for': f'zip code tabulation area:{",".join(merged_zips)}'}
     )
 
 # Convert to DataFrame
@@ -345,6 +358,13 @@ df_acs = pd.DataFrame(acs_data)
 # Rename columns
 df_acs.rename(columns=ACS_VARIABLES, inplace=True)
 df_acs.rename(columns={"zip code tabulation area": "ZIP Code"}, inplace=True)
+```
+
+
+We could save the ACS data `df_acs` in feather format (see next Section).
+``` python
+#! eval: false
+df_acs.to_feather("data/acs2023.feather")
 ```
 
 The population density could be an important factor for crash
@@ -393,10 +413,17 @@ gdf = gpd.read_file(shapefile_path)
 gdf = gdf.to_crs(epsg=3857)
 
 # Step 5: Compute land area in square miles
-gdf['Land Area (sq miles)'] = gdf['geometry'].area / 2_589_988.11
+gdf['land_area_sq_miles'] = gdf['geometry'].area / 2_589_988.11
 # 1 square mile = 2,589,988.11 square meters
 
-print(gdf[['modzcta', 'Land Area (sq miles)']].head())
+print(gdf[['modzcta', 'land_area_sq_miles']].head())
+```
+
+Let's export this data frame for future usage in feather format (see
+next Section).
+```{python}
+#| eval:
+gdf[['modzcta', 'land_area_sq_miles']].to_feather('data/nyc_zip_areas.feather')
 ```
 
 Now we are ready to merge the two data frames.
@@ -405,13 +432,13 @@ Now we are ready to merge the two data frames.
 gdf = gdf.merge(df_acs, left_on='modzcta', right_on='ZIP Code', how='left')
 
 # Calculate Population Density (people per square mile)
-gdf['Population Density (per sq mile)'] = (
-    gdf['Total Population'] / gdf['Land Area (sq miles)']
+gdf['popdensity_per_sq_mile'] = (
+    gdf['Total Population'] / gdf['land_area_sq_miles']
     )
 
 # Display first few rows
-print(gdf[['modzcta', 'Total Population', 'Land Area (sq miles)',
-    'Population Density (per sq mile)']].head())
+print(gdf[['modzcta', 'Total Population', 'land_area_sq_miles',
+    'popdensity_per_sq_mile']].head())
 ```
 
 Some visualization of population density.
@@ -423,7 +450,7 @@ import geopandas as gpd
 fig, ax = plt.subplots(figsize=(10, 12))
 
 # Plot the choropleth map
-gdf.plot(column='Population Density (per sq mile)', 
+gdf.plot(column='popdensity_per_sq_mile', 
          cmap='viridis',  # Use a visually appealing color map
          linewidth=0.8, 
          edgecolor='black',
@@ -433,7 +460,7 @@ gdf.plot(column='Population Density (per sq mile)',
          ax=ax)
 
 # Add a title
-ax.set_title("Population Density by ZIP Code in NYC", fontsize=14)
+ax.set_title("Population Density by ZCTA in NYC", fontsize=14)
 
 # Remove axes
 ax.set_xticks([])
@@ -443,17 +470,6 @@ ax.set_frame_on(False)
 # Show the plot
 plt.show()
 ```
-
-Let's save the merged data for future usage.
-```{python}
-csv_output = "data/NYC_Zipcode_Data.csv"
-
-gdf[['modzcta', 'Total Population', 'Land Area (sq miles)',
-    'Population Density (per sq mile)']].to_csv(csv_output, index=False)
-print(f"CSV file saved: {csv_output}")
-```
-
-
 
 ## Cross-platform Data Format `Arrow`
 
