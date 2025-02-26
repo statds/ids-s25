@@ -1,22 +1,6 @@
----
-title: "How to Make A Presentation Using Quarto"
-author: "Joann Jun"
-format:
-  revealjs: 
-    prefer-html: true
-    embed-resources: true
-    theme: serif
-    slide-number: true
-    preview-links: true
-    css: [default, styles.css]
-    incremental: true   
-    transition: slide
-    footer: "STAT 3255"
----
+## How to Create a Presentation Using Quarto
 
-## Welcome!
-
-### **Introduction**
+### Introduction
 Hi! This section is written by Joann Jun, a Junior majoring in Statistical Data 
 Science and minoring in Mathematics at the University of Connecticut.
 
@@ -37,9 +21,9 @@ end of this section, you will be able to understand how to:
 
 - Support multiple output formats, such as HTML (`reveal.js`), PowerPoint (`pptx`), and PDF (`beamer`). 
 
-## Presentation Formats
+### Presentation Formats
 
-### Formats
+#### Formats
 There are several formats you can use to create a presentation in Quarto. 
 This includes:
 
@@ -47,7 +31,7 @@ This includes:
 
 - `beamer` - Beamer (LaTex/PDF).
 
-### Differences Between Formats {.smaller}
+#### Differences Between Formats {.smaller}
 | Feature        | `revealjs`                    | `beamer`                     |
 |--------------|-----------------------------|---------------------------|
 | **Output Format** | HTML slideshow or PDF       | PDF                          |
@@ -56,7 +40,7 @@ This includes:
 
 In this section, I will focus on using `revealjs`.
 
-### How to Change Format {auto-animate=true}
+#### How to Change Format
 To change the format of your presentation, in the YAML header next format add 
 `revealjs` or `beamer`.
 
@@ -69,7 +53,7 @@ format: revealjs # This where you edit the format.
 ---
 
 ```
-### YAML Heading for `revealjs`
+#### YAML Heading for `revealjs`
 
 Anything you put in the YAML heading will become part of the global environment. This means 
 that it will be applied to all slides. 
@@ -87,7 +71,7 @@ that it will be applied to all slides.
 - `chalkboard` - Allows you to draw on your presentation
 
 
-### Some Stylistic YAML Headings for `revealjs` {.smaller}
+#### Some Stylistic YAML Headings for `revealjs` {.smaller}
 
 - `theme: [slide theme]` - Allows you to switch to any of Reveals 11 themes (or make your own)
     - `default`, `dark`, `beige`, `simple`, `serif`
@@ -104,7 +88,7 @@ that it will be applied to all slides.
 - `incrimental: true` - Displays the bullet points one by one.
 
 
-### Example
+#### Example
 
 ```python
 ---
@@ -124,9 +108,9 @@ format:
 ---
 
 ```
-## Slides syntax
+### Slides syntax
 
-### How to Create a New Slide
+#### How to Create a New Slide
 
 The start of all slides are marked by a heading. You can do this by using
 
@@ -156,9 +140,9 @@ Hello, World!
 
 ```
 
-## Code 
+### Code 
 
-### `auto-animate=true`
+#### `auto-animate=true`
 
 This setting will allow smooth transitions across similar slides. You use this 
 when you want to show gradual changes between slides. 
@@ -190,48 +174,7 @@ def pythagorean(a,b):
 
 ```
 
-## No `auto-animate=true` Slide 1 
-
-```python
-
-from math import sqrt
-
-```
-
-## No `auto-animate=true` Slide 2 
-
-```python
-
-from math import sqrt
-
-def pythagorean(a,b):
-    c2 = a**2 + b**2
-    c = sqrt(c2)
-    return c
-
-```
-
-## Has `auto-animate=true` Slide 1 {auto-animate=true}
-
-```python
-
-from math import sqrt
-
-```
-## Has `auto-animate=true` Slide 2 {auto-animate=true}
-
-```python
-
-from math import sqrt
-
-def pythagorean(a,b):
-    c2 = a**2 + b**2
-    c = sqrt(c2)
-    return c
-
-```
-
-### Highlighting Code {auto-animate=true}
+#### Highlighting Code
 
 To highlight code, you can use the `code-line-numbers` attribute and use 
 `"[start line #]-[end line #]"`.
@@ -273,7 +216,7 @@ def multiplication(x,y):
 
 ```
 
-### Executable Code - `echo` {auto-animate=true}
+#### `echo`
 By default, the code block does not `echo` the source code. By this I mean it 
 does not show the source code and only shows the output by default. 
 
@@ -323,7 +266,7 @@ plt.show()
 ```
 
 
-### Executable Code - Figures {auto-animate=true}
+#### Figures
 
 - Python figure sizes (MatPlotLib and PlotlyExpress) are automatically set to fill the slide area below the title
 
@@ -331,29 +274,8 @@ plt.show()
 
 - You will most likely have to change the size of these figures or change the output location
 
-### Executable Code - `output-location` {auto-animate=true}
 
-```{python}
-#| echo: true
-
-import matplotlib.pyplot as plt
-import numpy as np
-
-x = np.linspace(0, 10, 100)
-y = np.sin(x)
-
-plt.figure(figsize=(12, 6))
-plt.plot(x, y, label='sin(x)')
-plt.title('Sine Function')
-plt.xlabel('x')
-plt.ylabel('sin(x)')
-plt.legend()
-plt.grid(True)
-plt.show()
-
-```
-
-### Executable Code - `output-location` {auto-animate=true}
+#### `output-location`
 
 The `output-location` option can modify where the output of the code goes. There are several options to choose from such as:
 
@@ -365,9 +287,7 @@ The `output-location` option can modify where the output of the code goes. There
 
 - `slide` - Displays the output on the slide after.
 
-### Executable Code - `output-location` {auto-animate=true}
-
-This slide uses `column`.
+Ex: This uses `column`.
 
 ```{python}
 #| echo: true
@@ -410,7 +330,7 @@ plt.show()
 
     - Shiny apps for data exploration
 
-### HTML Gagdget Tools
+#### HTML Gagdget Tools
 
 - `Leaflet` - Used to make interactive maps which allows you to display location based data.
 
@@ -428,7 +348,7 @@ plt.show()
 | **Use Cases**  | - Visualizing locations and routes | - Analyzing data trends and relationships | - Dashboards, reports, and data exploration | - Displaying and exploring large datasets | 
 
 
-### How to Get Started
+#### How to Get Started
 
 - Install the tools necessary using `install.packages(c("plotly", "shiny", "DT", "leaflet"), repos = "https://cloud.r-project.org/")`.
 
@@ -436,7 +356,7 @@ plt.show()
 
 - **Note**: Shiny app should be run in a separate R session or browser window.
 
-## Map of UCONN (`Leaflet`) {.scrollable}
+#### Map of UCONN (`Leaflet`) {.scrollable}
 ```{r}
 
 #| echo: false
@@ -458,7 +378,7 @@ leaflet() %>%
 
 ```
 
-### Interactive Plot (`PlotLy`)
+#### Interactive Plot (`PlotLy`)
 
 ```{r}
 #| echo: false
@@ -476,7 +396,7 @@ fig <- fig %>% layout(title = "Interactive Scatter Plot of MPG vs HP",
 fig
 ```
 
-## Rendering Your Presentation
+### Rendering Your Presentation
 In your terminal enter the following code:
 
 ```python
@@ -487,9 +407,7 @@ quarto render presentation_name.qmd --to revealjs
 
 This will produce a HTML slideshow output that you can present.
 
-## Keyboard Shortcuts
-
-### When Presenting Slides
+### Keyboard Shortcuts
 
 - `S` - Brings you to speaker view
 - `F` - Fullscreen
@@ -499,7 +417,7 @@ This will produce a HTML slideshow output that you can present.
 - `Shift →`, `Shift ←` - Navigates to first or last slide
 
 
-## More Information/Resources
+### More Information/Resources
 
 - [Revealjs](https://quarto.org/docs/reference/formats/presentations/revealjs.html)
 - [PowerPoint](https://quarto.org/docs/reference/formats/presentations/pptx.html)
