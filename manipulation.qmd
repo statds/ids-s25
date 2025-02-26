@@ -422,7 +422,7 @@ print(gdf[['modzcta', 'land_area_sq_miles']].head())
 Let's export this data frame for future usage in feather format (see
 next Section).
 ```{python}
-#| eval:
+#| eval: false
 gdf[['modzcta', 'land_area_sq_miles']].to_feather('data/nyc_zip_areas.feather')
 ```
 
