@@ -1,4 +1,4 @@
-## How to Create a Presentation Using Quarto
+## Creating Presentations Using Quarto
 
 ### Introduction
 Hi! This section is written by Joann Jun, a Junior majoring in Statistical Data 
@@ -44,15 +44,15 @@ In this section, I will focus on using `revealjs`.
 To change the format of your presentation, in the YAML header next format add 
 `revealjs` or `beamer`.
 
-```python
-
+```markdown
 ---
 title: Quarto Presentation
 author: Joann Jun
 format: revealjs # This where you edit the format.
 ---
-
 ```
+
+
 #### YAML Heading for `revealjs`
 
 Anything you put in the YAML heading will become part of the global environment. This means 
@@ -90,7 +90,7 @@ that it will be applied to all slides.
 
 #### Example
 
-```python
+```markdown
 ---
 title: "How to Make A Presentation Using Quarto"
 author: "Joann Jun"
@@ -122,7 +122,7 @@ The start of all slides are marked by a heading. You can do this by using
 
 - **Note:** `###` will create a subheading in the slide.
 
-```python
+```markdown
 
 # Title 1
 
@@ -152,7 +152,7 @@ can show the changes by using this. The first slide should only have part of
 the code, and the second should have the full code.
 
 **Slide 1**
-```python
+```{python}
 
 ## Smooth Transition Slide 1 {auto-animate=true}
 
@@ -161,7 +161,7 @@ from math import sqrt
 ```
 
 **Slide 2**
-```python
+```{python}
 
 ## Smooth Transition Slide 2 {auto-animate=true}
 
@@ -358,16 +358,16 @@ plt.show()
 
 #### Map of UCONN (`Leaflet`) {.scrollable}
 ```{r}
-
-#| echo: false
+#| echo: true
 #| warning: false
 #| message: false
 
-options(repos = c(CRAN = "https://cloud.r-project.org/"))
-install.packages("leaflet")
-install.packages("plotly")
-install.packages("shiny")
-install.packages("DT")
+## Install these R packages if you don't have them already
+## options(repos = c(CRAN = "https://cloud.r-project.org/"))
+## install.packages("leaflet")
+## install.packages("plotly")
+## install.packages("shiny")
+## install.packages("DT")
 
 library(leaflet)
 
@@ -381,14 +381,13 @@ leaflet() %>%
 #### Interactive Plot (`PlotLy`)
 
 ```{r}
-#| echo: false
+#| echo: true
 #| warning: false
 #| message: false
 
 library(plotly)
 
-data <- mtcars
-fig <- plot_ly(data, x = ~mpg, y = ~hp, type = 'scatter', mode = 'markers', 
+fig <- plot_ly(mtcars, x = ~mpg, y = ~hp, type = 'scatter', mode = 'markers', 
                marker = list(size = 10, color = ~cyl, colorscale = 'Blue'))
 fig <- fig %>% layout(title = "Interactive Scatter Plot of MPG vs HP",
                       xaxis = list(title = "Miles Per Gallon"),
@@ -399,9 +398,9 @@ fig
 ### Rendering Your Presentation
 In your terminal enter the following code:
 
-```python
+```shell
 
-quarto render presentation_name.qmd --to revealjs
+quarto render <presentation_name>.qmd --to revealjs
 
 ```
 
