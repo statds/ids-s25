@@ -29,7 +29,7 @@ add number signs, "#", before you write any content for them.
 
 You can code like this:
 ```markdown
-```{markdown}
+
 # Heading 1 (Main Title)
 
 ## Heading 2 (Section)
@@ -55,7 +55,7 @@ or double dashes sign, "--", to create a heading.
 
 You can code like this:
 ```markdown
-```{markdown}
+
 Heading 1 (Main Title)
 ======
 Heading 2 (Section)
@@ -76,7 +76,6 @@ a line by themselves.
 
 You can code like this:
 ```markdown
-```{markdown}
 This is the part 1.
 
 --------
@@ -121,7 +120,6 @@ like you usually create paragraphs in an essay.
 
 You can code like this:
 ```markdown
-```{markdown}
 This is the first paragraph ........................................
 .....................................................................
 .....................................................................
@@ -156,7 +154,6 @@ at the begining of each line of the text.
 
 You can code like this:
 ```markdown
-```{markdown}
 > This is an important text.
 >
 > This is a citation/reference.
@@ -176,7 +173,6 @@ You can code like this:
 
 If you code like this:
 ```markdown
-```{markdown}
 > This is an important text.
 > This is a citation/reference.
 > This is a quotation.
@@ -198,7 +194,6 @@ output will display multiple lines of text in a single line.***
 
 You can code like this:
 ```markdown
-```{markdown}
 > This is an important text.
 >
 >> This is a citation/reference.
@@ -233,7 +228,6 @@ and after the text.
 
 You can code like this:
 ```markdown
-```{markdown}
 **This is the first important text.**
 
 __This is the second important text.__
@@ -271,7 +265,6 @@ before and after a text.
 
 You can code like this:
 ```markdown
-```{markdown}
 *ThIs Is the fIrst Important TexT.*
 
 _ThIs Is the second Important TexT._
@@ -309,7 +302,6 @@ or three underscores, "___", before and after a text.
 
 You can code like this:
 ```markdown
-```{markdown}
 ***This is the first important text.***
 
 ___This is the second important text.___
@@ -347,7 +339,6 @@ add this sign, "\</mark>", after the text.
 
 You can code like this:
 ```markdown
-```{markdown}
 <mark>This is a text that needs to be highlighted.</mark>
 
 This is a te<mark>xt that needs to be high</mark>lighted.
@@ -369,7 +360,6 @@ This is a te<mark>xt that needs to be high</mark>lighted.
 
 You can code like this:
 ```markdown
-```{markdown}
 ~~This text is struck through~~ This is the correct text.
 ```
 
@@ -393,7 +383,6 @@ tilde symbol, "~", before and after the text you want to subscript.
 
 You can code like this:
 ```markdown
-```{markdown}
 This is a subscript before and after a word: 
 
 ~subscript~word~subscript~
@@ -442,7 +431,7 @@ caret symbol, "^", before and after the text you want to superscript.
 
 You can code like this:
 ```markdown
-```{markdown}
+
 This is a superscript before and after a word:
 
 ^787878^Words^787878^
@@ -496,7 +485,7 @@ detect and organize a list for you.
 
 You can code like this:
 ```markdown
-```{markdown}
+
 1. First item
 2. Second item
     1. Third item
@@ -522,7 +511,7 @@ Using Ordered numbers followed by a period sign:
 You can code like this:
 
 ```markdown
-```{markdown}
+
 2. First item
 2. Second item
     2. Third item
@@ -566,7 +555,7 @@ your (nested) list.
 You can code like this:
 
 ```markdown
-```{markdown}
+
 - First item
 - Second item
     - Third item
@@ -592,7 +581,7 @@ Using dashes:
 You can code like this:
 
 ```markdown
-```{markdown}
+
 * First item
 * Second item
     * Third item
@@ -618,7 +607,7 @@ Using asterisks:
 You can code like this:
 
 ```markdown
-```{markdown}
+
 + First item
 + Second item
     + Third item
@@ -644,7 +633,7 @@ Using plus signs:
 You can code like this:
 
 ```markdown
-```{markdown}
+
 a. First item
 b. Second item
     a. Third item
@@ -682,7 +671,7 @@ a. Fifth item
 You can code like this:
 
 ```markdown
-```{markdown}
+
 + First item
 - Second item
     * Third item
@@ -720,7 +709,7 @@ want to create a list and still need a period after a number or alphabet.
 
 You can code like this:
 ```markdown
-```{markdown}
+
 - [ ] Task not completed
 - [x] Task completed
 ```
@@ -747,7 +736,7 @@ link and this will appear as a tooltip when the user hovers over the link
 
 You can code like this:
 ```markdown
-```{markdown}
+
 We can use the 
 [Markdown Cheat Sheet](https://www.markdownguide.org/basic-syntax/#code-blocks) 
 to learn more generally used markdown syntax. 
@@ -767,7 +756,7 @@ the link and a number/word pointed to the link with brackets, "[]".
 
 You can code like this:
 ```markdown
-```{markdown}
+
 We can use the [Markdown Cheat Sheet][4] to learn more generally used 
 markdown syntax. 
 
@@ -796,7 +785,7 @@ brackets, "[]", and a path/URL to the image enclosing with parentheses, "()".
 
 You can code like this:
 ```markdown
-```{markdown}
+
 ![This is a description to an online image](https://today.uconn.edu/2023/01/
 uconn-on-campus-construction-update-january-2023/)
 
@@ -818,7 +807,7 @@ to create and separate each column respectively.
 
 You can code like this:
 ```markdown
-```{markdown}
+
 1. Each cell with the same width in code chunk:
 
 |            | 1st Column | 2nd Column | 3rd Column | ...... |
@@ -874,7 +863,7 @@ header [@cone2025markdown].
 
 You can code like this:
 ```markdown
-```{markdown}
+
 |            | 1st Column | 2nd Column | 3rd Column | ...... |
 | :----------: | :---------- | :----------: | ----------: | ------: |
 | 1st Row    |            123|       123     |  123          |        123|
@@ -902,7 +891,7 @@ text.
 
 You can code like this:
 ```markdown
-```{markdown}
+
 This is my `inline` code.
 
 `This is my inline code.`
@@ -921,7 +910,7 @@ add a double backtick, "``", before and after the text.
 
 You can code like this:
 ```markdown
-```{markdown}
+
 ``This is a `text` with backticks.``
 ```
 
@@ -936,7 +925,7 @@ spaces or one tab.
 
 You can code like this:
 ```markdown
-```{markdown}
+
     This is a code block.
 
         This is a code block.
@@ -966,7 +955,7 @@ backticks, "```", or three tilde signs, "~~~", before and after your code blok.
 You can code like this:
 
 ```markdown
-```{markdown}
+
     ```
     {
     This is my fenced code block.
@@ -1066,7 +1055,7 @@ after the math equation.
 
 You can code like this:
 ```markdown
-```{markdown}
+
 This is a quadratic equation, $ax^2+bx+c=0$.
 
 This is a quadratic equation roots formula, $x = {(-b \pm \sqrt{b^2-4ac})}/{2b}$.
@@ -1090,7 +1079,7 @@ after the math equation.
 
 You can code like this:
 ```markdown
-```{markdown}
+
 This is a quadratic equation 
 $$
 ax^2+bx+c=0.
@@ -1131,7 +1120,7 @@ inside a brackets, "[]".
 
 you can code like this:
 ```markdown
-```{markdown}
+
 This is a body paragraph, and I have a note [^short_footnotes] want to 
 add here. [^long_footnotes]
 
