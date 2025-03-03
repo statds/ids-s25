@@ -363,7 +363,7 @@ df_acs.rename(columns={"zip code tabulation area": "ZIP Code"}, inplace=True)
 
 We could save the ACS data `df_acs` in feather format (see next Section).
 ``` python
-#! eval: false
+#| eval: false
 df_acs.to_feather("data/acs2023.feather")
 ```
 
