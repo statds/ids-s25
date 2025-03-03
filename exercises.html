@@ -295,7 +295,7 @@ window.Quarto = {
 <li>Fit a logistic model on the training data with <span class="math inline">\(L_1\)</span> regularization. Select the tuning parameter with 5-fold cross-validation in F1 score</li>
 <li>Apply the regularized logistic regression to predict the severity of the crashes in the testing data. Compare the performance of the two logistic models in terms of accuracy, precision, recall, F1-score, and AUC.</li>
 </ol></li>
-<li><p><strong>Midterm project: Street flood in NYC</strong> The <a href="https://data.cityofnewyork.us/Social-Services/311-Service-Requests-from-2010-to-Present/erm2-nwe9">NYC Open Data of 311 Service Requests</a> contains all service requests from 2010 to the present. This analysis focuses on two sewer-related complaints in 2024: <strong>Street Flooding (SF)</strong> and <strong>Catch Basin (CB)</strong>. SF complaints serve as a practical indicator of street flooding, while CB complaints provide insights into a key infrastructural factor—when catch basins fail to drain rainwater properly due to blockages or structural issues, water accumulates on the streets. SF complaints are typically filed when residents observe standing water or flooding, whereas CB complaints report clogged basins, defective grates, or other drainage problems. The dataset is available in CSV format as <code>data/nycflood2024.csv</code>. Refer to the online data dictionary for a detailed explanation of variable meanings. Try to tell a story in your report while going through the questions.</p>
+<li><p><strong>Midterm project: Street flood in NYC</strong> The <a href="https://data.cityofnewyork.us/Social-Services/311-Service-Requests-from-2010-to-Present/erm2-nwe9">NYC Open Data of 311 Service Requests</a> contains all service requests from 2010 to the present. This analysis focuses on two sewer-related complaints in 2024: Street Flooding (SF) and Catch Basin (CB). SF complaints serve as a practical indicator of street flooding, while CB complaints provide insights into a key infrastructural factor—when catch basins fail to drain rainwater properly due to blockages or structural issues, water accumulates on the streets. SF complaints are typically filed when residents observe standing water or flooding, whereas CB complaints report clogged basins, defective grates, or other drainage problems. The dataset is available in CSV format as <code>data/nycflood2024.csv</code>. Refer to the online data dictionary for a detailed explanation of variable meanings. Try to tell a story in your report while going through the questions.</p>
 <ol type="a">
 <li>Data cleaning.
 <ol type="i">
@@ -308,10 +308,10 @@ window.Quarto = {
 </ol></li>
 <li>Exploratory analysis.
 <ol type="i">
+<li>Visualize the locations of complaints on a NYC map, with different symbols for different descriptors.</li>
 <li>Create a variable <code>response_time</code>, which is the duration from <code>created_date</code> to <code>closed_date</code>.</li>
-<li>Is there significant difference in response time between SF and CB complaints? Visualize the comparison. State your hypothesis, justify your test, and summarize your results in plain English.</li>
-<li>Is there significant difference in response time across different boroughs? Visualize the comparison. State your hypothesis, justify your test, and summarize your results.</li>
-<li>Does the difference in response time across boroughs depend on the complaint descriptor? Visualize the comparison (the original scale may not be the best given the outliers in the data). State your hypotheses, justify your test, and summarize your results.</li>
+<li>Visualize the comparison of response time by complaint descriptor and borough. The original may not be the best given the long tail or outlers.</li>
+<li>Is there significant difference in response time between SF and CB complaints? Across different boroughs? Does the difference between SF and CB depend on borough? State your hypothesis, justify your test, and summarize your results in plain English.</li>
 <li>Create a binary variable <code>over3d</code> to indicate that a service request took three days or longer to close.</li>
 <li>Does <code>over3d</code> depend on the complaint descriptor, borough, or weekday (vs weekend/holiday)? State your hypotheses, justify your test, and summarize your results.</li>
 </ol></li>
