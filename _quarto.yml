@@ -31,10 +31,10 @@ csl: apa.csl
 format:
   html:
     theme: cosmo
-  pdf:
-    documentclass: scrbook
-    include-in-header: preamble.tex
-
+#  pdf:
+#    documentclass: scrbook
+#    include-in-header: preamble.tex
+#    prefer-html: true
 
 execute:
   freeze: auto
