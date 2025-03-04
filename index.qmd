@@ -149,6 +149,9 @@ Markdown.
     - Become proficient in using GitHub
     - Learn more about the applications of data science
 + Kline, Daniel Esteban
+    - Become more adept at using git repositories
+    - Learn more about the data science process
+    - Get comfortable with the process so that I could streamline my work
 + Lagutin, Vladislav
     - Learn how to do data science projects in python and interact with them using git
     - Learn how to do good visualizations of the data; explore appropriate libraries
@@ -336,7 +339,7 @@ Please use the following table to sign up.
    02/26 |  Horn, Alyssa Noelle     | Database operation with Structured query language (SQL)
    03/03 |  El Zein, Amer Hani     |
    03/05 |  Schittina, Thomas     | Spatial Data With Geopandas & Google Maps
-   03/10 |  Kline, Daniel Esteban     |
+   03/10 |  Kline, Daniel Esteban     | Import/Export data
    03/12 |  Edo, Mezmur Wossenu      |
    03/24 |  Alsadadi, Ammar Shaker     |
    03/24 |  Fables, Xavier Milan     |
