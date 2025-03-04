@@ -364,17 +364,39 @@ plt.show()
 
 ## Install these R packages if you don't have them already
 ## options(repos = c(CRAN = "https://cloud.r-project.org/"))
-## install.packages("leaflet")
-## install.packages("plotly")
-## install.packages("shiny")
-## install.packages("DT")
+## install.packages(c("leaflet", "plotly", "shiny", "DT",
+##                             "htmlwidgets", "webshot", "knitr"))
 
 library(leaflet)
 
-leaflet() %>%
-  addTiles() %>% 
+# Create the interactive leaflet map
+map <- leaflet() %>%
+  addTiles() %>%
   setView(lng = -72.2565, lat = 41.8084, zoom = 15) %>%
   addMarkers(lng = -72.2565, lat = 41.8084, popup = "UConn Main Campus")
+
+## Ensure the 'images' folder exists
+if (!dir.exists("images")) {
+    dir.create("images")
+}
+
+# Conditional rendering based on output format
+if (knitr::is_html_output()) {
+  map  # Show interactive map in HTML
+} else {
+  # Define file paths
+  html_file <- "images/leaflet_temp.html"
+  png_file <- "images/uconn_static.png"
+
+  # Save the leaflet map as an HTML file
+  htmlwidgets::saveWidget(map, html_file, selfcontained = TRUE)
+
+  # Take a screenshot of the HTML file as a PNG image
+  webshot::webshot(html_file, file = png_file, delay = 2, vwidth = 800, vheight = 600)
+
+  # Include the PNG in the PDF output
+  knitr::include_graphics(png_file)
+}
 
 ```
 
@@ -392,8 +414,25 @@ fig <- plot_ly(mtcars, x = ~mpg, y = ~hp, type = 'scatter', mode = 'markers',
 fig <- fig %>% layout(title = "Interactive Scatter Plot of MPG vs HP",
                       xaxis = list(title = "Miles Per Gallon"),
                       yaxis = list(title = "Horsepower"))
-fig
+
+# Conditional rendering based on output format
+if (knitr::is_html_output()) {
+  fig  # Show interactive plot in HTML
+} else {
+  # Define file paths
+  html_file <- "images/plotly_temp.html"
+  png_file <- "images/mtcars_static.png"
+
+  # Save the plotly chart as an HTML file
+  htmlwidgets::saveWidget(fig, html_file, selfcontained = TRUE)
+
+  # Take a screenshot of the HTML file as a PNG image
+  webshot::webshot(html_file, file = png_file, delay = 2, vwidth = 800, vheight = 600)
+
+  knitr::include_graphics(png_file)
+}
 ```
+
 
 ### Rendering Your Presentation
 In your terminal enter the following code:
