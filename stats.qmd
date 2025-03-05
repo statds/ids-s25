@@ -266,7 +266,7 @@ print(fit.summary())
 ```
 
 
-## Interpreting Logistic Regression Results
+## Logistic Regression
 
 Once a logistic regression model is fitted, interpreting its results
 is crucial for understanding how predictor variables influence the
@@ -328,8 +328,7 @@ p-values:
 - Confidence intervals for $e^{\beta_1}$ help understand the precision
   of odds ratio estimates.
 
-## Validating the Results of Logistic Regression
-
+### Confusion Matrix
 Validating the performance of logistic regression models is crucial to
 assess their effectiveness and reliability. This section explores key
 metrics used to evaluate the performance of logistic regression
@@ -337,8 +336,8 @@ models, starting with the confusion matrix, then moving on to
 accuracy, precision, recall, F1 score, and the area under the ROC
 curve (AUC). Using simulated data, we will demonstrate how to
 calculate and interpret these metrics using Python.
-
-### Confusion Matrix
+ 
+ 
 The [confusion matrix](https://en.wikipedia.org/wiki/Confusion_matrix)
 is a fundamental tool used for calculating
 several other classification metrics. It is a table used to describe
@@ -845,7 +844,7 @@ ordinal variables is important when deciding how to encode and
 interpret them in statistical models.
 
 
-Categorical variables needs to be coded into numrical values before
+Categorical variables needs to be coded into numerical values before
 further processing.  In Python, nominal and ordinal variables are
 typically encoded differently to account for their unique
 properties. Nominal variables, which have no inherent order, are often
@@ -1002,3 +1001,205 @@ of the variables. For instance, the coefficient for `gender_female` tells
 us how much the log-odds of the outcome changes when the observation
 is male versus the reference category (`male`).
 
+
+## Count Data Modeling
+
+Count data consists of non-negative integers representing event 
+occurrences over a fixed unit of time or space. These data often exhibit 
+skewness, overdispersion, and a prevalence of zeros, requiring 
+specialized statistical models.
+Count data is common in applied fields such as urban planning and 
+environmental studies. This section introduces statistical models for 
+count data, focusing on the Poisson and Negative Binomial (NB) 
+distributions. Their probability mass functions (pmfs) are linked to 
+Generalized Linear Model (GLM) parameters.
+
+### Poisson Regression
+
+The Poisson model is a member of the GLM. It assumes that the count
+variable $Y$ follows a Poisson distribution:
+
+$$
+\Pr(Y = y) = \frac{\lambda^y e^{-\lambda}}{y!}, \quad y = 0,1,2,\dots
+$$
+where $\lambda$ is the expected count, linked to predictor variables 
+through a log link function:
+
+$$
+\log \lambda = X^{\top} \beta.
+$$
+
+Here, $X represents the vector of covariates, and $\beta$ denotes the 
+regression coefficients. The model assumes equidispersion (i.e., 
+$E[Y] = \text{Var}(Y)$), which is often violated in practice.
+
+
+- The coefficient $\beta_j$ represents the log change in the expected 
+count per unit increase in $X_j$.
+- Exponentiating $\beta_j$ provides the multiplicative effect on the 
+mean count.
+- If $\beta_j > 0$, increasing $X_j$ leads to higher counts, while 
+$\beta_j < 0$ suggests a negative association
+
+### Negative Binomial Regression
+
+When overdispersion (variance exceeding the mean) is present, the 
+Negative Binomial (NB) regression provides a more flexible alternative. 
+The NB model introduces an overdispersion parameter $\theta$, modifying 
+the variance structure:
+
+$$
+\Pr(Y = y) = \frac{\Gamma(y + \theta^{-1})}{y! \Gamma(\theta^{-1})} 
+\left( \frac{\theta \lambda}{1 + \theta \lambda} \right)^y 
+\left( \frac{1}{1 + \theta \lambda} \right)^{\theta^{-1}},
+$$
+
+where $\theta$ controls the degree of dispersion. The mean remains 
+$\lambda$, but the variance expands to:
+
+$$
+\text{Var}(Y) = \lambda + \frac{\lambda^2}{\theta}.
+$$
+
+The log link function remains to be commonly used.
+
+
+- Coefficients in NB regression are interpreted similarly to Poisson 
+regression.
+- The dispersion parameter $\theta$ quantifies the degree of 
+overdispersion; larger values suggest the Poisson model may still be 
+appropriate.
+
+### Model Diagnosis
+
+Assessing model fit is crucial in count data modeling. Common diagnostic 
+methods include:
+
+- Overdispersion Check: If the variance significantly exceeds the mean, 
+NB regression is preferred.
+- Goodness-of-Fit: Comparing Akaike Information Criterion (AIC) values 
+for Poisson and NB models; lower AIC suggests a better fit.
+- Residual Analysis: Examining Pearson and deviance residuals for 
+systematic patterns.
+- Zero-Inflation Check: If excess zeros exist, zero-inflated models may 
+be required.
+
+
+## An Example with NYC Street Flood
+
+We use the NYC street flood data from the mid-term project. This
+analysis focuses on two sewer-related complaints in 2024: Street
+Flooding (SF) and Catch Basin (CB). SF complaints serve as a practical
+indicator of street flooding, while CB complaints provide insights
+into a key infrastructural factor---when catch basins fail to drain
+rainwater properly due to blockages or structural issues, water
+accumulates on the streets
+
+
+Let's reformat the data to create count times series of SF and CB
+complaints by zip code. 
+```{python}
+import pandas as pd
+# Reload the dataset, ensuring 'Incident Zip' is read as a string from the start
+df = pd.read_csv("data/nycflood2024.csv",
+                 dtype={"Incident Zip": str}, parse_dates=["Created Date"])
+
+# Filter for incidents in 2024, but also include 2023-12-31 for lag calculation
+df_2024 = df[(df["Created Date"] >= "2023-12-31") &
+                           (df["Created Date"] <= "2024-12-31")].copy()
+
+# Extract date and ensure proper formatting
+df_2024["Date"] = df_2024["Created Date"].dt.date
+df_2024["Zipcode"] = df_2024["Incident Zip"].astype(str)
+
+# Identify complaint types
+df_2024["SFcount"] = df_2024["Descriptor"].\
+str.contains("Street Flooding", na=False).astype(int)
+df_2024["CBcount"] = df_2024["Descriptor"].\
+str.contains("Catch Basin Clogged", na=False).astype(int)
+
+# Aggregate counts by zip code and date
+df_grouped = df_2024.groupby(["Zipcode", "Date"])[["SFcount", "CBcount"]].sum().reset_index()
+
+# Generate a full range of dates including 2023-12-31 for lag calculation
+all_dates = pd.date_range(start="2023-12-31", end="2024-12-31")
+all_zipcodes = df_grouped["Zipcode"].unique()
+
+# Create a complete grid of all zip codes and dates
+multi_index = pd.MultiIndex.from_product([all_zipcodes, all_dates], names=["Zipcode", "Date"])
+full_df = pd.DataFrame(index=multi_index).reset_index()
+
+# Ensure 'Date' is in datetime format
+full_df["Date"] = pd.to_datetime(full_df["Date"])
+df_grouped["Date"] = pd.to_datetime(df_grouped["Date"])
+
+# Merge to include all combinations and fill missing values with 0
+df_final = full_df.merge(df_grouped, on=["Zipcode", "Date"], how="left").fillna(0)
+
+# Convert counts to integers
+df_final["SFcount"] = df_final["SFcount"].astype(int)
+df_final["CBcount"] = df_final["CBcount"].astype(int)
+
+# Add lag-1 variable for CBcount
+df_final["CBcount_Lag1"] = df_final.groupby("Zipcode")["CBcount"].shift(1)
+
+df_final.head()
+```
+
+
+Now let's fit a Poisson model.
+```{python}
+import statsmodels.api as sm
+import statsmodels.formula.api as smf
+
+# Filter out 2023-12-31 since it has missing values for lagged CBcount
+df_model = df_final[df_final["Date"] >= "2024-01-01"].copy()
+
+# Fit Poisson regression
+poisson_model = smf.glm("SFcount ~ CBcount_Lag1", 
+                         data=df_model, 
+                         family=sm.families.Poisson()).fit()
+
+poisson_model.summary()
+```
+
+
+
+Then we fit a NB model.
+```{python}
+# Fit Negative Binomial regression
+nb_model = smf.glm("SFcount ~ CBcount_Lag1", 
+                    data=df_model, 
+                    family=sm.families.NegativeBinomial()).fit()
+
+nb_model.summary()
+```
+
+
+Check for overdisperson.
+```
+# Overdispersion check: Compute Pearson Chi-square statistic
+poisson_deviance = poisson_model.pearson_chi2 / poisson_model.df_resid
+nb_deviance = nb_model.pearson_chi2 / nb_model.df_resid
+
+# Akaike Information Criterion (AIC) comparison
+poisson_aic = poisson_model.aic
+nb_aic = nb_model.aic
+
+# Residual analysis
+df_model["Poisson_Residuals"] = poisson_model.resid_pearson
+df_model["NB_Residuals"] = nb_model.resid_pearson
+
+# Summary of results
+summary_results = {
+    "Poisson Coefficients": poisson_model.params.to_dict(),
+    "Negative Binomial Coefficients": nb_model.params.to_dict(),
+    "Poisson Deviance": poisson_deviance,
+    "Negative Binomial Deviance": nb_deviance,
+    "Poisson AIC": poisson_aic,
+    "Negative Binomial AIC": nb_aic
+}
+
+# Return the summary of findings
+summary_results
+```
