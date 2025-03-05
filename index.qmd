@@ -151,6 +151,7 @@ Markdown.
 + Kline, Daniel Esteban
     - Become better at guiding myself through git hub and its repositories
     - Learn more about the data science process and what it means
+    - Get comfortable with the workflow so assignments can be done more efficently
 + Lagutin, Vladislav
     - Learn how to do data science projects in python and interact with them using git
     - Learn how to do good visualizations of the data; explore appropriate libraries
