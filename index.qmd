@@ -339,7 +339,7 @@ Please use the following table to sign up.
    02/26 |  Horn, Alyssa Noelle     | Database operation with Structured query language (SQL)
    03/03 |  El Zein, Amer Hani     |
    03/05 |  Schittina, Thomas     | Spatial Data With Geopandas & Google Maps
-   03/10 |  Kline, Daniel Esteban     | Import/Export data
+   03/10 |  Kline, Daniel Esteban     | Web Scraping
    03/12 |  Edo, Mezmur Wossenu      |
    03/24 |  Alsadadi, Ammar Shaker     |
    03/24 |  Fables, Xavier Milan     |
