@@ -149,9 +149,7 @@ Markdown.
     - Become proficient in using GitHub
     - Learn more about the applications of data science
 + Kline, Daniel Esteban
-    - Become more adept at using git repositories
-    - Learn more about the data science process
-    - Get comfortable with the process so that I could streamline my work
+    - Become better at guiding myself through git hub and its repositories
 + Lagutin, Vladislav
     - Learn how to do data science projects in python and interact with them using git
     - Learn how to do good visualizations of the data; explore appropriate libraries
