@@ -167,4 +167,4 @@ cython_debug/
 /templates/
 
 /foreign/
-*.html
+*.html.DS_Store
