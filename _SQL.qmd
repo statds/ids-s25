@@ -93,8 +93,15 @@ conn = sqlite3.connect(db_path)
 #The conn object acts as a bridge between Python and the database,
 #allowing you to execute SQL queries and manage data.
 
-# Load CSV
+# Load Feather
 data = pd.read_feather("data/nyccrashes_cleaned.feather")
+
+# create crash_date and crash_time columns
+data["crash_date"] = pd.to_datetime(data["crash_datetime"]).dt.date
+data["crash_time"] = pd.to_datetime(data["crash_datetime"]).dt.strftime("%H:%M:%S")
+
+# Drop the original datetime column (optional)
+data.drop(columns=["crash_datetime"], inplace=True)
 
 # Store DataFrame as a SQL table
 data.to_sql('nyc_crashes', conn, if_exists='replace', index=False)
@@ -243,7 +250,7 @@ cursor = conn.cursor()
 cursor.execute("""
 INSERT INTO nyc_crashes (crash_date, crash_time, 
 borough, contributing_factor_vehicle_1)
-VALUES ('06/30/2024', '10:15', 'BROOKLYN',
+VALUES ('2024-06-30', '10:15:00', 'BROOKLYN',
 'Driver Inattention/Distraction')
 """)
 
@@ -258,8 +265,8 @@ conn.commit()
 
 query_before = """
 SELECT * FROM nyc_crashes 
-WHERE crash_date = '06/30/2024' 
-AND crash_time = '10:15' 
+WHERE crash_date = '2024-06-30' 
+AND crash_time = '10:15:00' 
 AND borough = 'BROOKLYN';
 """
 
@@ -278,8 +285,8 @@ Use `DELETE FROM` statement to delete data
 
 delete_query = """
 DELETE FROM nyc_crashes
-WHERE crash_date = '06/30/2024' 
-AND crash_time = '10:15' 
+WHERE crash_date = '2024-06-30' 
+AND crash_time = '10:15:00' 
 AND borough = 'BROOKLYN'
 AND contributing_factor_vehicle_1 = 'Driver Inattention/Distraction';
 """
@@ -296,8 +303,8 @@ conn.commit()
 
 query_after = """
 SELECT * FROM nyc_crashes 
-WHERE crash_date = '06/30/2024' 
-AND crash_time = '10:15' 
+WHERE crash_date = '2024-06-30' 
+AND crash_time = '10:15:00' 
 AND borough = 'BROOKLYN';
 """
 
