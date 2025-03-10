@@ -168,3 +168,4 @@ cython_debug/
 
 /foreign/
 *.html.DS_Store
+.DS_Store
