@@ -94,7 +94,7 @@ conn = sqlite3.connect(db_path)
 #allowing you to execute SQL queries and manage data.
 
 # Load CSV
-data = pd.read_csv('07_04_2024weekNYCcrash_filtered.csv')
+data = pd.read_feather(data/nyccrashes_cleaned.feather)
 
 # Store DataFrame as a SQL table
 data.to_sql('nyc_crashes', conn, if_exists='replace', index=False)
