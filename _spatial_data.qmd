@@ -8,13 +8,13 @@ with a particular focus on the packages GeoPandas and gmplot. We'll start with
 GeoPandas and do the following:
 
 + Cover the core concepts and functionalities
-+ Walkthrough an example using the NYC shape data
++ Walkthrough an example using NYC shape data
 
 For gmplot we will:
 
 + Talk about why you'll need a Google Maps API key
 + See some of the different plotting functionalities
-+ Walkthrough an example using the NYC shape data
++ Walkthrough an example using NYC shape data
 
 ### GeoPandas
 
