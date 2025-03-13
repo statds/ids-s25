@@ -182,6 +182,9 @@ apikey = open('gmapKey.txt').read().strip() # read in API key
 gmap = gmplot.GoogleMapPlotter(40.5665, -74.1697, 11, apikey=apikey)
 ```
 
+**Note:** To render the classnotes on your computer, you will need to create 
+the text file `gmapKey.txt` and store your Google Maps API key there.
+
 The arguments include: 
 
 + The latitude and longitude of NYC
