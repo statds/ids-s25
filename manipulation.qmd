@@ -581,3 +581,6 @@ Read the feather file back in:
 dff = pd.read_feather("data/nyccrashes_cleaned.feather")
 dff.shape
 ```
+
+<!-- This section is to be included as a tutorial for geospatial data. -->
+{{< include _spatial_data.qmd >}}
