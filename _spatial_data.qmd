@@ -13,7 +13,7 @@ GeoPandas and do the following:
 For gmplot we will:
 
 + Talk about why you'll need a Google Maps API key
-+ See some of the different plotting functionality 
++ See some of the different plotting functionalities
 + Walkthrough an example using the NYC shape data
 
 ### GeoPandas
@@ -53,18 +53,25 @@ GeoDataFrame:
 + Otherwise similar to a normal `DataFrame`
 
 
-### Example using NYC MODZCTA Shapefile
+### Example with NYC MODZCTA Shapefile
 
 Given a file containing geospatial data, `geopandas.read_file()` will detect 
 the filetype and create a `GeoDataFrame`.
 
 ```{python}
 import geopandas as gpd
+import os
+
+# get .shp from MODZCTA_Shapefile folder
+shapefile_path = None
+for file in os.listdir('MODZCTA_Shapefile'):
+    if file.endswith(".shp"):
+        shapefile_path = os.path.join('MODZCTA_Shapefile', file)
+        break  # Use the first .shp file found
 
 # read in data
-gdf = gpd.read_file(
-    'MODZCTA_Shapefile/geo_export_ee695ff3-2f0f-4588-ad67-208ab5af8feb.shp'
-)
+gdf = gpd.read_file(shapefile_path)
+
 gdf.drop(columns=['label', 'zcta'], inplace=True)
 
 gdf.head()
@@ -192,7 +199,7 @@ The arguments include:
 + API key (even if it's not used directly)
 + more optional arguments for further customization
 
-#### Example with Zip Code Data
+### Making Maps with NYC Zip Code Data
 
 Let's display the largest zip code by area in NYC.
 
@@ -214,7 +221,7 @@ After creating the plot, `gmap.draw('filename')` saves it as an HTML file in
 the current working directory, unless another location is specified. In the 
 classnotes, all outputs will be shown as a PNG image.
 
-![Largest NYC Zip Code by area](largest_zip.png)
+![Largest NYC Zip Code by area](images/spatial_data_visuals/largest_zip.png)
 
 Let's also plot the centriod of this zip code, and include a link to gmplot's 
 documentation (in the classnotes this link won't work because the PNG is used).
@@ -237,7 +244,7 @@ gmap.polygon(lats, lons, face_color='green', edge_color='blue', edge_width=3)
 
 Here's the output:
 
-![Center of largest NYC Zip Code](zip_w_marker.png)
+![Center of largest NYC Zip Code](images/spatial_data_visuals/zip_w_marker.png)
 
 #### Other Features of gmplot
 
@@ -246,6 +253,7 @@ Here's the output:
 + `heatmap()`: plot a heatmap
 + `enable_marker_dropping()`: click on map to create/remove markers
 + `from_geocode()`: use name of location instead of coordinates
++ see docs for more
 
 You can also change the map type when you create an instance of 
 `GoogleMapPlotter`. 
@@ -258,7 +266,7 @@ gmap = gmplot.GoogleMapPlotter(40.776676, -73.971321, 11.5, apikey=apikey,
 # gmap.draw('nyc_hybrid.html')
 ```
 
-![Hybrid map of NYC](nyc_hybrid.png)
+![Hybrid map of NYC](images/spatial_data_visuals/nyc_hybrid.png)
 
 ### Summary
 
