@@ -170,3 +170,4 @@ cython_debug/
 *.html.DS_Store
 .DS_Store
 *.html
+_pandas_files/
