@@ -74,14 +74,14 @@ used. Here is a list of data challenges that you may find useful:
 
 + [ASA Data Challenge
   Expo](https://community.amstat.org/dataexpo/home): big data in 2025
-+ [Kaggle](https://www.kaggle.com)
-+ [DrivenData](https://www.drivendata.org)
++ [Kaggle](https://www.kaggle.com).
++ [DrivenData](https://www.drivendata.org).
 + [15 Data Science Hackathons to Test Your Skills in 2025](https://www.fynd.academy/blog/data-science-hackathons)
 + If you work on sports analytics, you are welcome to submit a
 poster to [Connecticut Sports Analytics Symposium
 (CSAS) 2025](https://statds.org/events/csas2025/).
-+ A good resource for sports analytics if [ScoreNetwork](https://scorenetwork.org).
-
++ A good resource for sports analytics is [ScoreNetwork](https://scorenetwork.org).
++ [Paleobiology Database](https://paleobiodb.org/#/).
 
 ## Adapting to Rapid Skill Acquisition
 
@@ -282,10 +282,9 @@ Talk to the professor about your topics. Here are some example tasks:
 + Effective data science communication
 + Import/Export data
 + Data manipulation with `Pandas`
-+ Using package `ace_tools`
 + Accessing US census data
 + Arrow as a cross-platform data format
-+ Statistical analysis for proporations and rates
++ Statistical analysis for proportions and rates
 + Database operation with Structured query language (SQL)
 + Grammer of graphics
 + Handling spatial data
@@ -299,6 +298,8 @@ Talk to the professor about your topics. Here are some example tasks:
 + Deep learning
 + TensorFlow
 + Autoencoders
++ K-means clustering
++ Principal component analysis
 + Reinforcement learning
 + Developing a Python package
 + Web scraping
