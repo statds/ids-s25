@@ -1,18 +1,18 @@
 ## Data Manipulation with Pandas
 
-This section is prepared by Lang Lang. I am a senior student double majoring in\
+This section is prepared by Lang Lang. I am a senior student double majoring in  
 data science and economics in University of Connecticut.
 
 ### Introduction
 
-In this section, I will introduce about data manipulation using Pandas,\
-which is a powerful Python library for working with data. I'll walk through\
-some basic operations like filtering, merging, and summarizing data using a real\
+In this section, I will introduce about data manipulation using Pandas,  
+which is a powerful Python library for working with data. I'll walk through  
+some basic operations like filtering, merging, and summarizing data using a real  
 data set of NYC motor vehicle collisions.
 
 ### Introduction to Pandas
 
-Pandas is a powerful Python library for data manipulation and analysis. It\
+Pandas is a powerful Python library for data manipulation and analysis. It  
 provides two key data structures:
 
 -   Series: A one-dimensional labeled array.
@@ -28,7 +28,7 @@ provides two key data structures:
 
 #### Reading NYC Crash Data
 
-We'll work with the NYC Motor Vehicle Collisions data set in the class notes\
+We'll work with the NYC Motor Vehicle Collisions data set in the class notes  
 repository.
 
 -   Using the following code to import the Pandas library in Python
@@ -76,7 +76,7 @@ This tells us:
 
 #### Descriptive Statistics
 
-The discribe function provides summary statistics for numerical columns in a\
+The discribe function provides summary statistics for numerical columns in a  
 Pandas DataFrame.
 
 ```{python}
@@ -107,7 +107,7 @@ df_selected.head()
 
 #### Filtering Data
 
-when you would like to filter certain specific data (e.g., Crashes in Manhattan),\
+when you would like to filter certain specific data (e.g., Crashes in Manhattan),  
 you can using the following data to define:
 
 ```{python}
@@ -117,8 +117,8 @@ manhattan_df.head()
 
 #### Filter A DataFrame
 
-The query function in Pandas is used to filter a DataFrame using a more\
-readable, SQL-like syntax. For example, now I would like to find the crashes with\
+The query function in Pandas is used to filter a DataFrame using a more  
+readable, SQL-like syntax. For example, now I would like to find the crashes with  
 the number of persons injured more than 2. We can using the following code:
 
 ```{python}
@@ -128,28 +128,28 @@ df_filtered.head()
 
 ### Merging DataFrames
 
-In Pandas, the merge function is used to combine multiple DataFrames based\
+In Pandas, the merge function is used to combine multiple DataFrames based  
 on a common column.
 
-This is useful when working with multiple datasets that need to be joined for\
+This is useful when working with multiple datasets that need to be joined for  
 analysis.
 
 #### Example: Merging Crash Data with Total Injuries per Borough
 
-Suppose we have a dataset containing crash details, and we want to analyze how\
+Suppose we have a dataset containing crash details, and we want to analyze how  
 the total number of injuries in each borough relates to individual crashes.
 
-We can achieve this by aggregating the total injuries per borough and merging it\
+We can achieve this by aggregating the total injuries per borough and merging it  
 with the crash dataset.
 
 The following code:
 
 -   Aggregates the total injuries per borough using `.groupby()`.
 
--   Selects relevant columns from the main dataset (`COLLISION_ID`, `BOROUGH`,\
+-   Selects relevant columns from the main dataset (`COLLISION_ID`, `BOROUGH`,  
     `NUMBER OF PERSONS INJURED`).
 
--   Merges the aggregated injury data with the crash dataset using `.merge()` on\
+-   Merges the aggregated injury data with the crash dataset using `.merge()` on  
     the `BOROUGH` column.
 
 ```{python}
@@ -179,19 +179,19 @@ The merged dataset now includes:
 -   NUMBER OF PERSONS INJURED: Number of injuries in a specific crash.
 -   TOTAL_INJURIES: The total number of injuries reported in that borough.
 
-This merged dataset allows us to compare individual crash injuries with the\
-overall injury trend in each borough, helping in further data analysis and\
+This merged dataset allows us to compare individual crash injuries with the  
+overall injury trend in each borough, helping in further data analysis and  
 visualization.
 
 ### Data Visualization
 
-Visualizing data is crucial to understanding patterns and relationships within\
-the dataset. In this section, we will create one-variable tables (frequency\
+Visualizing data is crucial to understanding patterns and relationships within  
+the dataset. In this section, we will create one-variable tables (frequency  
 table), two-variable tables (contingency table).
 
 #### One-Variable Table
 
-A one-variable table (also called a frequency table) shows the distribution of\
+A one-variable table (also called a frequency table) shows the distribution of  
 values for a single categorical variable.
 
 For example, we can count the number of crashes per borough:
@@ -201,12 +201,12 @@ borough_counts = df['BOROUGH'].value_counts()
 borough_counts
 ```
 
-This table displays the number of accidents recorded in each borough of NYC. It\
+This table displays the number of accidents recorded in each borough of NYC. It  
 helps identify which borough has the highest accident frequency.
 
 #### Two-Variable Table
 
-A two-variable table (also called a contingency table) shows the relationship\
+A two-variable table (also called a contingency table) shows the relationship  
 between two categorical variables.
 
 For example, we can analyze the number of crashes per borough per day:
@@ -226,13 +226,13 @@ This table shows the number of accidents per borough for each day in the dataset
 
 ### Data Cleaning and Transformation
 
-This part is from the textbook “Python for Data Analysis: Data Wrangling with\
-Pandas, NumPy, and IPython.” Chapter 5, Third Edition by Wes McK- inney, O’Reilly\
+This part is from the textbook “Python for Data Analysis: Data Wrangling with  
+Pandas, NumPy, and IPython.” Chapter 5, Third Edition by Wes McK- inney, O’Reilly  
 Media, 2022. https://wesmckinney.com/book/.
 
 #### Changing Data Types
 
-The following functions in Pandas are used to convert data types. This is\
+The following functions in Pandas are used to convert data types. This is  
 important when working with dates and categorical data to ensure proper analysis.
 
 For example, we want to:
@@ -281,6 +281,6 @@ df.fillna
 
 ### Conclusion
 
-Pandas is a powerful tool for data analysis. Learning how to use Pandas will\
-allow you to perform more advanced analytics and become more proficent in using\
+Pandas is a powerful tool for data analysis. Learning how to use Pandas will  
+allow you to perform more advanced analytics and become more proficent in using  
 python.
