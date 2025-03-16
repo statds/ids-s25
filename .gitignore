@@ -168,4 +168,8 @@ cython_debug/
 /templates/
 
 /foreign/
+*.html.DS_Store
+.DS_Store
+*.html
+_pandas_files/
 *.html
