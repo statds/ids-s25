@@ -1,20 +1,19 @@
 ---
 title: "This is an Interesting Title"
-author: "First Last"
+author: "First M. Last"
 date: "2025-03-28"
 format:
   pdf:
-#    pdf-engine: lualatex
     colorlinks: true
     linkcolor: blue
     number-sections: true
     geometry: margin=1in
     fontsize: 11pt 
-    cite-method: citeproc 
 cite-method: citeproc
 link-citations: true
 suppress-bibliography: false
 bibliography: ../references.bib # create your own bib file
+csl: apa.csl
 ---
 
 # Introduction
@@ -51,8 +50,7 @@ address in order to answer your scientific questions.
 
 # Discussion
 
-
-Discussion What are the most challenge parts of the task? What are the
+What are the most challenge parts of the task? What are the
 limitations of your work? What is your fall-back plan if something
 unexpected happens?
 
