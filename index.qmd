@@ -343,7 +343,7 @@ Please use the following table to sign up.
    03/24 |  Fables, Xavier Milan     |
    03/31 |  Tamhane, Shubhan     |
    03/31 |  Nasejje, Ruth Nicole     | Personal webpage on GitHub
-   04/02 |  Lagutin, Vladislav     |
+   04/02 |  Lagutin, Vladislav     | Google Maps visualizations using Folium library
    04/02 |  Zhang, Gaofei    | Random forest
    04/07 |  Long, Ethan Kenneth     |
    04/07 |  Xu, Peiwen   | 
