@@ -275,7 +275,8 @@ boosting. This justifies certain requests for switching slots.
 
 ### Presentation Task Board
 
-Talk to the professor about your topics. Here are some example tasks:
+Talk to the professor about your topics at least one week prior to
+your scheduled presentation. Here are some example tasks:
 
 + Making presentations with Quarto
 + Markdown jumpstart
@@ -293,6 +294,7 @@ Talk to the professor about your topics. Here are some example tasks:
 + Animation
 + Support vector machine
 + Random forest
++ Gradient boosting machine
 + Naive Bayes
 + Neural networks
 + Deep learning

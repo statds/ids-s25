@@ -22,6 +22,8 @@ book:
     - python.qmd
     - manipulation.qmd
     - stats.qmd
+    - machinelearning.qmd
+    - supervised.qmd
     - unsupervised.qmd
     - exercises.qmd
     - references.qmd

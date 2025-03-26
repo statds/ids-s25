@@ -1,0 +1,341 @@
+# Supervised Learning
+
+## Decision Trees: Foundation
+
+Decision trees are widely used supervised learning models that predict 
+the value of a target variable by iteratively splitting the dataset 
+based on decision rules derived from input features. The model 
+functions as a piecewise constant approximation of the target 
+function, producing clear, interpretable rules that are easily 
+visualized and analyzed [@breiman1984classification]. Decision trees 
+are fundamental in both classification and regression tasks, serving 
+as the building blocks for more advanced ensemble models such as 
+Random Forests and Gradient Boosting Machines.
+
+
+### Algorithm Formulation
+
+
+The core mechanism of a decision tree algorithm is the identification 
+of optimal splits that partition the data into subsets that are 
+increasingly homogeneous with respect to the target variable. At any 
+node $m$, the data subset is denoted as $Q_m$ with a sample size of 
+$n_m$. The objective is to find a candidate split $\theta$, defined 
+as a threshold for a given feature, that minimizes an impurity or 
+loss measure $H$.
+
+When a split is made at node $m$, the data is divided into two 
+subsets: $Q_{m,l}$ (left node) with sample size $n_{m,l}$, and 
+$Q_{m,r}$ (right node) with sample size $n_{m,r}$. The split 
+quality, measured by $G(Q_m, \theta)$, is given by:
+
+$$
+G(Q_m, \theta) = \frac{n_{m,l}}{n_m} H(Q_{m,l}(\theta)) + 
+\frac{n_{m,r}}{n_m} H(Q_{m,r}(\theta)).
+$$
+
+The algorithm aims to identify the split that minimizes the impurity:
+
+$$
+\theta^* = \arg\min_{\theta} G(Q_m, \theta).
+$$
+
+This process is applied recursively at each child node until a 
+stopping condition is met.
+
++ Stopping Criteria: 
+  The algorithm stops when the maximum tree depth is reached or when
+  the node sample size falls below a preset threshold.
++ Pruning: 
+  Reduce the complexity of the final tree by removing
+  branches that add little predictive value. This reduces overfitting
+  and improves the generalization accuracy of the model.
+
+### Search Space for Possible Splits
+
+At each node in the decision tree, the search space for possible splits 
+comprises all features in the dataset and potential thresholds derived 
+from the values of each feature. For a given feature, the algorithm 
+considers each unique value in the current node's subset as a possible 
+split point. The potential thresholds are typically set as midpoints 
+between consecutive unique values, ensuring the data is partitioned 
+effectively.
+
+Formally, let the feature set be $\{X_1, X_2, \ldots, X_p\}$, where 
+$p$ is the total number of features, and let the unique values of 
+feature $ X_j $ at node $ m $ be denoted by 
+$\{v_{j,1}, v_{j,2}, \ldots, v_{j,k_j}\} $. The search space at node
+$m$ includes:
+
+
+- Feature candidates: $\{X_1, X_2, \ldots, X_p\}$.
+- Threshold candidates for $X_j$: 
+  $$
+  \left\{ \frac{v_{j,i} + v_{j,i+1}}{2} \mid 1 \leq i < k_j \right\}.
+  $$
+
+The search space therefore encompasses all combinations of features and 
+their respective thresholds. While the complexity of this search can be 
+substantial, particularly for high-dimensional data or features with 
+numerous unique values, efficient algorithms use sorting and single-pass 
+scanning techniques to mitigate the computational cost.
+
+
+### Metrics
+
+#### Classification
+In decision tree classification, several criteria can be used to
+measure the quality of a split at each node. These criteria are based
+on how "pure" the resulting nodes are after the split. A pure node
+contains samples that predominantly belong to a single class. The goal
+is to minimize impurity, leading to nodes that are as homogeneous as
+possible.
+
++ Gini Index: The Gini index measures the impurity of a node by
+  calculating the probability of randomly choosing two different
+  classes. A perfect split (all instances belong to one class) has a
+  Gini index of 0. At node $m$, the Gini index is
+  $$
+  H(Q_m) = \sum_{k=1}^{K} p_{mk} (1 - p_{mk}),
+  $$
+  where $p_{mk}$ is the proportion of samples of class $k$ at node $m$;
+  and$K$ is the total number of classes
+  The Gini index is often preferred for its speed and simplicity, and
+  it’s used by default in many implementations of decision trees,
+  including `sklearn`.
+
++ Entropy (Information Gain): Entropy is another measure of impurity,
+  derived from information theory. It quantifies the "disorder" of the
+  data at a node. Lower entropy means higher purity. At node $m$, it
+  is defined as
+  $$
+  H(Q_m) = - \sum_{k=1}^{K} p_{mk} \log p_{mk}
+  $$
+  Entropy is commonly used in decision tree algorithms like ID3 and
+  C4.5. The choice between Gini and entropy often depends on specific
+  use cases, but both perform similarly in practice.
+  
++ Misclassification Error: Misclassification error focuses solely on
+  the most frequent class in the node. It measures the proportion of
+  samples that do not belong to the majority class. Although less
+  sensitive than Gini and entropy, it can be useful for classification
+  when simplicity is preferred. At node $m$, it is defined as
+  $$
+  H(Q_m) = 1 - \max_k p_{mk},
+  $$
+  where $\max_k p_{mk}$ is the largest proportion of samples belonging
+  to any class $k$.
+
+#### Regression Criteria
+
+In decision tree regression, different criteria are used to assess the
+quality of a split. The goal is to minimize the spread or variance of
+the target variable within each node.
+
++ Mean Squared Error (MSE): Mean squared error is the most common
+  criterion used in regression trees. It measures the average squared
+  difference between the actual values and the predicted values (mean
+  of the target in the node). The smaller the MSE, the better the
+  fit. At node $m$, it is 
+  $$
+  H(Q_m) = \frac{1}{n_m} \sum_{i=1}^{n_m} (y_i - \bar{y}_m)^2,
+  $$
+  where
+    - $y_i$ is the actual value for sample $i$;
+    - $\bar{y}_m$ is the mean value of the target at node $m$;
+    - $n_m$ is the number of samples at node $m$.
+
+  MSE works well when the target is continuous and normally distributed.
+
++ Half Poisson Deviance (for count targets): When dealing with count
+  data, the Poisson deviance is used to model the variance in the
+  number of occurrences of an event. It is well-suited for target
+  variables representing counts (e.g., number of occurrences of an
+  event). At node $m$, it is
+  $$
+  H(Q_m) = \sum_{i=1}^{n_m} \left( y_i \log\left(\frac{y_i}{\hat{y}_i}\right) - (y_i - \hat{y}_i) \right),
+  $$
+  where $\hat{y}_i$ is the predicted count. This criterion is
+  especially useful when the target variable represents discrete
+  counts, such as predicting the number of occurrences of an event.
+
++ Mean Absolute Error (MAE): Mean absolute error is another criterion
+  that minimizes the absolute differences between actual and predicted
+  values. While it is more robust to outliers than MSE, it is slower
+  computationally due to the lack of a closed-form solution for
+  minimization. At node $m$, it is
+  $$
+  H(Q_m) = \frac{1}{n_m} \sum_{i=1}^{n_m} |y_i - \bar{y}_m|.
+  $$
+  MAE is useful when you want to minimize large deviations and can be
+  more robust in cases where outliers are present in the data.
+
+#### Summary
+
+In decision trees, the choice of splitting criterion depends on the
+type of task (classification or regression) and the nature of the
+data. For classification tasks, the Gini index and entropy are the
+most commonly used, with Gini offering simplicity and speed, and
+entropy providing a more theoretically grounded
+approach. Misclassification error can be used for simpler cases. For
+regression tasks, MSE is the most popular choice, but Poisson deviance
+and MAE are useful for specific use cases such as count data and
+robust models, respectively.
+
+
+## Boosted Trees
+
+
+Boosted trees are a powerful ensemble technique in machine learning 
+that combine multiple weak learners, typically decision trees, into a 
+strong learner. Unlike bagging methods, which train trees 
+independently, boosting fits models sequentially, with each new model 
+correcting the errors of the previous ensemble. Gradient boosting, one 
+of the most popular variants, optimizes a loss function by iteratively 
+adding trees that reduce the residual errors of the current ensemble. 
+
+
+
+### Introduction
+
+Boosted trees build on the general concept of boosting, which aims to 
+create a strong predictor from a series of weak predictors. In boosted 
+trees, the weak learners are shallow decision trees, often referred to 
+as "stumps," and they are added sequentially to the model. At each 
+step, a new tree focuses on the training instances that are hardest to 
+predict, improving overall accuracy. This iterative focus on "hard-to-
+predict" instances is the defining characteristic of boosting.
+
+The effectiveness of boosted trees has made them popular for various 
+tasks, including classification, regression, and ranking. They also 
+form the foundation for algorithms like XGBoost, LightGBM, and 
+CatBoost, known for their speed and scalability.
+
+### Boosting Process
+
+The boosting process in gradient boosted trees builds an ensemble by 
+adding trees iteratively, each designed to minimize the residual 
+errors from the combined predictions of the previous trees. This 
+iterative approach allows the model to refine its predictions by 
+optimizing a loss function, denoted as $L(y, F(x))$, where $y$ is the 
+true value and $F(x)$ is the model's prediction.
+
+#### Model Iteration
+
+The boosting process can be delineated as follows:
+
+1. **Initialization**: 
+   Start with a base model $F_0(x)$, which is usually the mean of the 
+   target variable in regression or the log odds in classification:
+
+   - For regression: $F_0(x) = \text{mean}(y_i)$.
+   - For classification: 
+   $F_0(x) = \log \left( \frac{P(y=1)}{1-P(y=1)} \right)$.
+
+2. **Iterative Boosting**:
+   
+   At each iteration $m$:
+   
+   - Compute the pseudo-residuals, representing the negative 
+     gradient of the loss function with respect to the current model 
+     predictions. The residuals at iteration $m$ are defined as:
+     
+     $$
+     r_i^{(m)} = -\left. \frac{\partial L(y_i, F(x_i))}
+     {\partial F(x_i)} \right|_{F(x) = F_{m-1}(x)}.
+     $$
+     
+     The residuals guide the next tree to focus on reducing the 
+     largest errors from the previous iteration.
+
+   - Fit a new tree $h_m(x)$ to the pseudo-residuals. The new 
+     tree is trained to predict the residuals of the current ensemble 
+     model, identifying where the model needs the most improvement.
+
+   - Update the model as the sum of the previous model and the newly 
+     added tree, scaled by a learning rate $\eta$:
+     
+     $$
+     F_m(x) = F_{m-1}(x) + \eta \, h_m(x).
+     $$
+     
+     The learning rate, a small positive number (e.g., 0.01 to 0.1), 
+     controls the contribution of each tree, ensuring incremental 
+     improvements and reducing the risk of overfitting.
+
+3. **Final Model**:
+   
+   After $M$ iterations, the ensemble model is given by:
+
+   $$
+   F_M(x) = F_0(x) + \sum_{m=1}^M \eta \, h_m(x).
+   $$
+
+   The final model $F_M(x)$ represents the sum of the initial model 
+   and the incremental improvements made by each of the $M$ trees, 
+   with each tree trained to correct the residuals of the ensemble up 
+   to that point.
+
+### Key Concepts
+
+1. **Loss Function**: The loss function measures the discrepancy 
+   between the actual and predicted values. It guides the model 
+   updates. Common choices include:
+   
+   - Squared error for regression: 
+     $L(y, F(x)) = \frac{1}{2} (y - F(x))^2$.
+   - Logistic loss for binary classification: 
+     $L(y, F(x)) = \log(1 + \exp(-y \, F(x)))$.
+
+2. **Learning Rate**: The learning rate scales the contribution of 
+   each tree and helps control the speed of learning. A smaller 
+   learning rate typically requires more trees but results in a more 
+   robust model with better generalization.
+
+3. **Regularization**: Boosted trees incorporate regularization to 
+   avoid overfitting, including:
+   
+   - Tree depth: Limits the maximum depth of each tree, reducing 
+     model complexity.
+   - L1/L2 penalties: Regularize the weights of the trees, similar 
+     to Lasso and Ridge regression.
+   - Subsampling: Uses a fraction of the training data at each 
+     iteration, making the model more robust to overfitting and 
+     improving generalization.
+
+### Why Boosting Works
+
+The iterative approach of boosting, focusing on correcting the errors 
+of the ensemble at each step, distinguishes gradient boosting from 
+other ensemble methods like bagging or random forests. Key reasons 
+for its effectiveness include:
+
+1. **Error Correction**: By focusing on the hardest-to-predict 
+   instances, boosting gradually improves model accuracy, leading to 
+   better performance than models trained independently.
+   
+2. **Weighted Learning**: Boosting adjusts the weights of training 
+   samples based on errors, ensuring that the model learns 
+   disproportionately from difficult cases, reducing bias.
+
+3. **Flexibility**: Boosted trees can handle various loss functions, 
+   making them suitable for different types of tasks, including 
+   regression, classification, and ranking.
+
+### Applications and Popular Implementations
+
+Boosted trees are widely used in real-world applications, ranging from 
+financial risk modeling to predictive maintenance. They are also 
+favored in machine learning competitions due to their interpretability 
+and robustness. Popular implementations include:
+
+- XGBoost: Known for its speed and performance, with features like 
+  regularization, column sampling, and advanced tree pruning.
+- LightGBM: Optimized for speed and scalability, using histogram-
+  based algorithms to handle large datasets efficiently.
+- CatBoost: Effective with categorical features, using advanced 
+  encoding techniques and built-in support for categorical variables.
+
+<!-- {{< include _naivebayes.qmd >}} -->
+
+<!-- {{< include _smote.qmd >}} -->
