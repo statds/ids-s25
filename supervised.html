@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>10&nbsp; Exercises – Introduction to Data Science</title>
+<title>8&nbsp; Supervised Learning – Introduction to Data Science</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,7 +20,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -30,8 +50,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./references.html" rel="next">
-<link href="./unsupervised.html" rel="prev">
+<link href="./unsupervised.html" rel="next">
+<link href="./machinelearning.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -110,7 +130,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./exercises.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Exercises</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./supervised.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Supervised Learning</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -185,7 +205,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./supervised.html" class="sidebar-item-text sidebar-link">
+  <a href="./supervised.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Supervised Learning</span></span></a>
   </div>
 </li>
@@ -197,7 +217,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./exercises.html" class="sidebar-item-text sidebar-link active">
+  <a href="./exercises.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Exercises</span></span></a>
   </div>
 </li>
@@ -212,15 +232,34 @@ window.Quarto = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#decision-trees-foundation" id="toc-decision-trees-foundation" class="nav-link active" data-scroll-target="#decision-trees-foundation"><span class="header-section-number">8.1</span> Decision Trees: Foundation</a>
+  <ul class="collapse">
+  <li><a href="#algorithm-formulation" id="toc-algorithm-formulation" class="nav-link" data-scroll-target="#algorithm-formulation"><span class="header-section-number">8.1.1</span> Algorithm Formulation</a></li>
+  <li><a href="#search-space-for-possible-splits" id="toc-search-space-for-possible-splits" class="nav-link" data-scroll-target="#search-space-for-possible-splits"><span class="header-section-number">8.1.2</span> Search Space for Possible Splits</a></li>
+  <li><a href="#metrics" id="toc-metrics" class="nav-link" data-scroll-target="#metrics"><span class="header-section-number">8.1.3</span> Metrics</a></li>
+  </ul></li>
+  <li><a href="#boosted-trees" id="toc-boosted-trees" class="nav-link" data-scroll-target="#boosted-trees"><span class="header-section-number">8.2</span> Boosted Trees</a>
+  <ul class="collapse">
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction"><span class="header-section-number">8.2.1</span> Introduction</a></li>
+  <li><a href="#boosting-process" id="toc-boosting-process" class="nav-link" data-scroll-target="#boosting-process"><span class="header-section-number">8.2.2</span> Boosting Process</a></li>
+  <li><a href="#key-concepts" id="toc-key-concepts" class="nav-link" data-scroll-target="#key-concepts"><span class="header-section-number">8.2.3</span> Key Concepts</a></li>
+  <li><a href="#why-boosting-works" id="toc-why-boosting-works" class="nav-link" data-scroll-target="#why-boosting-works"><span class="header-section-number">8.2.4</span> Why Boosting Works</a></li>
+  <li><a href="#applications-and-popular-implementations" id="toc-applications-and-popular-implementations" class="nav-link" data-scroll-target="#applications-and-popular-implementations"><span class="header-section-number">8.2.5</span> Applications and Popular Implementations</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-ex" class="quarto-section-identifier"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Exercises</span></span></h1>
+<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Supervised Learning</span></h1>
 </div>
 
 
@@ -237,125 +276,173 @@ window.Quarto = {
 </header>
 
 
+<section id="decision-trees-foundation" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="decision-trees-foundation"><span class="header-section-number">8.1</span> Decision Trees: Foundation</h2>
+<p>Decision trees are widely used supervised learning models that predict the value of a target variable by iteratively splitting the dataset based on decision rules derived from input features. The model functions as a piecewise constant approximation of the target function, producing clear, interpretable rules that are easily visualized and analyzed <span class="citation" data-cites="breiman1984classification">(<a href="references.html#ref-breiman1984classification" role="doc-biblioref">Breiman et al., 1984</a>)</span>. Decision trees are fundamental in both classification and regression tasks, serving as the building blocks for more advanced ensemble models such as Random Forests and Gradient Boosting Machines.</p>
+<section id="algorithm-formulation" class="level3" data-number="8.1.1">
+<h3 data-number="8.1.1" class="anchored" data-anchor-id="algorithm-formulation"><span class="header-section-number">8.1.1</span> Algorithm Formulation</h3>
+<p>The core mechanism of a decision tree algorithm is the identification of optimal splits that partition the data into subsets that are increasingly homogeneous with respect to the target variable. At any node <span class="math inline">\(m\)</span>, the data subset is denoted as <span class="math inline">\(Q_m\)</span> with a sample size of <span class="math inline">\(n_m\)</span>. The objective is to find a candidate split <span class="math inline">\(\theta\)</span>, defined as a threshold for a given feature, that minimizes an impurity or loss measure <span class="math inline">\(H\)</span>.</p>
+<p>When a split is made at node <span class="math inline">\(m\)</span>, the data is divided into two subsets: <span class="math inline">\(Q_{m,l}\)</span> (left node) with sample size <span class="math inline">\(n_{m,l}\)</span>, and <span class="math inline">\(Q_{m,r}\)</span> (right node) with sample size <span class="math inline">\(n_{m,r}\)</span>. The split quality, measured by <span class="math inline">\(G(Q_m, \theta)\)</span>, is given by:</p>
+<p><span class="math display">\[
+G(Q_m, \theta) = \frac{n_{m,l}}{n_m} H(Q_{m,l}(\theta)) +
+\frac{n_{m,r}}{n_m} H(Q_{m,r}(\theta)).
+\]</span></p>
+<p>The algorithm aims to identify the split that minimizes the impurity:</p>
+<p><span class="math display">\[
+\theta^* = \arg\min_{\theta} G(Q_m, \theta).
+\]</span></p>
+<p>This process is applied recursively at each child node until a stopping condition is met.</p>
+<ul>
+<li>Stopping Criteria: The algorithm stops when the maximum tree depth is reached or when the node sample size falls below a preset threshold.</li>
+<li>Pruning: Reduce the complexity of the final tree by removing branches that add little predictive value. This reduces overfitting and improves the generalization accuracy of the model.</li>
+</ul>
+</section>
+<section id="search-space-for-possible-splits" class="level3" data-number="8.1.2">
+<h3 data-number="8.1.2" class="anchored" data-anchor-id="search-space-for-possible-splits"><span class="header-section-number">8.1.2</span> Search Space for Possible Splits</h3>
+<p>At each node in the decision tree, the search space for possible splits comprises all features in the dataset and potential thresholds derived from the values of each feature. For a given feature, the algorithm considers each unique value in the current node’s subset as a possible split point. The potential thresholds are typically set as midpoints between consecutive unique values, ensuring the data is partitioned effectively.</p>
+<p>Formally, let the feature set be <span class="math inline">\(\{X_1, X_2, \ldots, X_p\}\)</span>, where <span class="math inline">\(p\)</span> is the total number of features, and let the unique values of feature $ X_j $ at node $ m $ be denoted by ${v_{j,1}, v_{j,2}, , v_{j,k_j}} <span class="math inline">\(. The search space at node\)</span>m$ includes:</p>
+<ul>
+<li>Feature candidates: <span class="math inline">\(\{X_1, X_2, \ldots, X_p\}\)</span>.</li>
+<li>Threshold candidates for <span class="math inline">\(X_j\)</span>: <span class="math display">\[
+\left\{ \frac{v_{j,i} + v_{j,i+1}}{2} \mid 1 \leq i &lt; k_j \right\}.
+\]</span></li>
+</ul>
+<p>The search space therefore encompasses all combinations of features and their respective thresholds. While the complexity of this search can be substantial, particularly for high-dimensional data or features with numerous unique values, efficient algorithms use sorting and single-pass scanning techniques to mitigate the computational cost.</p>
+</section>
+<section id="metrics" class="level3" data-number="8.1.3">
+<h3 data-number="8.1.3" class="anchored" data-anchor-id="metrics"><span class="header-section-number">8.1.3</span> Metrics</h3>
+<section id="classification" class="level4" data-number="8.1.3.1">
+<h4 data-number="8.1.3.1" class="anchored" data-anchor-id="classification"><span class="header-section-number">8.1.3.1</span> Classification</h4>
+<p>In decision tree classification, several criteria can be used to measure the quality of a split at each node. These criteria are based on how “pure” the resulting nodes are after the split. A pure node contains samples that predominantly belong to a single class. The goal is to minimize impurity, leading to nodes that are as homogeneous as possible.</p>
+<ul>
+<li><p>Gini Index: The Gini index measures the impurity of a node by calculating the probability of randomly choosing two different classes. A perfect split (all instances belong to one class) has a Gini index of 0. At node <span class="math inline">\(m\)</span>, the Gini index is <span class="math display">\[
+H(Q_m) = \sum_{k=1}^{K} p_{mk} (1 - p_{mk}),
+\]</span> where <span class="math inline">\(p_{mk}\)</span> is the proportion of samples of class <span class="math inline">\(k\)</span> at node <span class="math inline">\(m\)</span>; and<span class="math inline">\(K\)</span> is the total number of classes The Gini index is often preferred for its speed and simplicity, and it’s used by default in many implementations of decision trees, including <code>sklearn</code>.</p></li>
+<li><p>Entropy (Information Gain): Entropy is another measure of impurity, derived from information theory. It quantifies the “disorder” of the data at a node. Lower entropy means higher purity. At node <span class="math inline">\(m\)</span>, it is defined as <span class="math display">\[
+H(Q_m) = - \sum_{k=1}^{K} p_{mk} \log p_{mk}
+\]</span> Entropy is commonly used in decision tree algorithms like ID3 and C4.5. The choice between Gini and entropy often depends on specific use cases, but both perform similarly in practice.</p></li>
+<li><p>Misclassification Error: Misclassification error focuses solely on the most frequent class in the node. It measures the proportion of samples that do not belong to the majority class. Although less sensitive than Gini and entropy, it can be useful for classification when simplicity is preferred. At node <span class="math inline">\(m\)</span>, it is defined as <span class="math display">\[
+H(Q_m) = 1 - \max_k p_{mk},
+\]</span> where <span class="math inline">\(\max_k p_{mk}\)</span> is the largest proportion of samples belonging to any class <span class="math inline">\(k\)</span>.</p></li>
+</ul>
+</section>
+<section id="regression-criteria" class="level4" data-number="8.1.3.2">
+<h4 data-number="8.1.3.2" class="anchored" data-anchor-id="regression-criteria"><span class="header-section-number">8.1.3.2</span> Regression Criteria</h4>
+<p>In decision tree regression, different criteria are used to assess the quality of a split. The goal is to minimize the spread or variance of the target variable within each node.</p>
+<ul>
+<li><p>Mean Squared Error (MSE): Mean squared error is the most common criterion used in regression trees. It measures the average squared difference between the actual values and the predicted values (mean of the target in the node). The smaller the MSE, the better the fit. At node <span class="math inline">\(m\)</span>, it is <span class="math display">\[
+H(Q_m) = \frac{1}{n_m} \sum_{i=1}^{n_m} (y_i - \bar{y}_m)^2,
+\]</span> where</p>
+<ul>
+<li><span class="math inline">\(y_i\)</span> is the actual value for sample <span class="math inline">\(i\)</span>;</li>
+<li><span class="math inline">\(\bar{y}_m\)</span> is the mean value of the target at node <span class="math inline">\(m\)</span>;</li>
+<li><span class="math inline">\(n_m\)</span> is the number of samples at node <span class="math inline">\(m\)</span>.</li>
+</ul>
+<p>MSE works well when the target is continuous and normally distributed.</p></li>
+<li><p>Half Poisson Deviance (for count targets): When dealing with count data, the Poisson deviance is used to model the variance in the number of occurrences of an event. It is well-suited for target variables representing counts (e.g., number of occurrences of an event). At node <span class="math inline">\(m\)</span>, it is <span class="math display">\[
+H(Q_m) = \sum_{i=1}^{n_m} \left( y_i \log\left(\frac{y_i}{\hat{y}_i}\right) - (y_i - \hat{y}_i) \right),
+\]</span> where <span class="math inline">\(\hat{y}_i\)</span> is the predicted count. This criterion is especially useful when the target variable represents discrete counts, such as predicting the number of occurrences of an event.</p></li>
+<li><p>Mean Absolute Error (MAE): Mean absolute error is another criterion that minimizes the absolute differences between actual and predicted values. While it is more robust to outliers than MSE, it is slower computationally due to the lack of a closed-form solution for minimization. At node <span class="math inline">\(m\)</span>, it is <span class="math display">\[
+H(Q_m) = \frac{1}{n_m} \sum_{i=1}^{n_m} |y_i - \bar{y}_m|.
+\]</span> MAE is useful when you want to minimize large deviations and can be more robust in cases where outliers are present in the data.</p></li>
+</ul>
+</section>
+<section id="summary" class="level4" data-number="8.1.3.3">
+<h4 data-number="8.1.3.3" class="anchored" data-anchor-id="summary"><span class="header-section-number">8.1.3.3</span> Summary</h4>
+<p>In decision trees, the choice of splitting criterion depends on the type of task (classification or regression) and the nature of the data. For classification tasks, the Gini index and entropy are the most commonly used, with Gini offering simplicity and speed, and entropy providing a more theoretically grounded approach. Misclassification error can be used for simpler cases. For regression tasks, MSE is the most popular choice, but Poisson deviance and MAE are useful for specific use cases such as count data and robust models, respectively.</p>
+</section>
+</section>
+</section>
+<section id="boosted-trees" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="boosted-trees"><span class="header-section-number">8.2</span> Boosted Trees</h2>
+<p>Boosted trees are a powerful ensemble technique in machine learning that combine multiple weak learners, typically decision trees, into a strong learner. Unlike bagging methods, which train trees independently, boosting fits models sequentially, with each new model correcting the errors of the previous ensemble. Gradient boosting, one of the most popular variants, optimizes a loss function by iteratively adding trees that reduce the residual errors of the current ensemble.</p>
+<section id="introduction" class="level3" data-number="8.2.1">
+<h3 data-number="8.2.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">8.2.1</span> Introduction</h3>
+<p>Boosted trees build on the general concept of boosting, which aims to create a strong predictor from a series of weak predictors. In boosted trees, the weak learners are shallow decision trees, often referred to as “stumps,” and they are added sequentially to the model. At each step, a new tree focuses on the training instances that are hardest to predict, improving overall accuracy. This iterative focus on “hard-to- predict” instances is the defining characteristic of boosting.</p>
+<p>The effectiveness of boosted trees has made them popular for various tasks, including classification, regression, and ranking. They also form the foundation for algorithms like XGBoost, LightGBM, and CatBoost, known for their speed and scalability.</p>
+</section>
+<section id="boosting-process" class="level3" data-number="8.2.2">
+<h3 data-number="8.2.2" class="anchored" data-anchor-id="boosting-process"><span class="header-section-number">8.2.2</span> Boosting Process</h3>
+<p>The boosting process in gradient boosted trees builds an ensemble by adding trees iteratively, each designed to minimize the residual errors from the combined predictions of the previous trees. This iterative approach allows the model to refine its predictions by optimizing a loss function, denoted as <span class="math inline">\(L(y, F(x))\)</span>, where <span class="math inline">\(y\)</span> is the true value and <span class="math inline">\(F(x)\)</span> is the model’s prediction.</p>
+<section id="model-iteration" class="level4" data-number="8.2.2.1">
+<h4 data-number="8.2.2.1" class="anchored" data-anchor-id="model-iteration"><span class="header-section-number">8.2.2.1</span> Model Iteration</h4>
+<p>The boosting process can be delineated as follows:</p>
 <ol type="1">
-<li><p><strong>Quarto and Git setup</strong> Quarto and Git are two important tools for data science. Get familiar with them through the following tasks. Please use the <a href="https://github.com/statds/ids-f24/blob/main/templates/hw.qmd"><code>templates/hw.qmd</code></a> template to document, for each step, what you did, the obstacles you encountered, and how you overcame them. Think of this as a user manual for students who are new to this. Use the command line interface.</p>
-<ol type="a">
-<li>Set up SSH authentication between your computer and your GitHub account.</li>
-<li>Install Quarto onto your computer following the instructions of <a href="https://quarto.org/docs/get-started/">Get Started</a>.</li>
-<li>Pick a tool of your choice (e.g., VS Code, Jupyter Notebook, Emacs, etc.), follow the instructions to reproduce the example of line plot on polar axis.</li>
-<li>Render the homework into a pdf file and put the file into a release in your GitHub repo.</li>
-</ol></li>
-<li><p><strong>Working on Homework Problems</strong> All the requirements on homework styles have reasons. Reviewing these questions help you to understand them.</p>
-<ol type="a">
-<li>What are the differences between binary and source files?</li>
-<li>Why do we not want to track binary files in a repo?</li>
-<li>Why do I require pdf output via release?</li>
-<li>Why do I not want your files added via ‘upload’?</li>
-<li>Why do I require line width under 80?</li>
-<li>Why is it not a good idea to have spaces in file/folder names?</li>
-</ol></li>
-<li><p><strong>Contributing to the Class Notes</strong> To contribute to the classnotes, you need to have a working copy of the sources on your computer. Document the following steps in a <code>qmd</code> file in the form of a step-by-step manual, as if you are explaining them to someone who wants to contribute too. Make at least 10 commits for this task, each with an informative message.</p>
-<ol type="a">
-<li>Create a fork of the notes repo into your own GitHub account.</li>
-<li>Clone it to an appropriate folder on your computer.</li>
-<li>Render the classnotes on your computer; document the obstacles and solutions.</li>
-<li>Make a new branch (and name it appropriately) to experiment with your changes.</li>
-<li>Checkout your branch and add your wishes to the wish list; commit with an informative message; and push the changes to your GitHub account.</li>
-<li>Make a pull request to class notes repo from your fork at GitHub. Make sure you have clear messages to document the changes.</li>
-</ol></li>
-<li><p><strong>Monty Hall</strong> Consider a generalized Monty Hall experiment. Suppose that the game start with <span class="math inline">\(n\)</span> doors; after you pick one, the host opens <span class="math inline">\(m \le n - 2\)</span> doors, that show no award. Include sufficient text around the code chunks to explain them.</p>
-<ol type="a">
-<li>Write a function to simulate the experiment once. The function takes two arguments <code>ndoors</code> and <code>nempty</code>, which represent the number of doors and the number of empty doors showed by the host, respectively, It returns the result of two strategies, switch and no-switch, from playing this game.</li>
-<li>Play this game with 3 doors and 1 empty a few times.</li>
-<li>Play this game with 10 doors and 8 empty a few times.</li>
-<li>Write a function to demonstrate the Monty Hall problem through simulation. The function takes three arguments <code>ndoors</code>, <code>nempty</code>, and <code>ntrials</code>, where <code>ntrial</code> is the number of trials in a simulation. The function should return the proportion of wins for both the switch and no-switch strategy.</li>
-<li>Apply your function with 3 doors (1 empty) and 10 doors (8 empty), both with 1000 trials. Summarize your results.</li>
-</ol></li>
-<li><p><strong>Approximating <span class="math inline">\(\pi\)</span></strong> Write a function to do a Monte Carlo approximation of <span class="math inline">\(\pi\)</span>. The function takes a Monte Carlo sample size <code>n</code> as input, and returns a point estimate of <span class="math inline">\(\pi\)</span> and a 95% confidence interval. Apply your function with sample size 1000, 2000, 4000, and 8000. Repeat the experiment 1000 times for each sample size and check the empirical probability that the confidence intervals cover the true value of <span class="math inline">\(\pi\)</span>. Comment on the results.</p></li>
-<li><p><strong>Google Billboard Ad</strong> Find the first 10-digit prime number occurring in consecutive digits of <span class="math inline">\(e\)</span>. This was a <a href="http://mathworld.wolfram.com/news/2004-10-13/google/">Google recruiting ad</a>.</p></li>
-<li><p><strong>Game 24</strong> The <a href="http://en.wikipedia.org/wiki/24_Game">math game 24</a> is one of the addictive games among number lovers. With four randomly selected cards from a deck of poker cards, use all four values and elementary arithmetic operations (<span class="math inline">\(+-\times /\)</span>) to come up with 24. Let <span class="math inline">\(\square\)</span> be one of the four numbers. Let <span class="math inline">\(\bigcirc\)</span> represent one of the four operators. For example, <span class="math display">\[\begin{equation*}
-(\square \bigcirc \square) \bigcirc (\square \bigcirc \square)
-\end{equation*}\]</span> is one way to group the the operations.</p>
-<ol type="a">
-<li>List all the possible ways to group the four numbers.</li>
-<li>How many possible ways are there to check for a solution?</li>
-<li>Write a function to solve the problem in a brutal force way. The inputs of the function are four numbers. The function returns a list of solutions. Some of the solutions will be equivalent, but let us not worry about that for now.</li>
-</ol></li>
-<li><p><strong>NYC Crash Data Cleaning</strong> The NYC motor vehicle collisions data with documentation is available from <a href="https://data.cityofnewyork.us/Public-Safety/Motor-Vehicle-Collisions-Crashes/h9gi-nx95">NYC Open Data</a>. The raw data needs some cleaning.</p>
-<ol type="a">
-<li>Use the filter from the website to download the crash data of the week of June 30, 2024 in CSV format; save it under a directory <code>data</code> with an informative name (e.g., <code>nyccrashes_2024w0630_by20240916.csv</code>); read the data into a Panda data frame with careful handling of the date time variables.</li>
-<li>Clean up the variable names. Use lower cases and replace spaces with underscores.</li>
-<li>Check the crash date and time to see if they really match the filter we intented. Remove the extra rows if needed.</li>
-<li>Get the basic summaries of each variables: missing percentage; descriptive statistics for continuous variables; frequency tables for discrete variables.</li>
-<li>Are their invalid <code>longitude</code> and <code>latitude</code> in the data? If so, replace them with <code>NA</code>.</li>
-<li>Are there <code>zip_code</code> values that are not legit NYC zip codes? If so, replace them with <code>NA</code>.</li>
-<li>Are there missing in <code>zip_code</code> and <code>borough</code>? Do they always co-occur?</li>
-<li>Are there cases where <code>zip_code</code> and <code>borough</code> are missing but the geo codes are not missing? If so, fill in <code>zip_code</code> and <code>borough</code> using the geo codes.</li>
-<li>Is it redundant to keep both <code>location</code> and the <code>longitude</code>/<code>latitude</code> at the NYC Open Data server?</li>
-<li>Check the frequency of <code>crash_time</code> by hour. Is there a matter of bad luck at exactly midnight? How would you interpret this?</li>
-<li>Are the number of persons killed/injured the summation of the numbers of pedestrians, cyclist, and motorists killed/injured? If so, is it redundant to keep these two columns at the NYC Open Data server?</li>
-<li>Print the whole frequency table of <code>contributing_factor_vehicle_1</code>. Convert lower cases to uppercases and check the frequencies again.</li>
-<li>Provided an opportunity to meet the data provider, what suggestions would you make based on your data exploration experience?</li>
-</ol></li>
-<li><p><strong>NYC Crash Data Exploration</strong> Except for the first question, use the cleaned crash data in feather format.</p>
-<ol type="a">
-<li>Construct a contigency table for missing in geocode (latitude and longitude) by borough. Is the missing pattern the same across boroughs? Formulate a hypothesis and test it.</li>
-<li>Construct a <code>hour</code> variable with integer values from 0 to 23. Plot the histogram of the number of crashes by <code>hour</code>. Plot it by borough.</li>
-<li>Overlay the locations of the crashes on a map of NYC. The map could be a static map or a Google map.</li>
-<li>Create a new variable <code>severe</code> which is one if the number of persons injured or deaths is 1 or more; and zero otherwise. Construct a cross table for <code>severe</code> versus borough. Is the severity of the crashes the same across boroughs? Test the null hypothesis that the two variables are not associated with an appropriate test.</li>
-<li>Merge the crash data with the Census zip code database which contains zip-code level demographic or socioeconomic variables.</li>
-<li>Fit a logistic model with <code>severe</code> as the outcome variable and covariates that are available in the data or can be engineered from the data. For example, zip code level covariates obtained from merging with the zip code database; crash hour; number of vehicles involved.</li>
-</ol></li>
-<li><p><strong>NYC Crash severity modeling</strong> Using the cleaned NYC crash data, merged with zipcode level information, predict <code>severe</code> of a crash.</p>
-<ol type="a">
-<li>Set random seed to <code>1234</code>. Randomly select 20% of the crashes as testing data and leave the rest 80% as training data.</li>
-<li>Fit a logistic model on the training data and validate the performance on the testing data. Explain the confusion matrix result from the testing data. Compute the F1 score.</li>
-<li>Fit a logistic model on the training data with <span class="math inline">\(L_1\)</span> regularization. Select the tuning parameter with 5-fold cross-validation in F1 score</li>
-<li>Apply the regularized logistic regression to predict the severity of the crashes in the testing data. Compare the performance of the two logistic models in terms of accuracy, precision, recall, F1-score, and AUC.</li>
-</ol></li>
-<li><p><strong>Midterm project: Street flood in NYC</strong> The class presentation at the 2025 NYC Open Data Weeik is scheduled for <a href="https://2025.open-data.nyc/event/risk-analysis-of-nyc-street-flooding/">Monday, March 24, 2:00-3:00 pm</a>.</p>
-<p>The <a href="https://data.cityofnewyork.us/Social-Services/311-Service-Requests-from-2010-to-Present/erm2-nwe9">NYC Open Data of 311 Service Requests</a> contains all service requests from 2010 to the present. This analysis focuses on two sewer-related complaints in 2024: Street Flooding (SF) and Catch Basin (CB). SF complaints serve as a practical indicator of street flooding, while CB complaints provide insights into a key infrastructural factor—when catch basins fail to drain rainwater properly due to blockages or structural issues, water accumulates on the streets. SF complaints are typically filed when residents observe standing water or flooding, whereas CB complaints report clogged basins, defective grates, or other drainage problems. The dataset is available in CSV format as <code>data/nycflood2024.csv</code>. Refer to the online data dictionary for a detailed explanation of variable meanings. Try to tell a story in your report while going through the questions.</p>
-<ol type="a">
-<li>Data cleaning.
-<ol type="i">
-<li>Import the data, rename the columns with our preferred styles.</li>
-<li>Summarize the missing information. Are there variables that are close to completely missing?</li>
-<li>Are there redundant information in the data? Try storing the data using the Arrow format and comment on the efficiency gain.</li>
-<li>Are there invalid NYC zipcode or borough? Can some of the missing values be filled? Fill them if yes.</li>
-<li>Are there date errors? Examples are earlier <code>closed_date</code> than <code>created_date</code>; <code>closed_date</code> and <code>created_date</code> matching to the second; dates exactly at midnight or noon to the second.</li>
-<li>Summarize your suggestions to the data curator in several bullet points.</li>
-</ol></li>
-<li>Exploratory analysis.
-<ol type="i">
-<li>Visualize the locations of complaints on a NYC map, with different symbols for different descriptors.</li>
-<li>Create a variable <code>response_time</code>, which is the duration from <code>created_date</code> to <code>closed_date</code>.</li>
-<li>Visualize the comparison of response time by complaint descriptor and borough. The original may not be the best given the long tail or outlers.</li>
-<li>Is there significant difference in response time between SF and CB complaints? Across different boroughs? Does the difference between SF and CB depend on borough? State your hypothesis, justify your test, and summarize your results in plain English.</li>
-<li>Create a binary variable <code>over3d</code> to indicate that a service request took three days or longer to close.</li>
-<li>Does <code>over3d</code> depend on the complaint descriptor, borough, or weekday (vs weekend/holiday)? State your hypotheses, justify your test, and summarize your results.</li>
-</ol></li>
-<li>Modeling the occurrence of overly long response time.
-<ol type="i">
-<li>Create a data set which contains the outcome variable <code>over3d</code> and variables that might be useful in predicting it. Consider including time-of-day effects (e.g., rush hour vs.&nbsp;late-night), seasonal trends, and neighborhood-level demographics. Zip code level information could be useful too, such as the zip code area and the ACS 2023 variables (<code>data/nyc_zip_areas.feather</code> and <code>data/acs2023.feather</code>).</li>
-<li>Randomly select 20% of the complaints as testing data with seeds <code>1234</code>. Build a logistic model to predict <code>over3d</code> for the complaints with the training data. If you have tuning parameters, justify how they were selected.</li>
-<li>Construct the confusion matrix from your prediction with a threshold of 1/2 on both training and testing data. Explain your accuracy, recall, precision, and F1 score to a New Yorker.</li>
-<li>Construct the ROC curve of your fitted logistic model and obtain the AUROC for both training and testing data. Explain your results to a New Yorker.</li>
-<li>Identify the most important predictors of <code>over3d</code>. Use model coefficients or feature importance (e.g., odds ratios, standardized coefficients, or SHAP values).</li>
-<li>Summarize your results to a New Yorker who is not data science savvy in several bullet points.</li>
-</ol></li>
-<li>Modeling the count of SF complains by zip code.
-<ol type="i">
-<li>Create a data set by aggregate the count of SF and SB complains by day for each zipcode.</li>
-<li>Merge the NYC precipitation (<code>data/rainfall_CP.csv</code>), by day to this data set.</li>
-<li>Merge the NYC zip code level landscape variables (<code>data/nyc_zip_lands.csv</code>) and ACS 2023 variables into the data set.</li>
-<li>For each day, create two variables representing 1-day lag of the precipitation and the number of CB complaints.</li>
-<li>Filter data from March 1 to November 30, excluding winter months when flooding is less frequent. November 30.</li>
-<li>Compare a Poisson regression with a Negative Binomial regression to account for overdispersion. Which model fits better? Explain the results to a New Yorker.</li>
-</ol></li>
-</ol></li>
+<li><p><strong>Initialization</strong>: Start with a base model <span class="math inline">\(F_0(x)\)</span>, which is usually the mean of the target variable in regression or the log odds in classification:</p>
+<ul>
+<li>For regression: <span class="math inline">\(F_0(x) = \text{mean}(y_i)\)</span>.</li>
+<li>For classification: <span class="math inline">\(F_0(x) = \log \left( \frac{P(y=1)}{1-P(y=1)} \right)\)</span>.</li>
+</ul></li>
+<li><p><strong>Iterative Boosting</strong>:</p>
+<p>At each iteration <span class="math inline">\(m\)</span>:</p>
+<ul>
+<li><p>Compute the pseudo-residuals, representing the negative gradient of the loss function with respect to the current model predictions. The residuals at iteration <span class="math inline">\(m\)</span> are defined as:</p>
+<p><span class="math display">\[
+r_i^{(m)} = -\left. \frac{\partial L(y_i, F(x_i))}
+{\partial F(x_i)} \right|_{F(x) = F_{m-1}(x)}.
+\]</span></p>
+<p>The residuals guide the next tree to focus on reducing the largest errors from the previous iteration.</p></li>
+<li><p>Fit a new tree <span class="math inline">\(h_m(x)\)</span> to the pseudo-residuals. The new tree is trained to predict the residuals of the current ensemble model, identifying where the model needs the most improvement.</p></li>
+<li><p>Update the model as the sum of the previous model and the newly added tree, scaled by a learning rate <span class="math inline">\(\eta\)</span>:</p>
+<p><span class="math display">\[
+F_m(x) = F_{m-1}(x) + \eta \, h_m(x).
+\]</span></p>
+<p>The learning rate, a small positive number (e.g., 0.01 to 0.1), controls the contribution of each tree, ensuring incremental improvements and reducing the risk of overfitting.</p></li>
+</ul></li>
+<li><p><strong>Final Model</strong>:</p>
+<p>After <span class="math inline">\(M\)</span> iterations, the ensemble model is given by:</p>
+<p><span class="math display">\[
+F_M(x) = F_0(x) + \sum_{m=1}^M \eta \, h_m(x).
+\]</span></p>
+<p>The final model <span class="math inline">\(F_M(x)\)</span> represents the sum of the initial model and the incremental improvements made by each of the <span class="math inline">\(M\)</span> trees, with each tree trained to correct the residuals of the ensemble up to that point.</p></li>
 </ol>
+</section>
+</section>
+<section id="key-concepts" class="level3" data-number="8.2.3">
+<h3 data-number="8.2.3" class="anchored" data-anchor-id="key-concepts"><span class="header-section-number">8.2.3</span> Key Concepts</h3>
+<ol type="1">
+<li><p><strong>Loss Function</strong>: The loss function measures the discrepancy between the actual and predicted values. It guides the model updates. Common choices include:</p>
+<ul>
+<li>Squared error for regression: <span class="math inline">\(L(y, F(x)) = \frac{1}{2} (y - F(x))^2\)</span>.</li>
+<li>Logistic loss for binary classification: <span class="math inline">\(L(y, F(x)) = \log(1 + \exp(-y \, F(x)))\)</span>.</li>
+</ul></li>
+<li><p><strong>Learning Rate</strong>: The learning rate scales the contribution of each tree and helps control the speed of learning. A smaller learning rate typically requires more trees but results in a more robust model with better generalization.</p></li>
+<li><p><strong>Regularization</strong>: Boosted trees incorporate regularization to avoid overfitting, including:</p>
+<ul>
+<li>Tree depth: Limits the maximum depth of each tree, reducing model complexity.</li>
+<li>L1/L2 penalties: Regularize the weights of the trees, similar to Lasso and Ridge regression.</li>
+<li>Subsampling: Uses a fraction of the training data at each iteration, making the model more robust to overfitting and improving generalization.</li>
+</ul></li>
+</ol>
+</section>
+<section id="why-boosting-works" class="level3" data-number="8.2.4">
+<h3 data-number="8.2.4" class="anchored" data-anchor-id="why-boosting-works"><span class="header-section-number">8.2.4</span> Why Boosting Works</h3>
+<p>The iterative approach of boosting, focusing on correcting the errors of the ensemble at each step, distinguishes gradient boosting from other ensemble methods like bagging or random forests. Key reasons for its effectiveness include:</p>
+<ol type="1">
+<li><p><strong>Error Correction</strong>: By focusing on the hardest-to-predict instances, boosting gradually improves model accuracy, leading to better performance than models trained independently.</p></li>
+<li><p><strong>Weighted Learning</strong>: Boosting adjusts the weights of training samples based on errors, ensuring that the model learns disproportionately from difficult cases, reducing bias.</p></li>
+<li><p><strong>Flexibility</strong>: Boosted trees can handle various loss functions, making them suitable for different types of tasks, including regression, classification, and ranking.</p></li>
+</ol>
+</section>
+<section id="applications-and-popular-implementations" class="level3" data-number="8.2.5">
+<h3 data-number="8.2.5" class="anchored" data-anchor-id="applications-and-popular-implementations"><span class="header-section-number">8.2.5</span> Applications and Popular Implementations</h3>
+<p>Boosted trees are widely used in real-world applications, ranging from financial risk modeling to predictive maintenance. They are also favored in machine learning competitions due to their interpretability and robustness. Popular implementations include:</p>
+<ul>
+<li>XGBoost: Known for its speed and performance, with features like regularization, column sampling, and advanced tree pruning.</li>
+<li>LightGBM: Optimized for speed and scalability, using histogram- based algorithms to handle large datasets efficiently.</li>
+<li>CatBoost: Effective with categorical features, using advanced encoding techniques and built-in support for categorical variables.</li>
+</ul>
+<!-- {{< include _naivebayes.qmd >}} -->
+<!-- {{< include _smote.qmd >}} -->
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
+<div id="ref-breiman1984classification" class="csl-entry" role="listitem">
+Breiman, L., Friedman, J. H., Olshen, R., &amp; Stone, C. J. (1984). <em>Classification and regression trees</em>. Wadsworth.
+</div>
+</div>
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -777,13 +864,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./unsupervised.html" class="pagination-link" aria-label="Unsupervised Learning">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Unsupervised Learning</span></span>
+      <a href="./machinelearning.html" class="pagination-link" aria-label="Machine Learning: Overview">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Machine Learning: Overview</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./references.html" class="pagination-link" aria-label="References">
-        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./unsupervised.html" class="pagination-link" aria-label="Unsupervised Learning">
+        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Unsupervised Learning</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
