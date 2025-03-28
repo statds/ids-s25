@@ -581,3 +581,5 @@ Read the feather file back in:
 dff = pd.read_feather("data/nyccrashes_cleaned.feather")
 dff.shape
 ```
+
+{{< include _SQL.qmd >}}
