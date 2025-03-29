@@ -339,7 +339,7 @@ Please use the following table to sign up.
    03/05 |  Schittina, Thomas     | Spatial Data With Geopandas & Google Maps
    03/10 |  Kline, Daniel Esteban     |
    03/12 |  Edo, Mezmur Wossenu      | Principal Component Analysis (PCA)
-   03/26 |  Alsadadi, Ammar Shaker     |
+   03/26 |  Alsadadi, Ammar Shaker     | Sentiment Analysis with Python 
    03/26 |  Fables, Xavier Milan     |
    03/31 |  Tamhane, Shubhan     |
    03/31 |  Nasejje, Ruth Nicole     | Personal webpage on GitHub
