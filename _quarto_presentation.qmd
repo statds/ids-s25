@@ -1,0 +1,468 @@
+## Creating Presentations Using Quarto
+
+### Introduction
+Hi! This section is written by Joann Jun, a Junior majoring in Statistical Data 
+Science and minoring in Mathematics at the University of Connecticut.
+
+This section will focus on how to create a presentation using Quarto. By the 
+end of this section, you will be able to understand how to:  
+
+1) Structure a Quarto presentation
+
+2) Customize themes, transitions, and interactivity
+
+3) Keyboard Shortcuts
+
+### Why Use Quarto for Presentations?
+
+- Seamlessly integrate code, data analysis, and visualizations into a single document 
+
+- Generate interactive slides with minimal effort
+
+- Support multiple output formats, such as HTML (`reveal.js`), PowerPoint (`pptx`), and PDF (`beamer`). 
+
+### Presentation Formats
+
+#### Formats
+There are several formats you can use to create a presentation in Quarto. 
+This includes:
+
+- `revealjs` - reveal.js (HTML)
+
+- `beamer` - Beamer (LaTex/PDF).
+
+#### Differences Between Formats {.smaller}
+| Feature        | `revealjs`                    | `beamer`                     |
+|--------------|-----------------------------|---------------------------|
+| **Output Format** | HTML slideshow or PDF       | PDF                          |
+| **Pros**      | - Works well with Markdown  <br> - Interactive and dynamic | - Good math support <br> - Professional typesetting (LaTeX) |
+| **Cons**      | - Requires a browser to present | - Requires knowledge of LaTeX |
+
+In this section, I will focus on using `revealjs`.
+
+#### How to Change Format
+To change the format of your presentation, in the YAML header next format add 
+`revealjs` or `beamer`.
+
+```markdown
+---
+title: Quarto Presentation
+author: Joann Jun
+format: revealjs # This where you edit the format.
+---
+```
+
+
+#### YAML Heading for `revealjs`
+
+Anything you put in the YAML heading will become part of the global environment. This means 
+that it will be applied to all slides. 
+
+- `embed-resources: true` - Creates self-contained file to distribute more easily.
+
+- `multiplex: true` - Allows your audience to follow the slides that you control on their own device.
+
+    - When you render, it'll create 2 HTML files:
+
+        - `presentations.html` - Publish online for the audience to use.
+
+        - `presentations-speaker.html` - File you present from and you don't publish this.
+
+- `chalkboard` - Allows you to draw on your presentation
+
+
+#### Some Stylistic YAML Headings for `revealjs` {.smaller}
+
+- `theme: [slide theme]` - Allows you to switch to any of Reveals 11 themes (or make your own)
+    - `default`, `dark`, `beige`, `simple`, `serif`
+
+- `transition: [transition]` - Adds transitions to slides
+    - `none`, `slide`, `fade`, `convex`, `concave`, `zoom`
+
+- `logo: logo.png` - Allows you to add logo to bottom of each slide.
+
+- `footer: "Footer Note"` - Adds a footer to bottom of each slide.
+
+- `slide-number: true` - Displays the slide number at bottom of screen. 
+
+- `incrimental: true` - Displays the bullet points one by one.
+
+
+#### Example
+
+```markdown
+---
+title: "How to Make A Presentation Using Quarto"
+author: "Joann Jun"
+format:
+  revealjs: 
+    embed-resources: true
+    theme: serif
+    slide-number: true
+    preview-links: true
+    css: [default, styles.css] # Don't need this unless customizing more
+    incremental: true   
+    transition: slide
+    footer: "STAT 3255"
+
+---
+
+```
+### Slides syntax
+
+#### How to Create a New Slide
+
+The start of all slides are marked by a heading. You can do this by using
+
+- Level 1 header (`#`) - Used to create title slide.
+
+- Level 2 header (`##`) - Used to create headings.
+
+- Horizontal rules (`---`) - Used when you don't want to add a heading or title.
+
+- **Note:** `###` will create a subheading in the slide.
+
+```markdown
+
+# Title 1
+
+Hello, World!
+
+## Slide Heading 1
+
+### Subjeading 1
+
+Hello, World!
+
+--- # Makes slide without title/heading
+
+Hello, World!
+
+```
+
+### Code 
+
+#### `auto-animate=true`
+
+This setting will allow smooth transitions across similar slides. You use this 
+when you want to show gradual changes between slides. 
+
+For example, let's say you have a block of code and then add another block, we 
+can show the changes by using this. The first slide should only have part of 
+the code, and the second should have the full code.
+
+**Slide 1**
+```{python}
+
+## Smooth Transition Slide 1 {auto-animate=true}
+
+from math import sqrt
+
+```
+
+**Slide 2**
+```{python}
+
+## Smooth Transition Slide 2 {auto-animate=true}
+
+from math import sqrt
+
+def pythagorean(a,b):
+    c2 = a**2 + b**2
+    c = sqrt(c2)
+    return c
+
+```
+
+#### Highlighting Code
+
+To highlight code, you can use the `code-line-numbers` attribute and use 
+`"[start line #]-[end line #]"`.
+
+For example, in this slide let's say I wanted to highlight the addition and 
+subtraction function. I do this by putting {.python code-line-numbers="2-6"} 
+next to my 3 back ticks that start the code fence.
+
+```{.python code-line-numbers="2-6"}
+#| echo: true
+
+def addition(x,y):
+    return x + y
+
+def subtraction(x,y):
+    return x - y
+
+def multiplication(x,y):
+    return x * y
+
+```
+
+If the lines you want to highlight are separated by another line, you can use a comma.
+
+In this slide I wanted to highlight `return` for each function, so I used 
+{.python code-line-numbers="3,6,9"}
+
+```{.python code-line-numbers="3,6,9"}
+#| echo: true
+
+def addition(x,y):
+    return x + y
+
+def subtraction(x,y):
+    return x - y
+
+def multiplication(x,y):
+    return x * y
+
+```
+
+#### `echo`
+By default, the code block does not `echo` the source code. By this I mean it 
+does not show the source code and only shows the output by default. 
+
+In order to show the source code, we set the setting to `#| echo: true`.
+We add this part inside of the code fence at the top.
+
+Ex: `echo: false`
+```{python}
+#| echo: false
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(0, 10, 100)
+y = np.sin(x)
+
+plt.figure(figsize=(12, 6))
+plt.plot(x, y, label='sin(x)')
+plt.title('Sine Function')
+plt.xlabel('x')
+plt.ylabel('sin(x)')
+plt.legend()
+plt.grid(True)
+plt.show()
+
+```
+
+Ex: `echo: true`
+```{python}
+#| echo: true
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(0, 10, 100)
+y = np.sin(x)
+
+plt.figure(figsize=(12, 6))  # Width=12, Height=6
+plt.plot(x, y, label='sin(x)')
+plt.title('Sine Function')
+plt.xlabel('x')
+plt.ylabel('sin(x)')
+plt.legend()
+plt.grid(True)
+plt.show()
+
+```
+
+
+#### Figures
+
+- Python figure sizes (MatPlotLib and PlotlyExpress) are automatically set to fill the slide area below the title
+
+- R (Knitr figure) have similar default figure width and length sizes
+
+- You will most likely have to change the size of these figures or change the output location
+
+
+#### `output-location`
+
+The `output-location` option can modify where the output of the code goes. There are several options to choose from such as:
+
+- `column` - Displays the output in a column next to the code.
+
+- `column-fragment` - Displays the output in a column next to the code and delays showing it until you advance.
+
+- `fragment` - Displays the output as a Fragment. It delays showing it until you advance.
+
+- `slide` - Displays the output on the slide after.
+
+Ex: This uses `column`.
+
+```{python}
+#| echo: true
+#| output-location: column
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(0, 10, 100)
+y = np.sin(x)
+
+plt.figure(figsize=(12, 6))
+plt.plot(x, y, label='sin(x)')
+plt.title('Sine Function')
+plt.xlabel('x')
+plt.ylabel('sin(x)')
+plt.legend()
+plt.grid(True)
+plt.show()
+
+```
+
+### Interactive Code - HTML Gagdets 
+
+- HTML Gadget allows you to embed interactive elements into the HTML document.
+
+- Enhance user engagement and data exploration.
+
+- Seamless integration with R and Python in Quarto.
+
+- Visualize complex data interactively.
+
+- Some examples of these are:
+
+    - Interactive maps (e.g., Google Maps, Leaflet)
+
+    - Data tables with sorting and searching
+
+    - Dynamic plots with tooltips and zooming
+
+    - Shiny apps for data exploration
+
+#### HTML Gagdget Tools
+
+- `Leaflet` - Used to make interactive maps which allows you to display location based data.
+
+- `Plotly` - Used for creating interactive plots.
+
+- `Shiny` - Used to make interactive statistical model that allows you to tweak parameters and see impacts.
+
+- `DT` - Used for creating searchable data tables.
+
+
+| **Tool**       | **Leaflet**                     | **Plotly**                      | **Shiny**                          | **DT**                              |
+|----------------|----------------------------------|---------------------------------|------------------------------------|-------------------------------------|
+| **Purpose**    | Interactive maps                | Interactive plots               | Build web apps                    | Interactive tables                 |
+| **Key Features** | - Markers, popups, and layers<br>- Custom styles<br>- Zoom and pan<br>- Various tile providers | - Scatter, line, and bar charts<br>- Tooltips, hover effects, zoom | - Dynamic with sliders and inputs<br>- Real-time updates<br>- Widgets for interactivity | - Sorting, filtering, and pages<br>- Customizable styling<br>- Searchable columns |
+| **Use Cases**  | - Visualizing locations and routes | - Analyzing data trends and relationships | - Dashboards, reports, and data exploration | - Displaying and exploring large datasets | 
+
+
+#### How to Get Started
+
+- Install the tools necessary using `install.packages(c("plotly", "shiny", "DT", "leaflet"), repos = "https://cloud.r-project.org/")`.
+
+- The code above should also allow you to avoid the CRAN error.
+
+- **Note**: Shiny app should be run in a separate R session or browser window.
+
+#### Map of UCONN (`Leaflet`) {.scrollable}
+```{r}
+#| echo: true
+#| warning: false
+#| message: false
+
+## Install these R packages if you don't have them already
+## options(repos = c(CRAN = "https://cloud.r-project.org/"))
+## install.packages(c("leaflet", "plotly", "shiny", "DT",
+##                             "htmlwidgets", "webshot", "knitr"))
+
+library(leaflet)
+
+# Create the interactive leaflet map
+map <- leaflet() %>%
+  addTiles() %>%
+  setView(lng = -72.2565, lat = 41.8084, zoom = 15) %>%
+  addMarkers(lng = -72.2565, lat = 41.8084, popup = "UConn Main Campus")
+
+## Ensure the 'images' folder exists
+if (!dir.exists("images")) {
+    dir.create("images")
+}
+
+# Conditional rendering based on output format
+if (knitr::is_html_output()) {
+  map  # Show interactive map in HTML
+} else {
+  # Define file paths
+  html_file <- "images/leaflet_temp.html"
+  png_file <- "images/uconn_static.png"
+
+  # Save the leaflet map as an HTML file
+  htmlwidgets::saveWidget(map, html_file, selfcontained = TRUE)
+
+  # Take a screenshot of the HTML file as a PNG image
+  webshot::webshot(html_file, file = png_file, delay = 2, vwidth = 800, vheight = 600)
+
+  # Include the PNG in the PDF output
+  knitr::include_graphics(png_file)
+}
+
+```
+
+#### Interactive Plot (`PlotLy`)
+
+```{r}
+#| echo: true
+#| warning: false
+#| message: false
+
+library(plotly)
+
+fig <- plot_ly(mtcars, x = ~mpg, y = ~hp, type = 'scatter', mode = 'markers', 
+               marker = list(size = 10, color = ~cyl, colorscale = 'Blue'))
+fig <- fig %>% layout(title = "Interactive Scatter Plot of MPG vs HP",
+                      xaxis = list(title = "Miles Per Gallon"),
+                      yaxis = list(title = "Horsepower"))
+
+# Conditional rendering based on output format
+if (knitr::is_html_output()) {
+  fig  # Show interactive plot in HTML
+} else {
+  # Define file paths
+  html_file <- "images/plotly_temp.html"
+  png_file <- "images/mtcars_static.png"
+
+  # Save the plotly chart as an HTML file
+  htmlwidgets::saveWidget(fig, html_file, selfcontained = TRUE)
+
+  # Take a screenshot of the HTML file as a PNG image
+  webshot::webshot(html_file, file = png_file, delay = 2, vwidth = 800, vheight = 600)
+
+  knitr::include_graphics(png_file)
+}
+```
+
+
+### Rendering Your Presentation
+In your terminal enter the following code:
+
+```shell
+
+quarto render <presentation_name>.qmd --to revealjs
+
+```
+
+This will produce a HTML slideshow output that you can present.
+
+### Keyboard Shortcuts
+
+- `S` - Brings you to speaker view
+- `F` - Fullscreen
+- `→`,`SPACE`,`N` - Next slide
+- `←`,`P` - Previous slide
+- `Alt →`, `Alt ←` - Navigates without Fragments
+- `Shift →`, `Shift ←` - Navigates to first or last slide
+
+
+### More Information/Resources
+
+- [Revealjs](https://quarto.org/docs/reference/formats/presentations/revealjs.html)
+- [PowerPoint](https://quarto.org/docs/reference/formats/presentations/pptx.html)
+- [Beamer](https://quarto.org/docs/presentations/beamer.html)
+- [Shiny](https://shiny.posit.co/r/getstarted/shiny-basics/lesson1/)
+- [PlotLy](https://plotly.com/python/getting-started/)
+- [Plotly_Interactive](https://dash.plotly.com/interactive-graphing)
+- [DT](https://rstudio.github.io/DT/)
+- [Leaflet](https://leafletjs.com/examples.html)
+
