@@ -7,7 +7,9 @@ book:
   author:
     - name: "[Jun Yan](https://statcomp.org) and Students in Spring 2025"
     - name: Shiyi Li
+    - name: Eathon Long
     - name: Joann Jun
+    - name: Thomas Schittina
     - name: Alyssa Horn
   date: today
 
@@ -22,6 +24,9 @@ book:
     - python.qmd
     - manipulation.qmd
     - stats.qmd
+    - machinelearning.qmd
+    - supervised.qmd
+    - unsupervised.qmd
     - exercises.qmd
     - references.qmd
 

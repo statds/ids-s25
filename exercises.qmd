@@ -181,6 +181,9 @@
 
 
 1. **Midterm project: Street flood in NYC** 
+   The class presentation at the 2025 NYC Open Data Weeik is
+   scheduled for [Monday, March 24, 2:00-3:00 pm](https://2025.open-data.nyc/event/risk-analysis-of-nyc-street-flooding/).
+
    The [NYC Open Data of 311 Service Requests](https://data.cityofnewyork.us/Social-Services/311-Service-Requests-from-2010-to-Present/erm2-nwe9)
    contains all service requests from 2010 to the present. This
    analysis focuses on two sewer-related complaints in 2024: Street
@@ -271,6 +274,5 @@
         i.  Compare a Poisson regression with a Negative Binomial
            regression to account for overdispersion. Which model fits better?
            Explain the results to a New Yorker.
-
 
 

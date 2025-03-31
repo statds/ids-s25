@@ -74,14 +74,14 @@ used. Here is a list of data challenges that you may find useful:
 
 + [ASA Data Challenge
   Expo](https://community.amstat.org/dataexpo/home): big data in 2025
-+ [Kaggle](https://www.kaggle.com)
-+ [DrivenData](https://www.drivendata.org)
++ [Kaggle](https://www.kaggle.com).
++ [DrivenData](https://www.drivendata.org).
 + [15 Data Science Hackathons to Test Your Skills in 2025](https://www.fynd.academy/blog/data-science-hackathons)
 + If you work on sports analytics, you are welcome to submit a
 poster to [Connecticut Sports Analytics Symposium
 (CSAS) 2025](https://statds.org/events/csas2025/).
-+ A good resource for sports analytics if [ScoreNetwork](https://scorenetwork.org).
-
++ A good resource for sports analytics is [ScoreNetwork](https://scorenetwork.org).
++ [Paleobiology Database](https://paleobiodb.org/#/).
 
 ## Adapting to Rapid Skill Acquisition
 
@@ -275,17 +275,17 @@ boosting. This justifies certain requests for switching slots.
 
 ### Presentation Task Board
 
-Talk to the professor about your topics. Here are some example tasks:
+Talk to the professor about your topics at least one week prior to
+your scheduled presentation. Here are some example tasks:
 
 + Making presentations with Quarto
 + Markdown jumpstart
 + Effective data science communication
 + Import/Export data
 + Data manipulation with `Pandas`
-+ Using package `ace_tools`
 + Accessing US census data
 + Arrow as a cross-platform data format
-+ Statistical analysis for proporations and rates
++ Statistical analysis for proportions and rates
 + Database operation with Structured query language (SQL)
 + Grammer of graphics
 + Handling spatial data
@@ -294,11 +294,14 @@ Talk to the professor about your topics. Here are some example tasks:
 + Animation
 + Support vector machine
 + Random forest
++ Gradient boosting machine
 + Naive Bayes
 + Neural networks
 + Deep learning
 + TensorFlow
 + Autoencoders
++ K-means clustering
++ Principal component analysis
 + Reinforcement learning
 + Developing a Python package
 + Web scraping
@@ -338,13 +341,13 @@ Please use the following table to sign up.
    03/05 |  Schittina, Thomas     | Spatial Data With Geopandas & Google Maps
    03/10 |  Kline, Daniel Esteban     |
    03/12 |  Edo, Mezmur Wossenu      | Principal Component Analysis (PCA)
-   03/24 |  Alsadadi, Ammar Shaker     |
-   03/24 |  Fables, Xavier Milan     |
-   03/31 |  Tamhane, Shubhan     |
-   03/31 |  Nasejje, Ruth Nicole     |
-   04/02 |  Lagutin, Vladislav     |
+   03/26 |  Alsadadi, Ammar Shaker     | Sentiment Analysis with Python 
+   03/26 |  Fables, Xavier Milan     |
+   03/31 |  Tamhane, Shubhan     | Support Vector Machine
+   03/31 |  Nasejje, Ruth Nicole     | Personal webpage on GitHub
+   04/02 |  Lagutin, Vladislav     | Google Maps visualizations using Folium library
    04/02 |  Zhang, Gaofei    | Random forest
-   04/07 |  Long, Ethan Kenneth     |
+   04/07 |  Long, Ethan Kenneth     | Synthetic Minority Oversampling Technique (SMOTE)
    04/07 |  Xu, Peiwen   | 
    04/09 |  Kravette, Noah   | 
    04/09 |  Symula, Sebastian   | Imputation Methods for Missing Data
@@ -354,7 +357,7 @@ Please use the following table to sign up.
    04/12 |  Mundiwala, Mohammad Moiz   | Math animations with manim
    04/16 |  Lin, Selena   | 
    04/16 |  Pfeifer, Nicholas Theodore   | 
-   04/16 |  Vellore, Ajeeth Krishna | 
+   04/16 |  Vellore, Ajeeth Krishna | Neural Network Basics
 
 
 ### Final Project Presentation Schedule

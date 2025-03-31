@@ -1,0 +1,280 @@
+## Handling Spatial Data with GeoPandas and gmplot
+
+The following section was written by Thomas Schittina, a senior majoring in 
+statistics and minoring in mathematics at the University of Connecticut.
+
+This section focuses on how to manipulate and visualize spatial data in Python, 
+with a particular focus on the packages GeoPandas and gmplot. We'll start with 
+GeoPandas and do the following:
+
++ Cover the core concepts and functionalities
++ Walkthrough an example using NYC shape data
+
+For gmplot we will:
+
++ Talk about why you'll need a Google Maps API key
++ See some of the different plotting functionalities
++ Walkthrough an example using NYC shape data
+
+### GeoPandas
+
+#### Introducing GeoPandas
+
+Founded in 2013, GeoPandas is an open-source extension of Pandas that adds 
+support for geospatial data. GeoPandas is built around the `GeoSeries` and 
+`GeoDataFrame` objects. Both are subclasses of the corresponding Pandas 
+objects, so they should feel familiar to those who have used Pandas before.
+
+#### A Remark about Shapely
+
+The package Shapely is a core dependency of GeoPandas that handles geometric 
+operations. Each geometry (point, polygon, etc.) stored in a `GeoDataFrame` is 
+a Shapely object, and GeoPandas internally calls Shapely methods to perform 
+spatial analysis. You won't often need to interact directly with Shapely when 
+using GeoPandas. Still, you may want to familiarize yourself with its basic 
+concepts.
+
+Shapely Documentation can be found 
+[here](https://shapely.readthedocs.io/en/stable/).
+
+#### GeoSeries and GeoDataFrame
+
+GeoSeries:
+
++ Similar to `Series`, but should exclusively contain geometries
++ `GeoSeries.crs` stores the Coordinate Reference System information
+
+GeoDataFrame:
+
++ May consist of both `Series` and `GeoSeries`
++ May contain several `GeoSeries`, but only one *active* geometry column
+    + Geometric operations will only apply to the active column
+    + Accessed and manipulated with `GeoDataFrame.geometry`
++ Otherwise similar to a normal `DataFrame`
+
+
+### Example with NYC MODZCTA Shapefile
+
+Given a file containing geospatial data, `geopandas.read_file()` will detect 
+the filetype and create a `GeoDataFrame`.
+
+```{python}
+import geopandas as gpd
+import os
+
+# get .shp from MODZCTA_Shapefile folder
+shapefile_path = None
+for file in os.listdir('MODZCTA_Shapefile'):
+    if file.endswith(".shp"):
+        shapefile_path = os.path.join('MODZCTA_Shapefile', file)
+        break  # Use the first .shp file found
+
+# read in data
+gdf = gpd.read_file(shapefile_path)
+
+gdf.drop(columns=['label', 'zcta'], inplace=True)
+
+gdf.head()
+```
+
+It's very important to know which CRS your geospatial data is in. Operations 
+involving distance or area require a projected CRS (using feet, meters, etc.). 
+If a geographic CRS is used (degrees), the calculations will likely be wrong.
+
+```{python}
+print(gdf.crs)
+
+# convert to projected CRS
+gdf = gdf.to_crs(epsg=3857)
+
+print(gdf.crs)
+```
+
+Originally, the geometries were in EPSG 4326, which is measured by latitude and 
+longitude. In order to work with the shape data, the CRS was converted to EPSG 
+3857, which uses meters.
+
+Now we can start working with the spatial data. First, let's compute the area 
+of each zip code and store it as a new column.
+
+```{python}
+# create column of areas
+gdf['area'] = gdf.area
+gdf.head(3)
+```
+
+Our active geometry column is the shape data for each zip code, so `gdf.area()` 
+only acts on that column and ignores the others.
+
+Let's also find the boundary of each zip code, as well as its geographic center.
+
+```{python}
+# create columns for boundary and centorid info
+gdf['boundary'] = gdf.boundary
+gdf['centroid'] = gdf.centroid
+
+gdf[['modzcta', 'boundary', 'centroid']].head(3)
+```
+
+Suppose we want to find the distance between two centroids. The current active 
+geometry column is the shape data. Run `gdf.geometry = gdf['centroid']` to 
+switch the active geometry.
+
+```{python}
+# switch active geometry to centroid info
+gdf.geometry = gdf['centroid']
+```
+
+Then we can calculate the distance between the first two centroids with 
+`distance()`.
+
+```{python}
+# find distance between first two centroids
+gdf.geometry[0].distance(gdf.geometry[1])
+```
+
+#### Plotting with GeoPandas
+
+GeoPandas also includes some basic plotting functionality. Similar to Pandas, 
+`plot()` will generate visuals using matplotlib.
+
+```{python}
+# plot NYC zip codes with color mapping by area
+gdf.geometry = gdf['geometry'] # must switch active geometry back first
+gdf.plot('area', legend=True)
+```
+
+Interactive maps can also be generated using `explore`, but you will need to 
+install optional dependencies. An alternative approach is the package gmplot, 
+which we'll discuss next. First though, here is a list of common GeoPandas 
+methods we've not yet covered.
+
++ `to_file()`: save `GeoDataFrame` to a geospatial file (.shp, .GEOjson, etc.)
++ `length()`: calculate the length of a geometry, useful for linestrings
++ `instersects()`: check if one geometry intersects with another
++ `contains()`: check if one geometry contains another
++ `buffer()`: create a buffer of specified size around a geometry
++ `equals()`: check if the CRS of two objects is the same
++ `is_valid()`: check for invalid geometries
+
+### gmplot
+
+#### Google Maps API
+
+An API key is not necessary to create visuals with gmplot, but it is highly 
+recommended. Without a key, any generated output will be dimmed and have a 
+watermark.
+
+![Example with no API key](images/spatial_data_visuals/no_api_ex.png)
+
+The process to create an API key is very simple. Go 
+[here](https://developers.google.com/maps) and click on **Get Started**. It 
+requires some credit card information, but you start on a free trial with $300 
+of credit. You will not be charged unless you select **activate full account**.
+
+There are some configuration options you can set for your key. Google has many
+different APIs, but gmplot only requires the *Maps Javascript API*.
+
+#### Creating Plots with gmplot
+
+gmplot is designed to mimic matplotlib, so the syntax should feel similar. The 
+class `GoogleMapPlotter` provides the core functionality of the package.
+
+```{python}
+import gmplot
+
+apikey = open('gmapKey.txt').read().strip() # read in API key
+
+# plot map centered at NYC with zoom = 11
+gmap = gmplot.GoogleMapPlotter(40.5665, -74.1697, 11, apikey=apikey)
+```
+
+**Note:** To render the classnotes on your computer, you will need to create 
+the text file `gmapKey.txt` and store your Google Maps API key there.
+
+The arguments include: 
+
++ The latitude and longitude of NYC
++ The level of zoom
++ API key (even if it's not used directly)
++ more optional arguments for further customization
+
+### Making Maps with NYC Zip Code Data
+
+Let's display the largest zip code by area in NYC.
+
+```{python}
+gdf = gdf.to_crs(epsg=4326) # convert CRS to plot by latitude and longitude
+largest_zip = gdf['geometry'][gdf['area'].idxmax()] # returns Shapely POLYGON
+
+coords = list(largest_zip.exterior.coords) # unpack boundary coordinates
+lats = [lat for lon, lat in coords]
+lons = [lon for lon, lat in coords]
+
+# plot shape of zip code
+gmap.polygon(lats, lons, face_color='green', edge_color='blue', edge_width=3)
+
+# gmap.draw('largest_zip.html')
+```
+
+After creating the plot, `gmap.draw('filename')` saves it as an HTML file in 
+the current working directory, unless another location is specified. In the 
+classnotes, all outputs will be shown as a PNG image.
+
+![Largest NYC Zip Code by area](images/spatial_data_visuals/largest_zip.png)
+
+Let's also plot the centriod of this zip code, and include a link to gmplot's 
+documentation (in the classnotes this link won't work because the PNG is used).
+
+```{python}
+gdf.geometry = gdf['centroid'] # now working with new geometry column
+gdf = gdf.to_crs(epsg=4326) # convert CRS to plot by latitude and longitude
+
+centroid = gdf['centroid'][gdf['area'].idxmax()] # returns Shapely POINT
+
+# plot the point with info window
+gmap.marker(centroid.y, centroid.x, title='Center of Zip Code',
+            info_window="<a href='https://github.com/gmplot/gmplot/wiki'>gmplot docs</a>")
+
+# plot the polygon
+gmap.polygon(lats, lons, face_color='green', edge_color='blue', edge_width=3)
+
+# gmap.draw('zip_w_marker.html')
+```
+
+Here's the output:
+
+![Center of largest NYC Zip Code](images/spatial_data_visuals/zip_w_marker.png)
+
+#### Other Features of gmplot
+
++ `directions()`: draw directions from one point to another
++ `scatter()`: plot a collection of points
++ `heatmap()`: plot a heatmap
++ `enable_marker_dropping()`: click on map to create/remove markers
++ `from_geocode()`: use name of location instead of coordinates
++ see docs for more
+
+You can also change the map type when you create an instance of 
+`GoogleMapPlotter`. 
+
+```{python}
+# create hybrid type map
+gmap = gmplot.GoogleMapPlotter(40.776676, -73.971321, 11.5, apikey=apikey,
+                               map_type='hybrid')
+
+# gmap.draw('nyc_hybrid.html')
+```
+
+![Hybrid map of NYC](images/spatial_data_visuals/nyc_hybrid.png)
+
+### Summary
+
+Geopandas is a powerful tool for handling spatial data and operations. It 
+builds on regular Pandas by introducing two new data structures, the 
+`GeoSeries` and `GeoDataFrame`. Under the hood, Shapely handles geometric 
+operations.
+
+The package gmplot is a simple yet dynamic tool that overlays spatial data onto 
+interactive Google maps. It does so through the class `GoogleMapPlotter`, which 
+offers an alternative to Geopandas' built in graphing methods for simple plots. 
