@@ -338,19 +338,11 @@ Please use the following table to sign up.
    03/03 |  El Zein, Amer Hani     | Effective Communication in Data Science
    03/05 |  Schittina, Thomas     | Spatial Data With Geopandas & Google Maps
    03/10 |  Kline, Daniel Esteban     |
-<<<<<<< HEAD
-   03/12 |  Edo, Mezmur Wossenu      |
-   03/24 |  Alsadadi, Ammar Shaker     |
-   03/24 |  Fables, Xavier Milan     |
-   03/31 |  Tamhane, Shubhan     | Support Vector Machine
-   03/31 |  Nasejje, Ruth Nicole     |
-   04/02 |  Lagutin, Vladislav     |
-   04/02 |  Zhang, Gaofei    |
 =======
    03/12 |  Edo, Mezmur Wossenu      | Principal Component Analysis (PCA)
    03/26 |  Alsadadi, Ammar Shaker     |
    03/26 |  Fables, Xavier Milan     |
-   03/31 |  Tamhane, Shubhan     |
+   03/31 |  Tamhane, Shubhan     | Support Vector Machine
    03/31 |  Nasejje, Ruth Nicole     | Personal webpage on GitHub
    04/02 |  Lagutin, Vladislav     | Google Maps visualizations using Folium library
    04/02 |  Zhang, Gaofei    | Random forest
