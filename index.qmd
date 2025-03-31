@@ -332,7 +332,7 @@ Please use the following table to sign up.
    03/12 |  Edo, Mezmur Wossenu      |
    03/24 |  Alsadadi, Ammar Shaker     |
    03/24 |  Fables, Xavier Milan     |
-   03/31 |  Tamhane, Shubhan     |
+   03/31 |  Tamhane, Shubhan     | Support Vector Machine
    03/31 |  Nasejje, Ruth Nicole     |
    04/02 |  Lagutin, Vladislav     |
    04/02 |  Zhang, Gaofei    |
