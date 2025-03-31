@@ -233,6 +233,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#zip-code-level-for-nyc-crash-data" id="toc-zip-code-level-for-nyc-crash-data" class="nav-link" data-scroll-target="#zip-code-level-for-nyc-crash-data"><span class="header-section-number">5.3.2</span> Zip-Code Level for NYC Crash Data</a></li>
   </ul></li>
   <li><a href="#cross-platform-data-format-arrow" id="toc-cross-platform-data-format-arrow" class="nav-link" data-scroll-target="#cross-platform-data-format-arrow"><span class="header-section-number">5.4</span> Cross-platform Data Format <code>Arrow</code></a></li>
+  <li><a href="#handling-spatial-data-with-geopandas-and-gmplot" id="toc-handling-spatial-data-with-geopandas-and-gmplot" class="nav-link" data-scroll-target="#handling-spatial-data-with-geopandas-and-gmplot"><span class="header-section-number">5.5</span> Handling Spatial Data with GeoPandas and gmplot</a>
+  <ul class="collapse">
+  <li><a href="#geopandas" id="toc-geopandas" class="nav-link" data-scroll-target="#geopandas"><span class="header-section-number">5.5.1</span> GeoPandas</a></li>
+  <li><a href="#example-with-nyc-modzcta-shapefile" id="toc-example-with-nyc-modzcta-shapefile" class="nav-link" data-scroll-target="#example-with-nyc-modzcta-shapefile"><span class="header-section-number">5.5.2</span> Example with NYC MODZCTA Shapefile</a></li>
+  <li><a href="#gmplot" id="toc-gmplot" class="nav-link" data-scroll-target="#gmplot"><span class="header-section-number">5.5.3</span> gmplot</a></li>
+  <li><a href="#making-maps-with-nyc-zip-code-data" id="toc-making-maps-with-nyc-zip-code-data" class="nav-link" data-scroll-target="#making-maps-with-nyc-zip-code-data"><span class="header-section-number">5.5.4</span> Making Maps with NYC Zip Code Data</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">5.5.5</span> Summary</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -274,7 +282,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="nyc-crash-data" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="nyc-crash-data"><span class="header-section-number">5.2</span> NYC Crash Data</h2>
 <p>Consider a subset of the NYC Crash Data, which contains all NYC motor vehicle collisions data with documentation from <a href="https://data.cityofnewyork.us/Public-Safety/Motor-Vehicle-Collisions-Crashes/h9gi-nx95">NYC Open Data</a>. We downloaded the crash data for the week of June 30, 2024, on February 12, 2025, in CSC format.</p>
-<div id="9b5ce9f7" class="cell" data-execution_count="1">
+<div id="c8219648" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -324,7 +332,7 @@ dtype: int64</code></pre>
 </div>
 </div>
 <p>Take a peek at the first five rows:</p>
-<div id="bb18812d" class="cell" data-execution_count="2">
+<div id="66109bab" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <div>
@@ -486,7 +494,7 @@ dtype: int64</code></pre>
 </div>
 </div>
 <p>A quick summary of the data types of the columns:</p>
-<div id="a7fbedd2" class="cell" data-execution_count="3">
+<div id="5d68925c" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df.info()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
@@ -528,7 +536,7 @@ memory usage: 410.5+ KB</code></pre>
 </div>
 </div>
 <p>Now we can do some cleaning after a quick browse.</p>
-<div id="3e92e169" class="cell" data-execution_count="4">
+<div id="33d514d6" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace invalid coordinates (latitude=0, longitude=0 or NaN) with NaN</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>df.loc[(df[<span class="st">'latitude'</span>] <span class="op">==</span> <span class="dv">0</span>) <span class="op">&amp;</span> (df[<span class="st">'longitude'</span>] <span class="op">==</span> <span class="dv">0</span>), </span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>       [<span class="st">'latitude'</span>, <span class="st">'longitude'</span>]] <span class="op">=</span> pd.NA</span>
@@ -546,7 +554,7 @@ memory usage: 410.5+ KB</code></pre>
 <span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.drop(columns<span class="op">=</span>[<span class="st">'crash_date'</span>, <span class="st">'crash_time'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s get some basic frequency tables of <code>borough</code> and <code>zip_code</code>, whose values could be used to check their validity against the legitmate values.</p>
-<div id="788dd5d1" class="cell" data-execution_count="5">
+<div id="d4ceaecb" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Frequency table for 'borough' without filling missing values</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>borough_freq <span class="op">=</span> df[<span class="st">'borough'</span>].value_counts(dropna<span class="op">=</span><span class="va">False</span>).reset_index()</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>borough_freq.columns <span class="op">=</span> [<span class="st">'borough'</span>, <span class="st">'count'</span>]</span>
@@ -631,7 +639,7 @@ memory usage: 410.5+ KB</code></pre>
 </div>
 </div>
 <p>A comprehensive list of ZIP codes by borough can be obtained, for example, from <a href="https://www.nyc.gov/assets/doh/downloads/pdf/ah/zipcodetable.pdf">the New York City Department of Health’s UHF Codes</a>. We can use this list to check the validity of the zip codes in the data.</p>
-<div id="148440af" class="cell" data-execution_count="6">
+<div id="39cbd327" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># List of valid NYC ZIP codes compiled from UHF codes</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Define all_valid_zips based on the earlier extracted ZIP codes</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>all_valid_zips <span class="op">=</span> {</span>
@@ -717,7 +725,7 @@ memory usage: 410.5+ KB</code></pre>
 </div>
 <p>As it turns out, the collection of valid NYC zip codes differ from different sources. From <a href="https://www.unitedstateszipcodes.org/">United States Zip Codes</a>, <code>10065</code> appears to be a valid NYC zip code. Under this circumstance, it might be safer to not remove any zip code from the data.</p>
 <p>To be safe, let’s concatenate valid and invalid zips.</p>
-<div id="bc5e444e" class="cell" data-execution_count="7">
+<div id="9bf73873" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert invalid ZIP codes to a set of strings</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>invalid_zips_set <span class="op">=</span> <span class="bu">set</span>(invalid_zip_freq[<span class="st">'zip_code'</span>].dropna().astype(<span class="bu">str</span>))</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -728,7 +736,7 @@ memory usage: 410.5+ KB</code></pre>
 <span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>merged_zips <span class="op">=</span> invalid_zips_set <span class="op">|</span> valid_zips_set  <span class="co"># Union of both sets</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Are missing in zip code and borough always co-occur?</p>
-<div id="774e81df" class="cell" data-execution_count="8">
+<div id="2d0e8537" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check if missing values in 'zip_code' and 'borough' always co-occur</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Count rows where both are missing</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>missing_cooccur <span class="op">=</span> df[[<span class="st">'zip_code'</span>, <span class="st">'borough'</span>]].isnull().<span class="bu">all</span>(axis<span class="op">=</span><span class="dv">1</span>).<span class="bu">sum</span>()</span>
@@ -747,7 +755,7 @@ memory usage: 410.5+ KB</code></pre>
 <p>First make sure <code>geopy</code> is installed.</p>
 <pre class="shell"><code>pip install geopy</code></pre>
 <p>Now we use model <code>Nominatim</code> in package <code>geopy</code> to reverse geocode.</p>
-<div id="eed7c241" class="cell" data-execution_count="9">
+<div id="0e8a0783" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> geopy.geocoders <span class="im">import</span> Nominatim</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -757,7 +765,7 @@ memory usage: 410.5+ KB</code></pre>
 <span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>geolocator <span class="op">=</span> Nominatim(user_agent<span class="op">=</span><span class="st">"jyGeopyTry"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We write a function to do the reverse geocoding given lattitude and longitude.</p>
-<div id="fd8c6eaa" class="cell" data-execution_count="10">
+<div id="062410a5" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to fill missing zip_code</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_zip_code(latitude, longitude):</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
@@ -775,7 +783,7 @@ memory usage: 410.5+ KB</code></pre>
 <span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>        time.sleep(<span class="dv">1</span>)  <span class="co"># Delay to avoid overwhelming the service</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s try it out:</p>
-<div id="0c8e801f" class="cell" data-execution_count="11">
+<div id="4b215740" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example usage</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>latitude <span class="op">=</span> <span class="fl">40.730610</span></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>longitude <span class="op">=</span> <span class="op">-</span><span class="fl">73.935242</span></span>
@@ -813,7 +821,7 @@ memory usage: 410.5+ KB</code></pre>
 <p>Now that we have NYC crash data, we might want to analyze patterns at the zip-code level to understand whether certain demographic or economic factors correlate with traffic incidents. While the crash dataset provides details about individual accidents, such as location, time, and severity, it does not contain contextual information about the neighborhoods where these crashes occur.</p>
 <p>To perform meaningful zip-code-level analysis, we need additional data sources that provide relevant demographic, economic, and geographic variables. For example, understanding whether high-income areas experience fewer accidents, or whether population density influences crash frequency, requires integrating Census data. Key variables such as population size, median household income, employment rate, and population density can provide valuable context for interpreting crash trends across different zip codes.</p>
 <p>Since the Census Bureau provides detailed estimates for these variables at the zip-code level, we can use the Census API or other tools to retrieve relevant data and merge it with the NYC crash dataset. To access the Census API, you need an API key, which is free and easy to obtain. Visit the <a href="https://api.census.gov/data/key_signup.html">Census API Request page</a> and submit your email address to receive a key. Once you have the key, you must include it in your API requests to access Census data. The following demonstration assumes that you have registered, obtained your API key, and saved it in a file called <code>censusAPIkey.txt</code>.</p>
-<div id="9b51697f" class="cell" data-execution_count="12">
+<div id="f988a381" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import modules</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -827,7 +835,7 @@ memory usage: 410.5+ KB</code></pre>
 <span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> Census(api_key)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Suppose that we want to get some basic info from ACS data of the year of 2023 for all the NYC zip codes. The variable names can be found in the <a href="https://www.census.gov/programs-surveys/acs/technical-documentation/table-shells.html">ACS variable documentation</a>.</p>
-<div id="0df7834a" class="cell" data-execution_count="13">
+<div id="a6b071dc" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>ACS_YEAR <span class="op">=</span> <span class="dv">2023</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>ACS_DATASET <span class="op">=</span> <span class="st">"acs/acs5"</span></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -849,7 +857,7 @@ memory usage: 410.5+ KB</code></pre>
 <span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>merged_zips <span class="op">=</span> <span class="bu">list</span>(<span class="bu">map</span>(<span class="bu">str</span>, merged_zips))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s set up the query to request the ACS data, and process the returned data.</p>
-<div id="6dfd77e5" class="cell" data-execution_count="14">
+<div id="1cceb645" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>acs_data <span class="op">=</span> c.acs5.get(</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">list</span>(ACS_VARIABLES.keys()), </span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'for'</span>: <span class="ss">f'zip code tabulation area:</span><span class="sc">{</span><span class="st">","</span><span class="sc">.</span>join(merged_zips)<span class="sc">}</span><span class="ss">'</span>}</span>
@@ -866,7 +874,7 @@ memory usage: 410.5+ KB</code></pre>
 <div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>df_acs.to_feather(<span class="st">"data/acs2023.feather"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The population density could be an important factor for crash likelihood. To obtain the population densities, we need the areas of the zip codes. The shape files can be obtained from NYC Open Data.</p>
-<div id="c47b3872" class="cell" data-execution_count="15">
+<div id="5fc2df1e" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> zipfile</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
@@ -891,7 +899,7 @@ Shapefile extracted to: MODZCTA_Shapefile</code></pre>
 </div>
 </div>
 <p>Now we process the shape file to calculate the areas of the polygons.</p>
-<div id="c8697d3a" class="cell" data-execution_count="16">
+<div id="d0cce2e9" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 2: Automatically detect the correct .shp file</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>shapefile_path <span class="op">=</span> <span class="va">None</span></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> os.listdir(extract_dir):</span>
@@ -926,11 +934,11 @@ Shapefile extracted to: MODZCTA_Shapefile</code></pre>
 </div>
 </div>
 <p>Let’s export this data frame for future usage in feather format (see next Section).</p>
-<div id="addc21e6" class="cell" data-execution_count="17">
+<div id="83bec3cb" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>gdf[[<span class="st">'modzcta'</span>, <span class="st">'land_area_sq_miles'</span>]].to_feather(<span class="st">'data/nyc_zip_areas.feather'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now we are ready to merge the two data frames.</p>
-<div id="bf0a3e2b" class="cell" data-execution_count="18">
+<div id="fc358546" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge ACS data (`df_acs`) directly with MODZCTA land area (`gdf`)</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>gdf <span class="op">=</span> gdf.merge(df_acs, left_on<span class="op">=</span><span class="st">'modzcta'</span>, right_on<span class="op">=</span><span class="st">'ZIP Code'</span>, how<span class="op">=</span><span class="st">'left'</span>)</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -952,7 +960,7 @@ Shapefile extracted to: MODZCTA_Shapefile</code></pre>
 </div>
 </div>
 <p>Some visualization of population density.</p>
-<div id="055babfd" class="cell" data-execution_count="19">
+<div id="660e6021" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1002,7 +1010,7 @@ Shapefile extracted to: MODZCTA_Shapefile</code></pre>
 <pre class="shell"><code>pip install pyarrow</code></pre>
 <p>Feather is a fast, lightweight, and easy-to-use binary file format for storing data frames, optimized for speed and efficiency, particularly for IPC and data sharing between Python and R or Julia.</p>
 <p>The following code processes the cleaned data in CSV format from Mohammad Mundiwala and write out in Arrow format.</p>
-<div id="1fc2aa02" class="cell" data-execution_count="20">
+<div id="7824d8fc" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Read CSV, ensuring 'zip_code' is string and 'crash_datetime' is parsed as datetime</span></span>
@@ -1023,7 +1031,7 @@ Shapefile extracted to: MODZCTA_Shapefile</code></pre>
 <span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>df.to_feather(<span class="st">'nyccrashes_cleaned.feather'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s compare the file sizes of the feather format and the CSV format.</p>
-<div id="c5a8a5dd" class="cell" data-execution_count="21">
+<div id="64624ecb" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co"># File paths</span></span>
@@ -1050,8 +1058,383 @@ Feather file size: 0.19 MB</code></pre>
 <div class="sourceCode" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>dff <span class="op">=</span> pd.read_feather(<span class="st">"data/nyccrashes_cleaned.feather"</span>)</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>dff.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<!-- This section is to be included as a tutorial for geospatial data. -->
+</section>
+<section id="handling-spatial-data-with-geopandas-and-gmplot" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="handling-spatial-data-with-geopandas-and-gmplot"><span class="header-section-number">5.5</span> Handling Spatial Data with GeoPandas and gmplot</h2>
+<p>The following section was written by Thomas Schittina, a senior majoring in statistics and minoring in mathematics at the University of Connecticut.</p>
+<p>This section focuses on how to manipulate and visualize spatial data in Python, with a particular focus on the packages GeoPandas and gmplot. We’ll start with GeoPandas and do the following:</p>
+<ul>
+<li>Cover the core concepts and functionalities</li>
+<li>Walkthrough an example using NYC shape data</li>
+</ul>
+<p>For gmplot we will:</p>
+<ul>
+<li>Talk about why you’ll need a Google Maps API key</li>
+<li>See some of the different plotting functionalities</li>
+<li>Walkthrough an example using NYC shape data</li>
+</ul>
+<section id="geopandas" class="level3" data-number="5.5.1">
+<h3 data-number="5.5.1" class="anchored" data-anchor-id="geopandas"><span class="header-section-number">5.5.1</span> GeoPandas</h3>
+<section id="introducing-geopandas" class="level4" data-number="5.5.1.1">
+<h4 data-number="5.5.1.1" class="anchored" data-anchor-id="introducing-geopandas"><span class="header-section-number">5.5.1.1</span> Introducing GeoPandas</h4>
+<p>Founded in 2013, GeoPandas is an open-source extension of Pandas that adds support for geospatial data. GeoPandas is built around the <code>GeoSeries</code> and <code>GeoDataFrame</code> objects. Both are subclasses of the corresponding Pandas objects, so they should feel familiar to those who have used Pandas before.</p>
+</section>
+<section id="a-remark-about-shapely" class="level4" data-number="5.5.1.2">
+<h4 data-number="5.5.1.2" class="anchored" data-anchor-id="a-remark-about-shapely"><span class="header-section-number">5.5.1.2</span> A Remark about Shapely</h4>
+<p>The package Shapely is a core dependency of GeoPandas that handles geometric operations. Each geometry (point, polygon, etc.) stored in a <code>GeoDataFrame</code> is a Shapely object, and GeoPandas internally calls Shapely methods to perform spatial analysis. You won’t often need to interact directly with Shapely when using GeoPandas. Still, you may want to familiarize yourself with its basic concepts.</p>
+<p>Shapely Documentation can be found <a href="https://shapely.readthedocs.io/en/stable/">here</a>.</p>
+</section>
+<section id="geoseries-and-geodataframe" class="level4" data-number="5.5.1.3">
+<h4 data-number="5.5.1.3" class="anchored" data-anchor-id="geoseries-and-geodataframe"><span class="header-section-number">5.5.1.3</span> GeoSeries and GeoDataFrame</h4>
+<p>GeoSeries:</p>
+<ul>
+<li>Similar to <code>Series</code>, but should exclusively contain geometries</li>
+<li><code>GeoSeries.crs</code> stores the Coordinate Reference System information</li>
+</ul>
+<p>GeoDataFrame:</p>
+<ul>
+<li>May consist of both <code>Series</code> and <code>GeoSeries</code></li>
+<li>May contain several <code>GeoSeries</code>, but only one <em>active</em> geometry column
+<ul>
+<li>Geometric operations will only apply to the active column</li>
+<li>Accessed and manipulated with <code>GeoDataFrame.geometry</code></li>
+</ul></li>
+<li>Otherwise similar to a normal <code>DataFrame</code></li>
+</ul>
+</section>
+</section>
+<section id="example-with-nyc-modzcta-shapefile" class="level3" data-number="5.5.2">
+<h3 data-number="5.5.2" class="anchored" data-anchor-id="example-with-nyc-modzcta-shapefile"><span class="header-section-number">5.5.2</span> Example with NYC MODZCTA Shapefile</h3>
+<p>Given a file containing geospatial data, <code>geopandas.read_file()</code> will detect the filetype and create a <code>GeoDataFrame</code>.</p>
+<div id="6e1f5afc" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="co"># get .shp from MODZCTA_Shapefile folder</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>shapefile_path <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> os.listdir(<span class="st">'MODZCTA_Shapefile'</span>):</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">file</span>.endswith(<span class="st">".shp"</span>):</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>        shapefile_path <span class="op">=</span> os.path.join(<span class="st">'MODZCTA_Shapefile'</span>, <span class="bu">file</span>)</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">break</span>  <span class="co"># Use the first .shp file found</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a><span class="co"># read in data</span></span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>gdf <span class="op">=</span> gpd.read_file(shapefile_path)</span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>gdf.drop(columns<span class="op">=</span>[<span class="st">'label'</span>, <span class="st">'zcta'</span>], inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>gdf.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="20">
+<div>
 
 
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">modzcta</th>
+<th data-quarto-table-cell-role="th">pop_est</th>
+<th data-quarto-table-cell-role="th">geometry</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>10001</td>
+<td>23072.0</td>
+<td>POLYGON ((-73.98774 40.74407, -73.98819 40.743...</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>10002</td>
+<td>74993.0</td>
+<td>POLYGON ((-73.9975 40.71407, -73.99709 40.7146...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>10003</td>
+<td>54682.0</td>
+<td>POLYGON ((-73.98864 40.72293, -73.98876 40.722...</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>10026</td>
+<td>39363.0</td>
+<td>MULTIPOLYGON (((-73.96201 40.80551, -73.96007 ...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>10004</td>
+<td>3028.0</td>
+<td>MULTIPOLYGON (((-74.00827 40.70772, -74.00937 ...</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>It’s very important to know which CRS your geospatial data is in. Operations involving distance or area require a projected CRS (using feet, meters, etc.). If a geographic CRS is used (degrees), the calculations will likely be wrong.</p>
+<div id="ede6cf29" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(gdf.crs)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="co"># convert to projected CRS</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>gdf <span class="op">=</span> gdf.to_crs(epsg<span class="op">=</span><span class="dv">3857</span>)</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(gdf.crs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>EPSG:4326
+EPSG:3857</code></pre>
+</div>
+</div>
+<p>Originally, the geometries were in EPSG 4326, which is measured by latitude and longitude. In order to work with the shape data, the CRS was converted to EPSG 3857, which uses meters.</p>
+<p>Now we can start working with the spatial data. First, let’s compute the area of each zip code and store it as a new column.</p>
+<div id="5ab8906a" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create column of areas</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>gdf[<span class="st">'area'</span>] <span class="op">=</span> gdf.area</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>gdf.head(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="22">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">modzcta</th>
+<th data-quarto-table-cell-role="th">pop_est</th>
+<th data-quarto-table-cell-role="th">geometry</th>
+<th data-quarto-table-cell-role="th">area</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>10001</td>
+<td>23072.0</td>
+<td>POLYGON ((-8236278.03 4974664.364, -8236327.85...</td>
+<td>2.987592e+06</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>10002</td>
+<td>74993.0</td>
+<td>POLYGON ((-8237364.444 4970258.308, -8237318.6...</td>
+<td>3.974361e+06</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>10003</td>
+<td>54682.0</td>
+<td>POLYGON ((-8236377.258 4971559.548, -8236390.9...</td>
+<td>2.611531e+06</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Our active geometry column is the shape data for each zip code, so <code>gdf.area()</code> only acts on that column and ignores the others.</p>
+<p>Let’s also find the boundary of each zip code, as well as its geographic center.</p>
+<div id="160f8248" class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create columns for boundary and centorid info</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>gdf[<span class="st">'boundary'</span>] <span class="op">=</span> gdf.boundary</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>gdf[<span class="st">'centroid'</span>] <span class="op">=</span> gdf.centroid</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>gdf[[<span class="st">'modzcta'</span>, <span class="st">'boundary'</span>, <span class="st">'centroid'</span>]].head(<span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="23">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">modzcta</th>
+<th data-quarto-table-cell-role="th">boundary</th>
+<th data-quarto-table-cell-role="th">centroid</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>10001</td>
+<td>LINESTRING (-8236278.03 4974664.364, -8236327....</td>
+<td>POINT (-8237323.727 4975637.524)</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>10002</td>
+<td>LINESTRING (-8237364.444 4970258.308, -8237318...</td>
+<td>POINT (-8236103.249 4970509.323)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>10003</td>
+<td>LINESTRING (-8236377.258 4971559.548, -8236390...</td>
+<td>POINT (-8236435.551 4972866.281)</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Suppose we want to find the distance between two centroids. The current active geometry column is the shape data. Run <code>gdf.geometry = gdf['centroid']</code> to switch the active geometry.</p>
+<div id="6f8f86b5" class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># switch active geometry to centroid info</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>gdf.geometry <span class="op">=</span> gdf[<span class="st">'centroid'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Then we can calculate the distance between the first two centroids with <code>distance()</code>.</p>
+<div id="07ccf065" class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># find distance between first two centroids</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>gdf.geometry[<span class="dv">0</span>].distance(gdf.geometry[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="25">
+<pre><code>5271.432980923517</code></pre>
+</div>
+</div>
+<section id="plotting-with-geopandas" class="level4" data-number="5.5.2.1">
+<h4 data-number="5.5.2.1" class="anchored" data-anchor-id="plotting-with-geopandas"><span class="header-section-number">5.5.2.1</span> Plotting with GeoPandas</h4>
+<p>GeoPandas also includes some basic plotting functionality. Similar to Pandas, <code>plot()</code> will generate visuals using matplotlib.</p>
+<div id="c41586a5" class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot NYC zip codes with color mapping by area</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>gdf.geometry <span class="op">=</span> gdf[<span class="st">'geometry'</span>] <span class="co"># must switch active geometry back first</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>gdf.plot(<span class="st">'area'</span>, legend<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="manipulation_files/figure-html/cell-29-output-1.png" width="492" height="442" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Interactive maps can also be generated using <code>explore</code>, but you will need to install optional dependencies. An alternative approach is the package gmplot, which we’ll discuss next. First though, here is a list of common GeoPandas methods we’ve not yet covered.</p>
+<ul>
+<li><code>to_file()</code>: save <code>GeoDataFrame</code> to a geospatial file (.shp, .GEOjson, etc.)</li>
+<li><code>length()</code>: calculate the length of a geometry, useful for linestrings</li>
+<li><code>instersects()</code>: check if one geometry intersects with another</li>
+<li><code>contains()</code>: check if one geometry contains another</li>
+<li><code>buffer()</code>: create a buffer of specified size around a geometry</li>
+<li><code>equals()</code>: check if the CRS of two objects is the same</li>
+<li><code>is_valid()</code>: check for invalid geometries</li>
+</ul>
+</section>
+</section>
+<section id="gmplot" class="level3" data-number="5.5.3">
+<h3 data-number="5.5.3" class="anchored" data-anchor-id="gmplot"><span class="header-section-number">5.5.3</span> gmplot</h3>
+<section id="google-maps-api" class="level4" data-number="5.5.3.1">
+<h4 data-number="5.5.3.1" class="anchored" data-anchor-id="google-maps-api"><span class="header-section-number">5.5.3.1</span> Google Maps API</h4>
+<p>An API key is not necessary to create visuals with gmplot, but it is highly recommended. Without a key, any generated output will be dimmed and have a watermark.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/spatial_data_visuals/no_api_ex.png" class="img-fluid figure-img"></p>
+<figcaption>Example with no API key</figcaption>
+</figure>
+</div>
+<p>The process to create an API key is very simple. Go <a href="https://developers.google.com/maps">here</a> and click on <strong>Get Started</strong>. It requires some credit card information, but you start on a free trial with $300 of credit. You will not be charged unless you select <strong>activate full account</strong>.</p>
+<p>There are some configuration options you can set for your key. Google has many different APIs, but gmplot only requires the <em>Maps Javascript API</em>.</p>
+</section>
+<section id="creating-plots-with-gmplot" class="level4" data-number="5.5.3.2">
+<h4 data-number="5.5.3.2" class="anchored" data-anchor-id="creating-plots-with-gmplot"><span class="header-section-number">5.5.3.2</span> Creating Plots with gmplot</h4>
+<p>gmplot is designed to mimic matplotlib, so the syntax should feel similar. The class <code>GoogleMapPlotter</code> provides the core functionality of the package.</p>
+<div id="7794a17a" class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> gmplot</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>apikey <span class="op">=</span> <span class="bu">open</span>(<span class="st">'gmapKey.txt'</span>).read().strip() <span class="co"># read in API key</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a><span class="co"># plot map centered at NYC with zoom = 11</span></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>gmap <span class="op">=</span> gmplot.GoogleMapPlotter(<span class="fl">40.5665</span>, <span class="op">-</span><span class="fl">74.1697</span>, <span class="dv">11</span>, apikey<span class="op">=</span>apikey)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Note:</strong> To render the classnotes on your computer, you will need to create the text file <code>gmapKey.txt</code> and store your Google Maps API key there.</p>
+<p>The arguments include:</p>
+<ul>
+<li>The latitude and longitude of NYC</li>
+<li>The level of zoom</li>
+<li>API key (even if it’s not used directly)</li>
+<li>more optional arguments for further customization</li>
+</ul>
+</section>
+</section>
+<section id="making-maps-with-nyc-zip-code-data" class="level3" data-number="5.5.4">
+<h3 data-number="5.5.4" class="anchored" data-anchor-id="making-maps-with-nyc-zip-code-data"><span class="header-section-number">5.5.4</span> Making Maps with NYC Zip Code Data</h3>
+<p>Let’s display the largest zip code by area in NYC.</p>
+<div id="e01a094b" class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>gdf <span class="op">=</span> gdf.to_crs(epsg<span class="op">=</span><span class="dv">4326</span>) <span class="co"># convert CRS to plot by latitude and longitude</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>largest_zip <span class="op">=</span> gdf[<span class="st">'geometry'</span>][gdf[<span class="st">'area'</span>].idxmax()] <span class="co"># returns Shapely POLYGON</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>coords <span class="op">=</span> <span class="bu">list</span>(largest_zip.exterior.coords) <span class="co"># unpack boundary coordinates</span></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>lats <span class="op">=</span> [lat <span class="cf">for</span> lon, lat <span class="kw">in</span> coords]</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>lons <span class="op">=</span> [lon <span class="cf">for</span> lon, lat <span class="kw">in</span> coords]</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a><span class="co"># plot shape of zip code</span></span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>gmap.polygon(lats, lons, face_color<span class="op">=</span><span class="st">'green'</span>, edge_color<span class="op">=</span><span class="st">'blue'</span>, edge_width<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a><span class="co"># gmap.draw('largest_zip.html')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>After creating the plot, <code>gmap.draw('filename')</code> saves it as an HTML file in the current working directory, unless another location is specified. In the classnotes, all outputs will be shown as a PNG image.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/spatial_data_visuals/largest_zip.png" class="img-fluid figure-img"></p>
+<figcaption>Largest NYC Zip Code by area</figcaption>
+</figure>
+</div>
+<p>Let’s also plot the centriod of this zip code, and include a link to gmplot’s documentation (in the classnotes this link won’t work because the PNG is used).</p>
+<div id="40df4d64" class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>gdf.geometry <span class="op">=</span> gdf[<span class="st">'centroid'</span>] <span class="co"># now working with new geometry column</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>gdf <span class="op">=</span> gdf.to_crs(epsg<span class="op">=</span><span class="dv">4326</span>) <span class="co"># convert CRS to plot by latitude and longitude</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>centroid <span class="op">=</span> gdf[<span class="st">'centroid'</span>][gdf[<span class="st">'area'</span>].idxmax()] <span class="co"># returns Shapely POINT</span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the point with info window</span></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>gmap.marker(centroid.y, centroid.x, title<span class="op">=</span><span class="st">'Center of Zip Code'</span>,</span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>            info_window<span class="op">=</span><span class="st">"&lt;a href='https://github.com/gmplot/gmplot/wiki'&gt;gmplot docs&lt;/a&gt;"</span>)</span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the polygon</span></span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>gmap.polygon(lats, lons, face_color<span class="op">=</span><span class="st">'green'</span>, edge_color<span class="op">=</span><span class="st">'blue'</span>, edge_width<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a><span class="co"># gmap.draw('zip_w_marker.html')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here’s the output:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/spatial_data_visuals/zip_w_marker.png" class="img-fluid figure-img"></p>
+<figcaption>Center of largest NYC Zip Code</figcaption>
+</figure>
+</div>
+<section id="other-features-of-gmplot" class="level4" data-number="5.5.4.1">
+<h4 data-number="5.5.4.1" class="anchored" data-anchor-id="other-features-of-gmplot"><span class="header-section-number">5.5.4.1</span> Other Features of gmplot</h4>
+<ul>
+<li><code>directions()</code>: draw directions from one point to another</li>
+<li><code>scatter()</code>: plot a collection of points</li>
+<li><code>heatmap()</code>: plot a heatmap</li>
+<li><code>enable_marker_dropping()</code>: click on map to create/remove markers</li>
+<li><code>from_geocode()</code>: use name of location instead of coordinates</li>
+<li>see docs for more</li>
+</ul>
+<p>You can also change the map type when you create an instance of <code>GoogleMapPlotter</code>.</p>
+<div id="f3966db3" class="cell" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create hybrid type map</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>gmap <span class="op">=</span> gmplot.GoogleMapPlotter(<span class="fl">40.776676</span>, <span class="op">-</span><span class="fl">73.971321</span>, <span class="fl">11.5</span>, apikey<span class="op">=</span>apikey,</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>                               map_type<span class="op">=</span><span class="st">'hybrid'</span>)</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="co"># gmap.draw('nyc_hybrid.html')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/spatial_data_visuals/nyc_hybrid.png" class="img-fluid figure-img"></p>
+<figcaption>Hybrid map of NYC</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="summary" class="level3" data-number="5.5.5">
+<h3 data-number="5.5.5" class="anchored" data-anchor-id="summary"><span class="header-section-number">5.5.5</span> Summary</h3>
+<p>Geopandas is a powerful tool for handling spatial data and operations. It builds on regular Pandas by introducing two new data structures, the <code>GeoSeries</code> and <code>GeoDataFrame</code>. Under the hood, Shapely handles geometric operations.</p>
+<p>The package gmplot is a simple yet dynamic tool that overlays spatial data onto interactive Google maps. It does so through the class <code>GoogleMapPlotter</code>, which offers an alternative to Geopandas’ built in graphing methods for simple plots.</p>
+
+
+</section>
 </section>
 
 </main> <!-- /main -->
