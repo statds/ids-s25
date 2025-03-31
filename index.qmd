@@ -341,7 +341,7 @@ Please use the following table to sign up.
    03/12 |  Edo, Mezmur Wossenu      | Principal Component Analysis (PCA)
    03/26 |  Alsadadi, Ammar Shaker     | Sentiment Analysis with Python 
    03/26 |  Fables, Xavier Milan     |
-   03/31 |  Tamhane, Shubhan     |
+   03/31 |  Tamhane, Shubhan     | Support Vector Machine
    03/31 |  Nasejje, Ruth Nicole     | Personal webpage on GitHub
    04/02 |  Lagutin, Vladislav     | Google Maps visualizations using Folium library
    04/02 |  Zhang, Gaofei    | Random forest
