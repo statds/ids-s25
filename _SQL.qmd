@@ -1,10 +1,9 @@
 ## Introduction to SQL
 
-* My name is Alyssa Horn. I am a junior Applied Data Analysis major
-with a domain in Public Policy/Management. I plan on graduating in
-December of 2025.
+* This section was prepared by Alyssa Horn, a junior Applied Data Analysis major
+with a domain in Public Policy/Management.
 
-* This presentation explores database operations using SQL in Python,
+* This section explores database operations using SQL in Python,
 focusing on the contributing_factor_vehicle_1 column of the NYC crash
 dataset. We'll use Python's **sqlite3** and **pandas** libraries for database
 interaction.
@@ -80,6 +79,11 @@ interacting with any database.
 
 #### Read in the datatset and store dataframe as SQL table
 
+We start by importing necessary packages and reading in the
+cleaned nyccrashes feather. 
+
+* Use `data.to_sql` to store dataframe as an SQL table. 
+
 ```{python}
 #| echo: true       # Show the code
 #| output: true     # Show the output
@@ -109,6 +113,9 @@ data.to_sql('nyc_crashes', conn, if_exists='replace', index=False)
 
 #### Display the Table
 
+We can display the table by querying all (or some) of the data and 
+using the `.head()` command 
+
 ```{python}
 #| echo: true       # Show the code
 #| output: true     # Show the output
@@ -126,6 +133,9 @@ nyc_crashes_data.head(5)
 ### Normalizing the Database with a Lookup Table
 
 #### Create the lookup table
+
+Create the lookup table using the `create table` command
+with the corresponding column names. 
 
 ```{python}
 #| echo: true       # Show the code
@@ -145,6 +155,9 @@ print("Lookup table created successfully.")
 
 #### Populate the Lookup Table with Distinct Values
 
+Populate the lookup table with the values contained in 
+contributing_factor_vehicle_1.
+
 ```{python}
 #| echo: true       # Show the code
 #| output: true     # Show the output
@@ -160,6 +173,8 @@ print("Lookup table populated with distinct contributing factors.")
 
 #### Update the Original Table to Include factor_id
 
+Use `ALTER TABLE` to add factor_id column into original table. 
+
 ```{python}
 #| echo: true       # Show the code
 #| output: true     # Show the output
@@ -171,6 +186,8 @@ print("Added 'factor_id' column to nyc_crashes table.")
 ```
 
 #### Update the Original Table with Corresponding Codes
+
+Use `UPDATE` command to update table with factor descriptions.
 
 ```{python}
 #| echo: true       # Show the code
@@ -189,6 +206,9 @@ print("Updated nyc_crashes with corresponding factor IDs.")
 ```
 
 #### Query with a Join to Retrieve Full Descriptions
+
+Use `JOIN` command to recieve contributing factor descriptions
+from factor_id.
 
 ```{python}
 #| echo: true       # Show the code
@@ -212,6 +232,10 @@ result_df.head()
 ```
 
 #### Display Table With factor.id
+
+Since we added factor_id column to dataframe, we can 
+now display the table including the factor_id column
+using a query.
 
 ```{python}
 #| echo: true       # Show the code
@@ -259,6 +283,9 @@ conn.commit()
 
 #### Verify the record exists
 
+We can use a query for a specific data point to verify if addition
+was successful. 
+
 ```{python}
 #| echo: true       # Show the code
 #| output: true     # Show the output
@@ -297,6 +324,9 @@ conn.commit()
 
 #### Verify the deletion
 
+We can use a query for a specific data point to verify if deletion
+was successful. 
+
 ```{python}
 #| echo: true       # Show the code
 #| output: true     # Show the output
@@ -327,6 +357,9 @@ a DataFrame
 
 #### Query to find distinct contributing factors
 
+This query selects the distinct contributing factors
+from the contributing_factor_vehicle_1 column. 
+
 ```{python}
 #| echo: true       # Show the code
 #| output: true     # Show the output
@@ -340,6 +373,9 @@ factors.head(5)
 ---
 
 #### Can query using factor.id
+
+This query selects the distinct contributing factors
+using the factor_id column. 
 
 ```{python}
 #| echo: true       # Show the code
@@ -382,6 +418,9 @@ factor_count.head(10)
 ```
 
 ### Visualizing Analysis
+
+Can use Plotnine to visualize our Analysis for contributing_factor_vehicle_1
+in a chart.
 
 ```{python}
 #| echo: true       # Show the code
