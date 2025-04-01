@@ -348,7 +348,7 @@ Please use the following table to sign up.
    04/02 |  Lagutin, Vladislav     | Google Maps visualizations using Folium library
    04/02 |  Zhang, Gaofei    | Random forest
    04/07 |  Long, Ethan Kenneth     | Synthetic Minority Oversampling Technique (SMOTE)
-   04/07 |  Xu, Peiwen   | 
+   04/07 |  Xu, Peiwen   | Developing a Python package
    04/09 |  Kravette, Noah   | Working with NetCDF Data 
    04/09 |  Symula, Sebastian   | Imputation Methods for Missing Data
    04/09 |  Tomaino, Mario Anthony   | 
