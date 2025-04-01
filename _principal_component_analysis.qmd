@@ -89,7 +89,7 @@ n_samples = 200
 #generate a 2D dataset with 200 entries from 
 #a multivariate normal distribution
 X = rng.multivariate_normal(mean=[0,0], \
-							cov=[[3, 3], [3, 4]], size=n_samples)
+cov=[[3, 3], [3, 4]], size=n_samples)
 
 #perform PCA on the generated data to find 
 #the two principal components
