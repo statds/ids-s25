@@ -194,8 +194,6 @@ correcting the errors of the previous ensemble. Gradient boosting, one
 of the most popular variants, optimizes a loss function by iteratively 
 adding trees that reduce the residual errors of the current ensemble. 
 
-
-
 ### Introduction
 
 Boosted trees build on the general concept of boosting, which aims to 
@@ -205,6 +203,7 @@ as "stumps," and they are added sequentially to the model. At each
 step, a new tree focuses on the training instances that are hardest to 
 predict, improving overall accuracy. This iterative focus on "hard-to-
 predict" instances is the defining characteristic of boosting.
+
 
 The effectiveness of boosted trees has made them popular for various 
 tasks, including classification, regression, and ranking. They also 
@@ -224,16 +223,15 @@ true value and $F(x)$ is the model's prediction.
 
 The boosting process can be delineated as follows:
 
-1. **Initialization**: 
+1. Initialization: 
    Start with a base model $F_0(x)$, which is usually the mean of the 
    target variable in regression or the log odds in classification:
 
    - For regression: $F_0(x) = \text{mean}(y_i)$.
    - For classification: 
-   $F_0(x) = \log \left( \frac{P(y=1)}{1-P(y=1)} \right)$.
+   $F_0(x) = \log \left( \frac{\Pr(y = 1)}{1 - \Pr(y = 1)} \right)$.
 
-2. **Iterative Boosting**:
-   
+2. Iterative Boosting:
    At each iteration $m$:
    
    - Compute the pseudo-residuals, representing the negative 
@@ -263,8 +261,7 @@ The boosting process can be delineated as follows:
      controls the contribution of each tree, ensuring incremental 
      improvements and reducing the risk of overfitting.
 
-3. **Final Model**:
-   
+3. Final Model:
    After $M$ iterations, the ensemble model is given by:
 
    $$
@@ -278,21 +275,22 @@ The boosting process can be delineated as follows:
 
 ### Key Concepts
 
-1. **Loss Function**: The loss function measures the discrepancy 
+1. _Loss Function_: The loss function measures the discrepancy 
    between the actual and predicted values. It guides the model 
    updates. Common choices include:
    
    - Squared error for regression: 
-     $L(y, F(x)) = \frac{1}{2} (y - F(x))^2$.
-   - Logistic loss for binary classification: 
-     $L(y, F(x)) = \log(1 + \exp(-y \, F(x)))$.
+     $L(y, F(x)) = \frac{1}{2} (y - F(x))^2$. Pseudo-residuals are
+     exactly residuals.
+   - Logistic loss for binary classification: Log likelihood of
+     Bernoulli data.
 
-2. **Learning Rate**: The learning rate scales the contribution of 
+2. _Learning Rate_: The learning rate scales the contribution of 
    each tree and helps control the speed of learning. A smaller 
    learning rate typically requires more trees but results in a more 
    robust model with better generalization.
 
-3. **Regularization**: Boosted trees incorporate regularization to 
+3. _Regularization_: Boosted trees incorporate regularization to 
    avoid overfitting, including:
    
    - Tree depth: Limits the maximum depth of each tree, reducing 
@@ -310,15 +308,15 @@ of the ensemble at each step, distinguishes gradient boosting from
 other ensemble methods like bagging or random forests. Key reasons 
 for its effectiveness include:
 
-1. **Error Correction**: By focusing on the hardest-to-predict 
+1. Error Correction: By focusing on the hardest-to-predict 
    instances, boosting gradually improves model accuracy, leading to 
    better performance than models trained independently.
    
-2. **Weighted Learning**: Boosting adjusts the weights of training 
+2. Weighted Learning: Boosting adjusts the weights of training 
    samples based on errors, ensuring that the model learns 
    disproportionately from difficult cases, reducing bias.
 
-3. **Flexibility**: Boosted trees can handle various loss functions, 
+3. Flexibility: Boosted trees can handle various loss functions, 
    making them suitable for different types of tasks, including 
    regression, classification, and ranking.
 
@@ -330,11 +328,12 @@ favored in machine learning competitions due to their interpretability
 and robustness. Popular implementations include:
 
 - XGBoost: Known for its speed and performance, with features like 
-  regularization, column sampling, and advanced tree pruning.
+  regularization, random subsampling, and advanced tree pruning.
 - LightGBM: Optimized for speed and scalability, using histogram-
   based algorithms to handle large datasets efficiently.
 - CatBoost: Effective with categorical features, using advanced 
   encoding techniques and built-in support for categorical variables.
+
 
 <!-- {{< include _naivebayes.qmd >}} -->
 
