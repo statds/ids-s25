@@ -1,20 +1,4 @@
----
-title: "A Grammar of Graphics Primer with Plotnine"
-author: "Luke Roy"
-format: 
-    revealjs:
-        code-overflow: wrap
-        code-wrap: true
-        code-block-bg: true
-        code-copy: true
-
-
-        
-
-execute: 
-  echo: true
-
----
+## A Grammar of Graphics Primer with Plotnine
 
 ## 📊 Part 1 - What is Grammar of Graphics?
 ---
