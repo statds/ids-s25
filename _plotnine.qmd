@@ -338,20 +338,25 @@ y="number_of_persons_injured"))
 
 ```{python}
 #| echo: false
+
 # Ensure crash_date is in datetime format
 df["crash_date"] = pd.to_datetime(df["crash_date"])
 
 # Extract day of the week
 df["day_of_week"] = df["crash_date"].dt.day_name()
 
-# Remove rows where borough is NaN
-df = df.dropna(subset=["borough"])
+# Remove rows where borough is NaN, and make a clean copy
+df = df.dropna(subset=["borough"]).copy()
 
 # Count how many times each day appears (Sunday appears twice)
 day_counts = df["day_of_week"].value_counts().to_dict()
 
 # Aggregate injuries by borough and day of the week
-df_borough = df.groupby(["borough", "day_of_week"]).agg({"number_of_persons_injured": "sum"}).reset_index()
+df_borough = (
+    df.groupby(["borough", "day_of_week"])
+      .agg({"number_of_persons_injured": "sum"})
+      .reset_index()
+)
 
 # Apply the Sunday fix to borough-level data
 df_borough["number_of_persons_injured"] = df_borough.apply(
@@ -361,13 +366,28 @@ df_borough["number_of_persons_injured"] = df_borough.apply(
 
 # Ensure days are ordered correctly
 day_order = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-df_borough["day_of_week"] = pd.Categorical(df_borough["day_of_week"], categories=day_order, ordered=True)
+df_borough["day_of_week"] = pd.Categorical(
+    df_borough["day_of_week"],
+    categories=day_order,
+    ordered=True
+)
 
-# Create day and night
-df["crash_time"] = pd.to_datetime(df["crash_time"], format="%H:%M").dt.hour
-df["time_of_day"] = df["crash_time"].apply(lambda h: "Day" if 6 <= h < 18 else "Night")
+# Extract crash hour from various formats like "23", "07", or "23:15"
+def extract_hour(time_str):
+    try:
+        return pd.to_datetime(time_str, format="%H:%M").hour
+    except ValueError:
+        try:
+            return int(time_str)
+        except:
+            return None
 
+df["crash_hour"] = df["crash_time"].apply(extract_hour)
 
+# Classify each crash as Day or Night
+df["time_of_day"] = df["crash_hour"].apply(
+    lambda h: "Day" if pd.notnull(h) and 6 <= h < 18 else "Night"
+)
 
 
 ```
@@ -427,7 +447,5 @@ y="number_of_persons_injured", fill="day_of_week")) +
 Plotnine is a powerful grammar of graphics based visualization tool.
 
 With it you can create beautiful, informative and professional looking plots.
-
-Thank you for listening to my presentation.
 
 ---
