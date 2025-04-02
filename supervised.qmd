@@ -63,8 +63,8 @@ effectively.
 
 Formally, let the feature set be $\{X_1, X_2, \ldots, X_p\}$, where 
 $p$ is the total number of features, and let the unique values of 
-feature $ X_j $ at node $ m $ be denoted by 
-$\{v_{j,1}, v_{j,2}, \ldots, v_{j,k_j}\} $. The search space at node
+feature $X_j$ at node $m$ be denoted by 
+$\{v_{j,1}, v_{j,2}, \ldots, v_{j,k_j}\}$. The search space at node
 $m$ includes:
 
 
