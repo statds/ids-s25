@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 /* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
@@ -243,13 +277,11 @@ window.Quarto = {
   <li><a href="#search-space-for-possible-splits" id="toc-search-space-for-possible-splits" class="nav-link" data-scroll-target="#search-space-for-possible-splits"><span class="header-section-number">8.1.2</span> Search Space for Possible Splits</a></li>
   <li><a href="#metrics" id="toc-metrics" class="nav-link" data-scroll-target="#metrics"><span class="header-section-number">8.1.3</span> Metrics</a></li>
   </ul></li>
-  <li><a href="#boosted-trees" id="toc-boosted-trees" class="nav-link" data-scroll-target="#boosted-trees"><span class="header-section-number">8.2</span> Boosted Trees</a>
+  <li><a href="#gradient-boosted-models" id="toc-gradient-boosted-models" class="nav-link" data-scroll-target="#gradient-boosted-models"><span class="header-section-number">8.2</span> Gradient-Boosted Models</a>
   <ul class="collapse">
   <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction"><span class="header-section-number">8.2.1</span> Introduction</a></li>
-  <li><a href="#boosting-process" id="toc-boosting-process" class="nav-link" data-scroll-target="#boosting-process"><span class="header-section-number">8.2.2</span> Boosting Process</a></li>
-  <li><a href="#key-concepts" id="toc-key-concepts" class="nav-link" data-scroll-target="#key-concepts"><span class="header-section-number">8.2.3</span> Key Concepts</a></li>
-  <li><a href="#why-boosting-works" id="toc-why-boosting-works" class="nav-link" data-scroll-target="#why-boosting-works"><span class="header-section-number">8.2.4</span> Why Boosting Works</a></li>
-  <li><a href="#applications-and-popular-implementations" id="toc-applications-and-popular-implementations" class="nav-link" data-scroll-target="#applications-and-popular-implementations"><span class="header-section-number">8.2.5</span> Applications and Popular Implementations</a></li>
+  <li><a href="#gradient-boosting-process" id="toc-gradient-boosting-process" class="nav-link" data-scroll-target="#gradient-boosting-process"><span class="header-section-number">8.2.2</span> Gradient Boosting Process</a></li>
+  <li><a href="#demonstration" id="toc-demonstration" class="nav-link" data-scroll-target="#demonstration"><span class="header-section-number">8.2.3</span> Demonstration</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -300,7 +332,7 @@ G(Q_m, \theta) = \frac{n_{m,l}}{n_m} H(Q_{m,l}(\theta)) +
 <section id="search-space-for-possible-splits" class="level3" data-number="8.1.2">
 <h3 data-number="8.1.2" class="anchored" data-anchor-id="search-space-for-possible-splits"><span class="header-section-number">8.1.2</span> Search Space for Possible Splits</h3>
 <p>At each node in the decision tree, the search space for possible splits comprises all features in the dataset and potential thresholds derived from the values of each feature. For a given feature, the algorithm considers each unique value in the current node’s subset as a possible split point. The potential thresholds are typically set as midpoints between consecutive unique values, ensuring the data is partitioned effectively.</p>
-<p>Formally, let the feature set be <span class="math inline">\(\{X_1, X_2, \ldots, X_p\}\)</span>, where <span class="math inline">\(p\)</span> is the total number of features, and let the unique values of feature $ X_j $ at node $ m $ be denoted by ${v_{j,1}, v_{j,2}, , v_{j,k_j}} <span class="math inline">\(. The search space at node\)</span>m$ includes:</p>
+<p>Formally, let the feature set be <span class="math inline">\(\{X_1, X_2, \ldots, X_p\}\)</span>, where <span class="math inline">\(p\)</span> is the total number of features, and let the unique values of feature <span class="math inline">\(X_j\)</span> at node <span class="math inline">\(m\)</span> be denoted by <span class="math inline">\(\{v_{j,1}, v_{j,2}, \ldots, v_{j,k_j}\}\)</span>. The search space at node <span class="math inline">\(m\)</span> includes:</p>
 <ul>
 <li>Feature candidates: <span class="math inline">\(\{X_1, X_2, \ldots, X_p\}\)</span>.</li>
 <li>Threshold candidates for <span class="math inline">\(X_j\)</span>: <span class="math display">\[
@@ -353,85 +385,87 @@ H(Q_m) = \frac{1}{n_m} \sum_{i=1}^{n_m} |y_i - \bar{y}_m|.
 </section>
 </section>
 </section>
-<section id="boosted-trees" class="level2" data-number="8.2">
-<h2 data-number="8.2" class="anchored" data-anchor-id="boosted-trees"><span class="header-section-number">8.2</span> Boosted Trees</h2>
-<p>Boosted trees are a powerful ensemble technique in machine learning that combine multiple weak learners, typically decision trees, into a strong learner. Unlike bagging methods, which train trees independently, boosting fits models sequentially, with each new model correcting the errors of the previous ensemble. Gradient boosting, one of the most popular variants, optimizes a loss function by iteratively adding trees that reduce the residual errors of the current ensemble.</p>
+<section id="gradient-boosted-models" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="gradient-boosted-models"><span class="header-section-number">8.2</span> Gradient-Boosted Models</h2>
+<p>Gradient boosting is a powerful ensemble technique in machine learning that combines multiple weak learners into a strong predictive model. Unlike bagging methods, which train models independently, gradient boosting fits models sequentially, with each new model correcting errors made by the previous ensemble <span class="citation" data-cites="friedman2001greedy">(<a href="references.html#ref-friedman2001greedy" role="doc-biblioref">Friedman, 2001</a>)</span>. While decision trees are commonly used as weak learners, gradient boosting can be generalized to other base models. This iterative method optimizes a specified loss function by repeatedly adding models designed to reduce residual errors.</p>
 <section id="introduction" class="level3" data-number="8.2.1">
 <h3 data-number="8.2.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">8.2.1</span> Introduction</h3>
-<p>Boosted trees build on the general concept of boosting, which aims to create a strong predictor from a series of weak predictors. In boosted trees, the weak learners are shallow decision trees, often referred to as “stumps,” and they are added sequentially to the model. At each step, a new tree focuses on the training instances that are hardest to predict, improving overall accuracy. This iterative focus on “hard-to- predict” instances is the defining characteristic of boosting.</p>
-<p>The effectiveness of boosted trees has made them popular for various tasks, including classification, regression, and ranking. They also form the foundation for algorithms like XGBoost, LightGBM, and CatBoost, known for their speed and scalability.</p>
+<p>Gradient boosting builds on the general concept of boosting, aiming to construct a strong predictor from an ensemble of sequentially trained weak learners. The weak learners are often shallow decision trees (stumps), linear models, or generalized additive models <span class="citation" data-cites="hastie2009elements">(<a href="references.html#ref-hastie2009elements" role="doc-biblioref">Hastie et al., 2009</a>)</span>. Each iteration adds a new learner focusing primarily on the data points poorly predicted by the existing ensemble, thereby progressively enhancing predictive accuracy.</p>
+<p>Gradient boosting’s effectiveness stems from:</p>
+<ul>
+<li>Error Correction: Each iteration specifically targets previous errors, refining predictive accuracy.</li>
+<li>Weighted Learning: Iteratively focuses more heavily on difficult-to-predict data points.</li>
+<li>Flexibility: Capable of handling diverse loss functions and various types of predictive tasks.</li>
+</ul>
+<p>The effectiveness of gradient-boosted models has made them popular across diverse tasks, including classification, regression, and ranking. Gradient boosting forms the foundation for algorithms such as XGBoost <span class="citation" data-cites="chen2016xgboost">(<a href="references.html#ref-chen2016xgboost" role="doc-biblioref">Chen &amp; Guestrin, 2016</a>)</span>, LightGBM <span class="citation" data-cites="ke2017lightgbm">(<a href="references.html#ref-ke2017lightgbm" role="doc-biblioref">Ke et al., 2017</a>)</span>, and CatBoost <span class="citation" data-cites="prokhorenkova2018catboost">(<a href="references.html#ref-prokhorenkova2018catboost" role="doc-biblioref">Prokhorenkova et al., 2018</a>)</span>, known for their high performance and scalability.</p>
 </section>
-<section id="boosting-process" class="level3" data-number="8.2.2">
-<h3 data-number="8.2.2" class="anchored" data-anchor-id="boosting-process"><span class="header-section-number">8.2.2</span> Boosting Process</h3>
-<p>The boosting process in gradient boosted trees builds an ensemble by adding trees iteratively, each designed to minimize the residual errors from the combined predictions of the previous trees. This iterative approach allows the model to refine its predictions by optimizing a loss function, denoted as <span class="math inline">\(L(y, F(x))\)</span>, where <span class="math inline">\(y\)</span> is the true value and <span class="math inline">\(F(x)\)</span> is the model’s prediction.</p>
+<section id="gradient-boosting-process" class="level3" data-number="8.2.2">
+<h3 data-number="8.2.2" class="anchored" data-anchor-id="gradient-boosting-process"><span class="header-section-number">8.2.2</span> Gradient Boosting Process</h3>
+<p>Gradient boosting builds an ensemble by iteratively minimizing the residual errors from previous models. This iterative approach optimizes a loss function, <span class="math inline">\(L(y, F(x))\)</span>, where <span class="math inline">\(y\)</span> represents the observed target variable and <span class="math inline">\(F(x)\)</span> the model’s prediction for a given feature vector <span class="math inline">\(x\)</span>.</p>
+<p>Key concepts:</p>
+<ul>
+<li>Loss Function: Guides model optimization, such as squared error for regression or logistic loss for classification.</li>
+<li>Learning Rate: Controls incremental updates, balancing training speed and generalization.</li>
+<li>Regularization: Reduces overfitting through tree depth limitation, subsampling, and L1/L2 penalties.</li>
+</ul>
 <section id="model-iteration" class="level4" data-number="8.2.2.1">
 <h4 data-number="8.2.2.1" class="anchored" data-anchor-id="model-iteration"><span class="header-section-number">8.2.2.1</span> Model Iteration</h4>
-<p>The boosting process can be delineated as follows:</p>
+<p>The gradient boosting algorithm proceeds as follows:</p>
 <ol type="1">
-<li><p><strong>Initialization</strong>: Start with a base model <span class="math inline">\(F_0(x)\)</span>, which is usually the mean of the target variable in regression or the log odds in classification:</p>
+<li><p>Initialization: Define a base model <span class="math inline">\(F_0(x)\)</span>, typically the mean of the target variable for regression or the log-odds for classification.</p></li>
+<li><p>Iterative Boosting: At each iteration <span class="math inline">\(m\)</span>:</p>
 <ul>
-<li>For regression: <span class="math inline">\(F_0(x) = \text{mean}(y_i)\)</span>.</li>
-<li>For classification: <span class="math inline">\(F_0(x) = \log \left( \frac{P(y=1)}{1-P(y=1)} \right)\)</span>.</li>
+<li><p>Compute pseudo-residuals representing the negative gradient of the loss function at the current predictions. For each observation <span class="math inline">\(i\)</span>: <span class="math display">\[
+r_i^{(m)} = -\left.\frac{\partial L(y_i, F(x_i))}{\partial F(x_i)}\right|_{F(x)=F_{m-1}(x)},
+\]</span> where <span class="math inline">\(x_i\)</span> and <span class="math inline">\(y_i\)</span> denote the feature vector and observed value for the <span class="math inline">\(i\)</span>-th observation, respectively.</p></li>
+<li><p>Fit a new weak learner <span class="math inline">\(h_m(x)\)</span> to these residuals.</p></li>
+<li><p>Update the model: <span class="math display">\[
+F_m(x) = F_{m-1}(x) + \eta \, h_m(x),
+\]</span> where <span class="math inline">\(\eta\)</span> is a small positive learning rate (e.g., 0.01–0.1), controlling incremental improvement and reducing overfitting.</p></li>
 </ul></li>
-<li><p><strong>Iterative Boosting</strong>:</p>
-<p>At each iteration <span class="math inline">\(m\)</span>:</p>
-<ul>
-<li><p>Compute the pseudo-residuals, representing the negative gradient of the loss function with respect to the current model predictions. The residuals at iteration <span class="math inline">\(m\)</span> are defined as:</p>
-<p><span class="math display">\[
-r_i^{(m)} = -\left. \frac{\partial L(y_i, F(x_i))}
-{\partial F(x_i)} \right|_{F(x) = F_{m-1}(x)}.
-\]</span></p>
-<p>The residuals guide the next tree to focus on reducing the largest errors from the previous iteration.</p></li>
-<li><p>Fit a new tree <span class="math inline">\(h_m(x)\)</span> to the pseudo-residuals. The new tree is trained to predict the residuals of the current ensemble model, identifying where the model needs the most improvement.</p></li>
-<li><p>Update the model as the sum of the previous model and the newly added tree, scaled by a learning rate <span class="math inline">\(\eta\)</span>:</p>
-<p><span class="math display">\[
-F_m(x) = F_{m-1}(x) + \eta \, h_m(x).
-\]</span></p>
-<p>The learning rate, a small positive number (e.g., 0.01 to 0.1), controls the contribution of each tree, ensuring incremental improvements and reducing the risk of overfitting.</p></li>
-</ul></li>
-<li><p><strong>Final Model</strong>:</p>
-<p>After <span class="math inline">\(M\)</span> iterations, the ensemble model is given by:</p>
-<p><span class="math display">\[
-F_M(x) = F_0(x) + \sum_{m=1}^M \eta \, h_m(x).
-\]</span></p>
-<p>The final model <span class="math inline">\(F_M(x)\)</span> represents the sum of the initial model and the incremental improvements made by each of the <span class="math inline">\(M\)</span> trees, with each tree trained to correct the residuals of the ensemble up to that point.</p></li>
+<li><p>Final Model: After <span class="math inline">\(M\)</span> iterations, the ensemble model is: <span class="math display">\[
+  F_M(x) = F_0(x) + \sum_{m=1}^M \eta \, h_m(x).
+  \]</span></p></li>
 </ol>
+<p>Stochastic gradient boosting is a variant that enhances gradient boosting by introducing randomness through subsampling at each iteration, selecting a random fraction of data points (typically 50%–80%) to fit the model <span class="citation" data-cites="friedman2002stochastic">(<a href="references.html#ref-friedman2002stochastic" role="doc-biblioref">Friedman, 2002</a>)</span>. This randomness helps reduce correlation among trees, improve model robustness, and reduce the risk of overfitting.</p>
 </section>
 </section>
-<section id="key-concepts" class="level3" data-number="8.2.3">
-<h3 data-number="8.2.3" class="anchored" data-anchor-id="key-concepts"><span class="header-section-number">8.2.3</span> Key Concepts</h3>
-<ol type="1">
-<li><p><strong>Loss Function</strong>: The loss function measures the discrepancy between the actual and predicted values. It guides the model updates. Common choices include:</p>
-<ul>
-<li>Squared error for regression: <span class="math inline">\(L(y, F(x)) = \frac{1}{2} (y - F(x))^2\)</span>.</li>
-<li>Logistic loss for binary classification: <span class="math inline">\(L(y, F(x)) = \log(1 + \exp(-y \, F(x)))\)</span>.</li>
-</ul></li>
-<li><p><strong>Learning Rate</strong>: The learning rate scales the contribution of each tree and helps control the speed of learning. A smaller learning rate typically requires more trees but results in a more robust model with better generalization.</p></li>
-<li><p><strong>Regularization</strong>: Boosted trees incorporate regularization to avoid overfitting, including:</p>
-<ul>
-<li>Tree depth: Limits the maximum depth of each tree, reducing model complexity.</li>
-<li>L1/L2 penalties: Regularize the weights of the trees, similar to Lasso and Ridge regression.</li>
-<li>Subsampling: Uses a fraction of the training data at each iteration, making the model more robust to overfitting and improving generalization.</li>
-</ul></li>
-</ol>
-</section>
-<section id="why-boosting-works" class="level3" data-number="8.2.4">
-<h3 data-number="8.2.4" class="anchored" data-anchor-id="why-boosting-works"><span class="header-section-number">8.2.4</span> Why Boosting Works</h3>
-<p>The iterative approach of boosting, focusing on correcting the errors of the ensemble at each step, distinguishes gradient boosting from other ensemble methods like bagging or random forests. Key reasons for its effectiveness include:</p>
-<ol type="1">
-<li><p><strong>Error Correction</strong>: By focusing on the hardest-to-predict instances, boosting gradually improves model accuracy, leading to better performance than models trained independently.</p></li>
-<li><p><strong>Weighted Learning</strong>: Boosting adjusts the weights of training samples based on errors, ensuring that the model learns disproportionately from difficult cases, reducing bias.</p></li>
-<li><p><strong>Flexibility</strong>: Boosted trees can handle various loss functions, making them suitable for different types of tasks, including regression, classification, and ranking.</p></li>
-</ol>
-</section>
-<section id="applications-and-popular-implementations" class="level3" data-number="8.2.5">
-<h3 data-number="8.2.5" class="anchored" data-anchor-id="applications-and-popular-implementations"><span class="header-section-number">8.2.5</span> Applications and Popular Implementations</h3>
-<p>Boosted trees are widely used in real-world applications, ranging from financial risk modeling to predictive maintenance. They are also favored in machine learning competitions due to their interpretability and robustness. Popular implementations include:</p>
-<ul>
-<li>XGBoost: Known for its speed and performance, with features like regularization, column sampling, and advanced tree pruning.</li>
-<li>LightGBM: Optimized for speed and scalability, using histogram- based algorithms to handle large datasets efficiently.</li>
-<li>CatBoost: Effective with categorical features, using advanced encoding techniques and built-in support for categorical variables.</li>
-</ul>
+<section id="demonstration" class="level3" data-number="8.2.3">
+<h3 data-number="8.2.3" class="anchored" data-anchor-id="demonstration"><span class="header-section-number">8.2.3</span> Demonstration</h3>
+<p>Here’s a practical example using <code>scikit-learn</code> to demonstrate gradient boosting on the California housing dataset. First, import necessary libraries and load the data:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> fetch_california_housing</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> GradientBoostingRegressor</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_squared_error</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>housing <span class="op">=</span> fetch_california_housing(as_frame<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>X, y <span class="op">=</span> housing.data, housing.target</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Next, split the dataset into training and testing sets:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Train-test split</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    X, y, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">42</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then, set up and train a stochastic gradient boosting model:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gradient Boosting Model with stochastic subsampling</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>gbm <span class="op">=</span> GradientBoostingRegressor(</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    n_estimators<span class="op">=</span><span class="dv">200</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    learning_rate<span class="op">=</span><span class="fl">0.1</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    max_depth<span class="op">=</span><span class="dv">3</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    subsample<span class="op">=</span><span class="fl">0.7</span>,  <span class="co"># stochastic gradient boosting</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    random_state<span class="op">=</span><span class="dv">42</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>gbm.fit(X_train, y_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Finally, make predictions and evaluate the model performance:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Predictions</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> gbm.predict(X_test)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluate</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>mse <span class="op">=</span> mean_squared_error(y_test, y_pred)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Test MSE: </span><span class="sc">{</span>mse<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <!-- {{< include _naivebayes.qmd >}} -->
 <!-- {{< include _smote.qmd >}} -->
 
@@ -439,6 +473,24 @@ F_M(x) = F_0(x) + \sum_{m=1}^M \eta \, h_m(x).
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
 <div id="ref-breiman1984classification" class="csl-entry" role="listitem">
 Breiman, L., Friedman, J. H., Olshen, R., &amp; Stone, C. J. (1984). <em>Classification and regression trees</em>. Wadsworth.
+</div>
+<div id="ref-chen2016xgboost" class="csl-entry" role="listitem">
+Chen, T., &amp; Guestrin, C. (2016). <span>XGBoost</span>: A scalable tree boosting system. <em>Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining</em>, 785–794.
+</div>
+<div id="ref-friedman2001greedy" class="csl-entry" role="listitem">
+Friedman, J. H. (2001). Greedy function approximation: A gradient boosting machine. <em>The Annals of Statistics</em>, <em>29</em>(5), 1189–1232.
+</div>
+<div id="ref-friedman2002stochastic" class="csl-entry" role="listitem">
+Friedman, J. H. (2002). Stochastic gradient boosting. <em>Computational Statistics &amp; Data Analysis</em>, <em>38</em>(4), 367–378.
+</div>
+<div id="ref-hastie2009elements" class="csl-entry" role="listitem">
+Hastie, T., Tibshirani, R., &amp; Friedman, J. (2009). <em>The elements of statistical learning: Data mining, inference, and prediction</em>. Springer.
+</div>
+<div id="ref-ke2017lightgbm" class="csl-entry" role="listitem">
+Ke, G., Meng, Q., Finley, T., Wang, T., Chen, W., Ma, W., Ye, Q., &amp; Liu, T.-Y. (2017). <span>LightGBM</span>: A highly efficient gradient boosting decision tree. <em>Advances in Neural Information Processing Systems</em>, 3146–3154.
+</div>
+<div id="ref-prokhorenkova2018catboost" class="csl-entry" role="listitem">
+Prokhorenkova, L., Gusev, G., Vorobev, A., Dorogush, A. V., &amp; Gulin, A. (2018). CatBoost: Unbiased boosting with categorical features. <em>Advances in Neural Information Processing Systems</em>, 6638–6648.
 </div>
 </div>
 </section>
