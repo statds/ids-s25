@@ -1,0 +1,717 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "# Python Refreshment {#sec-python}\n",
+        "\n",
+        "You have programmed in Python. Regardless of your skill level, let us\n",
+        "do some refreshing.\n",
+        "\n",
+        "## The Python World\n",
+        "\n",
+        "+ Function: a block of organized, reusable code to complete certain\n",
+        "  task.\n",
+        "+ Module: a file containing a collection of functions, variables, and\n",
+        "  statements.\n",
+        "+ Package: a structured directory containing collections of modules\n",
+        "  and an `__init.py__` file by which the directory is interpreted as a\n",
+        "  package.\n",
+        "+ Library: a collection of related functionality of codes. It is a\n",
+        "  reusable chunk of code that we can use by importing it in our\n",
+        "  program, we can just use it by importing that library and calling\n",
+        "  the method of that library with period(.).\n",
+        "\n",
+        "See, for example, [how to build a Python\n",
+        "libratry](https://medium.com/analytics-vidhya/how-to-create-a-python-library-7d5aea80cc3f).\n",
+        "\n",
+        "\n",
+        "## Standard Library\n",
+        "\n",
+        "Python’s has an extensive standard library that offers a wide range of\n",
+        "facilities as indicated by the long table of contents listed below. \n",
+        "See documentation [online](https://docs.python.org/3/library/).\n",
+        "\n",
+        "> The library contains built-in modules (written in C) that provide access to\n",
+        "> system functionality such as file I/O that would otherwise be inaccessible to\n",
+        "> Python programmers, as well as modules written in Python that provide\n",
+        "> standardized solutions for many problems that occur in everyday\n",
+        "> programming. Some of these modules are explicitly designed to encourage and\n",
+        "> enhance the portability of Python programs by abstracting away\n",
+        "> platform-specifics into platform-neutral APIs.\n",
+        "\n",
+        "\n",
+        "Question: How to get the constant $e$ to an arbitary precision?\n",
+        "\n",
+        "The constant is only represented by a given double precision.\n"
+      ],
+      "id": "8d0c81ff"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "import math\n",
+        "print(\"%0.20f\" % math.e)\n",
+        "print(\"%0.80f\" % math.e)"
+      ],
+      "id": "6f1ef9f2",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Now use package `decimal` to export with an arbitary precision.\n"
+      ],
+      "id": "2a477989"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "import decimal  # for what?\n",
+        "\n",
+        "## set the required number digits to 150\n",
+        "decimal.getcontext().prec = 150\n",
+        "decimal.Decimal(1).exp().to_eng_string()\n",
+        "decimal.Decimal(1).exp().to_eng_string()[2:]"
+      ],
+      "id": "17c9843a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Important Libraries\n",
+        "\n",
+        "+ NumPy\n",
+        "+ pandas\n",
+        "+ matplotlib\n",
+        "+ IPython/Jupyter\n",
+        "+ SciPy\n",
+        "+ scikit-learn\n",
+        "+ statsmodels\n",
+        "\n",
+        "Question: how to draw a random sample from a normal distribution and\n",
+        "evaluate the density and distributions at these points?\n"
+      ],
+      "id": "625fac44"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "from scipy.stats import norm\n",
+        "\n",
+        "mu, sigma = 2, 4\n",
+        "mean, var, skew, kurt = norm.stats(mu, sigma, moments='mvsk')\n",
+        "print(mean, var, skew, kurt)\n",
+        "x = norm.rvs(loc = mu, scale = sigma, size = 10)\n",
+        "x"
+      ],
+      "id": "8501c716",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "The pdf and cdf can be evaluated:\n"
+      ],
+      "id": "aef211ab"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "norm.pdf(x, loc = mu, scale = sigma)"
+      ],
+      "id": "f0659bab",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Writing a Function\n",
+        "\n",
+        "Consider the Fibonacci Sequence\n",
+        "$1, 1, 2, 3, 5, 8, 13, 21, 34, ...$.\n",
+        "The next number is found by adding up the two numbers before it.\n",
+        "We are going to use 3 ways to solve the problems.\n",
+        "\n",
+        "\n",
+        "The first is a recursive solution.\n"
+      ],
+      "id": "80b9b499"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "def fib_rs(n):\n",
+        "    if (n==1 or n==2):\n",
+        "        return 1\n",
+        "    else:\n",
+        "        return fib_rs(n - 1) + fib_rs(n - 2)\n",
+        "\n",
+        "%timeit fib_rs(10)"
+      ],
+      "id": "566e434f",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "The second uses dynamic programming memoization.\n"
+      ],
+      "id": "d332d4dd"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "def fib_dm_helper(n, mem):\n",
+        "    if mem[n] is not None:\n",
+        "        return mem[n]\n",
+        "    elif (n == 1 or n == 2):\n",
+        "        result = 1\n",
+        "    else:\n",
+        "        result = fib_dm_helper(n - 1, mem) + fib_dm_helper(n - 2, mem)\n",
+        "    mem[n] = result\n",
+        "    return result\n",
+        "\n",
+        "def fib_dm(n):\n",
+        "    mem = [None] * (n + 1)\n",
+        "    return fib_dm_helper(n, mem)\n",
+        "\n",
+        "%timeit fib_dm(10)"
+      ],
+      "id": "0e8b499e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "The third is still dynamic programming but bottom-up.\n"
+      ],
+      "id": "f2037458"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "def fib_dbu(n):\n",
+        "    mem = [None] * (n + 1)\n",
+        "    mem[1] = 1;\n",
+        "    mem[2] = 1;\n",
+        "    for i in range(3, n + 1):\n",
+        "        mem[i] = mem[i - 1] + mem[i - 2]\n",
+        "    return mem[n]\n",
+        "\n",
+        "\n",
+        "%timeit fib_dbu(500)"
+      ],
+      "id": "18bce894",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Apparently, the three solutions have very different performance for\n",
+        "larger `n`.\n",
+        "\n",
+        "\n",
+        "### Monty Hall\n",
+        "Here is a function that performs the Monty Hall experiments.\n",
+        "In this version, the host opens only one empty door.\n"
+      ],
+      "id": "4bdefa7a"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "import numpy as np\n",
+        "\n",
+        "def montyhall(ndoors, ntrials):\n",
+        "    doors = np.arange(1, ndoors + 1) / 10\n",
+        "    prize = np.random.choice(doors, size=ntrials)\n",
+        "    player = np.random.choice(doors, size=ntrials)\n",
+        "    host = np.array([np.random.choice([d for d in doors\n",
+        "\t\t\t\t\t\t\t\t\t   if d not in [player[x], prize[x]]])\n",
+        "\t\t\t\t\t for x in range(ntrials)])\n",
+        "    player2 = np.array([np.random.choice([d for d in doors\n",
+        "\t\t\t\t\t\t\t\t\t\t  if d not in [player[x], host[x]]])\n",
+        "\t\t\t\t\t\tfor x in range(ntrials)])\n",
+        "    return {'noswitch': np.sum(prize == player), 'switch': np.sum(prize == player2)}"
+      ],
+      "id": "cbd44602",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Test it out:\n"
+      ],
+      "id": "caea49e2"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "montyhall(3, 1000)\n",
+        "montyhall(4, 1000)"
+      ],
+      "id": "f7a515af",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "The true value for the two strategies with $n$ doors are, respectively,\n",
+        "$1 / n$ and $\\frac{n - 1}{n (n - 2)}$.\n",
+        "\n",
+        "In the homework exercise, the host opens $m$ doors that are empty. An\n",
+        "argument `nempty` could be added to the function.\n",
+        "\n",
+        "## Variables versus Objects\n",
+        "\n",
+        "In Python, variables and the objects they point to actually live in\n",
+        "two different places in the computer memory. Think of variables as\n",
+        "pointers to the objects they’re associated with, rather than being\n",
+        "those objects. This matters when multiple variables point to the same\n",
+        "object.\n"
+      ],
+      "id": "2fd3cb2d"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x = [1, 2, 3]  # create a list; x points to the list\n",
+        "y = x          # y also points to the same list in the memory\n",
+        "y.append(4)    # append to y\n",
+        "x              # x changed!"
+      ],
+      "id": "d47af8bb",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Now check their addresses\n"
+      ],
+      "id": "34777547"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "print(id(x))   # address of x\n",
+        "print(id(y))   # address of y"
+      ],
+      "id": "3f223dee",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Nonetheless, some data types in Python are \"immutable\", meaning that\n",
+        "their values cannot be changed in place. One such example is strings.\n"
+      ],
+      "id": "c817f1f6"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x = \"abc\"\n",
+        "y = x\n",
+        "y = \"xyz\"\n",
+        "x"
+      ],
+      "id": "91d856c1",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Now check their addresses\n"
+      ],
+      "id": "05b6b895"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "print(id(x))   # address of x\n",
+        "print(id(y))   # address of y"
+      ],
+      "id": "72836465",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Question: What's mutable and what's immutable?\n",
+        "\n",
+        "Anything that is a collection of other objects is mutable, except\n",
+        "``tuples``.\n",
+        "\n",
+        "Not all manipulations of mutable objects change the object rather than\n",
+        "create a new object. Sometimes when you do something to a mutable\n",
+        "object, you get back a new object. Manipulations that change an\n",
+        "existing object, rather than create a new one, are referred to as\n",
+        "“in-place mutations” or just “mutations.” So:\n",
+        "\n",
+        "+ __All__ manipulations of immutable types create new objects.\n",
+        "+ __Some__ manipulations of mutable types create new objects.\n",
+        "\n",
+        "Different variables may all be pointing at the same object is\n",
+        "preserved through function calls (a behavior known as “pass by\n",
+        "object-reference”). So if you pass a list to a function, and that\n",
+        "function manipulates that list using an in-place mutation, that change\n",
+        "will affect any variable that was pointing to that same object outside\n",
+        "the function.\n"
+      ],
+      "id": "3113021a"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x = [1, 2, 3]\n",
+        "y = x\n",
+        "\n",
+        "def append_42(input_list):\n",
+        "    input_list.append(42)\n",
+        "    return input_list\n",
+        "\n",
+        "append_42(x)"
+      ],
+      "id": "6a57a48b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Note that both `x` and `y` have been appended by $42$.\n",
+        "\n",
+        "## Number Representation\n",
+        "\n",
+        "Numers in a computer's memory are represented by binary styles (on and\n",
+        "off of bits).\n",
+        "\n",
+        "### Integers\n",
+        "If not careful, It is easy to be bitten by overflow with integers when\n",
+        "using Numpy and Pandas in Python.\n"
+      ],
+      "id": "1b3f452c"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "import numpy as np\n",
+        "\n",
+        "x = np.array(2 ** 63 - 1 , dtype = 'int')\n",
+        "x\n",
+        "# This should be the largest number numpy can display, with\n",
+        "# the default int8 type (64 bits)"
+      ],
+      "id": "646a77d0",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "*Note: on Windows and other platforms, `dtype = 'int'` may have to be changed to `dtype = np.int64` for the code to execute. Source: [Stackoverflow](https://stackoverflow.com/questions/38314118/overflowerror-python-int-too-large-to-convert-to-c-long-on-windows-but-not-ma)*\n",
+        "\n",
+        "What if we increment it by 1?\n"
+      ],
+      "id": "284aef7d"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "y = np.array(x + 1, dtype = 'int')\n",
+        "y\n",
+        "# Because of the overflow, it becomes negative!"
+      ],
+      "id": "62b3c067",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "For vanilla Python, the overflow errors are checked and more digits\n",
+        "are allocated when needed, at the cost of being slow.\n"
+      ],
+      "id": "c6d6489b"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "2 ** 63 * 1000"
+      ],
+      "id": "1ca40c12",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "This number is 1000 times larger than the prior number,\n",
+        "but still displayed perfectly without any overflows\n",
+        "\n",
+        "### Floating Number\n",
+        "\n",
+        "Standard double-precision floating point number uses 64 bits. Among\n",
+        "them, 1 is for sign, 11 is for exponent, and 52 are fraction significand,\n",
+        "See <https://en.wikipedia.org/wiki/Double-precision_floating-point_format>.\n",
+        "The bottom line is that, of course, not every real number is exactly\n",
+        "representable.\n",
+        "\n",
+        "If you have played the Game 24, here is a tricky one:\n"
+      ],
+      "id": "a02b06f9"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "8 / (3 - 8 / 3) == 24"
+      ],
+      "id": "d4fc7f4c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Surprise?\n",
+        "\n",
+        "There are more.\n"
+      ],
+      "id": "25b1c871"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "0.1 + 0.1 + 0.1 == 0.3"
+      ],
+      "id": "12588928",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "0.3 - 0.2 == 0.1"
+      ],
+      "id": "359c22a1",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "What is really going on?\n"
+      ],
+      "id": "c2b9e352"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "import decimal\n",
+        "decimal.Decimal(0.1)"
+      ],
+      "id": "8c3387e7",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "decimal.Decimal(8 / (3 - 8 / 3))"
+      ],
+      "id": "9bd4ba8b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "Because the mantissa bits are limited, it can not represent a floating point\n",
+        "that's both very big and very precise. Most computers can represent all integers\n",
+        "up to $2^{53}$, after that it starts skipping numbers.\n"
+      ],
+      "id": "91c3bb25"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "2.1 ** 53 + 1 == 2.1 ** 53\n",
+        "\n",
+        "# Find a number larger than 2 to the 53rd"
+      ],
+      "id": "2ed0a83d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x = 2.1 ** 53\n",
+        "for i in range(1000000):\n",
+        "    x = x + 1\n",
+        "x == 2.1 ** 53"
+      ],
+      "id": "a21df9e8",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "We add 1 to `x` by 1000000 times, but it still equal to its initial\n",
+        "value,  `2.1 ** 53`. This is because this number is too big that computer\n",
+        "can't handle it with precision like add 1.\n",
+        "\n",
+        "Machine epsilon is the smallest positive floating-point number `x` such that\n",
+        "`1 + x != 1`.\n"
+      ],
+      "id": "4adf623c"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "print(np.finfo(float).eps)\n",
+        "print(np.finfo(np.float32).eps)"
+      ],
+      "id": "1bab1f2e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Virtual Environment {#sec-python-venv}\n",
+        "Virtual environments in Python are essential tools for managing\n",
+        "dependencies and ensuring consistency across projects. They allow\n",
+        "you to create isolated environments for each project, with its\n",
+        "own set of installed packages, separate from the global Python\n",
+        "installation. This isolation prevents conflicts between project\n",
+        "dependencies and versions, making your projects more reliable\n",
+        "and easier to manage. It's particularly useful when working on\n",
+        "multiple projects with differing requirements, or when\n",
+        "collaborating with others who may have different setups.\n",
+        "\n",
+        "\n",
+        "To set up a virtual environment, you first need to ensure that \n",
+        "Python is installed on your system. Most modern Python \n",
+        "installations come with the venv module, which is used to create \n",
+        "virtual environments. Here's how to set one up:\n",
+        "\n",
+        "+ Open your command line interface.\n",
+        "+ Navigate to your project directory.\n",
+        "+ Run `python3 -m venv myenv`, where `myenv` is the name of the\n",
+        "virtual environment to be created. Choose an informative name.\n",
+        "\n",
+        "This command creates a new directory named `myenv` (or your chosen \n",
+        "name) in your project directory, containing the virtual \n",
+        "environment.\n",
+        "\n",
+        "\n",
+        "To start using this environment, you need to activate it. The \n",
+        "activation command varies depending on your operating system:\n",
+        "\n",
+        "+ On Windows, run `myenv\\Scripts\\activate`.\n",
+        "+ On Linux or MacOS, use `source myenv/bin/activate` or\n",
+        "  `. myenv/bin/activate`.\n",
+        "\n",
+        "Once activated, your command line will typically show the name of \n",
+        "the virtual environment, and you can then install and use packages \n",
+        "within this isolated environment without affecting your global \n",
+        "Python setup.\n",
+        "\n",
+        "\n",
+        "To exit the virtual environment, simply type `deactivate` in your \n",
+        "command line. This will return you to your system’s global Python \n",
+        "environment.\n",
+        "\n",
+        "\n",
+        "As an example, let's install a package, like `numpy`, in this\n",
+        "newly created virtual environment:\n",
+        "\n",
+        "+ Ensure your virtual environment is activated.\n",
+        "+ Run `pip install numpy`.\n",
+        "\n",
+        "This command installs the requests library in your virtual \n",
+        "environment. You can verify the installation by running\n",
+        "`pip list`, which should show requests along with its version.\n",
+        "\n",
+        "\n",
+        "## Numpy"
+      ],
+      "id": "fbc61642"
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "name": "python3",
+      "language": "python",
+      "display_name": "Python 3 (ipykernel)",
+      "path": "D:\\software\\Anaconda\\installation\\share\\jupyter\\kernels\\python3"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}
