@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>9&nbsp; Unsupervised Learning – Introduction to Data Science</title>
+<title>10&nbsp; Unsupervised Learning – Introduction to Data Science</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -147,7 +147,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./unsupervised.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Unsupervised Learning</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./unsupervised.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Unsupervised Learning</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -210,32 +210,38 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Data Visualization</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./stats.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Statistical Tests and Models</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Statistical Tests and Models</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./machinelearning.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Machine Learning: Overview</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Machine Learning: Overview</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./supervised.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Supervised Learning</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Supervised Learning</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./unsupervised.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Unsupervised Learning</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Unsupervised Learning</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./exercises.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Exercises</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Exercises</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -254,19 +260,19 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#k-means-clustering" id="toc-k-means-clustering" class="nav-link active" data-scroll-target="#k-means-clustering"><span class="header-section-number">9.1</span> K-Means Clustering</a>
+  <li><a href="#k-means-clustering" id="toc-k-means-clustering" class="nav-link active" data-scroll-target="#k-means-clustering"><span class="header-section-number">10.1</span> K-Means Clustering</a>
   <ul class="collapse">
-  <li><a href="#lloyds-algorithm" id="toc-lloyds-algorithm" class="nav-link" data-scroll-target="#lloyds-algorithm"><span class="header-section-number">9.1.1</span> Lloyd’s Algorithm</a></li>
-  <li><a href="#example-iris-data" id="toc-example-iris-data" class="nav-link" data-scroll-target="#example-iris-data"><span class="header-section-number">9.1.2</span> Example: Iris Data</a></li>
-  <li><a href="#making-predictions-on-new-data" id="toc-making-predictions-on-new-data" class="nav-link" data-scroll-target="#making-predictions-on-new-data"><span class="header-section-number">9.1.3</span> Making Predictions on New Data</a></li>
-  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion"><span class="header-section-number">9.1.4</span> Discussion</a></li>
+  <li><a href="#lloyds-algorithm" id="toc-lloyds-algorithm" class="nav-link" data-scroll-target="#lloyds-algorithm"><span class="header-section-number">10.1.1</span> Lloyd’s Algorithm</a></li>
+  <li><a href="#example-iris-data" id="toc-example-iris-data" class="nav-link" data-scroll-target="#example-iris-data"><span class="header-section-number">10.1.2</span> Example: Iris Data</a></li>
+  <li><a href="#making-predictions-on-new-data" id="toc-making-predictions-on-new-data" class="nav-link" data-scroll-target="#making-predictions-on-new-data"><span class="header-section-number">10.1.3</span> Making Predictions on New Data</a></li>
+  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion"><span class="header-section-number">10.1.4</span> Discussion</a></li>
   </ul></li>
-  <li><a href="#stochastic-neighbor-embedding" id="toc-stochastic-neighbor-embedding" class="nav-link" data-scroll-target="#stochastic-neighbor-embedding"><span class="header-section-number">9.2</span> Stochastic Neighbor Embedding</a>
+  <li><a href="#stochastic-neighbor-embedding" id="toc-stochastic-neighbor-embedding" class="nav-link" data-scroll-target="#stochastic-neighbor-embedding"><span class="header-section-number">10.2</span> Stochastic Neighbor Embedding</a>
   <ul class="collapse">
-  <li><a href="#statistical-rationale" id="toc-statistical-rationale" class="nav-link" data-scroll-target="#statistical-rationale"><span class="header-section-number">9.2.1</span> Statistical Rationale</a></li>
-  <li><a href="#t-sne-variation" id="toc-t-sne-variation" class="nav-link" data-scroll-target="#t-sne-variation"><span class="header-section-number">9.2.2</span> t-SNE Variation</a></li>
-  <li><a href="#supervised-variation" id="toc-supervised-variation" class="nav-link" data-scroll-target="#supervised-variation"><span class="header-section-number">9.2.3</span> Supervised Variation</a></li>
-  <li><a href="#demonstration-with-a-subset-of-the-nist-digits-data" id="toc-demonstration-with-a-subset-of-the-nist-digits-data" class="nav-link" data-scroll-target="#demonstration-with-a-subset-of-the-nist-digits-data"><span class="header-section-number">9.2.4</span> Demonstration with a Subset of the NIST Digits Data</a></li>
+  <li><a href="#statistical-rationale" id="toc-statistical-rationale" class="nav-link" data-scroll-target="#statistical-rationale"><span class="header-section-number">10.2.1</span> Statistical Rationale</a></li>
+  <li><a href="#t-sne-variation" id="toc-t-sne-variation" class="nav-link" data-scroll-target="#t-sne-variation"><span class="header-section-number">10.2.2</span> t-SNE Variation</a></li>
+  <li><a href="#supervised-variation" id="toc-supervised-variation" class="nav-link" data-scroll-target="#supervised-variation"><span class="header-section-number">10.2.3</span> Supervised Variation</a></li>
+  <li><a href="#demonstration-with-a-subset-of-the-nist-digits-data" id="toc-demonstration-with-a-subset-of-the-nist-digits-data" class="nav-link" data-scroll-target="#demonstration-with-a-subset-of-the-nist-digits-data"><span class="header-section-number">10.2.4</span> Demonstration with a Subset of the NIST Digits Data</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -276,7 +282,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Unsupervised Learning</span></h1>
+<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Unsupervised Learning</span></h1>
 </div>
 
 
@@ -293,8 +299,8 @@ window.Quarto = {
 </header>
 
 
-<section id="k-means-clustering" class="level2" data-number="9.1">
-<h2 data-number="9.1" class="anchored" data-anchor-id="k-means-clustering"><span class="header-section-number">9.1</span> K-Means Clustering</h2>
+<section id="k-means-clustering" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="k-means-clustering"><span class="header-section-number">10.1</span> K-Means Clustering</h2>
 <p>So far, we have explored various supervised learning algorithms such as Decision Trees and Random Forests, which rely on labeled data with known outcomes. In contrast, unsupervised learning techniques analyze unlabeled data to identify patterns, making them particularly useful for clustering and association problems. Among these, K-means clustering stands out as one of the simplest and most widely used algorithms.</p>
 <p>K-means clustering aims to divide a dataset into non-overlapping groups based on similarity. Given a set of data points, each represented as a vector in a multi-dimensional space, the algorithm assigns each point to one of <span class="math inline">\(k\)</span> clusters in a way that minimizes the variation within each cluster. This is done by reducing the sum of squared distances between each point and its assigned cluster center. Mathematically, we seek to minimize:</p>
 <p><span class="math display">\[\begin{equation*}
@@ -302,8 +308,8 @@ window.Quarto = {
 \left\|\boldsymbol{x}-\boldsymbol{\mu}_i\right\|^2
 \end{equation*}\]</span></p>
 <p>where <span class="math inline">\(S_i\)</span> represents each cluster and <span class="math inline">\(\boldsymbol{\mu}_i\)</span> is the mean of the points within that cluster.</p>
-<section id="lloyds-algorithm" class="level3" data-number="9.1.1">
-<h3 data-number="9.1.1" class="anchored" data-anchor-id="lloyds-algorithm"><span class="header-section-number">9.1.1</span> Lloyd’s Algorithm</h3>
+<section id="lloyds-algorithm" class="level3" data-number="10.1.1">
+<h3 data-number="10.1.1" class="anchored" data-anchor-id="lloyds-algorithm"><span class="header-section-number">10.1.1</span> Lloyd’s Algorithm</h3>
 <p>K-means clustering is typically solved using Lloyd’s algorithm, which operates iteratively as follows:</p>
 <ol type="1">
 <li>Initialization: Select <span class="math inline">\(k\)</span> initial cluster centroids <span class="math inline">\(\boldsymbol{\mu}_i\)</span> randomly.</li>
@@ -319,8 +325,8 @@ window.Quarto = {
 <li>Termination: The process stops when either the assignments no longer change or a predefined number of iterations is reached.</li>
 </ol>
 </section>
-<section id="example-iris-data" class="level3" data-number="9.1.2">
-<h3 data-number="9.1.2" class="anchored" data-anchor-id="example-iris-data"><span class="header-section-number">9.1.2</span> Example: Iris Data</h3>
+<section id="example-iris-data" class="level3" data-number="10.1.2">
+<h3 data-number="10.1.2" class="anchored" data-anchor-id="example-iris-data"><span class="header-section-number">10.1.2</span> Example: Iris Data</h3>
 <p>K-means clustering can be implemented using the <code>scikit-learn</code> library. Below, we apply it to the Iris dataset.</p>
 <div id="582cf0e3" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -816,8 +822,8 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 </div>
 </div>
 </div>
-<section id="comparing-true-and-predicted-labels" class="level4" data-number="9.1.2.1">
-<h4 data-number="9.1.2.1" class="anchored" data-anchor-id="comparing-true-and-predicted-labels"><span class="header-section-number">9.1.2.1</span> Comparing True and Predicted Labels</h4>
+<section id="comparing-true-and-predicted-labels" class="level4" data-number="10.1.2.1">
+<h4 data-number="10.1.2.1" class="anchored" data-anchor-id="comparing-true-and-predicted-labels"><span class="header-section-number">10.1.2.1</span> Comparing True and Predicted Labels</h4>
 <p>By plotting the results side by side, we can see how well K-means clustering approximates the true labels.</p>
 <div id="48ef2d20" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare true vs. predicted labels</span></span>
@@ -855,8 +861,8 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 </div>
 </section>
 </section>
-<section id="making-predictions-on-new-data" class="level3" data-number="9.1.3">
-<h3 data-number="9.1.3" class="anchored" data-anchor-id="making-predictions-on-new-data"><span class="header-section-number">9.1.3</span> Making Predictions on New Data</h3>
+<section id="making-predictions-on-new-data" class="level3" data-number="10.1.3">
+<h3 data-number="10.1.3" class="anchored" data-anchor-id="making-predictions-on-new-data"><span class="header-section-number">10.1.3</span> Making Predictions on New Data</h3>
 <p>Once trained, the model can classify new data points.</p>
 <div id="6c9c2561" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample test data points</span></span>
@@ -869,8 +875,8 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 </div>
 </div>
 </section>
-<section id="discussion" class="level3" data-number="9.1.4">
-<h3 data-number="9.1.4" class="anchored" data-anchor-id="discussion"><span class="header-section-number">9.1.4</span> Discussion</h3>
+<section id="discussion" class="level3" data-number="10.1.4">
+<h3 data-number="10.1.4" class="anchored" data-anchor-id="discussion"><span class="header-section-number">10.1.4</span> Discussion</h3>
 <p>K-means is intuitive but has limitations:</p>
 <ul>
 <li>Sensitivity to initialization: Poor initialization can yield suboptimal results. <code>k-means++</code> mitigates this issue.</li>
@@ -880,16 +886,16 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 <p>Despite its limitations, K-means is a fundamental tool in exploratory data analysis and practical applications.</p>
 </section>
 </section>
-<section id="stochastic-neighbor-embedding" class="level2" data-number="9.2">
-<h2 data-number="9.2" class="anchored" data-anchor-id="stochastic-neighbor-embedding"><span class="header-section-number">9.2</span> Stochastic Neighbor Embedding</h2>
+<section id="stochastic-neighbor-embedding" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="stochastic-neighbor-embedding"><span class="header-section-number">10.2</span> Stochastic Neighbor Embedding</h2>
 <p>Stochastic Neighbor Embedding (SNE) is a dimensionality reduction technique used to project high-dimensional data into a lower-dimensional space (often 2D or 3D) while preserving local neighborhoods of points. It is particularly popular for visualization tasks, helping to reveal clusters or groupings among similar points. Key characteristics include:</p>
 <ul>
 <li>Unsupervised: It does not require labels, relying on similarity or distance metrics among data points.</li>
 <li>Probabilistic framework: Pairwise distances in the original space are interpreted as conditional probabilities, which SNE attempts to replicate in the lower-dimensional space.</li>
 <li>Common for exploratory data analysis: Especially useful for high-dimensional datasets such as images, text embeddings, or genetic data.</li>
 </ul>
-<section id="statistical-rationale" class="level3" data-number="9.2.1">
-<h3 data-number="9.2.1" class="anchored" data-anchor-id="statistical-rationale"><span class="header-section-number">9.2.1</span> Statistical Rationale</h3>
+<section id="statistical-rationale" class="level3" data-number="10.2.1">
+<h3 data-number="10.2.1" class="anchored" data-anchor-id="statistical-rationale"><span class="header-section-number">10.2.1</span> Statistical Rationale</h3>
 <p>The core idea behind SNE is to preserve local neighborhoods of each point in the data:</p>
 <ol type="1">
 <li><p>For each point <span class="math inline">\(x_i\)</span> in the high-dimensional space, SNE defines a conditional probability <span class="math inline">\(p_{j|i}\)</span> that represents how likely <span class="math inline">\(x_j\)</span> is a neighbor of <span class="math inline">\(x_i\)</span>.</p></li>
@@ -901,8 +907,8 @@ p_{j|i} = \frac{\exp\left(- \| x_i - x_j \|^2 / 2 \sigma_i^2\right)}{\sum_{k \ne
 <li><p>The objective function minimizes the Kullback–Leibler (KL) divergence between the high-dimensional and low-dimensional conditional probabilities, encouraging a faithful representation of local neighborhoods.</p></li>
 </ol>
 </section>
-<section id="t-sne-variation" class="level3" data-number="9.2.2">
-<h3 data-number="9.2.2" class="anchored" data-anchor-id="t-sne-variation"><span class="header-section-number">9.2.2</span> t-SNE Variation</h3>
+<section id="t-sne-variation" class="level3" data-number="10.2.2">
+<h3 data-number="10.2.2" class="anchored" data-anchor-id="t-sne-variation"><span class="header-section-number">10.2.2</span> t-SNE Variation</h3>
 <p>The t-SNE (t-distributed Stochastic Neighbor Embedding) addresses two main issues in the original formulation of SNE:</p>
 <ul>
 <li>The crowding problem: In high dimensions, pairwise distances tend to spread out; in 2D or 3D, they can crowd together. t-SNE uses a Student t-distribution (with one degree of freedom) in the low-dimensional space, which has heavier tails than a Gaussian.</li>
@@ -912,12 +918,12 @@ p_{j|i} = \frac{\exp\left(- \| x_i - x_j \|^2 / 2 \sigma_i^2\right)}{\sum_{k \ne
 q_{ij} = \frac{\bigl(1 + \| y_i - y_j \|^2 \bigr)^{-1}}{\sum_{k \neq l} \bigl(1 + \| y_k - y_l \|^2 \bigr)^{-1}}.
 \]</span> This heavier tail ensures that distant points are not forced too close, thus reducing the crowding effect.</p>
 </section>
-<section id="supervised-variation" class="level3" data-number="9.2.3">
-<h3 data-number="9.2.3" class="anchored" data-anchor-id="supervised-variation"><span class="header-section-number">9.2.3</span> Supervised Variation</h3>
+<section id="supervised-variation" class="level3" data-number="10.2.3">
+<h3 data-number="10.2.3" class="anchored" data-anchor-id="supervised-variation"><span class="header-section-number">10.2.3</span> Supervised Variation</h3>
 <p>Although SNE and t-SNE are fundamentally unsupervised, it is possible to integrate label information. In a supervised variant, distances between similarly labeled points may be reduced (or differently weighted), and additional constraints can be imposed to promote class separation in the lower-dimensional embedding. These approaches can help when partial label information is available and you want to blend supervised and unsupervised insights.</p>
 </section>
-<section id="demonstration-with-a-subset-of-the-nist-digits-data" class="level3" data-number="9.2.4">
-<h3 data-number="9.2.4" class="anchored" data-anchor-id="demonstration-with-a-subset-of-the-nist-digits-data"><span class="header-section-number">9.2.4</span> Demonstration with a Subset of the NIST Digits Data</h3>
+<section id="demonstration-with-a-subset-of-the-nist-digits-data" class="level3" data-number="10.2.4">
+<h3 data-number="10.2.4" class="anchored" data-anchor-id="demonstration-with-a-subset-of-the-nist-digits-data"><span class="header-section-number">10.2.4</span> Demonstration with a Subset of the NIST Digits Data</h3>
 <p>Below is a brief example in Python using t-SNE on a small subset of the MNIST digits (which is itself a curated subset of the original NIST data).</p>
 <div id="a2bad220" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1389,12 +1395,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./supervised.html" class="pagination-link" aria-label="Supervised Learning">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Supervised Learning</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Supervised Learning</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./exercises.html" class="pagination-link" aria-label="Exercises">
-        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Exercises</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Exercises</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

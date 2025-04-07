@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>7&nbsp; Machine Learning: Overview – Introduction to Data Science</title>
+<title>8&nbsp; Machine Learning: Overview – Introduction to Data Science</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -144,7 +144,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./machinelearning.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Machine Learning: Overview</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./machinelearning.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Machine Learning: Overview</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -207,32 +207,38 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Data Visualization</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./stats.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Statistical Tests and Models</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Statistical Tests and Models</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./machinelearning.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Machine Learning: Overview</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Machine Learning: Overview</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./supervised.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Supervised Learning</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Supervised Learning</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./unsupervised.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Unsupervised Learning</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Unsupervised Learning</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./exercises.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Exercises</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Exercises</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -251,27 +257,27 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">7.1</span> Introduction</a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">8.1</span> Introduction</a>
   <ul class="collapse">
-  <li><a href="#supervised-learning" id="toc-supervised-learning" class="nav-link" data-scroll-target="#supervised-learning"><span class="header-section-number">7.1.1</span> Supervised Learning</a></li>
-  <li><a href="#unsupervised-learning" id="toc-unsupervised-learning" class="nav-link" data-scroll-target="#unsupervised-learning"><span class="header-section-number">7.1.2</span> Unsupervised Learning</a></li>
-  <li><a href="#reinforcement-learning" id="toc-reinforcement-learning" class="nav-link" data-scroll-target="#reinforcement-learning"><span class="header-section-number">7.1.3</span> Reinforcement Learning</a></li>
+  <li><a href="#supervised-learning" id="toc-supervised-learning" class="nav-link" data-scroll-target="#supervised-learning"><span class="header-section-number">8.1.1</span> Supervised Learning</a></li>
+  <li><a href="#unsupervised-learning" id="toc-unsupervised-learning" class="nav-link" data-scroll-target="#unsupervised-learning"><span class="header-section-number">8.1.2</span> Unsupervised Learning</a></li>
+  <li><a href="#reinforcement-learning" id="toc-reinforcement-learning" class="nav-link" data-scroll-target="#reinforcement-learning"><span class="header-section-number">8.1.3</span> Reinforcement Learning</a></li>
   </ul></li>
-  <li><a href="#bias-variance-tradeoff" id="toc-bias-variance-tradeoff" class="nav-link" data-scroll-target="#bias-variance-tradeoff"><span class="header-section-number">7.2</span> Bias-Variance Tradeoff</a>
+  <li><a href="#bias-variance-tradeoff" id="toc-bias-variance-tradeoff" class="nav-link" data-scroll-target="#bias-variance-tradeoff"><span class="header-section-number">8.2</span> Bias-Variance Tradeoff</a>
   <ul class="collapse">
-  <li><a href="#bias" id="toc-bias" class="nav-link" data-scroll-target="#bias"><span class="header-section-number">7.2.1</span> Bias</a></li>
-  <li><a href="#variance" id="toc-variance" class="nav-link" data-scroll-target="#variance"><span class="header-section-number">7.2.2</span> Variance</a></li>
-  <li><a href="#the-trade-off" id="toc-the-trade-off" class="nav-link" data-scroll-target="#the-trade-off"><span class="header-section-number">7.2.3</span> The Trade-Off</a></li>
-  <li><a href="#bias-variance-in-supervised-learning" id="toc-bias-variance-in-supervised-learning" class="nav-link" data-scroll-target="#bias-variance-in-supervised-learning"><span class="header-section-number">7.2.4</span> Bias-Variance in Supervised Learning</a></li>
-  <li><a href="#bias-variance-in-unsupervised-learning" id="toc-bias-variance-in-unsupervised-learning" class="nav-link" data-scroll-target="#bias-variance-in-unsupervised-learning"><span class="header-section-number">7.2.5</span> Bias-Variance in Unsupervised Learning</a></li>
-  <li><a href="#striking-the-right-balance" id="toc-striking-the-right-balance" class="nav-link" data-scroll-target="#striking-the-right-balance"><span class="header-section-number">7.2.6</span> Striking the Right Balance</a></li>
+  <li><a href="#bias" id="toc-bias" class="nav-link" data-scroll-target="#bias"><span class="header-section-number">8.2.1</span> Bias</a></li>
+  <li><a href="#variance" id="toc-variance" class="nav-link" data-scroll-target="#variance"><span class="header-section-number">8.2.2</span> Variance</a></li>
+  <li><a href="#the-trade-off" id="toc-the-trade-off" class="nav-link" data-scroll-target="#the-trade-off"><span class="header-section-number">8.2.3</span> The Trade-Off</a></li>
+  <li><a href="#bias-variance-in-supervised-learning" id="toc-bias-variance-in-supervised-learning" class="nav-link" data-scroll-target="#bias-variance-in-supervised-learning"><span class="header-section-number">8.2.4</span> Bias-Variance in Supervised Learning</a></li>
+  <li><a href="#bias-variance-in-unsupervised-learning" id="toc-bias-variance-in-unsupervised-learning" class="nav-link" data-scroll-target="#bias-variance-in-unsupervised-learning"><span class="header-section-number">8.2.5</span> Bias-Variance in Unsupervised Learning</a></li>
+  <li><a href="#striking-the-right-balance" id="toc-striking-the-right-balance" class="nav-link" data-scroll-target="#striking-the-right-balance"><span class="header-section-number">8.2.6</span> Striking the Right Balance</a></li>
   </ul></li>
-  <li><a href="#crossvalidation" id="toc-crossvalidation" class="nav-link" data-scroll-target="#crossvalidation"><span class="header-section-number">7.3</span> Crossvalidation</a>
+  <li><a href="#crossvalidation" id="toc-crossvalidation" class="nav-link" data-scroll-target="#crossvalidation"><span class="header-section-number">8.3</span> Crossvalidation</a>
   <ul class="collapse">
-  <li><a href="#k-fold-cross-validation" id="toc-k-fold-cross-validation" class="nav-link" data-scroll-target="#k-fold-cross-validation"><span class="header-section-number">7.3.1</span> K-Fold Cross-Validation</a></li>
-  <li><a href="#benefits-of-cross-validation" id="toc-benefits-of-cross-validation" class="nav-link" data-scroll-target="#benefits-of-cross-validation"><span class="header-section-number">7.3.2</span> Benefits of Cross-Validation</a></li>
-  <li><a href="#cross-validation-in-unsupervised-learning" id="toc-cross-validation-in-unsupervised-learning" class="nav-link" data-scroll-target="#cross-validation-in-unsupervised-learning"><span class="header-section-number">7.3.3</span> Cross-Validation in Unsupervised Learning</a></li>
-  <li><a href="#a-curve-fitting-with-splines-an-example" id="toc-a-curve-fitting-with-splines-an-example" class="nav-link" data-scroll-target="#a-curve-fitting-with-splines-an-example"><span class="header-section-number">7.3.4</span> A Curve-Fitting with Splines: An Example</a></li>
+  <li><a href="#k-fold-cross-validation" id="toc-k-fold-cross-validation" class="nav-link" data-scroll-target="#k-fold-cross-validation"><span class="header-section-number">8.3.1</span> K-Fold Cross-Validation</a></li>
+  <li><a href="#benefits-of-cross-validation" id="toc-benefits-of-cross-validation" class="nav-link" data-scroll-target="#benefits-of-cross-validation"><span class="header-section-number">8.3.2</span> Benefits of Cross-Validation</a></li>
+  <li><a href="#cross-validation-in-unsupervised-learning" id="toc-cross-validation-in-unsupervised-learning" class="nav-link" data-scroll-target="#cross-validation-in-unsupervised-learning"><span class="header-section-number">8.3.3</span> Cross-Validation in Unsupervised Learning</a></li>
+  <li><a href="#a-curve-fitting-with-splines-an-example" id="toc-a-curve-fitting-with-splines-an-example" class="nav-link" data-scroll-target="#a-curve-fitting-with-splines-an-example"><span class="header-section-number">8.3.4</span> A Curve-Fitting with Splines: An Example</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -281,7 +287,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Machine Learning: Overview</span></h1>
+<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Machine Learning: Overview</span></h1>
 </div>
 
 
@@ -298,8 +304,8 @@ window.Quarto = {
 </header>
 
 
-<section id="introduction" class="level2" data-number="7.1">
-<h2 data-number="7.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">7.1</span> Introduction</h2>
+<section id="introduction" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">8.1</span> Introduction</h2>
 <p>Machine Learning (ML) is a branch of artificial intelligence that enables systems to learn from data and improve their performance over time without being explicitly programmed. At its core, machine learning algorithms aim to identify patterns in data and use those patterns to make decisions or predictions.</p>
 <p>Machine learning can be categorized into three main types: supervised learning, unsupervised learning, and reinforcement learning. Each type differs in the data it uses and the learning tasks it performs, addressing addresses different tasks and problems. Supervised learning aims to predict outcomes based on labeled data, unsupervised learning focuses on discovering hidden patterns within the data, and reinforcement learning centers around learning optimal actions through interaction with an environment.</p>
 <p>Let’s define some notations to introduce them:</p>
@@ -308,8 +314,8 @@ window.Quarto = {
 <li><p><span class="math inline">\(Y\)</span>: A set of labels or rewards associated with outcomes. In supervised learning, <span class="math inline">\(Y\)</span> is used to evaluate the correctness of the model’s predictions. In reinforcement learning, <span class="math inline">\(Y\)</span> represents the rewards that guide the learning process.</p></li>
 <li><p><span class="math inline">\(A\)</span>: A set of possible actions in a given context. In reinforcement learning, actions <span class="math inline">\(A\)</span> represent choices that can be made in response to a given situation, with the goal of maximizing a reward.</p></li>
 </ul>
-<section id="supervised-learning" class="level3" data-number="7.1.1">
-<h3 data-number="7.1.1" class="anchored" data-anchor-id="supervised-learning"><span class="header-section-number">7.1.1</span> Supervised Learning</h3>
+<section id="supervised-learning" class="level3" data-number="8.1.1">
+<h3 data-number="8.1.1" class="anchored" data-anchor-id="supervised-learning"><span class="header-section-number">8.1.1</span> Supervised Learning</h3>
 <p>Supervised learning is the most widely used type of machine learning. In supervised learning, we have both feature vectors <span class="math inline">\(X\)</span> and their corresponding labels <span class="math inline">\(Y\)</span>. The objective is to train a model that can predict <span class="math inline">\(Y\)</span> based on <span class="math inline">\(X\)</span>. This model is trained on labeled examples, where the correct outcome is known, and it adjusts its internal parameters to minimize the error in its predictions, which occurs as part of the cross-validation process.</p>
 <p>Key tasks in supervised learning include:</p>
 <ul>
@@ -318,8 +324,8 @@ window.Quarto = {
 </ul>
 <p>In supervised learning, the data consists of both feature vectors <span class="math inline">\(X\)</span> and labels <span class="math inline">\(Y\)</span>, namely, <span class="math inline">\((X, Y)\)</span>.</p>
 </section>
-<section id="unsupervised-learning" class="level3" data-number="7.1.2">
-<h3 data-number="7.1.2" class="anchored" data-anchor-id="unsupervised-learning"><span class="header-section-number">7.1.2</span> Unsupervised Learning</h3>
+<section id="unsupervised-learning" class="level3" data-number="8.1.2">
+<h3 data-number="8.1.2" class="anchored" data-anchor-id="unsupervised-learning"><span class="header-section-number">8.1.2</span> Unsupervised Learning</h3>
 <p>Unsupervised learning involves learning patterns from data without any associated labels or outcomes. The objective is to explore and identify hidden structures in the feature vectors <span class="math inline">\(X\)</span>. Since there are no ground-truth labels <span class="math inline">\(Y\)</span> to guide the learning process, the algorithm must discover patterns on its own. This is particularly useful when subject matter experts are unsure of common properties within a data set.</p>
 <p>Common tasks in unsupervised learning include:</p>
 <ul>
@@ -328,8 +334,8 @@ window.Quarto = {
 </ul>
 <p>In unsupervised learning, the data consists solely of feature vectors <span class="math inline">\(X\)</span>.</p>
 </section>
-<section id="reinforcement-learning" class="level3" data-number="7.1.3">
-<h3 data-number="7.1.3" class="anchored" data-anchor-id="reinforcement-learning"><span class="header-section-number">7.1.3</span> Reinforcement Learning</h3>
+<section id="reinforcement-learning" class="level3" data-number="8.1.3">
+<h3 data-number="8.1.3" class="anchored" data-anchor-id="reinforcement-learning"><span class="header-section-number">8.1.3</span> Reinforcement Learning</h3>
 <p>Reinforcement learning involves learning how to make a sequence of decisions to maximize a cumulative reward. Unlike supervised learning, where the model learns from a static dataset of labeled examples, reinforcement learning involves an agent that interacts with an environment by taking actions <span class="math inline">\(A\)</span>, receiving feedback in the form of rewards <span class="math inline">\(Y\)</span>, and learning over time which actions lead to the highest cumulative reward.</p>
 <p>The process in reinforcement learning involves:</p>
 <ul>
@@ -340,27 +346,27 @@ window.Quarto = {
 <p>In reinforcement learning, the data consists of feature vectors <span class="math inline">\(X\)</span>, actions <span class="math inline">\(A\)</span>, and rewards <span class="math inline">\(Y\)</span>, namely, <span class="math inline">\((X, A, Y)\)</span>.</p>
 </section>
 </section>
-<section id="bias-variance-tradeoff" class="level2" data-number="7.2">
-<h2 data-number="7.2" class="anchored" data-anchor-id="bias-variance-tradeoff"><span class="header-section-number">7.2</span> Bias-Variance Tradeoff</h2>
+<section id="bias-variance-tradeoff" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="bias-variance-tradeoff"><span class="header-section-number">8.2</span> Bias-Variance Tradeoff</h2>
 <p>The variance-bias trade-off is a core concept in machine learning that explains the relationship between the complexity of a model, its performance on training data, and its ability to generalize to unseen data. It applies to both supervised and unsupervised learning, though it manifests differently in each.</p>
-<section id="bias" class="level3" data-number="7.2.1">
-<h3 data-number="7.2.1" class="anchored" data-anchor-id="bias"><span class="header-section-number">7.2.1</span> Bias</h3>
+<section id="bias" class="level3" data-number="8.2.1">
+<h3 data-number="8.2.1" class="anchored" data-anchor-id="bias"><span class="header-section-number">8.2.1</span> Bias</h3>
 <p>Bias refers to the error introduced by approximating a complex real-world problem with a simplified model. A model with high bias makes strong assumptions about the data, leading to oversimplified patterns and poor performance on both the training data and new data. High bias results in underfitting, where the model fails to capture important trends in the data.</p>
 <ul>
 <li><p>Example (Supervised): In supervised learning, using a linear regression model to fit data that has a nonlinear relationship results in high bias because the model cannot capture the complexity of the data.</p></li>
 <li><p>Example (Unsupervised): In clustering (an unsupervised task), setting the number of clusters too low (e.g., forcing data into two clusters when more exist) leads to high bias, as the model oversimplifies the underlying structure.</p></li>
 </ul>
 </section>
-<section id="variance" class="level3" data-number="7.2.2">
-<h3 data-number="7.2.2" class="anchored" data-anchor-id="variance"><span class="header-section-number">7.2.2</span> Variance</h3>
+<section id="variance" class="level3" data-number="8.2.2">
+<h3 data-number="8.2.2" class="anchored" data-anchor-id="variance"><span class="header-section-number">8.2.2</span> Variance</h3>
 <p>Variance refers to the model’s sensitivity to small changes in the training data. A model with high variance will adapt closely to the training data, potentially capturing noise or fluctuations that are not representative of the general data distribution. High variance leads to overfitting, where the model performs well on training data but poorly on new, unseen data.</p>
 <ul>
 <li><p>Example (Supervised): A decision tree with many branches can exhibit high variance. The model perfectly fits the training data but may perform poorly on test data because it overfits to specific idiosyncrasies in the training set.</p></li>
 <li><p>Example (Unsupervised): In clustering, setting the number of clusters too high or fitting overly flexible cluster shapes (e.g., in Gaussian Mixture Models) can lead to overfitting, where the model captures noise and splits data unnecessarily.</p></li>
 </ul>
 </section>
-<section id="the-trade-off" class="level3" data-number="7.2.3">
-<h3 data-number="7.2.3" class="anchored" data-anchor-id="the-trade-off"><span class="header-section-number">7.2.3</span> The Trade-Off</h3>
+<section id="the-trade-off" class="level3" data-number="8.2.3">
+<h3 data-number="8.2.3" class="anchored" data-anchor-id="the-trade-off"><span class="header-section-number">8.2.3</span> The Trade-Off</h3>
 <p>The bias-variance trade-off reflects the tension between bias and variance. As model complexity increases:</p>
 <ul>
 <li>Bias decreases: The model becomes more flexible and can capture more details of the data.</li>
@@ -372,8 +378,8 @@ window.Quarto = {
 <li>Have low variance: It will be less sensitive to fluctuations in the data and is more likely to generalize well to unseen data.</li>
 </ul>
 </section>
-<section id="bias-variance-in-supervised-learning" class="level3" data-number="7.2.4">
-<h3 data-number="7.2.4" class="anchored" data-anchor-id="bias-variance-in-supervised-learning"><span class="header-section-number">7.2.4</span> Bias-Variance in Supervised Learning</h3>
+<section id="bias-variance-in-supervised-learning" class="level3" data-number="8.2.4">
+<h3 data-number="8.2.4" class="anchored" data-anchor-id="bias-variance-in-supervised-learning"><span class="header-section-number">8.2.4</span> Bias-Variance in Supervised Learning</h3>
 <p>In supervised learning, the goal is to strike the right balance between bias and variance to minimize prediction error. This balance is critical for developing models that generalize well to new data. The total error of a model can be decomposed into:</p>
 <p><span class="math display">\[
 \text{Total&nbsp;Error} = \text{Bias}^2 + \text{Variance}
@@ -385,8 +391,8 @@ window.Quarto = {
 <li><p>Irreducible Error: This is the noise inherent in the data itself, which cannot be eliminated no matter how well the model is tuned.</p></li>
 </ul>
 </section>
-<section id="bias-variance-in-unsupervised-learning" class="level3" data-number="7.2.5">
-<h3 data-number="7.2.5" class="anchored" data-anchor-id="bias-variance-in-unsupervised-learning"><span class="header-section-number">7.2.5</span> Bias-Variance in Unsupervised Learning</h3>
+<section id="bias-variance-in-unsupervised-learning" class="level3" data-number="8.2.5">
+<h3 data-number="8.2.5" class="anchored" data-anchor-id="bias-variance-in-unsupervised-learning"><span class="header-section-number">8.2.5</span> Bias-Variance in Unsupervised Learning</h3>
 <p>In unsupervised learning, the bias-variance trade-off is less formally defined but still relevant. For example:</p>
 <ul>
 <li><p>In clustering, choosing the wrong number of clusters can lead to either high bias (too few clusters, oversimplifying the data) or high variance (too many clusters, overfitting the data).</p></li>
@@ -394,16 +400,16 @@ window.Quarto = {
 </ul>
 <p>In unsupervised learning, balancing bias and variance typically involves tuning hyperparameters (e.g., number of clusters, number of components) to find the right complexity level.</p>
 </section>
-<section id="striking-the-right-balance" class="level3" data-number="7.2.6">
-<h3 data-number="7.2.6" class="anchored" data-anchor-id="striking-the-right-balance"><span class="header-section-number">7.2.6</span> Striking the Right Balance</h3>
+<section id="striking-the-right-balance" class="level3" data-number="8.2.6">
+<h3 data-number="8.2.6" class="anchored" data-anchor-id="striking-the-right-balance"><span class="header-section-number">8.2.6</span> Striking the Right Balance</h3>
 <p>To strike the balance between bias and variance in both supervised and unsupervised learning, techniques such as regularization, early stopping, cross-validation, and hyperparameter tuning are essential. These techniques help ensure the model is complex enough to capture patterns in the data but not so complex that it overfits to noise or irrelevant details.</p>
 </section>
 </section>
-<section id="crossvalidation" class="level2" data-number="7.3">
-<h2 data-number="7.3" class="anchored" data-anchor-id="crossvalidation"><span class="header-section-number">7.3</span> Crossvalidation</h2>
+<section id="crossvalidation" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="crossvalidation"><span class="header-section-number">8.3</span> Crossvalidation</h2>
 <p>Cross-validation is a technique used to evaluate machine learning models and tune hyperparameters by splitting the dataset into multiple subsets. This approach helps to avoid overfitting and provides a better estimate of the model’s performance on unseen data. Cross-validation is especially useful for managing the bias-variance trade-off by allowing you to test how well the model generalizes without relying on a single train-test split.</p>
-<section id="k-fold-cross-validation" class="level3" data-number="7.3.1">
-<h3 data-number="7.3.1" class="anchored" data-anchor-id="k-fold-cross-validation"><span class="header-section-number">7.3.1</span> K-Fold Cross-Validation</h3>
+<section id="k-fold-cross-validation" class="level3" data-number="8.3.1">
+<h3 data-number="8.3.1" class="anchored" data-anchor-id="k-fold-cross-validation"><span class="header-section-number">8.3.1</span> K-Fold Cross-Validation</h3>
 <p>The most commonly used method is <span class="math inline">\(k\)</span>-fold cross-validation:</p>
 <ul>
 <li>Split the data: The dataset is divided into <span class="math inline">\(k\)</span> equally-sized folds (subsets).</li>
@@ -415,16 +421,16 @@ window.Quarto = {
 <p>By averaging the results across multiple test sets, cross-validation provides a more robust estimate of model performance and helps avoid overfitting or underfitting to any particular training-test split.</p>
 <p>Leave-One-Out Cross-Validation (LOOCV) takes each observation as one fold. The dataset is split into <span class="math inline">\(n\)</span> subsets (where <span class="math inline">\(n\)</span> is the sample size), with each sample acting as a test set once. While this method provides the most exhaustive evaluation, it can be computationally expensive for large datasets.</p>
 </section>
-<section id="benefits-of-cross-validation" class="level3" data-number="7.3.2">
-<h3 data-number="7.3.2" class="anchored" data-anchor-id="benefits-of-cross-validation"><span class="header-section-number">7.3.2</span> Benefits of Cross-Validation</h3>
+<section id="benefits-of-cross-validation" class="level3" data-number="8.3.2">
+<h3 data-number="8.3.2" class="anchored" data-anchor-id="benefits-of-cross-validation"><span class="header-section-number">8.3.2</span> Benefits of Cross-Validation</h3>
 <ul>
 <li>Prevents overfitting: By testing the model on multiple subsets of data, cross-validation helps to identify if the model is too complex and overfits to the training data.</li>
 <li>Prevents underfitting: If the model performs poorly across all folds, it may indicate that the model is too simple (high bias).</li>
 <li>Better estimation: Cross-validation gives a better estimate of how the model will perform on unseen data compared to a single train-test split.</li>
 </ul>
 </section>
-<section id="cross-validation-in-unsupervised-learning" class="level3" data-number="7.3.3">
-<h3 data-number="7.3.3" class="anchored" data-anchor-id="cross-validation-in-unsupervised-learning"><span class="header-section-number">7.3.3</span> Cross-Validation in Unsupervised Learning</h3>
+<section id="cross-validation-in-unsupervised-learning" class="level3" data-number="8.3.3">
+<h3 data-number="8.3.3" class="anchored" data-anchor-id="cross-validation-in-unsupervised-learning"><span class="header-section-number">8.3.3</span> Cross-Validation in Unsupervised Learning</h3>
 <p>While cross-validation is most commonly used in supervised learning, it can also be applied to unsupervised learning through:</p>
 <ul>
 <li><p>Stability testing: Running unsupervised algorithms (e.g., clustering) on different data splits and measuring the stability of the results (e.g., using the silhouette score).</p></li>
@@ -432,8 +438,8 @@ window.Quarto = {
 </ul>
 <p>The bias-variance trade-off is a universal problem in machine learning, affecting both supervised and unsupervised models. Cross-validation is a powerful tool for controlling this trade-off by providing a reliable estimate of model performance and helping to fine-tune model complexity. By balancing bias and variance through careful model selection, regularization, and cross-validation, you can develop models that generalize well to unseen data without overfitting or underfitting.</p>
 </section>
-<section id="a-curve-fitting-with-splines-an-example" class="level3" data-number="7.3.4">
-<h3 data-number="7.3.4" class="anchored" data-anchor-id="a-curve-fitting-with-splines-an-example"><span class="header-section-number">7.3.4</span> A Curve-Fitting with Splines: An Example</h3>
+<section id="a-curve-fitting-with-splines-an-example" class="level3" data-number="8.3.4">
+<h3 data-number="8.3.4" class="anchored" data-anchor-id="a-curve-fitting-with-splines-an-example"><span class="header-section-number">8.3.4</span> A Curve-Fitting with Splines: An Example</h3>
 <p>Overfitting occurs when a model becomes overly complex and starts to capture not just the underlying patterns in the data but also the noise or random fluctuations. This can lead to poor generalization to new, unseen data. A clear sign of overfitting is when a model performs very well on the training data but performs poorly on test data, as it fails to generalize beyond the data it was trained on.</p>
 <p>In this example, we illustrate overfitting using cubic spline regression with different numbers of knots. Splines are a flexible tool that allow for piecewise polynomial regression, with knots defining where the pieces of the polynomial meet. The more knots we use, the more flexible the model becomes, which can potentially lead to overfitting.</p>
 <div id="7506e703" class="cell" data-execution_count="1">
@@ -959,12 +965,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./stats.html" class="pagination-link" aria-label="Statistical Tests and Models">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Statistical Tests and Models</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Statistical Tests and Models</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./supervised.html" class="pagination-link" aria-label="Supervised Learning">
-        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Supervised Learning</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Supervised Learning</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

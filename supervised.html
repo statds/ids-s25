@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>8&nbsp; Supervised Learning – Introduction to Data Science</title>
+<title>9&nbsp; Supervised Learning – Introduction to Data Science</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -167,7 +167,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./supervised.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Supervised Learning</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./supervised.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Supervised Learning</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -230,32 +230,38 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Data Visualization</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./stats.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Statistical Tests and Models</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Statistical Tests and Models</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./machinelearning.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Machine Learning: Overview</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Machine Learning: Overview</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./supervised.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Supervised Learning</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Supervised Learning</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./unsupervised.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Unsupervised Learning</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Unsupervised Learning</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./exercises.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Exercises</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Exercises</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -274,18 +280,18 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#decision-trees-foundation" id="toc-decision-trees-foundation" class="nav-link active" data-scroll-target="#decision-trees-foundation"><span class="header-section-number">8.1</span> Decision Trees: Foundation</a>
+  <li><a href="#decision-trees-foundation" id="toc-decision-trees-foundation" class="nav-link active" data-scroll-target="#decision-trees-foundation"><span class="header-section-number">9.1</span> Decision Trees: Foundation</a>
   <ul class="collapse">
-  <li><a href="#algorithm-formulation" id="toc-algorithm-formulation" class="nav-link" data-scroll-target="#algorithm-formulation"><span class="header-section-number">8.1.1</span> Algorithm Formulation</a></li>
-  <li><a href="#search-space-for-possible-splits" id="toc-search-space-for-possible-splits" class="nav-link" data-scroll-target="#search-space-for-possible-splits"><span class="header-section-number">8.1.2</span> Search Space for Possible Splits</a></li>
-  <li><a href="#metrics" id="toc-metrics" class="nav-link" data-scroll-target="#metrics"><span class="header-section-number">8.1.3</span> Metrics</a></li>
+  <li><a href="#algorithm-formulation" id="toc-algorithm-formulation" class="nav-link" data-scroll-target="#algorithm-formulation"><span class="header-section-number">9.1.1</span> Algorithm Formulation</a></li>
+  <li><a href="#search-space-for-possible-splits" id="toc-search-space-for-possible-splits" class="nav-link" data-scroll-target="#search-space-for-possible-splits"><span class="header-section-number">9.1.2</span> Search Space for Possible Splits</a></li>
+  <li><a href="#metrics" id="toc-metrics" class="nav-link" data-scroll-target="#metrics"><span class="header-section-number">9.1.3</span> Metrics</a></li>
   </ul></li>
-  <li><a href="#gradient-boosted-models" id="toc-gradient-boosted-models" class="nav-link" data-scroll-target="#gradient-boosted-models"><span class="header-section-number">8.2</span> Gradient-Boosted Models</a>
+  <li><a href="#gradient-boosted-models" id="toc-gradient-boosted-models" class="nav-link" data-scroll-target="#gradient-boosted-models"><span class="header-section-number">9.2</span> Gradient-Boosted Models</a>
   <ul class="collapse">
-  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction"><span class="header-section-number">8.2.1</span> Introduction</a></li>
-  <li><a href="#gradient-boosting-process" id="toc-gradient-boosting-process" class="nav-link" data-scroll-target="#gradient-boosting-process"><span class="header-section-number">8.2.2</span> Gradient Boosting Process</a></li>
-  <li><a href="#demonstration" id="toc-demonstration" class="nav-link" data-scroll-target="#demonstration"><span class="header-section-number">8.2.3</span> Demonstration</a></li>
-  <li><a href="#xgboost-extreme-gradient-boosting" id="toc-xgboost-extreme-gradient-boosting" class="nav-link" data-scroll-target="#xgboost-extreme-gradient-boosting"><span class="header-section-number">8.2.4</span> XGBoost: Extreme Gradient Boosting</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction"><span class="header-section-number">9.2.1</span> Introduction</a></li>
+  <li><a href="#gradient-boosting-process" id="toc-gradient-boosting-process" class="nav-link" data-scroll-target="#gradient-boosting-process"><span class="header-section-number">9.2.2</span> Gradient Boosting Process</a></li>
+  <li><a href="#demonstration" id="toc-demonstration" class="nav-link" data-scroll-target="#demonstration"><span class="header-section-number">9.2.3</span> Demonstration</a></li>
+  <li><a href="#xgboost-extreme-gradient-boosting" id="toc-xgboost-extreme-gradient-boosting" class="nav-link" data-scroll-target="#xgboost-extreme-gradient-boosting"><span class="header-section-number">9.2.4</span> XGBoost: Extreme Gradient Boosting</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -295,7 +301,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Supervised Learning</span></h1>
+<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Supervised Learning</span></h1>
 </div>
 
 
@@ -312,11 +318,11 @@ window.Quarto = {
 </header>
 
 
-<section id="decision-trees-foundation" class="level2" data-number="8.1">
-<h2 data-number="8.1" class="anchored" data-anchor-id="decision-trees-foundation"><span class="header-section-number">8.1</span> Decision Trees: Foundation</h2>
+<section id="decision-trees-foundation" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="decision-trees-foundation"><span class="header-section-number">9.1</span> Decision Trees: Foundation</h2>
 <p>Decision trees are widely used supervised learning models that predict the value of a target variable by iteratively splitting the dataset based on decision rules derived from input features. The model functions as a piecewise constant approximation of the target function, producing clear, interpretable rules that are easily visualized and analyzed <span class="citation" data-cites="breiman1984classification">(<a href="references.html#ref-breiman1984classification" role="doc-biblioref">Breiman et al., 1984</a>)</span>. Decision trees are fundamental in both classification and regression tasks, serving as the building blocks for more advanced ensemble models such as Random Forests and Gradient Boosting Machines.</p>
-<section id="algorithm-formulation" class="level3" data-number="8.1.1">
-<h3 data-number="8.1.1" class="anchored" data-anchor-id="algorithm-formulation"><span class="header-section-number">8.1.1</span> Algorithm Formulation</h3>
+<section id="algorithm-formulation" class="level3" data-number="9.1.1">
+<h3 data-number="9.1.1" class="anchored" data-anchor-id="algorithm-formulation"><span class="header-section-number">9.1.1</span> Algorithm Formulation</h3>
 <p>The core mechanism of a decision tree algorithm is the identification of optimal splits that partition the data into subsets that are increasingly homogeneous with respect to the target variable. At any node <span class="math inline">\(m\)</span>, the data subset is denoted as <span class="math inline">\(Q_m\)</span> with a sample size of <span class="math inline">\(n_m\)</span>. The objective is to find a candidate split <span class="math inline">\(\theta\)</span>, defined as a threshold for a given feature, that minimizes an impurity or loss measure <span class="math inline">\(H\)</span>.</p>
 <p>When a split is made at node <span class="math inline">\(m\)</span>, the data is divided into two subsets: <span class="math inline">\(Q_{m,l}\)</span> (left node) with sample size <span class="math inline">\(n_{m,l}\)</span>, and <span class="math inline">\(Q_{m,r}\)</span> (right node) with sample size <span class="math inline">\(n_{m,r}\)</span>. The split quality, measured by <span class="math inline">\(G(Q_m, \theta)\)</span>, is given by:</p>
 <p><span class="math display">\[
@@ -333,8 +339,8 @@ G(Q_m, \theta) = \frac{n_{m,l}}{n_m} H(Q_{m,l}(\theta)) +
 <li>Pruning: Reduce the complexity of the final tree by removing branches that add little predictive value. This reduces overfitting and improves the generalization accuracy of the model.</li>
 </ul>
 </section>
-<section id="search-space-for-possible-splits" class="level3" data-number="8.1.2">
-<h3 data-number="8.1.2" class="anchored" data-anchor-id="search-space-for-possible-splits"><span class="header-section-number">8.1.2</span> Search Space for Possible Splits</h3>
+<section id="search-space-for-possible-splits" class="level3" data-number="9.1.2">
+<h3 data-number="9.1.2" class="anchored" data-anchor-id="search-space-for-possible-splits"><span class="header-section-number">9.1.2</span> Search Space for Possible Splits</h3>
 <p>At each node in the decision tree, the search space for possible splits comprises all features in the dataset and potential thresholds derived from the values of each feature. For a given feature, the algorithm considers each unique value in the current node’s subset as a possible split point. The potential thresholds are typically set as midpoints between consecutive unique values, ensuring the data is partitioned effectively.</p>
 <p>Formally, let the feature set be <span class="math inline">\(\{X_1, X_2, \ldots, X_p\}\)</span>, where <span class="math inline">\(p\)</span> is the total number of features, and let the unique values of feature <span class="math inline">\(X_j\)</span> at node <span class="math inline">\(m\)</span> be denoted by <span class="math inline">\(\{v_{j,1}, v_{j,2}, \ldots, v_{j,k_j}\}\)</span>. The search space at node <span class="math inline">\(m\)</span> includes:</p>
 <ul>
@@ -345,10 +351,10 @@ G(Q_m, \theta) = \frac{n_{m,l}}{n_m} H(Q_{m,l}(\theta)) +
 </ul>
 <p>The search space therefore encompasses all combinations of features and their respective thresholds. While the complexity of this search can be substantial, particularly for high-dimensional data or features with numerous unique values, efficient algorithms use sorting and single-pass scanning techniques to mitigate the computational cost.</p>
 </section>
-<section id="metrics" class="level3" data-number="8.1.3">
-<h3 data-number="8.1.3" class="anchored" data-anchor-id="metrics"><span class="header-section-number">8.1.3</span> Metrics</h3>
-<section id="classification" class="level4" data-number="8.1.3.1">
-<h4 data-number="8.1.3.1" class="anchored" data-anchor-id="classification"><span class="header-section-number">8.1.3.1</span> Classification</h4>
+<section id="metrics" class="level3" data-number="9.1.3">
+<h3 data-number="9.1.3" class="anchored" data-anchor-id="metrics"><span class="header-section-number">9.1.3</span> Metrics</h3>
+<section id="classification" class="level4" data-number="9.1.3.1">
+<h4 data-number="9.1.3.1" class="anchored" data-anchor-id="classification"><span class="header-section-number">9.1.3.1</span> Classification</h4>
 <p>In decision tree classification, several criteria can be used to measure the quality of a split at each node. These criteria are based on how “pure” the resulting nodes are after the split. A pure node contains samples that predominantly belong to a single class. The goal is to minimize impurity, leading to nodes that are as homogeneous as possible.</p>
 <ul>
 <li><p>Gini Index: The Gini index measures the impurity of a node by calculating the probability of randomly choosing two different classes. A perfect split (all instances belong to one class) has a Gini index of 0. At node <span class="math inline">\(m\)</span>, the Gini index is <span class="math display">\[
@@ -362,8 +368,8 @@ H(Q_m) = 1 - \max_k p_{mk},
 \]</span> where <span class="math inline">\(\max_k p_{mk}\)</span> is the largest proportion of samples belonging to any class <span class="math inline">\(k\)</span>.</p></li>
 </ul>
 </section>
-<section id="regression-criteria" class="level4" data-number="8.1.3.2">
-<h4 data-number="8.1.3.2" class="anchored" data-anchor-id="regression-criteria"><span class="header-section-number">8.1.3.2</span> Regression Criteria</h4>
+<section id="regression-criteria" class="level4" data-number="9.1.3.2">
+<h4 data-number="9.1.3.2" class="anchored" data-anchor-id="regression-criteria"><span class="header-section-number">9.1.3.2</span> Regression Criteria</h4>
 <p>In decision tree regression, different criteria are used to assess the quality of a split. The goal is to minimize the spread or variance of the target variable within each node.</p>
 <ul>
 <li><p>Mean Squared Error (MSE): Mean squared error is the most common criterion used in regression trees. It measures the average squared difference between the actual values and the predicted values (mean of the target in the node). The smaller the MSE, the better the fit. At node <span class="math inline">\(m\)</span>, it is <span class="math display">\[
@@ -383,17 +389,17 @@ H(Q_m) = \frac{1}{n_m} \sum_{i=1}^{n_m} |y_i - \bar{y}_m|.
 \]</span> MAE is useful when you want to minimize large deviations and can be more robust in cases where outliers are present in the data.</p></li>
 </ul>
 </section>
-<section id="summary" class="level4" data-number="8.1.3.3">
-<h4 data-number="8.1.3.3" class="anchored" data-anchor-id="summary"><span class="header-section-number">8.1.3.3</span> Summary</h4>
+<section id="summary" class="level4" data-number="9.1.3.3">
+<h4 data-number="9.1.3.3" class="anchored" data-anchor-id="summary"><span class="header-section-number">9.1.3.3</span> Summary</h4>
 <p>In decision trees, the choice of splitting criterion depends on the type of task (classification or regression) and the nature of the data. For classification tasks, the Gini index and entropy are the most commonly used, with Gini offering simplicity and speed, and entropy providing a more theoretically grounded approach. Misclassification error can be used for simpler cases. For regression tasks, MSE is the most popular choice, but Poisson deviance and MAE are useful for specific use cases such as count data and robust models, respectively.</p>
 </section>
 </section>
 </section>
-<section id="gradient-boosted-models" class="level2" data-number="8.2">
-<h2 data-number="8.2" class="anchored" data-anchor-id="gradient-boosted-models"><span class="header-section-number">8.2</span> Gradient-Boosted Models</h2>
+<section id="gradient-boosted-models" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="gradient-boosted-models"><span class="header-section-number">9.2</span> Gradient-Boosted Models</h2>
 <p>Gradient boosting is a powerful ensemble technique in machine learning that combines multiple weak learners into a strong predictive model. Unlike bagging methods, which train models independently, gradient boosting fits models sequentially, with each new model correcting errors made by the previous ensemble <span class="citation" data-cites="friedman2001greedy">(<a href="references.html#ref-friedman2001greedy" role="doc-biblioref">Friedman, 2001</a>)</span>. While decision trees are commonly used as weak learners, gradient boosting can be generalized to other base models. This iterative method optimizes a specified loss function by repeatedly adding models designed to reduce residual errors.</p>
-<section id="introduction" class="level3" data-number="8.2.1">
-<h3 data-number="8.2.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">8.2.1</span> Introduction</h3>
+<section id="introduction" class="level3" data-number="9.2.1">
+<h3 data-number="9.2.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">9.2.1</span> Introduction</h3>
 <p>Gradient boosting builds on the general concept of boosting, aiming to construct a strong predictor from an ensemble of sequentially trained weak learners. The weak learners are often shallow decision trees (stumps), linear models, or generalized additive models <span class="citation" data-cites="hastie2009elements">(<a href="references.html#ref-hastie2009elements" role="doc-biblioref">Hastie et al., 2009</a>)</span>. Each iteration adds a new learner focusing primarily on the data points poorly predicted by the existing ensemble, thereby progressively enhancing predictive accuracy.</p>
 <p>Gradient boosting’s effectiveness stems from:</p>
 <ul>
@@ -403,8 +409,8 @@ H(Q_m) = \frac{1}{n_m} \sum_{i=1}^{n_m} |y_i - \bar{y}_m|.
 </ul>
 <p>The effectiveness of gradient-boosted models has made them popular across diverse tasks, including classification, regression, and ranking. Gradient boosting forms the foundation for algorithms such as XGBoost <span class="citation" data-cites="chen2016xgboost">(<a href="references.html#ref-chen2016xgboost" role="doc-biblioref">Chen &amp; Guestrin, 2016</a>)</span>, LightGBM <span class="citation" data-cites="ke2017lightgbm">(<a href="references.html#ref-ke2017lightgbm" role="doc-biblioref">Ke et al., 2017</a>)</span>, and CatBoost <span class="citation" data-cites="prokhorenkova2018catboost">(<a href="references.html#ref-prokhorenkova2018catboost" role="doc-biblioref">Prokhorenkova et al., 2018</a>)</span>, known for their high performance and scalability.</p>
 </section>
-<section id="gradient-boosting-process" class="level3" data-number="8.2.2">
-<h3 data-number="8.2.2" class="anchored" data-anchor-id="gradient-boosting-process"><span class="header-section-number">8.2.2</span> Gradient Boosting Process</h3>
+<section id="gradient-boosting-process" class="level3" data-number="9.2.2">
+<h3 data-number="9.2.2" class="anchored" data-anchor-id="gradient-boosting-process"><span class="header-section-number">9.2.2</span> Gradient Boosting Process</h3>
 <p>Gradient boosting builds an ensemble by iteratively minimizing the residual errors from previous models. This iterative approach optimizes a loss function, <span class="math inline">\(L(y, F(x))\)</span>, where <span class="math inline">\(y\)</span> represents the observed target variable and <span class="math inline">\(F(x)\)</span> the model’s prediction for a given feature vector <span class="math inline">\(x\)</span>.</p>
 <p>Key concepts:</p>
 <ul>
@@ -412,8 +418,8 @@ H(Q_m) = \frac{1}{n_m} \sum_{i=1}^{n_m} |y_i - \bar{y}_m|.
 <li>Learning Rate: Controls incremental updates, balancing training speed and generalization.</li>
 <li>Regularization: Reduces overfitting through tree depth limitation, subsampling, and L1/L2 penalties.</li>
 </ul>
-<section id="model-iteration" class="level4" data-number="8.2.2.1">
-<h4 data-number="8.2.2.1" class="anchored" data-anchor-id="model-iteration"><span class="header-section-number">8.2.2.1</span> Model Iteration</h4>
+<section id="model-iteration" class="level4" data-number="9.2.2.1">
+<h4 data-number="9.2.2.1" class="anchored" data-anchor-id="model-iteration"><span class="header-section-number">9.2.2.1</span> Model Iteration</h4>
 <p>The gradient boosting algorithm proceeds as follows:</p>
 <ol type="1">
 <li><p>Initialization: Define a base model <span class="math inline">\(F_0(x)\)</span>, typically the mean of the target variable for regression or the log-odds for classification.</p></li>
@@ -434,8 +440,8 @@ F_m(x) = F_{m-1}(x) + \eta \, h_m(x),
 <p>Stochastic gradient boosting is a variant that enhances gradient boosting by introducing randomness through subsampling at each iteration, selecting a random fraction of data points (typically 50%–80%) to fit the model <span class="citation" data-cites="friedman2002stochastic">(<a href="references.html#ref-friedman2002stochastic" role="doc-biblioref">Friedman, 2002</a>)</span>. This randomness helps reduce correlation among trees, improve model robustness, and reduce the risk of overfitting.</p>
 </section>
 </section>
-<section id="demonstration" class="level3" data-number="8.2.3">
-<h3 data-number="8.2.3" class="anchored" data-anchor-id="demonstration"><span class="header-section-number">8.2.3</span> Demonstration</h3>
+<section id="demonstration" class="level3" data-number="9.2.3">
+<h3 data-number="9.2.3" class="anchored" data-anchor-id="demonstration"><span class="header-section-number">9.2.3</span> Demonstration</h3>
 <p>Here’s a practical example using <code>scikit-learn</code> to demonstrate gradient boosting on the California housing dataset. First, import necessary libraries and load the data:</p>
 <div id="91b764b2" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -902,8 +908,8 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 </div>
 </div>
 </section>
-<section id="xgboost-extreme-gradient-boosting" class="level3" data-number="8.2.4">
-<h3 data-number="8.2.4" class="anchored" data-anchor-id="xgboost-extreme-gradient-boosting"><span class="header-section-number">8.2.4</span> XGBoost: Extreme Gradient Boosting</h3>
+<section id="xgboost-extreme-gradient-boosting" class="level3" data-number="9.2.4">
+<h3 data-number="9.2.4" class="anchored" data-anchor-id="xgboost-extreme-gradient-boosting"><span class="header-section-number">9.2.4</span> XGBoost: Extreme Gradient Boosting</h3>
 <p>XGBoost is a scalable and efficient implementation of gradient-boosted decision trees <span class="citation" data-cites="chen2016xgboost">(<a href="references.html#ref-chen2016xgboost" role="doc-biblioref">Chen &amp; Guestrin, 2016</a>)</span>. It has become one of the most widely used machine learning methods for structured data due to its high predictive performance, regularization capabilities, and speed. XGBoost builds an ensemble of decision trees in a stage-wise fashion, minimizing a regularized objective that balances training loss and model complexity.</p>
 <p>The core idea of XGBoost is to fit each new tree to the <em>gradient</em> of the loss function with respect to the model’s predictions. Unlike traditional boosting algorithms like AdaBoost, which use only first-order gradients, XGBoost optionally uses second-order derivatives (Hessians), enabling better convergence and stability <span class="citation" data-cites="friedman2001greedy">(<a href="references.html#ref-friedman2001greedy" role="doc-biblioref">Friedman, 2001</a>)</span>.</p>
 <p>XGBoost is widely used in data science competitions and real-world applications. It supports regularization (L1 and L2), handles missing values internally, and is designed for distributed computing.</p>
@@ -1421,12 +1427,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./machinelearning.html" class="pagination-link" aria-label="Machine Learning: Overview">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Machine Learning: Overview</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Machine Learning: Overview</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./unsupervised.html" class="pagination-link" aria-label="Unsupervised Learning">
-        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Unsupervised Learning</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Unsupervised Learning</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
