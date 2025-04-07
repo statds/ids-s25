@@ -47,22 +47,21 @@ deltas = []
 
 #loop through dimensions from 2 to 49
 for N in range(2, 50):
-
-#generate 10,000 random N-dimensional vectors, P, and
-#a single random N-dimensional vector, Q
-P = [np.random.randint(-100, 100, N) for _ in range(10000)]
-Q = np.random.randint(-100, 100, N)
-
-#calculate the Euclidean distances between each point in P and Q
-diffs = [np.linalg.norm(p - Q) for p in P]
-
-#find the maximum and minimum Euclidean distances
-mxd = max(diffs)
-mnd = min(diffs)
-
-#calculate delta
-delta = math.log10(mxd - mnd) / mnd
-deltas.append(delta)
+  #generate 10,000 random N-dimensional vectors, P, and
+  #a single random N-dimensional vector, Q
+  P = [np.random.randint(-100, 100, N) for _ in range(10000)]
+  Q = np.random.randint(-100, 100, N)
+  
+  #calculate the Euclidean distances between each point in P and Q
+  diffs = [np.linalg.norm(p - Q) for p in P]
+  
+  #find the maximum and minimum Euclidean distances
+  mxd = max(diffs)
+  mnd = min(diffs)
+  
+  #calculate delta
+  delta = math.log10(mxd - mnd) / mnd
+  deltas.append(delta)
 
 #plot delta versus N, the number of dimensions
 plt.plot(range(2, 50), deltas)
