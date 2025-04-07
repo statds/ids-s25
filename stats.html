@@ -365,7 +365,7 @@ window.Quarto = {
 </ul>
 <p>Since R has a richer collections of statistical functions, we can call R function from Python with <code>rpy2</code>. See, for example, a <a href="https://rviews.rstudio.com/2022/05/25/calling-r-from-python-with-rpy2/">blog on this subject</a>.</p>
 <p>For example, <code>fisher_exact</code> can only handle 2x2 contingency tables. For contingency tables larger than 2x2, we can call <code>fisher.test()</code> from R through <code>rpy2</code>. See <a href="https://stackoverflow.com/questions/25368284/fishers-exact-test-for-bigger-than-2-by-2-contingency-table">this StackOverflow post</a>. Note that the <code>.</code> in function names and arguments are replaced with <code>_</code>.</p>
-<div id="2ce2a7e8" class="cell" data-execution_count="1">
+<div id="b0fe0589" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rpy2.robjects.numpy2ri</span>
@@ -391,7 +391,7 @@ injury
     2000 replicates)
 
 data:  structure(c(149L, 129L, 345L, 266L, 164L, 127L, 249L, 227L, 65L, 28L), dim = c(2L, 5L))
-p-value = 0.03598
+p-value = 0.03148
 alternative hypothesis: two.sided
 
 </code></pre>
@@ -410,7 +410,7 @@ alternative hypothesis: two.sided
 <section id="linear-model" class="level3" data-number="6.2.2">
 <h3 data-number="6.2.2" class="anchored" data-anchor-id="linear-model"><span class="header-section-number">6.2.2</span> Linear Model</h3>
 <p>Let’s simulate some data for illustrations.</p>
-<div id="62f10b3b" class="cell" data-execution_count="2">
+<div id="be345486" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>nobs <span class="op">=</span> <span class="dv">200</span></span>
@@ -421,14 +421,14 @@ alternative hypothesis: two.sided
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> <span class="dv">2</span> <span class="op">+</span> np.dot(x, beta) <span class="op">+</span> np.random.normal(size <span class="op">=</span> nobs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Check the shape of <code>y</code>:</p>
-<div id="6553a17f" class="cell" data-execution_count="3">
+<div id="442f1ecf" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>y.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>(200,)</code></pre>
 </div>
 </div>
 <p>Check the shape of <code>x</code>:</p>
-<div id="093e21d2" class="cell" data-execution_count="4">
+<div id="68c1b4ce" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>x.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>(200, 5)</code></pre>
@@ -438,7 +438,7 @@ alternative hypothesis: two.sided
 y = 2 + x_1 + x_2 + x_3 + x_4 + x_5 + \epsilon.
 \]</span></p>
 <p>A regression model for the observed data can be fitted as</p>
-<div id="2bfcc3cc" class="cell" data-execution_count="5">
+<div id="1a671687" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sma</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>xmat <span class="op">=</span> sma.add_constant(x)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>mymod <span class="op">=</span> sma.OLS(y, xmat)</span>
@@ -468,13 +468,13 @@ y = 2 + x_1 + x_2 + x_3 + x_4 + x_5 + \epsilon.
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">Date:</td>
-<td>Wed, 05 Mar 2025</td>
+<td>Wed, 02 Apr 2025</td>
 <td data-quarto-table-cell-role="th">Prob (F-statistic):</td>
 <td>3.31e-14</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Time:</td>
-<td>12:59:20</td>
+<td>19:47:39</td>
 <td data-quarto-table-cell-role="th">Log-Likelihood:</td>
 <td>-272.91</td>
 </tr>
@@ -612,7 +612,7 @@ y = 2 + x_1 + x_2 + x_3 + x_4 + x_5 + \epsilon.
 <li>Why does it make sense to center the covariates?</li>
 </ul>
 <p>Now we form a data frame with the variables</p>
-<div id="1d5e8039" class="cell" data-execution_count="6">
+<div id="b9704da9" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> np.concatenate((y.reshape((nobs, <span class="dv">1</span>)), x), axis <span class="op">=</span> <span class="dv">1</span>)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(data <span class="op">=</span> df,</span>
@@ -636,7 +636,7 @@ memory usage: 9.5 KB</code></pre>
 </div>
 </div>
 <p>Let’s use a formula to specify the regression model as in R, and fit a robust linear model (<code>rlm</code>) instead of OLS. Note that the model specification and the function interface is similar to R.</p>
-<div id="0d2c4363" class="cell" data-execution_count="7">
+<div id="ad337d2b" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>mymod <span class="op">=</span> smf.rlm(formula <span class="op">=</span> <span class="st">"y ~ x1 + x2 + x3 + x4 + x5"</span>, data <span class="op">=</span> df)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>myfit <span class="op">=</span> mymod.fit()</span>
@@ -683,13 +683,13 @@ memory usage: 9.5 KB</code></pre>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Date:</td>
-<td>Wed, 05 Mar 2025</td>
+<td>Wed, 02 Apr 2025</td>
 <td data-quarto-table-cell-role="th"></td>
 <td></td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">Time:</td>
-<td>12:59:20</td>
+<td>19:47:40</td>
 <td data-quarto-table-cell-role="th"></td>
 <td></td>
 </tr>
@@ -774,7 +774,7 @@ memory usage: 9.5 KB</code></pre>
 </div>
 </div>
 <p>For model diagnostics, one can check residual plots.</p>
-<div id="9dfdff71" class="cell" data-execution_count="8">
+<div id="538c009d" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>myOlsFit <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">"y ~ x1 + x2 + x3 + x4 + x5"</span>, data <span class="op">=</span> df).fit()</span>
@@ -828,7 +828,7 @@ memory usage: 9.5 KB</code></pre>
 </ul>
 <p>Each GLM variant addresses specific types of data and research questions, enabling precise modeling and inference based on the underlying data distribution. Prediction will need the inverse link function which transforms the linear predictor to the expectation of the outcome.</p>
 <p>To demonstrate the validation of logistic regression models, we first create a simulated dataset with binary outcomes. This setup involves generating logistic probabilities and then drawing binary outcomes based on these probabilities.</p>
-<div id="ad30fa77" class="cell" data-execution_count="9">
+<div id="821d038d" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
@@ -860,7 +860,7 @@ memory usage: 9.5 KB</code></pre>
 </div>
 </div>
 <p>Fit a logistic regression for <code>y1b</code> with the formula interface.</p>
-<div id="81604553" class="cell" data-execution_count="10">
+<div id="867ea8c4" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Specify the model formula</span></span>
@@ -879,8 +879,8 @@ Model:                            GLM   Df Residuals:                      994
 Model Family:                Binomial   Df Model:                            5
 Link Function:                  Logit   Scale:                          1.0000
 Method:                          IRLS   Log-Likelihood:                -136.44
-Date:                Wed, 05 Mar 2025   Deviance:                       272.89
-Time:                        12:59:21   Pearson chi2:                 1.09e+03
+Date:                Wed, 02 Apr 2025   Deviance:                       272.89
+Time:                        19:47:43   Pearson chi2:                 1.09e+03
 No. Iterations:                     8   Pseudo R-squ. (CS):             0.2793
 Covariance Type:            nonrobust                                         
 ==============================================================================
@@ -1042,7 +1042,7 @@ x5             0.2672      0.158      1.695      0.090      -0.042       0.576
 <section id="demonstration" class="level3" data-number="6.3.10">
 <h3 data-number="6.3.10" class="anchored" data-anchor-id="demonstration"><span class="header-section-number">6.3.10</span> Demonstration</h3>
 <p>Let’s apply these metrics to the <code>simdat</code> dataset to understand their practical implications. We will fit a logistic regression model, make predictions, and then compute accuracy, precision, and recall.</p>
-<div id="4ca6b366" class="cell" data-execution_count="11">
+<div id="3b43c62a" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
@@ -1092,7 +1092,7 @@ Recall: 0.81</code></pre>
 </div>
 </div>
 <p>By varying threshold, one can plot the whole ROC curve.</p>
-<div id="bdc65c26" class="cell" data-execution_count="12">
+<div id="0ef48b4c" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute ROC curve and AUC</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>fpr, tpr, thresholds <span class="op">=</span> roc_curve(y_test, y_scores)</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>roc_auc <span class="op">=</span> auc(fpr, tpr)</span>
@@ -1123,7 +1123,7 @@ Recall: 0.81</code></pre>
 </div>
 </div>
 <p>We could pick the best threshold that optmizes F1-score/</p>
-<div id="0a763dc0" class="cell" data-execution_count="13">
+<div id="d1cf78f1" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute F1 score for each threshold</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>f1_scores <span class="op">=</span> []</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> thresh <span class="kw">in</span> thresholds:</span>
@@ -1174,7 +1174,7 @@ Best F1 score: 0.89</code></pre>
 <section id="solution-path" class="level3" data-number="6.4.2">
 <h3 data-number="6.4.2" class="anchored" data-anchor-id="solution-path"><span class="header-section-number">6.4.2</span> Solution Path</h3>
 <p>To illustrate the effect of the lasso penalty in logistic regression, we can plot the solution path of the coefficients as a function of the regularization parameter <span class="math inline">\(\lambda\)</span>. This demonstration will use a simulated dataset to show how increasing <span class="math inline">\(\lambda\)</span> leads to more coefficients being set to zero.</p>
-<div id="0db26428" class="cell" data-execution_count="14">
+<div id="e767622a" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> make_classification</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
@@ -1250,7 +1250,7 @@ Best F1 score: 0.89</code></pre>
 <li>AUC-ROC: Evaluates how well the model discriminates between the positive and negative classes.</li>
 </ul>
 <p>In Python, the <code>LogisticRegressionCV</code> class from <code>scikit-learn</code> automates cross-validation for logistic regression. It evaluates the model’s performance for a range of <span class="math inline">\(C\)</span> values and selects the best one.</p>
-<div id="7cf745a3" class="cell" data-execution_count="15">
+<div id="c2e826bd" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegressionCV</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
@@ -1315,7 +1315,7 @@ Model Coefficients:
 <h4 data-number="6.4.4.3" class="anchored" data-anchor-id="an-example"><span class="header-section-number">6.4.4.3</span> An Example</h4>
 <p>Here is a demo with <code>pipeline</code> using a simulated dataset.</p>
 <p>First we generate data with sample size 1000 from a logistic model with both categorical and numerical covariates.</p>
-<div id="41dfbabf" class="cell" data-execution_count="16">
+<div id="76efb2eb" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> OneHotEncoder, StandardScaler</span>
@@ -1361,7 +1361,7 @@ Model Coefficients:
 <span id="cb30-43"><a href="#cb30-43" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Next we split the data into features and target and define transformers for each types of feature columns.</p>
-<div id="8cd5c516" class="cell" data-execution_count="17">
+<div id="0f49ce90" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Split the dataset into features (X) and target (y)</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> data[[<span class="st">'gender'</span>, <span class="st">'education'</span>, <span class="st">'age'</span>, <span class="st">'income'</span>]]</span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> data[<span class="st">'outcome'</span>]</span>
@@ -1387,7 +1387,7 @@ Model Coefficients:
 <span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Define a pipeline, which preprocess the data and then fits a logistic model.</p>
-<div id="50cd2e51" class="cell" data-execution_count="18">
+<div id="0ba44403" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>pipeline <span class="op">=</span> Pipeline(steps<span class="op">=</span>[</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'preprocessor'</span>, preprocessor),</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'classifier'</span>, LogisticRegression(penalty<span class="op">=</span><span class="st">'l1'</span>, solver<span class="op">=</span><span class="st">'liblinear'</span>,</span>
@@ -1857,7 +1857,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 </div>
 </div>
 <p>Check the coefficients of the fitted logistic regression model.</p>
-<div id="ed853173" class="cell" data-execution_count="19">
+<div id="25c20238" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> pipeline.named_steps[<span class="st">'classifier'</span>]</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>intercept <span class="op">=</span> model.intercept_</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>coefficients <span class="op">=</span> model.coef_</span>
@@ -1932,7 +1932,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 <h2 data-number="6.6" class="anchored" data-anchor-id="an-example-with-nyc-street-flood"><span class="header-section-number">6.6</span> An Example with NYC Street Flood</h2>
 <p>We use the NYC street flood data from the mid-term project. This analysis focuses on two sewer-related complaints in 2024: Street Flooding (SF) and Catch Basin (CB). SF complaints serve as a practical indicator of street flooding, while CB complaints provide insights into a key infrastructural factor—when catch basins fail to drain rainwater properly due to blockages or structural issues, water accumulates on the streets</p>
 <p>Let’s reformat the data to create count times series of SF and CB complaints by zip code.</p>
-<div id="bf5dcfd3" class="cell" data-execution_count="20">
+<div id="1bddd4c7" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Reload the dataset, ensuring 'Incident Zip' is read as a string from the start</span></span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"data/nycflood2024.csv"</span>,</span>
@@ -1979,7 +1979,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 <span id="cb35-44"><a href="#cb35-44" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb35-45"><a href="#cb35-45" aria-hidden="true" tabindex="-1"></a>df_final.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>/var/folders/cq/5ysgnwfn7c3g0h46xyzvpj800000gn/T/ipykernel_15795/2628519755.py:3: UserWarning:
+<pre><code>/var/folders/cq/5ysgnwfn7c3g0h46xyzvpj800000gn/T/ipykernel_20799/2628519755.py:3: UserWarning:
 
 Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
 </code></pre>
@@ -2047,7 +2047,7 @@ Could not infer format, so each element will be parsed individually, falling bac
 </div>
 </div>
 <p>Now let’s fit a Poisson model.</p>
-<div id="13d2057f" class="cell" data-execution_count="21">
+<div id="44e560a6" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2096,13 +2096,13 @@ Could not infer format, so each element will be parsed individually, falling bac
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">Date:</td>
-<td>Wed, 05 Mar 2025</td>
+<td>Wed, 02 Apr 2025</td>
 <td data-quarto-table-cell-role="th">Deviance:</td>
 <td>21120.</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Time:</td>
-<td>12:59:28</td>
+<td>19:47:49</td>
 <td data-quarto-table-cell-role="th">Pearson chi2:</td>
 <td>1.50e+05</td>
 </tr>
@@ -2156,22 +2156,28 @@ Could not infer format, so each element will be parsed individually, falling bac
 </div>
 </div>
 <p>Then we fit a NB model.</p>
-<div id="ac469cf8" class="cell" data-execution_count="22">
+<div id="bfb197fe" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit Negative Binomial regression</span></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>nb_model <span class="op">=</span> smf.glm(<span class="st">"SFcount ~ CBcount_Lag1"</span>, </span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>                    data<span class="op">=</span>df_model, </span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>                    family<span class="op">=</span>sm.families.NegativeBinomial()).fit()</span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>nb_model.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>nb_model <span class="op">=</span> smf.negativebinomial(<span class="st">"SFcount ~ CBcount_Lag1"</span>, </span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>                    data<span class="op">=</span>df_model).fit()</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>nb_model.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Optimization terminated successfully.
+         Current function value: 0.193513
+         Iterations: 1
+         Function evaluations: 7
+         Gradient evaluations: 7</code></pre>
+</div>
 <div class="cell-output cell-output-stderr">
-<pre><code>/Users/junyan/work/teaching/ids-s25/ids-s25/.ids-s25/lib/python3.13/site-packages/statsmodels/genmod/families/family.py:1367: ValueWarning:
+<pre><code>/Users/junyan/work/teaching/ids-s25/ids-s25/.ids-s25/lib/python3.13/site-packages/statsmodels/base/model.py:595: HessianInversionWarning:
 
-Negative binomial dispersion parameter alpha not set. Using default value alpha=1.0.
+Inverting hessian failed, no bse or cov_params available
 </code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="22">
 <table class="simpletable caption-top table table-sm table-striped small" data-quarto-postprocess="true">
-<caption>Generalized Linear Model Regression Results</caption>
+<caption>NegativeBinomial Regression Results</caption>
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Dep. Variable:</td>
@@ -2181,51 +2187,39 @@ Negative binomial dispersion parameter alpha not set. Using default value alpha=
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">Model:</td>
-<td>GLM</td>
+<td>NegativeBinomial</td>
 <td data-quarto-table-cell-role="th">Df Residuals:</td>
 <td>67342</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">Model Family:</td>
-<td>NegativeBinomial</td>
+<td data-quarto-table-cell-role="th">Method:</td>
+<td>MLE</td>
 <td data-quarto-table-cell-role="th">Df Model:</td>
 <td>1</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">Link Function:</td>
-<td>Log</td>
-<td data-quarto-table-cell-role="th">Scale:</td>
-<td>1.0000</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">Method:</td>
-<td>IRLS</td>
-<td data-quarto-table-cell-role="th">Log-Likelihood:</td>
-<td>-12201.</td>
-</tr>
-<tr class="even">
 <td data-quarto-table-cell-role="th">Date:</td>
-<td>Wed, 05 Mar 2025</td>
-<td data-quarto-table-cell-role="th">Deviance:</td>
-<td>17446.</td>
+<td>Wed, 02 Apr 2025</td>
+<td data-quarto-table-cell-role="th">Pseudo R-squ.:</td>
+<td>-0.1198</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Time:</td>
-<td>12:59:29</td>
-<td data-quarto-table-cell-role="th">Pearson chi2:</td>
-<td>1.35e+05</td>
+<td>19:47:51</td>
+<td data-quarto-table-cell-role="th">Log-Likelihood:</td>
+<td>-13032.</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">No. Iterations:</td>
-<td>27</td>
-<td data-quarto-table-cell-role="th">Pseudo R-squ. (CS):</td>
-<td>0.006254</td>
+<td data-quarto-table-cell-role="th">converged:</td>
+<td>True</td>
+<td data-quarto-table-cell-role="th">LL-Null:</td>
+<td>-11638.</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Covariance Type:</td>
 <td>nonrobust</td>
-<td data-quarto-table-cell-role="th"></td>
-<td></td>
+<td data-quarto-table-cell-role="th">LLR p-value:</td>
+<td>1.000</td>
 </tr>
 </tbody>
 </table>
@@ -2244,51 +2238,59 @@ Negative binomial dispersion parameter alpha not set. Using default value alpha=
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">Intercept</td>
-<td>-3.2111</td>
-<td>0.019</td>
-<td>-166.190</td>
-<td>0.000</td>
-<td>-3.249</td>
-<td>-3.173</td>
+<td>-3.1437</td>
+<td>nan</td>
+<td>nan</td>
+<td>nan</td>
+<td>nan</td>
+<td>nan</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">CBcount_Lag1</td>
-<td>0.5997</td>
-<td>0.016</td>
-<td>36.481</td>
-<td>0.000</td>
-<td>0.567</td>
-<td>0.632</td>
+<td>0.2232</td>
+<td>nan</td>
+<td>nan</td>
+<td>nan</td>
+<td>nan</td>
+<td>nan</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">alpha</td>
+<td>2.252e-10</td>
+<td>nan</td>
+<td>nan</td>
+<td>nan</td>
+<td>nan</td>
+<td>nan</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<p>Check for overdisperson.</p>
-<pre><code># Overdispersion check: Compute Pearson Chi-square statistic
-poisson_deviance = poisson_model.pearson_chi2 / poisson_model.df_resid
-nb_deviance = nb_model.pearson_chi2 / nb_model.df_resid
-
-# Akaike Information Criterion (AIC) comparison
-poisson_aic = poisson_model.aic
-nb_aic = nb_model.aic
-
-# Residual analysis
-df_model["Poisson_Residuals"] = poisson_model.resid_pearson
-df_model["NB_Residuals"] = nb_model.resid_pearson
-
-# Summary of results
-summary_results = {
-    "Poisson Coefficients": poisson_model.params.to_dict(),
-    "Negative Binomial Coefficients": nb_model.params.to_dict(),
-    "Poisson Deviance": poisson_deviance,
-    "Negative Binomial Deviance": nb_deviance,
-    "Poisson AIC": poisson_aic,
-    "Negative Binomial AIC": nb_aic
-}
-
-# Return the summary of findings
-summary_results</code></pre>
+<p>Note that <code>smf.glm</code> does not allow the dispersion parameter to be estimated; instead, it is fixed at 1.</p>
+<!-- Check for overdisperson. -->
+<!-- ```{python} -->
+<!-- # Overdispersion check: Compute Pearson Chi-square statistic -->
+<!-- poisson_deviance = poisson_model.pearson_chi2 / poisson_model.df_resid -->
+<!-- nb_deviance = nb_model.pearson_chi2 / nb_model.df_resid -->
+<!-- # Akaike Information Criterion (AIC) comparison -->
+<!-- poisson_aic = poisson_model.aic -->
+<!-- nb_aic = nb_model.aic -->
+<!-- # Residual analysis -->
+<!-- df_model["Poisson_Residuals"] = poisson_model.resid_pearson -->
+<!-- df_model["NB_Residuals"] = nb_model.resid_pearson -->
+<!-- # Summary of results -->
+<!-- summary_results = { -->
+<!--     "Poisson Coefficients": poisson_model.params.to_dict(), -->
+<!--     "Negative Binomial Coefficients": nb_model.params.to_dict(), -->
+<!--     "Poisson Deviance": poisson_deviance, -->
+<!--     "Negative Binomial Deviance": nb_deviance, -->
+<!--     "Poisson AIC": poisson_aic, -->
+<!--     "Negative Binomial AIC": nb_aic -->
+<!-- } -->
+<!-- # Return the summary of findings -->
+<!-- summary_results -->
+<!-- ``` -->
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
