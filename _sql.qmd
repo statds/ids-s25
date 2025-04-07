@@ -1,4 +1,4 @@
-## Introduction to SQL
+## Database with SQL
 
 * This section was prepared by Alyssa Horn, a junior Applied Data Analysis major
 with a domain in Public Policy/Management.
