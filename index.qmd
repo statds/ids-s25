@@ -342,19 +342,19 @@ Please use the following table to sign up.
    03/10 |  Kline, Daniel Esteban     |
    03/12 |  Edo, Mezmur Wossenu      | Principal Component Analysis (PCA)
    03/26 |  Alsadadi, Ammar Shaker     | Sentiment Analysis with Python 
-   03/26 |  Fables, Xavier Milan     |
+   03/26 |  Fables, Xavier Milan     | Variable Importance Metrics in Supervised Learning
    03/31 |  Tamhane, Shubhan     | Support Vector Machine
    03/31 |  Nasejje, Ruth Nicole     | Personal webpage on GitHub
    04/02 |  Lagutin, Vladislav     | Google Maps visualizations using Folium library
    04/02 |  Zhang, Gaofei    | Random forest
    04/07 |  Long, Ethan Kenneth     | Synthetic Minority Oversampling Technique (SMOTE)
-   04/07 |  Xu, Peiwen   | 
-   04/09 |  Kravette, Noah   | 
+   04/07 |  Xu, Peiwen   | Developing a Python package
+   04/09 |  Kravette, Noah   | Working with NetCDF Data 
    04/09 |  Symula, Sebastian   | Imputation Methods for Missing Data
-   04/09 |  Tomaino, Mario Anthony   | 
-   04/12 |  Reed, Kyle Daniel   | 
-   04/12 |  Chen, Yifei   | 
-   04/12 |  Mundiwala, Mohammad Moiz   | Math animations with manim
+   04/09 |  Tomaino, Mario Anthony   | K-Prototypes Clustering
+   04/14 |  Reed, Kyle Daniel   | 
+   04/14 |  Chen, Yifei   | 
+   04/14 |  Mundiwala, Mohammad Moiz   | Math animations with manim
    04/16 |  Lin, Selena   | 
    04/16 |  Pfeifer, Nicholas Theodore   | 
    04/16 |  Vellore, Ajeeth Krishna | Neural Network Basics
@@ -371,11 +371,11 @@ be used as a template to start with.
 
    Date  | Presenter
   ------ | ---------------------- 
-   04/21 | Shiyi Li; Joann Jun; Ammar Alsadadi; Lang Lang; John Ackerman
-   04/23 | Alyssa Horn; Peiwen Xu; Thomas Schittina; Daniel Kline; Luke Roy
-   04/28 | Xavier Fables; Shubhan Tamhane; Ruth Nasejje; Vladislav Lagutin; Ethan Long
-   04/30 | Amer El Zein; Sebastian Symula; Mario Tomiano; Kyle Reed; Yifei Chen
-   05/??  | Selena Lin; Nick Pfeifer
+   04/21 | Shiyi Li; Joann Jun; Ammar Alsadadi; Lang Lang
+   04/23 | John Ackerman; Alyssa Horn; Peiwen Xu; Thomas Schittina
+   04/28 | Daniel Kline; Luke Roy; Xavier Fables; Shubhan Tamhane
+   04/30 | Ruth Nasejje; Vladislav Lagutin; Ethan Long; Amer El Zein
+   05/05 (10:30-12:30)  | Sebastian Symula; Mario Tomiano; Kyle Reed; Yifei Chen; Selena Lin; Nick Pfeifer
 
 ### Contributing to the Class Notes
 

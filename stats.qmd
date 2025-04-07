@@ -1164,42 +1164,42 @@ poisson_model.summary()
 ```
 
 
-
 Then we fit a NB model.
 ```{python}
 # Fit Negative Binomial regression
-nb_model = smf.glm("SFcount ~ CBcount_Lag1", 
-                    data=df_model, 
-                    family=sm.families.NegativeBinomial()).fit()
+nb_model = smf.negativebinomial("SFcount ~ CBcount_Lag1", 
+                    data=df_model).fit()
 
 nb_model.summary()
 ```
+Note that `smf.glm` does not allow the dispersion parameter to be
+estimated; instead, it is fixed at 1.
 
 
-Check for overdisperson.
-```
-# Overdispersion check: Compute Pearson Chi-square statistic
-poisson_deviance = poisson_model.pearson_chi2 / poisson_model.df_resid
-nb_deviance = nb_model.pearson_chi2 / nb_model.df_resid
+<!-- Check for overdisperson. -->
+<!-- ```{python} -->
+<!-- # Overdispersion check: Compute Pearson Chi-square statistic -->
+<!-- poisson_deviance = poisson_model.pearson_chi2 / poisson_model.df_resid -->
+<!-- nb_deviance = nb_model.pearson_chi2 / nb_model.df_resid -->
 
-# Akaike Information Criterion (AIC) comparison
-poisson_aic = poisson_model.aic
-nb_aic = nb_model.aic
+<!-- # Akaike Information Criterion (AIC) comparison -->
+<!-- poisson_aic = poisson_model.aic -->
+<!-- nb_aic = nb_model.aic -->
 
-# Residual analysis
-df_model["Poisson_Residuals"] = poisson_model.resid_pearson
-df_model["NB_Residuals"] = nb_model.resid_pearson
+<!-- # Residual analysis -->
+<!-- df_model["Poisson_Residuals"] = poisson_model.resid_pearson -->
+<!-- df_model["NB_Residuals"] = nb_model.resid_pearson -->
 
-# Summary of results
-summary_results = {
-    "Poisson Coefficients": poisson_model.params.to_dict(),
-    "Negative Binomial Coefficients": nb_model.params.to_dict(),
-    "Poisson Deviance": poisson_deviance,
-    "Negative Binomial Deviance": nb_deviance,
-    "Poisson AIC": poisson_aic,
-    "Negative Binomial AIC": nb_aic
-}
+<!-- # Summary of results -->
+<!-- summary_results = { -->
+<!--     "Poisson Coefficients": poisson_model.params.to_dict(), -->
+<!--     "Negative Binomial Coefficients": nb_model.params.to_dict(), -->
+<!--     "Poisson Deviance": poisson_deviance, -->
+<!--     "Negative Binomial Deviance": nb_deviance, -->
+<!--     "Poisson AIC": poisson_aic, -->
+<!--     "Negative Binomial AIC": nb_aic -->
+<!-- } -->
 
-# Return the summary of findings
-summary_results
-```
+<!-- # Return the summary of findings -->
+<!-- summary_results -->
+<!-- ``` -->
