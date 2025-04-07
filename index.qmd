@@ -371,11 +371,11 @@ be used as a template to start with.
 
    Date  | Presenter
   ------ | ---------------------- 
-   04/21 | Shiyi Li; Joann Jun; Ammar Alsadadi; Lang Lang; John Ackerman
-   04/23 | Alyssa Horn; Peiwen Xu; Thomas Schittina; Daniel Kline; Luke Roy
-   04/28 | Xavier Fables; Shubhan Tamhane; Ruth Nasejje; Vladislav Lagutin; Ethan Long
-   04/30 | Amer El Zein; Sebastian Symula; Mario Tomiano; Kyle Reed; Yifei Chen
-   05/??  | Selena Lin; Nick Pfeifer
+   04/21 | Shiyi Li; Joann Jun; Ammar Alsadadi; Lang Lang
+   04/23 | John Ackerman; Alyssa Horn; Peiwen Xu; Thomas Schittina
+   04/28 | Daniel Kline; Luke Roy; Xavier Fables; Shubhan Tamhane
+   04/30 | Ruth Nasejje; Vladislav Lagutin; Ethan Long; Amer El Zein
+   05/05 (10:30-12:30)  | Sebastian Symula; Mario Tomiano; Kyle Reed; Yifei Chen; Selena Lin; Nick Pfeifer
 
 ### Contributing to the Class Notes
 
