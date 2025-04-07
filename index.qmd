@@ -202,6 +202,9 @@ Markdown.
     - Learn intersection between SQL and Python for a data science project
     - Learn machine learning algorithms like random forest and clustering
 + Tomaino, Mario Anthony
+    - Learn about critical data science skills and processes
+    - Become comfortable with git and github CLI
+    - Learn new data visualization methods
 + Xu, Peiwen
     - Learn some data analysis techniques
     - Learn how to use git and other essential tools for data science
