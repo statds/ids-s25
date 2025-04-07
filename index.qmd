@@ -352,7 +352,7 @@ Please use the following table to sign up.
    04/09 |  Kravette, Noah   | Working with NetCDF Data 
    04/09 |  Symula, Sebastian   | Imputation Methods for Missing Data
    04/09 |  Tomaino, Mario Anthony   | 
-   04/12 |  Reed, Kyle Daniel   | 
+   04/12 |  Reed, Kyle Daniel   | Time Series Analysis
    04/12 |  Chen, Yifei   | 
    04/12 |  Mundiwala, Mohammad Moiz   | Math animations with manim
    04/16 |  Lin, Selena   | 
