@@ -291,7 +291,7 @@ Here's a practical example using `scikit-learn` to demonstrate
 gradient boosting on the California housing dataset. First, import
 necessary libraries and load the data:
 
-```python
+```{python}
 import numpy as np
 import pandas as pd
 from sklearn.datasets import fetch_california_housing
@@ -306,23 +306,23 @@ X, y = housing.data, housing.target
 
 Next, split the dataset into training and testing sets:
 
-```python
+```{python}
 # Train-test split
 X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42
+    X, y, test_size=0.2, random_state=20250407
 )
 ```
 
 Then, set up and train a stochastic gradient boosting model:
 
-```python
+```{python}
 # Gradient Boosting Model with stochastic subsampling
 gbm = GradientBoostingRegressor(
     n_estimators=200,
     learning_rate=0.1,
     max_depth=3,
     subsample=0.7,  # stochastic gradient boosting
-    random_state=42
+    random_state=20250408
 )
 
 gbm.fit(X_train, y_train)
@@ -330,7 +330,7 @@ gbm.fit(X_train, y_train)
 
 Finally, make predictions and evaluate the model performance:
 
-```python
+```{python}
 # Predictions
 y_pred = gbm.predict(X_test)
 
@@ -338,6 +338,50 @@ y_pred = gbm.predict(X_test)
 mse = mean_squared_error(y_test, y_pred)
 print(f"Test MSE: {mse:.4f}")
 ```
+
+### XGBoost: Extreme Gradient Boosting
+
+XGBoost is a scalable and 
+efficient implementation of gradient-boosted decision trees 
+[@chen2016xgboost]. It has become one of the most widely used machine 
+learning methods for structured data due to its high predictive 
+performance, regularization capabilities, and speed. XGBoost builds 
+an ensemble of decision trees in a stage-wise fashion, minimizing a 
+regularized objective that balances training loss and model complexity.
+
+
+The core idea of XGBoost is to fit each new tree to the *gradient* of 
+the loss function with respect to the model’s predictions. Unlike 
+traditional boosting algorithms like AdaBoost, which use only 
+first-order gradients, XGBoost optionally uses second-order derivatives 
+(Hessians), enabling better convergence and stability 
+[@friedman2001greedy].
+
+
+XGBoost is widely used in data science competitions and real-world 
+applications. It supports regularization (L1 and L2), handles missing 
+values internally, and is designed for distributed computing.
+
+
+XGBoost builds upon the same foundational idea as gradient boosted 
+machines—sequentially adding trees to improve the predictive model—
+but introduces a number of enhancements:
+
+| Aspect               | Traditional GBM                            | XGBoost                        |
+|----------------------|---------------------------------------------|--------------------------------|
+| Implementation       | Basic gradient boosting                    | Optimized, regularized boosting |
+| Regularization       | Shrinkage only                             | L1 and L2 regularization        |
+| Loss Optimization    | First-order gradients                      | First- and second-order         |
+| Missing Data         | Requires manual imputation                 | Handled automatically           |
+| Tree Construction    | Depth-wise                                 | Level-wise (faster)             |
+| Parallelization      | Limited                                    | Built-in                        |
+| Sparsity Handling    | No                                          | Yes                             |
+| Objective Functions  | Few options                                | Custom supported                |
+| Cross-validation     | External via `GridSearchCV`                | Built-in `xgb.cv`               |
+
+XGBoost is therefore more suitable for large-scale problems and provides 
+better generalization performance in many practical tasks.
+
 
 <!-- {{< include _naivebayes.qmd >}} -->
 
