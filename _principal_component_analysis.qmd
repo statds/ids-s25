@@ -1,0 +1,305 @@
+## Principal Component Analysis (PCA)
+
+The following section is written by Mezmur Edo, a PhD student in the 
+physics department. This section will focus on the motivation, intuition 
+and theory behind PCA. It will also demonstrate the importance of scaling 
+for proper implementation of PCA.
+
+### Motivation
+
+Some of the motivations behind PCA are:
+
+- Computation Efficiency
+
+- Feature Extraction
+
+- Visualization
+
+- Curse of dimensionality
+
+#### Curse of Dimensionality
+
+The Euclidean distance between data points, which we represent as vectors, 
+shrinks with the number of dimensions. To demonstrate this, let's generate 
+10,000 vectors of n dimensions each, where n ranges from 2 to 50, with 
+integer entries ranging from -100 to 100. By selecting a random vector, Q, 
+of the same dimension, we can calculate the Euclidean distance of Q to each 
+of these 10,000 vectors. The plot below shows the logarithm, to the base 10, 
+of difference between the maximum and minimum distances divided by the minimum 
+distance as a function of the number of dimensions.
+
+```{python}
+#| echo: true
+
+#import libraries
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler, scale, normalize
+import os
+import math
+from matplotlib.ticker import AutoMinorLocator
+
+#define a list to store delta values
+#delta is the logarithm, to the base 10, of difference between
+#the maximum and minimum Euclidean distances divided 
+#by the minimum distance
+deltas = []
+
+#loop through dimensions from 2 to 49
+for N in range(2, 50):
+  #generate 10,000 random N-dimensional vectors, P, and
+  #a single random N-dimensional vector, Q
+  P = [np.random.randint(-100, 100, N) for _ in range(10000)]
+  Q = np.random.randint(-100, 100, N)
+  
+  #calculate the Euclidean distances between each point in P and Q
+  diffs = [np.linalg.norm(p - Q) for p in P]
+  
+  #find the maximum and minimum Euclidean distances
+  mxd = max(diffs)
+  mnd = min(diffs)
+  
+  #calculate delta
+  delta = math.log10(mxd - mnd) / mnd
+  deltas.append(delta)
+
+#plot delta versus N, the number of dimensions
+plt.plot(range(2, 50), deltas)
+plt.xlabel('Number of dimension', loc='right', fontsize=10)
+plt.ylabel('Euclidean Distance', loc='top', fontsize=10)
+ax = plt.gca()
+
+#add minor locators to the axes
+ax.xaxis.set_minor_locator(AutoMinorLocator())
+ax.yaxis.set_minor_locator(AutoMinorLocator())
+
+plt.show()
+```
+### Intuition
+
+We aim to find orthogonal directions of maximum variance in data. Directions 
+with sufficiently low variance in the data can be removed.
+
+```{python}
+#| echo: true
+rng = np.random.RandomState(0)
+n_samples = 200
+
+#generate a 2D dataset with 200 entries from 
+#a multivariate normal distribution
+#with covariances [[3, 3], [3, 4]]
+#and mean [0, 0]
+X = rng.multivariate_normal(mean=[0,0], \
+cov=[[3, 3], [3, 4]], size=n_samples)
+
+#perform PCA on the generated data to find 
+#the two principal components
+pca = PCA(n_components=2).fit(X)
+
+#plot the generated data wih label 'Data'
+plt.scatter(X[:,0], X[:,1], label = 'Data')
+
+#plot the first principal component scaled by 
+#its explained variance
+#set color, linewidth and label
+first_principal_cpt_explained_var = pca.explained_variance_[0]
+first_principal_cpt = [[0, pca.components_[0][0]*first_principal_cpt_explained_var] \
+, [0, pca.components_[0][1]*first_principal_cpt_explained_var]]
+
+plt.plot(first_principal_cpt[0], first_principal_cpt[1] \
+, color='green', linewidth=5 \
+, label = r'First Principal Component ($p_1$)')
+
+#plot the second principal component scaled by 
+#its explained variance
+#set color, linewidth and label
+second_principal_cpt_explained_var = pca.explained_variance_[1]
+second_principal_cpt = [[0, pca.components_[1][0]*second_principal_cpt_explained_var] \
+, [0, pca.components_[1][1]*second_principal_cpt_explained_var]]
+
+plt.plot(second_principal_cpt[0],  second_principal_cpt[1] \
+, color='red', linewidth=5 \
+, label = r'Second Principal Component ($p_2$)')
+
+plt.title("")
+plt.xlabel("First Feature", loc = 'right', fontsize = 10)
+plt.ylabel("Second Feature", loc = 'top', fontsize = 10)
+plt.legend()
+plt.show()
+```
+
+We can then project the data onto the first principal component direction, $p_1$.
+
+### Theory
+
+Let $x$ be a data point with features $f_1$, $f_2$, $f_3$, ..., $f_n$,
+
+$$x = \begin{pmatrix}
+f_1\\
+f_2\\
+f_3\\
+.\\
+.\\
+.\\
+f_n
+\end{pmatrix}.
+$$
+
+The projection of x onto p is then,
+
+$$x^{T} \frac{p}{||p||}.$$ 
+
+Hence, the projection of all data points onto the principal component direction, 
+p, can be written as,
+
+$$\begin{pmatrix}
+x_1^{T} \frac{p}{||p||}\\
+x_2^{T} \frac{p}{||p||}\\
+x_3^{T} \frac{p}{||p||}\\
+.\\
+.\\
+.\\
+x_m^{T} \frac{p}{||p||}
+\end{pmatrix}
+= X\frac{p}{||p||},$$ 
+
+where:
+
+- X is the design matrix consisting m datapoints.
+
+
+#### The Optimization Problem
+
+Let $\bar{x}$ be the sample mean vector such that,
+
+$$\bar{x} = \frac{1}{m}\sum_{i=1}^{m}x^{(i)}.$$
+
+The sample covariance matrix is then given by,
+
+$$S = \frac{1}{m} X^TX - \bar{x}\bar{x}^T,$$ 
+
+where:
+
+- $S_{ij}$ is the covarance of feature i and feature j.
+
+For a sample mean of the projected data, $\bar{a}$,
+
+$$\bar{a} = \frac{1}{m}\sum_{i=1}^{m}x^{(i)T}p = \bar{x}^Tp,$$
+
+the sample variance of the projected data can be written as,
+
+$$\sigma^{2}= \frac{1}{m}\sum_{i=1}^{m}(x^{(i)T}p)^2 - \bar{a}^{2} = p^{T}Sp.$$
+
+Then, our optimization problem simplifies to maximizing the sample variance,
+
+$$\max_p \space p^{T}Sp \space s.t. ||p||=1,$$
+
+which has the following solution,
+
+$$Sp = \lambda p.$$
+
+
+#### Scikit-learn Implementation
+
+Computation can be done using the single value decomposition of X,
+
+$$X = U \Sigma V^T.$$
+
+If the data is mean-centered (the default option in scikit-learn), the sample 
+covariance matrix is given by,
+
+$$S = \frac{1}{m} X^TX = \frac{1}{m} V\Sigma U^T U \Sigma V^T = V\frac{1}{m}\Sigma^2V^T,$$ 
+
+which is the eigenvalue decomposition of S, with its eigenvectors as the columns 
+of $V$ and the corresponding eigenvalues as diagonal entries of $\frac{1}{m}\Sigma^2$.
+
+The variance explained by the j-th principal component, $p_j$, is $\lambda_{j}$ and 
+the total variance explained is the sum of all the eigenvalues, which is also equal 
+to the trace of S. The total variance explained by the first k principal componentsis 
+then given by,
+
+$$\frac{\sum_{j=1}^{k} \lambda_j}{trace(s)}.$$
+
+### PCA With and Without Scaling
+
+For proper implementation of PCA, data must be scaled. To demonstrate this, we generate 
+a dataset with the first 4 features selected from a normal distribution with mean 0 and 
+standard deviation 1. We then append a fifth feature drawn from a uniform distribution 
+with integer entries ranging from 1 to 10. The plot of the projection of the data onto 
+first principal component versus the projection onto the second principal component does 
+not show the expected noise structure unless the data is scaled.
+
+```{python}
+#| echo: true
+np.random.seed(42)
+
+#generate a feature of size 10,000 with integer entries 
+#ranging from 1 to 10
+feature = np.random.randint(1, 10, 10000)
+N = 10000
+P = 4
+
+#generate a 4D dataset drawn from a normal distribution of 10,000 entries
+#then append the feature to X, making it a 5D dataset
+X = np.random.normal(size=[N,P])
+X = np.append(X, feature.reshape(10000,1), axis = 1)
+
+#perform PCA with 2 components on the dataset without scaling
+pca = PCA(2)
+pca_no_scale = pca.fit_transform(X)
+
+#plot the projection of the data onto the first principal
+#component versus the projection onto 
+#the second principal component
+plt.scatter(pca_no_scale[:,0], pca_no_scale[:,1])
+plt.title("PCA without Scaling")
+plt.xlabel("Principal Component 1", loc = 'right', fontsize = 10)
+plt.ylabel("Principal Component 2", loc = 'top', fontsize = 10)
+plt.show()
+
+#scale data, mean-center and divide by the standard deviation
+Xn = scale(X)
+
+#perform PCA with 2 components on the scaled data
+pca = PCA(2)
+pca_scale = pca.fit_transform(Xn)
+
+#plot the projection of the data onto the first principal 
+#component versus the projection onto
+#the second principal component
+plt.scatter(pca_scale[:,0], pca_scale[:,1])
+plt.title("PCA with Scaling")
+plt.xlabel("Principal Component 1", loc = 'right', fontsize = 10)
+plt.ylabel("Principal Component 2", loc = 'top', fontsize = 10)
+plt.show()
+```
+
+### Summary
+
+- PCA is a dimensionality reduction technique that projects data onto directions which 
+explain the most variance in the data.
+
+- The principal component directions are the eigenvectors of the sample covariance matrix 
+and the corresponding eigenvalues represent the variances explained.
+
+- For proper implementation of PCA, data must be mean-centered, scikit-learn default, 
+and scaled.
+
+
+### Further Readings
+
+- [Principal component analysis: a review and recent developments](https://pmc.ncbi.nlm.nih.gov/articles/PMC4792409/)
+
+- [Principal Components Analysis](https://www.stat.cmu.edu/~cshalizi/uADA/12/lectures/ch18.pdf)
+
+
+
+
+
+
+
+
+
+
+
