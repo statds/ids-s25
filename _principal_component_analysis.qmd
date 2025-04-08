@@ -1,8 +1,9 @@
 ## Principal Component Analysis (PCA)
 
-The following section is written by Mezmur Edo. This section will focus on 
-the motivation, intuition and theory behind PCA. It will also demonstrate 
-the importance of scaling for proper implementation of PCA.
+The following section is written by Mezmur Edo, a PhD student in the 
+physics department. This section will focus on the motivation, intuition 
+and theory behind PCA. It will also demonstrate the importance of scaling 
+for proper implementation of PCA.
 
 ### Motivation
 
@@ -87,6 +88,8 @@ n_samples = 200
 
 #generate a 2D dataset with 200 entries from 
 #a multivariate normal distribution
+#with covariances [[3, 3], [3, 4]]
+#and mean [0, 0]
 X = rng.multivariate_normal(mean=[0,0], \
 cov=[[3, 3], [3, 4]], size=n_samples)
 
@@ -94,22 +97,31 @@ cov=[[3, 3], [3, 4]], size=n_samples)
 #the two principal components
 pca = PCA(n_components=2).fit(X)
 
-#plot the generated data
+#plot the generated data wih label 'Data'
 plt.scatter(X[:,0], X[:,1], label = 'Data')
 
 #plot the first principal component scaled by 
 #its explained variance
-plt.plot([0, pca.components_[0][0]* pca.explained_variance_[0]] \
-, [0, pca.components_[0][1]* pca.explained_variance_[0]] \
+#set color, linewidth and label
+first_principal_cpt_explained_var = pca.explained_variance_[0]
+first_principal_cpt = [[0, pca.components_[0][0]*first_principal_cpt_explained_var] \
+, [0, pca.components_[0][1]*first_principal_cpt_explained_var]]
+
+plt.plot(first_principal_cpt[0], first_principal_cpt[1] \
 , color='green', linewidth=5 \
 , label = r'First Principal Component ($p_1$)')
 
 #plot the second principal component scaled by 
 #its explained variance
-plt.plot([0, pca.components_[1][0]* pca.explained_variance_[1]] \
-, [0, pca.components_[1][1]* pca.explained_variance_[1]] \
+#set color, linewidth and label
+second_principal_cpt_explained_var = pca.explained_variance_[1]
+second_principal_cpt = [[0, pca.components_[1][0]*second_principal_cpt_explained_var] \
+, [0, pca.components_[1][1]*second_principal_cpt_explained_var]]
+
+plt.plot(second_principal_cpt[0],  second_principal_cpt[1] \
 , color='red', linewidth=5 \
 , label = r'Second Principal Component ($p_2$)')
+
 plt.title("")
 plt.xlabel("First Feature", loc = 'right', fontsize = 10)
 plt.ylabel("Second Feature", loc = 'top', fontsize = 10)
@@ -131,15 +143,15 @@ f_3\\
 .\\
 .\\
 f_n
-\end{pmatrix}
+\end{pmatrix}.
 $$
 
 The projection of x onto p is then,
 
-$$x^{T} \frac{p}{||p||}$$
+$$x^{T} \frac{p}{||p||}.$$ 
 
 Hence, the projection of all data points onto the principal component direction, 
-p, can be written as ,
+p, can be written as,
 
 $$\begin{pmatrix}
 x_1^{T} \frac{p}{||p||}\\
@@ -150,7 +162,7 @@ x_3^{T} \frac{p}{||p||}\\
 .\\
 x_m^{T} \frac{p}{||p||}
 \end{pmatrix}
-= X\frac{p}{||p||}$$
+= X\frac{p}{||p||},$$ 
 
 where:
 
@@ -161,11 +173,11 @@ where:
 
 Let $\bar{x}$ be the sample mean vector such that,
 
-$$\bar{x} = \frac{1}{m}\sum_{i=1}^{m}x^{(i)}$$
+$$\bar{x} = \frac{1}{m}\sum_{i=1}^{m}x^{(i)}.$$
 
-the sample covariance matrix is then given by,
+The sample covariance matrix is then given by,
 
-$$S = \frac{1}{m} X^TX - \bar{x}\bar{x}^T$$
+$$S = \frac{1}{m} X^TX - \bar{x}\bar{x}^T,$$ 
 
 where:
 
@@ -173,31 +185,31 @@ where:
 
 For a sample mean of the projected data, $\bar{a}$,
 
-$$\bar{a} = \frac{1}{m}\sum_{i=1}^{m}x^{(i)T}p = \bar{x}^Tp$$
+$$\bar{a} = \frac{1}{m}\sum_{i=1}^{m}x^{(i)T}p = \bar{x}^Tp,$$
 
 the sample variance of the projected data can be written as,
 
-$$\sigma^{2}= \frac{1}{m}\sum_{i=1}^{m}(x^{(i)T}p)^2 - \bar{a}^{2} = p^{T}Sp$$
+$$\sigma^{2}= \frac{1}{m}\sum_{i=1}^{m}(x^{(i)T}p)^2 - \bar{a}^{2} = p^{T}Sp.$$
 
 Then, our optimization problem simplifies to maximizing the sample variance,
 
-$$\max_p \space p^{T}Sp \space s.t. ||p||=1$$
+$$\max_p \space p^{T}Sp \space s.t. ||p||=1,$$
 
 which has the following solution,
 
-$$Sp = \lambda p$$
+$$Sp = \lambda p.$$
 
 
 #### Scikit-learn Implementation
 
-Computation can be done using the single value decomposition of X.
+Computation can be done using the single value decomposition of X,
 
-$$X = U \Sigma V^T$$
+$$X = U \Sigma V^T.$$
 
 If the data is mean-centered (the default option in scikit-learn), the sample 
 covariance matrix is given by,
 
-$$S = \frac{1}{m} X^TX = \frac{1}{m} V\Sigma U^T U \Sigma V^T = V\frac{1}{m}\Sigma^2V^T$$
+$$S = \frac{1}{m} X^TX = \frac{1}{m} V\Sigma U^T U \Sigma V^T = V\frac{1}{m}\Sigma^2V^T,$$ 
 
 which is the eigenvalue decomposition of S, with its eigenvectors as the columns 
 of $V$ and the corresponding eigenvalues as diagonal entries of $\frac{1}{m}\Sigma^2$.
@@ -207,7 +219,7 @@ the total variance explained is the sum of all the eigenvalues, which is also eq
 to the trace of S. The total variance explained by the first k principal componentsis 
 then given by,
 
-$$\frac{\sum_{j=1}^{k} \lambda_j}{trace(s)}$$
+$$\frac{\sum_{j=1}^{k} \lambda_j}{trace(s)}.$$
 
 ### PCA With and Without Scaling
 
