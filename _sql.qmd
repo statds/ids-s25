@@ -1,0 +1,472 @@
+## Database with SQL
+
+* This section was prepared by Alyssa Horn, a junior Applied Data Analysis major
+with a domain in Public Policy/Management.
+
+* This section explores database operations using SQL in Python,
+focusing on the contributing_factor_vehicle_1 column of the NYC crash
+dataset. We'll use Python's **sqlite3** and **pandas** libraries for database
+interaction.
+
+### What is a Database?
+
+1. A collection of related data.
+
+2. Organized in a way that allows computers to efficiently store,
+retrieve, and manipulate information.
+3. "Filing system" for large amounts of data that can be easily
+accessed and analyzed
+
+#### Non-relational Databases
+
+a. Ideal for handling large volumes of unstructured or semi-structured
+data.
+b. Does not store data in a traditional tabular format with rows and
+columns like a relational database.
+c. Allows for more flexible data structures like documents, key-value
+pairs, graphs, or columns.
+
+#### Relational Databases
+
+a. Stores data in tables with rows (records) and columns (attributes).
+b. Each table has a primary key to uniquely identify records.
+c. Allows you to easily access and understand how different pieces of
+data are connected to each other.
+d. Example: In a phone book, each contact has a unique ID, name, phone
+number, and address.
+
+### What is SQL?
+
+1. Structured Query Language for managing and querying relational
+databases.
+2. Helps you store, retrieve, update, and delete data easily using
+simple commands in Python. 
+3. Using sqlite3, you can run SQL queries directly from your Python
+code to interact with your database seamlessly.
+
+#### CRUD Model
+
+* The four most basic operations that can be performed with most
+traditional database systems and they are the backbone for
+interacting with any database.
+
+    * Create: Insert new records.
+    * Read: Retrieve data.
+    * Update: Modify existing records.
+    * Delete: Remove records.
+
+#### What can SQL do?
+
+* Execute queries against a database
+* Retrieve data from a database
+* Insert records in a database
+* Update records in a database
+* Delete records from a database
+* Create new databases
+* Create new tables in a database
+* Create stored procedures in a database
+* Create views in a database
+* Set permissions on tables, procedures, and views
+
+#### Key Statements 
+
+* Create a cursor object to interact with the database
+* `cursor.execute` executes a single SQL statement
+* `conn.commit` saves all changes made
+* `query =` requests specific information from database
+
+### Setting up the Database
+
+#### Read in the datatset and store dataframe as SQL table
+
+We start by importing necessary packages and reading in the
+cleaned nyccrashes feather. 
+
+* Use `data.to_sql` to store dataframe as an SQL table. 
+
+```{python}
+#| echo: true       # Show the code
+#| output: true     # Show the output
+
+import sqlite3
+import pandas as pd
+
+# Create a database and load the NYC crash data
+db_path = 'nyc_crash.db'
+conn = sqlite3.connect(db_path)
+#The conn object acts as a bridge between Python and the database,
+#allowing you to execute SQL queries and manage data.
+
+# Load Feather
+data = pd.read_feather("data/nyccrashes_cleaned.feather")
+
+# create crash_date and crash_time columns
+data["crash_date"] = pd.to_datetime(data["crash_datetime"]).dt.date
+data["crash_time"] = pd.to_datetime(data["crash_datetime"]).dt.strftime("%H:%M:%S")
+
+# Drop the original datetime column (optional)
+data.drop(columns=["crash_datetime"], inplace=True)
+
+# Store DataFrame as a SQL table
+data.to_sql('nyc_crashes', conn, if_exists='replace', index=False)
+```
+
+#### Display the Table
+
+We can display the table by querying all (or some) of the data and 
+using the `.head()` command 
+
+```{python}
+#| echo: true       # Show the code
+#| output: true     # Show the output
+
+# Query to select all data (or limit rows to avoid overload)
+query = "SELECT * FROM nyc_crashes LIMIT 10;"
+
+# Load the data into a pandas DataFrame
+nyc_crashes_data = pd.read_sql_query(query, conn)
+
+# Display the DataFrame
+nyc_crashes_data.head(5)
+```
+
+### Normalizing the Database with a Lookup Table
+
+#### Create the lookup table
+
+Create the lookup table using the `create table` command
+with the corresponding column names. 
+
+```{python}
+#| echo: true       # Show the code
+#| output: true     # Show the output
+
+# Connect to the SQLite database
+cursor = conn.cursor()
+
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS contributing_factor_lookup (
+    factor_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    factor_description TEXT UNIQUE
+)
+''')
+print("Lookup table created successfully.")
+```
+
+#### Populate the Lookup Table with Distinct Values
+
+Populate the lookup table with the values contained in 
+contributing_factor_vehicle_1.
+
+```{python}
+#| echo: true       # Show the code
+#| output: true     # Show the output
+
+cursor.execute('''
+INSERT OR IGNORE INTO contributing_factor_lookup (factor_description)
+SELECT DISTINCT contributing_factor_vehicle_1
+FROM nyc_crashes
+WHERE contributing_factor_vehicle_1 IS NOT NULL;
+''')
+print("Lookup table populated with distinct contributing factors.")
+```
+
+#### Update the Original Table to Include factor_id
+
+Use `ALTER TABLE` to add factor_id column into original table. 
+
+```{python}
+#| echo: true       # Show the code
+#| output: true     # Show the output
+
+cursor.execute('''
+ALTER TABLE nyc_crashes ADD COLUMN factor_id INTEGER;
+''')
+print("Added 'factor_id' column to nyc_crashes table.")
+```
+
+#### Update the Original Table with Corresponding Codes
+
+Use `UPDATE` command to update table with factor descriptions.
+
+```{python}
+#| echo: true       # Show the code
+#| output: true     # Show the output
+
+cursor.execute('''
+UPDATE nyc_crashes
+SET factor_id = (
+    SELECT factor_id 
+    FROM contributing_factor_lookup 
+    WHERE contributing_factor_vehicle_1 = factor_description
+)
+WHERE contributing_factor_vehicle_1 IS NOT NULL;
+''')
+print("Updated nyc_crashes with corresponding factor IDs.")
+```
+
+#### Query with a Join to Retrieve Full Descriptions
+
+Use `JOIN` command to recieve contributing factor descriptions
+from factor_id.
+
+```{python}
+#| echo: true       # Show the code
+#| output: true     # Show the output
+#| output-location: slide
+
+query = '''
+SELECT n.*, l.factor_description
+FROM nyc_crashes n
+JOIN contributing_factor_lookup l ON n.factor_id = l.factor_id
+LIMIT 10;
+'''
+
+# Load the data into a pandas DataFrame
+result_df = pd.read_sql_query(query, conn)
+
+# Commit changes
+conn.commit()
+
+result_df.head()
+```
+
+#### Display Table With factor.id
+
+Since we added factor_id column to dataframe, we can 
+now display the table including the factor_id column
+using a query.
+
+```{python}
+#| echo: true       # Show the code
+#| output: true     # Show the output
+
+# Query to select all data (or limit rows to avoid overload)
+query = "SELECT * FROM nyc_crashes LIMIT 10;"
+
+# Load the data into a pandas DataFrame
+nyc_crashes_data = pd.read_sql_query(query, conn)
+
+# Display the DataFrame
+nyc_crashes_data.head()
+```
+
+### Inserting Data
+
+New records (rows) can be added into a database table. The `INSERT INTO`
+statement is used to accomplish this task. When you insert data, you 
+provide values for one or more columns in the table.
+
+* `INSERT INTO table_name (columns) VALUES (values`
+
+Insert a new crash record into the nyc_crashes table with the date 
+06/30/2024, time 10:15, location BROOKLYN, and contributing factor 
+"Driver Inattention/Distraction".
+
+```{python}
+#| echo: true       # Show the code
+#| output: true     # Show the output
+
+cursor = conn.cursor()
+
+# Adds a crash on 06/30/2024 at 10:15 in
+# Brooklyn due to Inattention/Distraction
+cursor.execute("""
+INSERT INTO nyc_crashes (crash_date, crash_time, 
+borough, contributing_factor_vehicle_1)
+VALUES ('2024-06-30', '10:15:00', 'BROOKLYN',
+'Driver Inattention/Distraction')
+""")
+
+conn.commit()
+```
+
+#### Verify the record exists
+
+We can use a query for a specific data point to verify if addition
+was successful. 
+
+```{python}
+#| echo: true       # Show the code
+#| output: true     # Show the output
+
+query_before = """
+SELECT * FROM nyc_crashes 
+WHERE crash_date = '2024-06-30' 
+AND crash_time = '10:15:00' 
+AND borough = 'BROOKLYN';
+"""
+
+before_deletion = pd.read_sql_query(query_before, conn)
+print("Before Deletion:")
+before_deletion
+```
+
+### Deleting Data
+
+Use `DELETE FROM` statement to delete data
+
+```{python}
+#| echo: true       # Show the code
+#| output: true     # Show the output
+
+delete_query = """
+DELETE FROM nyc_crashes
+WHERE crash_date = '2024-06-30' 
+AND crash_time = '10:15:00' 
+AND borough = 'BROOKLYN'
+AND contributing_factor_vehicle_1 = 'Driver Inattention/Distraction';
+"""
+
+cursor.execute(delete_query)
+conn.commit()
+```
+
+#### Verify the deletion
+
+We can use a query for a specific data point to verify if deletion
+was successful. 
+
+```{python}
+#| echo: true       # Show the code
+#| output: true     # Show the output
+
+query_after = """
+SELECT * FROM nyc_crashes 
+WHERE crash_date = '2024-06-30' 
+AND crash_time = '10:15:00' 
+AND borough = 'BROOKLYN';
+"""
+
+after_deletion = pd.read_sql_query(query_after, conn)
+print("After Deletion:")
+after_deletion
+```
+
+### Querying the data
+
+Querying the data means requesting specific information from a database. 
+In SQL, queries are written as commands to retrieve, filter, group, or 
+sort data based on certain conditions. The goal of querying is to extract
+meaningful insights or specific subsets of data from a larger dataset.
+
+* `SELECT DISTINCT` retrieves unique values from a column
+* `pd.read_sql_query()` executes the SQL query and returns the result as 
+a DataFrame
+---
+
+#### Query to find distinct contributing factors
+
+This query selects the distinct contributing factors
+from the contributing_factor_vehicle_1 column. 
+
+```{python}
+#| echo: true       # Show the code
+#| output: true     # Show the output
+
+query = "SELECT DISTINCT contributing_factor_vehicle_1 FROM nyc_crashes;"
+
+factors = pd.read_sql_query(query, conn)
+
+factors.head(5)
+```
+---
+
+#### Can query using factor.id
+
+This query selects the distinct contributing factors
+using the factor_id column. 
+
+```{python}
+#| echo: true       # Show the code
+#| output: true     # Show the output
+
+query = """
+SELECT DISTINCT n.factor_id, l.factor_description 
+FROM nyc_crashes n
+JOIN contributing_factor_lookup l ON n.factor_id = l.factor_id
+WHERE n.factor_id IS NOT NULL;
+"""
+
+factors = pd.read_sql_query(query, conn)
+factors.head(5)
+```
+
+### Analyzing contributing_factor_vehicle_1
+
+* `SELECT` Choose columns to retrieve
+* `COUNT` Count rows for each group
+* `GROUP BY` Group rows that have the same values in specific columns
+* `ORDER BY` Sort results by the count in descending order
+
+#### Insights into contributing_factor_vehicle_1
+* Identify the most common contributing factors.
+* Understand trends related to vehicle crash causes.
+
+```{python}
+#| echo: true       # Show the code
+#| output: true     # Show the output
+
+factor_count = pd.read_sql_query("""
+SELECT contributing_factor_vehicle_1, COUNT(*) AS count 
+FROM nyc_crashes 
+GROUP BY contributing_factor_vehicle_1
+ORDER BY count DESC;
+""", conn)
+
+factor_count.head(10)
+```
+
+### Visualizing Analysis
+
+Can use Plotnine to visualize our Analysis for contributing_factor_vehicle_1
+in a chart.
+
+```{python}
+#| echo: true       # Show the code
+#| output: true     # Show the output
+#| output-location: slide
+
+from plotnine import ggplot, aes, geom_bar, theme_minimal, coord_flip, labs
+
+db_path = 'nyc_crash.db'
+conn = sqlite3.connect(db_path)
+
+# Query to get the contributing factor counts
+factor_count = pd.read_sql_query("""
+SELECT contributing_factor_vehicle_1, COUNT(*) AS count
+FROM nyc_crashes
+GROUP BY contributing_factor_vehicle_1
+ORDER BY count DESC;
+""", conn)
+
+# Create a bar chart using plotnine
+chart = (
+    ggplot(factor_count, aes(x='reorder(contributing_factor_vehicle_1, count)'
+                             , y='count')) +
+    geom_bar(stat='identity', fill='steelblue') +
+    coord_flip() +  # Flip for better readability
+    theme_minimal() +
+    labs(title='Top Contributing Factors to NYC Crashes',
+         x='Contributing Factor',
+         y='Number of Incidents')
+)
+
+chart
+```
+
+### Conclusion
+
+* SQL in Python is powerful for handling structured data.
+* sqlite3 and pandas simplify database interactions.
+* Analyzing crash data helps understand key contributing factors
+for traffic incidents.
+---
+
+### Further Readings:
+
+* [How to use SQL in Python] (@Przybyla2024SQLHowTo)
+* [Python MySQL] (@W3Schools2025SQLinPython)
+* [SQL using Python] (@Bansal2024PythonSQL)
+* [Master Using SQL with Python - Using SQL with Pandas] (@Cafferky2019SQLPandas)
+---

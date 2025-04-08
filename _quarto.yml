@@ -6,8 +6,8 @@ book:
   subtitle: "STAT 3255/5255 @ UConn, Spring 2025"
   author:
     - name: "[Jun Yan](https://statcomp.org) and Students in Spring 2025"
+    - name: Alyssa Horn
     - name: Shiyi Li
-    - name: Eathon Long
     - name: Joann Jun
     - name: Thomas Schittina
     - name: Gaofei Zhang
@@ -23,6 +23,7 @@ book:
     - quarto.qmd
     - python.qmd
     - manipulation.qmd
+    - visualization.qmd
     - stats.qmd
     - machinelearning.qmd
     - supervised.qmd
