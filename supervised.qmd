@@ -63,8 +63,8 @@ effectively.
 
 Formally, let the feature set be $\{X_1, X_2, \ldots, X_p\}$, where 
 $p$ is the total number of features, and let the unique values of 
-feature $ X_j $ at node $ m $ be denoted by 
-$\{v_{j,1}, v_{j,2}, \ldots, v_{j,k_j}\} $. The search space at node
+feature $X_j$ at node $m$ be denoted by 
+$\{v_{j,1}, v_{j,2}, \ldots, v_{j,k_j}\}$. The search space at node
 $m$ includes:
 
 
@@ -183,158 +183,205 @@ and MAE are useful for specific use cases such as count data and
 robust models, respectively.
 
 
-## Boosted Trees
+## Gradient-Boosted Models
 
-
-Boosted trees are a powerful ensemble technique in machine learning 
-that combine multiple weak learners, typically decision trees, into a 
-strong learner. Unlike bagging methods, which train trees 
-independently, boosting fits models sequentially, with each new model 
-correcting the errors of the previous ensemble. Gradient boosting, one 
-of the most popular variants, optimizes a loss function by iteratively 
-adding trees that reduce the residual errors of the current ensemble. 
-
+Gradient boosting is a powerful ensemble technique in machine learning
+that combines multiple weak learners into a strong predictive
+model. Unlike bagging methods, which train models independently,
+gradient boosting fits models sequentially, with each new model
+correcting errors made by the previous ensemble
+[@friedman2001greedy]. While decision trees are commonly used as weak
+learners, gradient boosting can be generalized to other base
+models. This iterative method optimizes a specified loss function by
+repeatedly adding models designed to reduce residual errors.
 
 
 ### Introduction
 
-Boosted trees build on the general concept of boosting, which aims to 
-create a strong predictor from a series of weak predictors. In boosted 
-trees, the weak learners are shallow decision trees, often referred to 
-as "stumps," and they are added sequentially to the model. At each 
-step, a new tree focuses on the training instances that are hardest to 
-predict, improving overall accuracy. This iterative focus on "hard-to-
-predict" instances is the defining characteristic of boosting.
+Gradient boosting builds on the general concept of boosting, aiming to
+construct a strong predictor from an ensemble of sequentially trained
+weak learners. The weak learners are often shallow decision trees
+(stumps), linear models, or generalized additive models
+[@hastie2009elements]. Each iteration adds a new learner focusing
+primarily on the data points poorly predicted by the existing
+ensemble, thereby progressively enhancing predictive accuracy.
 
-The effectiveness of boosted trees has made them popular for various 
-tasks, including classification, regression, and ranking. They also 
-form the foundation for algorithms like XGBoost, LightGBM, and 
-CatBoost, known for their speed and scalability.
 
-### Boosting Process
+Gradient boosting's effectiveness stems from:
 
-The boosting process in gradient boosted trees builds an ensemble by 
-adding trees iteratively, each designed to minimize the residual 
-errors from the combined predictions of the previous trees. This 
-iterative approach allows the model to refine its predictions by 
-optimizing a loss function, denoted as $L(y, F(x))$, where $y$ is the 
-true value and $F(x)$ is the model's prediction.
+- Error Correction: Each iteration specifically targets previous
+  errors, refining predictive accuracy.
+- Weighted Learning: Iteratively focuses more heavily on
+  difficult-to-predict data points.
+- Flexibility: Capable of handling diverse loss functions and various
+  types of predictive tasks.
+
+
+The effectiveness of gradient-boosted models has made them popular
+across diverse tasks, including classification, regression, and
+ranking. Gradient boosting forms the foundation for algorithms such as
+XGBoost [@chen2016xgboost], LightGBM [@ke2017lightgbm], and CatBoost
+[@prokhorenkova2018catboost], known for their high performance and
+scalability.
+
+
+### Gradient Boosting Process
+
+Gradient boosting builds an ensemble by iteratively minimizing the
+residual errors from previous models. This iterative approach
+optimizes a loss function, $L(y, F(x))$, where $y$ represents the
+observed target variable and $F(x)$ the model's prediction for a
+given feature vector $x$.
+
+
+Key concepts:
+
+- Loss Function: Guides model optimization, such as squared error for
+  regression or logistic loss for classification.
+- Learning Rate: Controls incremental updates, balancing training
+  speed and generalization.
+- Regularization: Reduces overfitting through tree depth limitation,
+  subsampling, and L1/L2 penalties.
 
 #### Model Iteration
 
-The boosting process can be delineated as follows:
+The gradient boosting algorithm proceeds as follows:
 
-1. **Initialization**: 
-   Start with a base model $F_0(x)$, which is usually the mean of the 
-   target variable in regression or the log odds in classification:
+1. Initialization:
+   Define a base model $F_0(x)$, typically the mean of the target
+   variable for regression or the log-odds for classification.
 
-   - For regression: $F_0(x) = \text{mean}(y_i)$.
-   - For classification: 
-   $F_0(x) = \log \left( \frac{P(y=1)}{1-P(y=1)} \right)$.
-
-2. **Iterative Boosting**:
-   
+2. Iterative Boosting:
    At each iteration $m$:
-   
-   - Compute the pseudo-residuals, representing the negative 
-     gradient of the loss function with respect to the current model 
-     predictions. The residuals at iteration $m$ are defined as:
-     
-     $$
-     r_i^{(m)} = -\left. \frac{\partial L(y_i, F(x_i))}
-     {\partial F(x_i)} \right|_{F(x) = F_{m-1}(x)}.
-     $$
-     
-     The residuals guide the next tree to focus on reducing the 
-     largest errors from the previous iteration.
-
-   - Fit a new tree $h_m(x)$ to the pseudo-residuals. The new 
-     tree is trained to predict the residuals of the current ensemble 
-     model, identifying where the model needs the most improvement.
-
-   - Update the model as the sum of the previous model and the newly 
-     added tree, scaled by a learning rate $\eta$:
-     
-     $$
-     F_m(x) = F_{m-1}(x) + \eta \, h_m(x).
-     $$
-     
-     The learning rate, a small positive number (e.g., 0.01 to 0.1), 
-     controls the contribution of each tree, ensuring incremental 
-     improvements and reducing the risk of overfitting.
-
-3. **Final Model**:
-   
-   After $M$ iterations, the ensemble model is given by:
-
+   - Compute pseudo-residuals representing the negative gradient of
+     the loss function at the current predictions. For each
+     observation $i$:
    $$
-   F_M(x) = F_0(x) + \sum_{m=1}^M \eta \, h_m(x).
+   r_i^{(m)} = -\left.\frac{\partial L(y_i, F(x_i))}{\partial F(x_i)}\right|_{F(x)=F_{m-1}(x)},
    $$
+   where $x_i$ and $y_i$ denote the feature vector and observed value
+     for the $i$-th observation, respectively.
 
-   The final model $F_M(x)$ represents the sum of the initial model 
-   and the incremental improvements made by each of the $M$ trees, 
-   with each tree trained to correct the residuals of the ensemble up 
-   to that point.
+   - Fit a new weak learner $h_m(x)$ to these residuals.
+   - Update the model:
+   $$
+   F_m(x) = F_{m-1}(x) + \eta \, h_m(x),
+   $$
+   where $\eta$ is a small positive learning rate (e.g., 0.01–0.1),
+   controlling incremental improvement and reducing overfitting.
 
-### Key Concepts
+3. Final Model: After $M$ iterations, the ensemble model is:
+  $$
+  F_M(x) = F_0(x) + \sum_{m=1}^M \eta \, h_m(x).
+  $$
 
-1. **Loss Function**: The loss function measures the discrepancy 
-   between the actual and predicted values. It guides the model 
-   updates. Common choices include:
-   
-   - Squared error for regression: 
-     $L(y, F(x)) = \frac{1}{2} (y - F(x))^2$.
-   - Logistic loss for binary classification: 
-     $L(y, F(x)) = \log(1 + \exp(-y \, F(x)))$.
 
-2. **Learning Rate**: The learning rate scales the contribution of 
-   each tree and helps control the speed of learning. A smaller 
-   learning rate typically requires more trees but results in a more 
-   robust model with better generalization.
+Stochastic gradient boosting is a variant that enhances gradient
+boosting by introducing
+randomness through subsampling at each iteration, selecting a random
+fraction of data points (typically 50%–80%) to fit the model
+[@friedman2002stochastic]. This randomness helps reduce correlation
+among trees, improve model robustness, and reduce the risk of
+overfitting.
 
-3. **Regularization**: Boosted trees incorporate regularization to 
-   avoid overfitting, including:
-   
-   - Tree depth: Limits the maximum depth of each tree, reducing 
-     model complexity.
-   - L1/L2 penalties: Regularize the weights of the trees, similar 
-     to Lasso and Ridge regression.
-   - Subsampling: Uses a fraction of the training data at each 
-     iteration, making the model more robust to overfitting and 
-     improving generalization.
 
-### Why Boosting Works
+### Demonstration
 
-The iterative approach of boosting, focusing on correcting the errors 
-of the ensemble at each step, distinguishes gradient boosting from 
-other ensemble methods like bagging or random forests. Key reasons 
-for its effectiveness include:
+Here's a practical example using `scikit-learn` to demonstrate
+gradient boosting on the California housing dataset. First, import
+necessary libraries and load the data:
 
-1. **Error Correction**: By focusing on the hardest-to-predict 
-   instances, boosting gradually improves model accuracy, leading to 
-   better performance than models trained independently.
-   
-2. **Weighted Learning**: Boosting adjusts the weights of training 
-   samples based on errors, ensuring that the model learns 
-   disproportionately from difficult cases, reducing bias.
+```{python}
+import numpy as np
+import pandas as pd
+from sklearn.datasets import fetch_california_housing
+from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error
 
-3. **Flexibility**: Boosted trees can handle various loss functions, 
-   making them suitable for different types of tasks, including 
-   regression, classification, and ranking.
+# Load data
+housing = fetch_california_housing(as_frame=True)
+X, y = housing.data, housing.target
+```
 
-### Applications and Popular Implementations
+Next, split the dataset into training and testing sets:
 
-Boosted trees are widely used in real-world applications, ranging from 
-financial risk modeling to predictive maintenance. They are also 
-favored in machine learning competitions due to their interpretability 
-and robustness. Popular implementations include:
+```{python}
+# Train-test split
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=20250407
+)
+```
 
-- XGBoost: Known for its speed and performance, with features like 
-  regularization, column sampling, and advanced tree pruning.
-- LightGBM: Optimized for speed and scalability, using histogram-
-  based algorithms to handle large datasets efficiently.
-- CatBoost: Effective with categorical features, using advanced 
-  encoding techniques and built-in support for categorical variables.
+Then, set up and train a stochastic gradient boosting model:
+
+```{python}
+# Gradient Boosting Model with stochastic subsampling
+gbm = GradientBoostingRegressor(
+    n_estimators=200,
+    learning_rate=0.1,
+    max_depth=3,
+    subsample=0.7,  # stochastic gradient boosting
+    random_state=20250408
+)
+
+gbm.fit(X_train, y_train)
+```
+
+Finally, make predictions and evaluate the model performance:
+
+```{python}
+# Predictions
+y_pred = gbm.predict(X_test)
+
+# Evaluate
+mse = mean_squared_error(y_test, y_pred)
+print(f"Test MSE: {mse:.4f}")
+```
+
+### XGBoost: Extreme Gradient Boosting
+
+XGBoost is a scalable and 
+efficient implementation of gradient-boosted decision trees 
+[@chen2016xgboost]. It has become one of the most widely used machine 
+learning methods for structured data due to its high predictive 
+performance, regularization capabilities, and speed. XGBoost builds 
+an ensemble of decision trees in a stage-wise fashion, minimizing a 
+regularized objective that balances training loss and model complexity.
+
+
+The core idea of XGBoost is to fit each new tree to the *gradient* of 
+the loss function with respect to the model’s predictions. Unlike 
+traditional boosting algorithms like AdaBoost, which use only 
+first-order gradients, XGBoost optionally uses second-order derivatives 
+(Hessians), enabling better convergence and stability 
+[@friedman2001greedy].
+
+
+XGBoost is widely used in data science competitions and real-world 
+applications. It supports regularization (L1 and L2), handles missing 
+values internally, and is designed for distributed computing.
+
+
+XGBoost builds upon the same foundational idea as gradient boosted 
+machines—sequentially adding trees to improve the predictive model—
+but introduces a number of enhancements:
+
+| Aspect               | Traditional GBM                            | XGBoost                        |
+|----------------------|---------------------------------------------|--------------------------------|
+| Implementation       | Basic gradient boosting                    | Optimized, regularized boosting |
+| Regularization       | Shrinkage only                             | L1 and L2 regularization        |
+| Loss Optimization    | First-order gradients                      | First- and second-order         |
+| Missing Data         | Requires manual imputation                 | Handled automatically           |
+| Tree Construction    | Depth-wise                                 | Level-wise (faster)             |
+| Parallelization      | Limited                                    | Built-in                        |
+| Sparsity Handling    | No                                          | Yes                             |
+| Objective Functions  | Few options                                | Custom supported                |
+| Cross-validation     | External via `GridSearchCV`                | Built-in `xgb.cv`               |
+
+XGBoost is therefore more suitable for large-scale problems and provides 
+better generalization performance in many practical tasks.
+
 
 <!-- {{< include _naivebayes.qmd >}} -->
 
