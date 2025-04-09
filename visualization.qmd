@@ -1,0 +1,7 @@
+# Data Visualization
+
+<!-- {{< include _plotnine.qmd >}} -->
+
+<!-- This section is to be included as a tutorial for geospatial data. -->
+{{< include _spatial_data.qmd >}}
+
