@@ -1,34 +1,18 @@
----
-title: "Random Forest: Let Computers Make Smart Decisions!"
-author: "Gaofei Zhang, 2nd PhD student in Health Promotion Science"
-format:
-  revealjs:
-    embed-resources: true
-    theme: serif
-    highlight-style: pygments
-    code-block-theme: dracula
-    margin: 0.1
-    slide-number: true
-    incremental: true
-    transition: slide
-    footer: "STAT 5255"
-    width: 1280
-    height: 980
-bibliography: references.bib
----
 
-# A Primer on Random Forest
+## A Primer on Random Forest
+This section was prepared by Gaofei Zhang. I am a second year PhD student in Health Promotion Science. 
 
-Welcome to our presentation on **Random Forest**
+### Welcome to our presentation on **Random Forest**
 
 In today's talk, we will explore what Random Forest is, why it matters, and how to apply it to real-world data.
 
-We will cover the basic concepts and practical steps for using a Random Forest regressor. In our example, we predict the number of persons injured in NYC crashes by using accident attributes.
+We will cover the basic concepts and practical steps for using a Random Forest regressor. 
+In our example, we predict the number of persons injured in NYC crashes by using accident attributes.
 
 
 ---
 
-## Outline
+### Outline
 
 1. **Introduction**: What is and Why Random Forest?  
 2. **Random Forest Principles & Parameter Tuning**  
@@ -38,7 +22,7 @@ We will cover the basic concepts and practical steps for using a Random Forest r
 
 ---
 
-## 1. Introduction: What is and Why Random Forest?
+### 1. Introduction: What is and Why Random Forest?
 
 - **Definition**: A Random Forest is an ensemble method that aggregates 
   the predictions of many decision trees, each a “small expert.”
@@ -61,9 +45,9 @@ We will cover the basic concepts and practical steps for using a Random Forest r
 
 ---
 
-## 2. Random Forest Principles & Parameter Tuning
+### 2. Random Forest Principles & Parameter Tuning
 
-### Random Forest Principles
+#### Random Forest Principles
 
 - **Ensemble Method**: Combines many decision trees.
 - **Randomness**:  
@@ -74,7 +58,7 @@ We will cover the basic concepts and practical steps for using a Random Forest r
 
 ---
 
-### Parameter Tuning
+#### Parameter Tuning
 
 - **Key Parameters**:  
   - `n_estimators`: Number of trees in the forest.  
@@ -84,11 +68,12 @@ We will cover the basic concepts and practical steps for using a Random Forest r
 - **Tuning Process**:  
   Using methods like GridSearchCV, one can search for the optimal combination of these parameters to improve performance.
 - **Justification**:  
-  Tuning these parameters can further reduce overfitting, improve generalization, and provide better insight into feature contributions.
+  Tuning these parameters can further reduce overfitting, improve generalization, 
+  and provide better insight into feature contributions.
 
 ---
 
-### Random Forest Parameter Tuning Code Example
+#### Random Forest Parameter Tuning Code Example
 
 ```{python}
 #!/usr/bin/env python3
@@ -221,13 +206,14 @@ if __name__ == "__main__":
 
 ---
 
-## 3. Concrete Example: NYC Crash Data
+### 3. Concrete Example: NYC Crash Data
 
-This example demonstrates how to build a Random Forest regression model using accident attributes to predict "NUMBER OF PERSONS INJURED".
+This example demonstrates how to build a Random Forest regression model using 
+accident attributes to predict "NUMBER OF PERSONS INJURED".
 
 ---
 
-### Step 3.1: Load & Prepare the Data
+#### Step 3.1: Load & Prepare the Data
 
 ```{python}
 #| echo: true
@@ -266,13 +252,13 @@ df = preprocess_data("data/nyccrashes_2024w0630_by20250212.csv")
 
 ---
 
-### Result Explanation
+#### Result Explanation
 - **Data shape** (1876, 30) – 1876 rows and 30 columns.
 - **First 5 rows** show sample records.
 
 ---
 
-### Step 3.2: Feature Engineering & Data Splitting
+#### Step 3.2: Feature Engineering & Data Splitting
 
 ```{python}
 #| echo: true
@@ -323,7 +309,7 @@ def feature_engineering(df):
 - Test set size: (401, 174)\
 ---
 
-### Result Explanation
+#### Result Explanation
 - Feature matrix shape: (1334, 174)\
 
     1334: This is the number of samples (or rows) in the feature matrix.
@@ -344,7 +330,7 @@ def feature_engineering(df):
 
 ---
 
-### Step 3.3: Parameter Tuning and Model Training
+#### Step 3.3: Parameter Tuning and Model Training
 
 ```{python}
 #| echo: true
@@ -415,7 +401,7 @@ def train_and_evaluate_rf(X_train, X_test, y_train, y_test, best_params):
 
 ---
 
-### Step 3.4: Feature Importance Visualization
+#### Step 3.4: Feature Importance Visualization
 
 ```{python}
 #| echo: true
@@ -524,8 +510,9 @@ def main():
 
 ---
 
-### Result Explanation
-- The printed values and the bar chart visually show the importance of each feature, highlighting that geographic location and crash time are key predictors.\
+#### Result Explanation
+- The printed values and the bar chart visually show the importance of each feature, 
+highlighting that geographic location and crash time are key predictors.\
 
 Feature Importances:\
   LATITUDE: 0.2243\
@@ -533,15 +520,17 @@ Feature Importances:\
   CRASH HOUR: 0.1854\
 ---
 
-## 4. Feature Importance & Discussion
+### 4. Feature Importance & Discussion
 
-- The results show that LATITUDE, LONGITUDE, and CRASH HOUR significantly impact the model predictions, suggesting these attributes play a major role in predicting the number of persons injured.
+- The results show that LATITUDE, LONGITUDE, and CRASH HOUR significantly impact the model predictions, 
+suggesting these attributes play a major role in predicting the number of persons injured.
 
-- Although the R² scores in both cross-validation and testing are negative, this reflects the current limitations of the model and indicates potential areas for improvement in feature engineering and model tuning.
+- Although the R² scores in both cross-validation and testing are negative, 
+this reflects the current limitations of the model and indicates potential areas for improvement in feature engineering and model tuning.
 
 ---
 
-## 5. Conclusion & Further Readings
+### 5. Conclusion & Further Readings
 
 **Key Takeaways**  
 
@@ -549,7 +538,8 @@ Feature Importances:\
 
 - Parameter tuning, it offers additional improvements and control over model performance.
 
-- In this example, accident attributes were used to predict "NUMBER OF PERSONS INJURED", demonstrating a practical application of Random Forest in regression tasks.
+- In this example, accident attributes were used to predict "NUMBER OF PERSONS INJURED", 
+demonstrating a practical application of Random Forest in regression tasks.
 
 ---
 
