@@ -274,6 +274,15 @@ window.Quarto = {
   <li><a href="#supervised-variation" id="toc-supervised-variation" class="nav-link" data-scroll-target="#supervised-variation"><span class="header-section-number">10.2.3</span> Supervised Variation</a></li>
   <li><a href="#demonstration-with-a-subset-of-the-nist-digits-data" id="toc-demonstration-with-a-subset-of-the-nist-digits-data" class="nav-link" data-scroll-target="#demonstration-with-a-subset-of-the-nist-digits-data"><span class="header-section-number">10.2.4</span> Demonstration with a Subset of the NIST Digits Data</a></li>
   </ul></li>
+  <li><a href="#principal-component-analysis-pca" id="toc-principal-component-analysis-pca" class="nav-link" data-scroll-target="#principal-component-analysis-pca"><span class="header-section-number">10.3</span> Principal Component Analysis (PCA)</a>
+  <ul class="collapse">
+  <li><a href="#motivation" id="toc-motivation" class="nav-link" data-scroll-target="#motivation"><span class="header-section-number">10.3.1</span> Motivation</a></li>
+  <li><a href="#intuition" id="toc-intuition" class="nav-link" data-scroll-target="#intuition"><span class="header-section-number">10.3.2</span> Intuition</a></li>
+  <li><a href="#theory" id="toc-theory" class="nav-link" data-scroll-target="#theory"><span class="header-section-number">10.3.3</span> Theory</a></li>
+  <li><a href="#pca-with-and-without-scaling" id="toc-pca-with-and-without-scaling" class="nav-link" data-scroll-target="#pca-with-and-without-scaling"><span class="header-section-number">10.3.4</span> PCA With and Without Scaling</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">10.3.5</span> Summary</a></li>
+  <li><a href="#further-readings" id="toc-further-readings" class="nav-link" data-scroll-target="#further-readings"><span class="header-section-number">10.3.6</span> Further Readings</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -328,21 +337,21 @@ window.Quarto = {
 <section id="example-iris-data" class="level3" data-number="10.1.2">
 <h3 data-number="10.1.2" class="anchored" data-anchor-id="example-iris-data"><span class="header-section-number">10.1.2</span> Example: Iris Data</h3>
 <p>K-means clustering can be implemented using the <code>scikit-learn</code> library. Below, we apply it to the Iris dataset.</p>
-<div id="582cf0e3" class="cell" data-execution_count="1">
+<div id="d808f6b7" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn <span class="im">import</span> datasets</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="41ac73ac" class="cell" data-execution_count="2">
+<div id="886b8aa3" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the Iris dataset</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>iris <span class="op">=</span> datasets.load_iris()</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> iris.data[:, :<span class="dv">2</span>]  <span class="co"># Using only two features</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> iris.target</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We visualize the observations based on their true species labels.</p>
-<div id="fc3f8780" class="cell" data-execution_count="3">
+<div id="50f87c14" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Scatter plot of true species labels</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>scatter <span class="op">=</span> ax.scatter(X[:, <span class="dv">0</span>], X[:, <span class="dv">1</span>], c<span class="op">=</span>y,</span>
@@ -362,7 +371,7 @@ window.Quarto = {
 </div>
 </div>
 <p>Now, we apply K-means clustering to the data.</p>
-<div id="b32d14e1" class="cell" data-execution_count="4">
+<div id="831b30ef" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Train K-means model</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>Kmean <span class="op">=</span> KMeans(n_clusters<span class="op">=</span><span class="dv">3</span>, init<span class="op">=</span><span class="st">'k-means++'</span>,</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>               n_init<span class="op">=</span><span class="dv">10</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
@@ -788,7 +797,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 </div>
 <p>Several parameters can be adjusted for better performance. See: &lt;https://scikit-learn.org/stable/modules/generated/ sklearn.cluster.KMeans.html&gt;</p>
 <p>K-means provides cluster centroids, representing the center of each cluster.</p>
-<div id="58bdc3bf" class="cell" data-execution_count="5">
+<div id="f733b759" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Print predicted cluster centers</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Cluster Centers:"</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(Kmean.cluster_centers_)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -800,7 +809,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 </div>
 </div>
 <p>We plot the centroids along with clustered points.</p>
-<div id="04bea3cc" class="cell" data-execution_count="6">
+<div id="20c0b2a4" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot centroids on the scatter plot</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>ax.scatter(X[:, <span class="dv">0</span>], X[:, <span class="dv">1</span>], c<span class="op">=</span>Kmean.labels_,</span>
@@ -825,7 +834,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 <section id="comparing-true-and-predicted-labels" class="level4" data-number="10.1.2.1">
 <h4 data-number="10.1.2.1" class="anchored" data-anchor-id="comparing-true-and-predicted-labels"><span class="header-section-number">10.1.2.1</span> Comparing True and Predicted Labels</h4>
 <p>By plotting the results side by side, we can see how well K-means clustering approximates the true labels.</p>
-<div id="48ef2d20" class="cell" data-execution_count="7">
+<div id="1de8c143" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare true vs. predicted labels</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>fig, axs <span class="op">=</span> plt.subplots(ncols<span class="op">=</span><span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">5</span>),</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>                        constrained_layout<span class="op">=</span><span class="va">True</span>)</span>
@@ -864,7 +873,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 <section id="making-predictions-on-new-data" class="level3" data-number="10.1.3">
 <h3 data-number="10.1.3" class="anchored" data-anchor-id="making-predictions-on-new-data"><span class="header-section-number">10.1.3</span> Making Predictions on New Data</h3>
 <p>Once trained, the model can classify new data points.</p>
-<div id="6c9c2561" class="cell" data-execution_count="8">
+<div id="4acfb865" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample test data points</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>sample_test <span class="op">=</span> np.array([[<span class="dv">3</span>, <span class="dv">4</span>], [<span class="dv">7</span>, <span class="dv">4</span>]])</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -925,7 +934,7 @@ q_{ij} = \frac{\bigl(1 + \| y_i - y_j \|^2 \bigr)^{-1}}{\sum_{k \neq l} \bigl(1 
 <section id="demonstration-with-a-subset-of-the-nist-digits-data" class="level3" data-number="10.2.4">
 <h3 data-number="10.2.4" class="anchored" data-anchor-id="demonstration-with-a-subset-of-the-nist-digits-data"><span class="header-section-number">10.2.4</span> Demonstration with a Subset of the NIST Digits Data</h3>
 <p>Below is a brief example in Python using t-SNE on a small subset of the MNIST digits (which is itself a curated subset of the original NIST data).</p>
-<div id="a2bad220" class="cell" data-execution_count="9">
+<div id="79d5b434" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> fetch_openml</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.manifold <span class="im">import</span> TSNE</span>
@@ -968,6 +977,277 @@ q_{ij} = \frac{\bigl(1 + \| y_i - y_j \|^2 \bigr)^{-1}}{\sum_{k \neq l} \bigl(1 
 <li>Points belonging to the same digit typically cluster together.</li>
 <li>Ambiguous or poorly written digits often end up bridging two clusters.</li>
 <li>Some digits, such as 3 and 5, may be visually similar and can appear partially overlapping in the 2D space.</li>
+</ul>
+</section>
+</section>
+<section id="principal-component-analysis-pca" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="principal-component-analysis-pca"><span class="header-section-number">10.3</span> Principal Component Analysis (PCA)</h2>
+<p>The following section is written by Mezmur Edo, a PhD student in the physics department. This section will focus on the motivation, intuition and theory behind PCA. It will also demonstrate the importance of scaling for proper implementation of PCA.</p>
+<section id="motivation" class="level3" data-number="10.3.1">
+<h3 data-number="10.3.1" class="anchored" data-anchor-id="motivation"><span class="header-section-number">10.3.1</span> Motivation</h3>
+<p>Some of the motivations behind PCA are:</p>
+<ul>
+<li><p>Computation Efficiency</p></li>
+<li><p>Feature Extraction</p></li>
+<li><p>Visualization</p></li>
+<li><p>Curse of dimensionality</p></li>
+</ul>
+<section id="curse-of-dimensionality" class="level4" data-number="10.3.1.1">
+<h4 data-number="10.3.1.1" class="anchored" data-anchor-id="curse-of-dimensionality"><span class="header-section-number">10.3.1.1</span> Curse of Dimensionality</h4>
+<p>The Euclidean distance between data points, which we represent as vectors, shrinks with the number of dimensions. To demonstrate this, let’s generate 10,000 vectors of n dimensions each, where n ranges from 2 to 50, with integer entries ranging from -100 to 100. By selecting a random vector, Q, of the same dimension, we can calculate the Euclidean distance of Q to each of these 10,000 vectors. The plot below shows the logarithm, to the base 10, of difference between the maximum and minimum distances divided by the minimum distance as a function of the number of dimensions.</p>
+<div id="11e5d886" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#import libraries</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.decomposition <span class="im">import</span> PCA</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler, scale, normalize</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.ticker <span class="im">import</span> AutoMinorLocator</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co">#define a list to store delta values</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="co">#delta is the logarithm, to the base 10, of difference between</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="co">#the maximum and minimum Euclidean distances divided </span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="co">#by the minimum distance</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>deltas <span class="op">=</span> []</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="co">#loop through dimensions from 2 to 49</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> N <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>, <span class="dv">50</span>):</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>  <span class="co">#generate 10,000 random N-dimensional vectors, P, and</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>  <span class="co">#a single random N-dimensional vector, Q</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>  P <span class="op">=</span> [np.random.randint(<span class="op">-</span><span class="dv">100</span>, <span class="dv">100</span>, N) <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10000</span>)]</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>  Q <span class="op">=</span> np.random.randint(<span class="op">-</span><span class="dv">100</span>, <span class="dv">100</span>, N)</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>  <span class="co">#calculate the Euclidean distances between each point in P and Q</span></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>  diffs <span class="op">=</span> [np.linalg.norm(p <span class="op">-</span> Q) <span class="cf">for</span> p <span class="kw">in</span> P]</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>  <span class="co">#find the maximum and minimum Euclidean distances</span></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>  mxd <span class="op">=</span> <span class="bu">max</span>(diffs)</span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>  mnd <span class="op">=</span> <span class="bu">min</span>(diffs)</span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>  <span class="co">#calculate delta</span></span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>  delta <span class="op">=</span> math.log10(mxd <span class="op">-</span> mnd) <span class="op">/</span> mnd</span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>  deltas.append(delta)</span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a><span class="co">#plot delta versus N, the number of dimensions</span></span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>plt.plot(<span class="bu">range</span>(<span class="dv">2</span>, <span class="dv">50</span>), deltas)</span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Number of dimension'</span>, loc<span class="op">=</span><span class="st">'right'</span>, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Euclidean Distance'</span>, loc<span class="op">=</span><span class="st">'top'</span>, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.gca()</span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a><span class="co">#add minor locators to the axes</span></span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_minor_locator(AutoMinorLocator())</span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a>ax.yaxis.set_minor_locator(AutoMinorLocator())</span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/var/folders/cq/5ysgnwfn7c3g0h46xyzvpj800000gn/T/ipykernel_88765/2366423172.py:31: RuntimeWarning:
+
+divide by zero encountered in scalar divide
+</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="unsupervised_files/figure-html/cell-11-output-2.png" width="589" height="429" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="intuition" class="level3" data-number="10.3.2">
+<h3 data-number="10.3.2" class="anchored" data-anchor-id="intuition"><span class="header-section-number">10.3.2</span> Intuition</h3>
+<p>We aim to find orthogonal directions of maximum variance in data. Directions with sufficiently low variance in the data can be removed.</p>
+<div id="9788a114" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.RandomState(<span class="dv">0</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>n_samples <span class="op">=</span> <span class="dv">200</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co">#generate a 2D dataset with 200 entries from </span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co">#a multivariate normal distribution</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co">#with covariances [[3, 3], [3, 4]]</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">#and mean [0, 0]</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> rng.multivariate_normal(mean<span class="op">=</span>[<span class="dv">0</span>,<span class="dv">0</span>], <span class="op">\</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>cov<span class="op">=</span>[[<span class="dv">3</span>, <span class="dv">3</span>], [<span class="dv">3</span>, <span class="dv">4</span>]], size<span class="op">=</span>n_samples)</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co">#perform PCA on the generated data to find </span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="co">#the two principal components</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>pca <span class="op">=</span> PCA(n_components<span class="op">=</span><span class="dv">2</span>).fit(X)</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="co">#plot the generated data wih label 'Data'</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>plt.scatter(X[:,<span class="dv">0</span>], X[:,<span class="dv">1</span>], label <span class="op">=</span> <span class="st">'Data'</span>)</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="co">#plot the first principal component scaled by </span></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="co">#its explained variance</span></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="co">#set color, linewidth and label</span></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>first_principal_cpt_explained_var <span class="op">=</span> pca.explained_variance_[<span class="dv">0</span>]</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>first_principal_cpt <span class="op">=</span> [[<span class="dv">0</span>, pca.components_[<span class="dv">0</span>][<span class="dv">0</span>]<span class="op">*</span>first_principal_cpt_explained_var] <span class="op">\</span></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>, [<span class="dv">0</span>, pca.components_[<span class="dv">0</span>][<span class="dv">1</span>]<span class="op">*</span>first_principal_cpt_explained_var]]</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>plt.plot(first_principal_cpt[<span class="dv">0</span>], first_principal_cpt[<span class="dv">1</span>] <span class="op">\</span></span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>, color<span class="op">=</span><span class="st">'green'</span>, linewidth<span class="op">=</span><span class="dv">5</span> <span class="op">\</span></span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>, label <span class="op">=</span> <span class="vs">r'First Principal Component ($p_1$)'</span>)</span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a><span class="co">#plot the second principal component scaled by </span></span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a><span class="co">#its explained variance</span></span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a><span class="co">#set color, linewidth and label</span></span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>second_principal_cpt_explained_var <span class="op">=</span> pca.explained_variance_[<span class="dv">1</span>]</span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>second_principal_cpt <span class="op">=</span> [[<span class="dv">0</span>, pca.components_[<span class="dv">1</span>][<span class="dv">0</span>]<span class="op">*</span>second_principal_cpt_explained_var] <span class="op">\</span></span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a>, [<span class="dv">0</span>, pca.components_[<span class="dv">1</span>][<span class="dv">1</span>]<span class="op">*</span>second_principal_cpt_explained_var]]</span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a>plt.plot(second_principal_cpt[<span class="dv">0</span>],  second_principal_cpt[<span class="dv">1</span>] <span class="op">\</span></span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a>, color<span class="op">=</span><span class="st">'red'</span>, linewidth<span class="op">=</span><span class="dv">5</span> <span class="op">\</span></span>
+<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a>, label <span class="op">=</span> <span class="vs">r'Second Principal Component ($p_2$)'</span>)</span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">""</span>)</span>
+<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"First Feature"</span>, loc <span class="op">=</span> <span class="st">'right'</span>, fontsize <span class="op">=</span> <span class="dv">10</span>)</span>
+<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Second Feature"</span>, loc <span class="op">=</span> <span class="st">'top'</span>, fontsize <span class="op">=</span> <span class="dv">10</span>)</span>
+<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="unsupervised_files/figure-html/cell-12-output-1.png" width="587" height="429" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We can then project the data onto the first principal component direction, <span class="math inline">\(p_1\)</span>.</p>
+</section>
+<section id="theory" class="level3" data-number="10.3.3">
+<h3 data-number="10.3.3" class="anchored" data-anchor-id="theory"><span class="header-section-number">10.3.3</span> Theory</h3>
+<p>Let <span class="math inline">\(x\)</span> be a data point with features <span class="math inline">\(f_1\)</span>, <span class="math inline">\(f_2\)</span>, <span class="math inline">\(f_3\)</span>, …, <span class="math inline">\(f_n\)</span>,</p>
+<p><span class="math display">\[x = \begin{pmatrix}
+f_1\\
+f_2\\
+f_3\\
+.\\
+.\\
+.\\
+f_n
+\end{pmatrix}.
+\]</span></p>
+<p>The projection of x onto p is then,</p>
+<p><span class="math display">\[x^{T} \frac{p}{||p||}.\]</span></p>
+<p>Hence, the projection of all data points onto the principal component direction, p, can be written as,</p>
+<p><span class="math display">\[\begin{pmatrix}
+x_1^{T} \frac{p}{||p||}\\
+x_2^{T} \frac{p}{||p||}\\
+x_3^{T} \frac{p}{||p||}\\
+.\\
+.\\
+.\\
+x_m^{T} \frac{p}{||p||}
+\end{pmatrix}
+= X\frac{p}{||p||},\]</span></p>
+<p>where:</p>
+<ul>
+<li>X is the design matrix consisting m datapoints.</li>
+</ul>
+<section id="the-optimization-problem" class="level4" data-number="10.3.3.1">
+<h4 data-number="10.3.3.1" class="anchored" data-anchor-id="the-optimization-problem"><span class="header-section-number">10.3.3.1</span> The Optimization Problem</h4>
+<p>Let <span class="math inline">\(\bar{x}\)</span> be the sample mean vector such that,</p>
+<p><span class="math display">\[\bar{x} = \frac{1}{m}\sum_{i=1}^{m}x^{(i)}.\]</span></p>
+<p>The sample covariance matrix is then given by,</p>
+<p><span class="math display">\[S = \frac{1}{m} X^TX - \bar{x}\bar{x}^T,\]</span></p>
+<p>where:</p>
+<ul>
+<li><span class="math inline">\(S_{ij}\)</span> is the covarance of feature i and feature j.</li>
+</ul>
+<p>For a sample mean of the projected data, <span class="math inline">\(\bar{a}\)</span>,</p>
+<p><span class="math display">\[\bar{a} = \frac{1}{m}\sum_{i=1}^{m}x^{(i)T}p = \bar{x}^Tp,\]</span></p>
+<p>the sample variance of the projected data can be written as,</p>
+<p><span class="math display">\[\sigma^{2}= \frac{1}{m}\sum_{i=1}^{m}(x^{(i)T}p)^2 - \bar{a}^{2} = p^{T}Sp.\]</span></p>
+<p>Then, our optimization problem simplifies to maximizing the sample variance,</p>
+<p><span class="math display">\[\max_p \space p^{T}Sp \space s.t. ||p||=1,\]</span></p>
+<p>which has the following solution,</p>
+<p><span class="math display">\[Sp = \lambda p.\]</span></p>
+</section>
+<section id="scikit-learn-implementation" class="level4" data-number="10.3.3.2">
+<h4 data-number="10.3.3.2" class="anchored" data-anchor-id="scikit-learn-implementation"><span class="header-section-number">10.3.3.2</span> Scikit-learn Implementation</h4>
+<p>Computation can be done using the single value decomposition of X,</p>
+<p><span class="math display">\[X = U \Sigma V^T.\]</span></p>
+<p>If the data is mean-centered (the default option in scikit-learn), the sample covariance matrix is given by,</p>
+<p><span class="math display">\[S = \frac{1}{m} X^TX = \frac{1}{m} V\Sigma U^T U \Sigma V^T = V\frac{1}{m}\Sigma^2V^T,\]</span></p>
+<p>which is the eigenvalue decomposition of S, with its eigenvectors as the columns of <span class="math inline">\(V\)</span> and the corresponding eigenvalues as diagonal entries of <span class="math inline">\(\frac{1}{m}\Sigma^2\)</span>.</p>
+<p>The variance explained by the j-th principal component, <span class="math inline">\(p_j\)</span>, is <span class="math inline">\(\lambda_{j}\)</span> and the total variance explained is the sum of all the eigenvalues, which is also equal to the trace of S. The total variance explained by the first k principal componentsis then given by,</p>
+<p><span class="math display">\[\frac{\sum_{j=1}^{k} \lambda_j}{trace(s)}.\]</span></p>
+</section>
+</section>
+<section id="pca-with-and-without-scaling" class="level3" data-number="10.3.4">
+<h3 data-number="10.3.4" class="anchored" data-anchor-id="pca-with-and-without-scaling"><span class="header-section-number">10.3.4</span> PCA With and Without Scaling</h3>
+<p>For proper implementation of PCA, data must be scaled. To demonstrate this, we generate a dataset with the first 4 features selected from a normal distribution with mean 0 and standard deviation 1. We then append a fifth feature drawn from a uniform distribution with integer entries ranging from 1 to 10. The plot of the projection of the data onto first principal component versus the projection onto the second principal component does not show the expected noise structure unless the data is scaled.</p>
+<div id="180a3bb0" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co">#generate a feature of size 10,000 with integer entries </span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co">#ranging from 1 to 10</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>feature <span class="op">=</span> np.random.randint(<span class="dv">1</span>, <span class="dv">10</span>, <span class="dv">10000</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">10000</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>P <span class="op">=</span> <span class="dv">4</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="co">#generate a 4D dataset drawn from a normal distribution of 10,000 entries</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="co">#then append the feature to X, making it a 5D dataset</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.random.normal(size<span class="op">=</span>[N,P])</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.append(X, feature.reshape(<span class="dv">10000</span>,<span class="dv">1</span>), axis <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="co">#perform PCA with 2 components on the dataset without scaling</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>pca <span class="op">=</span> PCA(<span class="dv">2</span>)</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>pca_no_scale <span class="op">=</span> pca.fit_transform(X)</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="co">#plot the projection of the data onto the first principal</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a><span class="co">#component versus the projection onto </span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="co">#the second principal component</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>plt.scatter(pca_no_scale[:,<span class="dv">0</span>], pca_no_scale[:,<span class="dv">1</span>])</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"PCA without Scaling"</span>)</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Principal Component 1"</span>, loc <span class="op">=</span> <span class="st">'right'</span>, fontsize <span class="op">=</span> <span class="dv">10</span>)</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Principal Component 2"</span>, loc <span class="op">=</span> <span class="st">'top'</span>, fontsize <span class="op">=</span> <span class="dv">10</span>)</span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a><span class="co">#scale data, mean-center and divide by the standard deviation</span></span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>Xn <span class="op">=</span> scale(X)</span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a><span class="co">#perform PCA with 2 components on the scaled data</span></span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>pca <span class="op">=</span> PCA(<span class="dv">2</span>)</span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>pca_scale <span class="op">=</span> pca.fit_transform(Xn)</span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a><span class="co">#plot the projection of the data onto the first principal </span></span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a><span class="co">#component versus the projection onto</span></span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a><span class="co">#the second principal component</span></span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a>plt.scatter(pca_scale[:,<span class="dv">0</span>], pca_scale[:,<span class="dv">1</span>])</span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"PCA with Scaling"</span>)</span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Principal Component 1"</span>, loc <span class="op">=</span> <span class="st">'right'</span>, fontsize <span class="op">=</span> <span class="dv">10</span>)</span>
+<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Principal Component 2"</span>, loc <span class="op">=</span> <span class="st">'top'</span>, fontsize <span class="op">=</span> <span class="dv">10</span>)</span>
+<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="unsupervised_files/figure-html/cell-13-output-1.png" width="587" height="449" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="unsupervised_files/figure-html/cell-13-output-2.png" width="587" height="449" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="summary" class="level3" data-number="10.3.5">
+<h3 data-number="10.3.5" class="anchored" data-anchor-id="summary"><span class="header-section-number">10.3.5</span> Summary</h3>
+<ul>
+<li><p>PCA is a dimensionality reduction technique that projects data onto directions which explain the most variance in the data.</p></li>
+<li><p>The principal component directions are the eigenvectors of the sample covariance matrix and the corresponding eigenvalues represent the variances explained.</p></li>
+<li><p>For proper implementation of PCA, data must be mean-centered, scikit-learn default, and scaled.</p></li>
+</ul>
+</section>
+<section id="further-readings" class="level3" data-number="10.3.6">
+<h3 data-number="10.3.6" class="anchored" data-anchor-id="further-readings"><span class="header-section-number">10.3.6</span> Further Readings</h3>
+<ul>
+<li><p><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4792409/">Principal component analysis: a review and recent developments</a></p></li>
+<li><p><a href="https://www.stat.cmu.edu/~cshalizi/uADA/12/lectures/ch18.pdf">Principal Components Analysis</a></p></li>
 </ul>
 
 
