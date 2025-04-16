@@ -1,35 +1,60 @@
 
 ## Imputation Methods for Missing Data
 
-- This section was prepared by Sebastian Symula, a Junior Statistical Data Science major with a domain in statistics and a minor in math graduating in the fall.
+- This section was prepared by Sebastian Symula, a Junior Statistical
+Data Science major with a domain in statistics and a minor in math
+graduating in the fall.
 
-- This section will serve as an introduction into what data imputation is, when to do it, as well as comparing and contrasting a few different methods of imputation.
+- This section will serve as an introduction into what data imputation
+is, when to do it, as well as comparing and contrasting a few different
+methods of imputation.
 
 ### What is Data Imputation?
-In practice, most datasets will have missing values. This can be due to things like faulty equipment, nonresponse, or the data not existing in the first place.
+In practice, most datasets will have missing values. This can be due to
+things like faulty equipment, nonresponse, or the data not existing in
+the first place.
 
 When data is missing, you have two options:
 
-- Ignore it (Complete Case Analysis): We only use complete rows without missing data for our analysis.
+- Ignore it (Complete Case Analysis): We only use complete rows without
+missing data for our analysis.
 - Impute it: We fill in missing values using some statistical method.
 
 
 
 Types of Missing Data:
 
-- Missing Completely at Random (MCAR):This is the best case scenario. There is no pattern to be observed with missing and observed data. The full rows can be treated as an independent subset of the full dataset. This does not introduce bias and is usually not a realistic assumption. Each row has same chance of being missing.
+- Missing Completely at Random (MCAR):This is the best case scenario. 
+There is no pattern to be observed with missing and observed data. The
+full rows can be treated as an independent subset of the full dataset.
+This does not introduce bias and is usually not a realistic assumption.
+Each row has same chance of being missing.
 
-- Missing at Random (MAR): Missing data can be explained by observed data. missingness of data is related to observed variables, but not to the missing values themselves. Therefore, the mechanism of missingness can be modeled with observed data.
+- Missing at Random (MAR): Missing data can be explained by observed
+data. missingness of data is related to observed variables, but not to
+the missing values themselves. Therefore, the mechanism of missingness
+can be modeled with observed data.
 
-- Missing Not at Random (MNAR): This is when the missingness may say something about the true value, due to some unobserved data. So the fact that the value is missing has an impact on the true value. Do NOT impute in this case.
+- Missing Not at Random (MNAR): This is when the missingness may say
+something about the true value, due to some unobserved data. So the fact
+that the value is missing has an impact on the true value. Do NOT impute
+in this case.
 
 Types of Missing Data Example:
 
-Let's imagine we have a dataset where one column is gender and the other is the respondent's happiness score from a survey.
+Let's imagine we have a dataset where one column is gender and the other
+is the respondent's happiness score from a survey.
 
-- MCAR: If we see a relatively even spread of missing values between men and women. In this case the complete cases would be an independent subset of the dataset and we could run complete case analysis without any bias provided the missing data isn't a large portion of our set.
-- MAR: If we see a pattern of more missing values for men, but we assume this is due to men not finishing the survey and does not correlate with their happiness score. In this case we can use the observed cases for men to impute the missing ones.
-- MNAR: If we think someone who's less happy might be less likely to complete the survey. Can't use observed values to predict missing ones.
+- MCAR: If we see a relatively even spread of missing values between men
+and women. In this case the complete cases would be an independent
+subset of the dataset and we could run complete case analysis without
+any bias provided the missing data isn't a large portion of our set.
+- MAR: If we see a pattern of more missing values for men, but we assume
+this is due to men not finishing the survey and does not correlate with
+their happiness score. In this case we can use the observed cases for 
+men to impute the missing ones.
+- MNAR: If we think someone who's less happy might be less likely to
+complete the survey. Can't use observed values to predict missing ones.
 
 
 ### Inspecting Missingness
@@ -85,7 +110,8 @@ Probability of `Tenure` being missing is greater if `Location` is Hybrid
 df_missing.isna().sum()
 ```
 
-`isna().sum()` is a good place to start when looking at missing data. It provides the sum of missing data by column.
+`isna().sum()` is a good place to start when looking at missing data. It
+provides the sum of missing data by column.
 
 
 Inspecting Missingness: Age vs Salary
@@ -99,7 +125,8 @@ plt.title("MAR Missing Pattern: Income Missing More for Older Individuals")
 plt.show()
 ```
 
-We can see that there is a trend of more missing values for `Salary` as `Age` increases.
+We can see that there is a trend of more missing values for `Salary` as
+`Age` increases.
 
 
 Inspecting Missingness: Tenure vs Department
@@ -152,7 +179,8 @@ When Is Imputing a Good Idea?
 
 Imputing might be the right decision if:
 
-  - It makes sense in the context of the data. Sometimes missing values are expected.
+  - It makes sense in the context of the data. Sometimes missing values
+  are expected.
 
   - It wouldn't introduce extra bias. Depends on the kind of missing data.
 
@@ -174,11 +202,13 @@ Imputing might be the right decision if:
 
   - Fast and easy computationally.
 
-  - Will mess up visuals. There will be large clumps around the mean/median/mode.
+  - Will mess up visuals. There will be large clumps around the 
+  mean/median/mode.
 
 Mean/Mode Imputation
 
-For simplicity, we will exclusively be using functions from `sklearn` throughout. Specifically `sklearn.impute`.
+For simplicity, we will exclusively be using functions from `sklearn`
+throughout. Specifically `sklearn.impute`.
 
 ```{python}
 #| echo: true
@@ -196,7 +226,8 @@ mean_df[['Salary', 'Tenure']] = imp_mean.fit_transform(mean_df[['Salary', 'Tenur
 mean_df[['Department']] = imp_mode.fit_transform(mean_df[['Department']])
 ```
 
-Realistically, we don't need to use these functions. We could manually impute the mean or mode.
+Realistically, we don't need to use these functions. We could manually
+impute the mean or mode.
 
 Evaluating Mean/Mode Imputation:
 
@@ -218,12 +249,16 @@ print(f'Salary Error: ${rmse_salary_simple}')
 print(f'Department Accuracy: {categorical_accuracy}')
 ```
 
-For evaluating accuracy of imputations, we will be using mean squared error for continuous variables and proportion of correct imputations for categorical data.
+For evaluating accuracy of imputations, we will be using mean squared
+error for continuous variables and proportion of correct imputations for
+categorical data.
 
 
 KNN Imputation
 
-One of the most popular methods of imputation. Finds $k$ nearest neighbors that don't have missing values for the given column. Uses the mean of these values to impute missing value.
+One of the most popular methods of imputation. Finds $k$ nearest
+neighbors that don't have missing values for the given column. Uses the
+mean of these values to impute missing value.
 
 - Uses Euclidean distance to find nearest neighbors
 - Becomes computationally expensive for higher values of $k$
@@ -254,8 +289,10 @@ knn_df['Department'] = np.round(knn_df['Department']).astype(int)
 knn_df[['Department','Location']] = encoder.inverse_transform(knn_df[['Department','Location']])
 ```
 
-- This KNN Imputer only works with numeric data, so we encoded the categorical features. 
-- The number of neighbors, $k$ can be tuned. In this case we choose $k$ = 8. Typically 5-10 is a good number.
+- This KNN Imputer only works with numeric data, so we encoded the
+categorical features. 
+- The number of neighbors, $k$ can be tuned. In this case we choose $k$
+= 8. Typically 5-10 is a good number.
 
 KNN Accuracy:
 
@@ -276,37 +313,60 @@ print(f'Department Accuracy: {categorical_accuracy}')
 ```
 
 - The root MSE for both Tenure and Salary increased 
-- Department accuracy increased slightly over the 1 in 4 random guessing that was used with mode imputation.
+- Department accuracy increased slightly over the 1 in 4 random guessing
+that was used with mode imputation.
 
 Problems with Single Imputation
 
-- All these examples have been methods of single imputation, in which one value is imputed for each missing value. 
+- All these examples have been methods of single imputation, in which
+one value is imputed for each missing value. 
 
-- Only having one value is understating the uncertainty of the true value and when we use single imputation, the imputed value will almost always be incorrect.
+- Only having one value is understating the uncertainty of the true 
+value and when we use single imputation, the imputed value will almost 
+always be incorrect.
 
-- Since we're very uncertain about the true values, we should impute multiple times to correctly account for uncertainty.
+- Since we're very uncertain about the true values, we should impute 
+multiple times to correctly account for uncertainty.
 
 
 #### Multiple Imputation
 
-Execute another imputation technique (like KNN) $m$ times on randomly sampled subsets that don't have missing values for the given column. This creates a set of possible values instead of just one. We then perform statistical analysis on each of the $m$ complete datasets and pool the results of the analysis.
+Execute another imputation technique (like KNN) $m$ times on randomly 
+sampled subsets that don't have missing values for the given column. 
+This creates a set of possible values instead of just one. We then 
+perform statistical analysis on each of the $m$ complete datasets and 
+pool the results of the analysis.
 
-- Can become computationally expensive for large datasets or large values of $m$.
-- $m$ can take on any value. Common range is 20-100, but generally bigger is better.
+- Can become computationally expensive for large datasets or large 
+values of $m$.
+- $m$ can take on any value. Common range is 20-100, but generally 
+bigger is better.
 
 Multiple Imputation by Chained Equations (MICE)
 
-- Step 1: A simple imputation, such as imputing the mean, is performed for every missing value in the dataset. These mean imputations can be thought of as “place holders.”
-- Step 2: The “place holder” mean imputations for one variable (“var”) are set back to missing.
-- Step 3: The observed values from the variable “var” in Step 2 are regressed on the other variables in the imputation model.
-- Step 4: This process is repeated for each feature with missing values, then the entire process is repeated for a given number of iterations until the algorithm reaches convergence (imputed values yield similar results after each iteration).
+- Step 1: A simple imputation, such as imputing the mean, is performed 
+for every missing value in the dataset. These mean imputations can be 
+thought of as “place holders.”
+- Step 2: The “place holder” mean imputations for one variable (“var”) 
+are set back to missing.
+- Step 3: The observed values from the variable “var” in Step 2 are 
+regressed on the other variables in the imputation model.
+- Step 4: This process is repeated for each feature with missing values, 
+then the entire process is repeated for a given number of iterations 
+until the algorithm reaches convergence (imputed values yield similar 
+results after each iteration).
 - This forms 1 imputed dataset. We repeat this process $m$ times.
 
 Using statsmodels.imputation.mice
 
-- We will be using the `MICEData` function from `statsmodels.imputation.mice` for multiple imputation.
-- `k_pmm`: This is the size of the sample used to perform predictive mean matching. Predictive mean matching is similar to KNN in that it uses similar rows to impute.
-- `perturbation_method`: Adds random noise to imputations to account for uncertainty. We use 'gaussian' for this because we are adding noise generated from a normal distribution.
+- We will be using the `MICEData` function from `statsmodels.imputation.
+mice` for multiple imputation.
+- `k_pmm`: This is the size of the sample used to perform predictive 
+mean matching. Predictive mean matching is similar to KNN in that it 
+uses similar rows to impute.
+- `perturbation_method`: Adds random noise to imputations to account for 
+uncertainty. We use 'gaussian' for this because we are adding noise 
+generated from a normal distribution.
 
 
 MI Example
@@ -335,7 +395,8 @@ for _ in range(m):
 Pooling MI Results
 
 
-- we have multiple regression models formed from multiple imputed datasets, but we need one final model.
+- we have multiple regression models formed from multiple imputed 
+datasets, but we need one final model.
 - To achieve this, we pool the results using Rubin's combination rules.
 - For parameter estimates, we simply take the average.
 - For within imputation variance, we take the average of variances.
@@ -348,12 +409,16 @@ $b = \frac{1}{m - 1} \sum_{i = 1}^{m} (\theta_i - \hat{\theta})^2$.
 
 $t = w + (1 + 1/m)*b$,
 
-where $w$ is the within imputation variance, $b$ is the between imputation variance, $m$ is the total number of imputed datasets, $\theta$ is a parameter estimate, and $\hat{theta}$ is our pooled parameter estimate.
+where $w$ is the within imputation variance, $b$ is the between 
+imputation variance, $m$ is the total number of imputed datasets, 
+$\theta$ is a parameter estimate, and $\hat{theta}$ is our pooled 
+parameter estimate.
 
 
 MI Results
 
-Here we fit a linear regression model to each of the 20 imputed dataframes.
+Here we fit a linear regression model to each of the 20 imputed 
+dataframes.
 
 ```{python}
 #| echo: true
@@ -374,18 +439,28 @@ The first coefficient/se is for the intercept.
 
 ### Conclusions
 
-- Not everything needs to be imputed, we need to consider the context of the data. If we suspect that the missing data is MNAR, we do not impute.
-- Need to weigh computational cost with accuracy. Multiple imputation can be difficult on large datasets.
+- Not everything needs to be imputed, we need to consider the context of 
+the data. If we suspect that the missing data is MNAR, we do not impute.
+- Need to weigh computational cost with accuracy. Multiple imputation 
+can be difficult on large datasets.
 - Overall, multiple imputation is a safe bet.
 
 Imputing in R:
 
-These examples were all done in python, because that is the language we've used for this class. However, R has much more sophisticated packages and functions for imputing. Specifically the `mice` package in R has plenty of options for multiple imputation, with a lot of documentation available.
+These examples were all done in python, because that is the language 
+we've used for this class. However, R has much more sophisticated 
+packages and functions for imputing. Specifically the `mice` package in 
+R has plenty of options for multiple imputation, with a lot of 
+documentation available.
 
 I would recommend checking this out!
 
 ### Further Readings
 
-- [Combining Multiple Imputations](https://real-statistics.com/handling-missing-data/multiple-imputation-mi/combining-multiple-imputations/)
-- [Multiple Imputation by Chained Equations](https://pmc.ncbi.nlm.nih.gov/articles/PMC3074241/)
-- [statsmodels.imputation.mice](https://www.statsmodels.org/dev/generated/statsmodels.imputation.mice.MICEData.html)
+- [Combining Multiple Imputations](https://real-statistics.com/
+handling-missing-data/multiple-imputation-mi/
+combining-multiple-imputations/)
+- [Multiple Imputation by Chained Equations](https://pmc.ncbi.nlm.nih.
+gov/articles/PMC3074241/)
+- [statsmodels.imputation.mice](https://www.statsmodels.org/dev/
+generated/statsmodels.imputation.mice.MICEData.html)
