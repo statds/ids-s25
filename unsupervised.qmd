@@ -322,3 +322,6 @@ In the visualization:
   clusters.
 + Some digits, such as 3 and 5, may be visually similar and can appear
   partially overlapping in the 2D space.
+
+
+{{< include _pca.qmd >}}

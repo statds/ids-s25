@@ -1,0 +1,356 @@
+## Sentiment Analysis with Python
+
+This section was prepared by Ammar Alsadadi, a senior Actuarial Science and 
+Statistics major.
+
+This section introduces sentiment analysis using a sample dataset and
+Yelp reviews. Sentiment analysis allows categorizing opinions in text
+as positive, negative, or neutral. It is widely used in marketing,
+product feedback, and service evaluations.
+
+
+### Tools Used
+
+- `pandas` for data manipulation
+- `textblob` for sentiment scoring
+- `matplotlib` and `plotly` for visualizations
+- `WordCloud` to visualize word frequencies
+
+```{python}
+import pandas as pd
+from textblob import TextBlob, Word
+import matplotlib.pyplot as plt
+import plotly.express as px
+from wordcloud import WordCloud
+```
+
+We begin by importing the required libraries. `pandas` helps with
+loading and manipulating data. `textblob` is used to calculate
+sentiment polarity and subjectivity. `matplotlib` and `plotly`
+generate plots. `WordCloud` generates a visual representation of
+common words.
+
+Two values are returned for each text:
+- Polarity: a score between -1 and 1 indicating negativity or positivity
+- Subjectivity: a score between 0 and 1 indicating objectivity or subjectivity
+
+Lexicon-based scoring works by aggregating predefined scores assigned to words.
+
+### Common Functions: TextBlob and WordCloud
+
+This section covers key functions from two libraries used in this analysis: 
+TextBlob and WordCloud.
+
+#### TextBlob
+
+TextBlob is a Python library for processing textual data. It provides a simple 
+API for common natural language processing tasks.
+
+- `TextBlob(text).sentiment.polarity`: This function returns a polarity score 
+  between -1 and +1. A score closer to -1 indicates strong negativity, while a 
+  score closer to +1 indicates strong positivity.
+
+- `TextBlob(text).sentiment.subjectivity`: This returns a subjectivity score 
+  between 0 and 1. A score near 0 suggests that the sentence is more factual or 
+  objective, whereas a score near 1 implies it's more opinionated or subjective.
+
+- `TextBlob(text).correct()`: This applies a basic spelling correction algorithm 
+  to the input text. It can be helpful when analyzing noisy or user-generated 
+  content.
+
+- `TextBlob(text).words`: Tokenizes the text into individual words. This is 
+  useful for preprocessing steps such as filtering or word frequency analysis.
+
+- `TextBlob(text).noun_phrases`: Extracts noun phrases (e.g., “the best camera,” 
+  “great service”), which are often helpful in feature extraction or summarizing 
+  text.
+
+#### WordCloud
+
+WordCloud is a visualization tool that displays the most frequent words in a 
+body of text. It emphasizes words with higher frequency by increasing their 
+size in the output image.
+
+- `WordCloud().generate(text)`: This function creates a word cloud from a string 
+  of text. Internally, it counts word frequencies and scales them accordingly.
+
+- `WordCloud(width=800, height=400, background_color='white')`: This initializes 
+  the object with visual customization. The width and height control the size of 
+  the image, while the background color ensures readability.
+
+- `plt.imshow(wc)`: This displays the generated word cloud using matplotlib. It 
+  must be paired with `plt.axis("off")` to hide axes and `plt.show()` to render 
+  the plot.
+
+### :Demonstration with Sample Data
+
+In this section, we create a small, manually defined dataset of 20 example
+text reviews. These reviews simulate real customer feedback and vary in tone,
+ranging from strongly positive to strongly negative, with some neutral
+statements.
+
+```{python}
+data = pd.DataFrame({
+    "text": [
+        "I love this product!",
+        "Worst experience ever.",
+        "It was okay, nothing special.",
+        "Absolutely fantastic!",
+        "I hate it.",
+        "This is the best thing I've bought.",
+        "Totally disappointed with the quality.",
+        "Customer service was helpful.",
+        "The item arrived broken.",
+        "Neutral about the performance.",
+        "Very satisfied with the support team.",
+        "Not worth the money at all.",
+        "Exceeded all my expectations.",
+        "Terrible, will not recommend.",
+        "The packaging was nice but the product failed.",
+        "Really easy to use and efficient.",
+        "Complete waste of time and money.",
+        "I've never been happier with a purchase.",
+        "So frustrating to deal with this company.",
+        "Average quality, decent price."
+    ]
+})
+data
+```
+
+Each review is stored in a column called text. This list allows us to apply 
+sentiment analysis in a controlled environment before moving to a larger 
+dataset.
+
+#### Extracting Sentiment Scores
+The next step is to calculate the polarity of each review using TextBlob.
+```{python}
+def get_sentiment(text):
+    return TextBlob(text).sentiment.polarity
+
+data["sentiment"] = data["text"].apply(get_sentiment)
+data
+
+```
+
+We define a function get_sentiment that takes in a string and returns its 
+polarity score. The function is applied to each entry in the text column. 
+The resulting values are stored in a new column called sentiment.
+
+- Values closer to 1 indicate positive sentiment.
+- Values closer to -1 indicate negative sentiment.
+- Values around 0 are considered neutral.
+
+#### Categorizing Sentiment Labels
+We then classify the numerical sentiment scores into categorical labels:
+"Positive", "Negative", or "Neutral"
+```{python}
+def label_sentiment(score):
+    if score > 0:
+        return "Positive"
+    elif score < 0:
+        return "Negative"
+    return "Neutral"
+
+data["label"] = data["sentiment"].apply(label_sentiment)
+data
+```
+
+This classification helps simplify the interpretation and is useful for summary 
+statistics and visualizations.
+
+#### Distribution Visualization
+Now that each review is labeled, we visualize the results to better 
+understand the overall sentiment distribution.
+
+##### Sentiment Score Histogram
+
+```{python}
+fig = px.histogram(
+    data, x="sentiment", nbins=10, title="Sentiment Score Distribution"
+)
+fig.show()
+```
+
+This histogram displays how sentiment scores are spread across the dataset.
+It helps us identify patterns such as clustering near extreme values or around 
+zero (neutral).
+
+##### Sentiment Category Counts
+```{python}
+data["label"].value_counts().plot(kind="bar", title="Sentiment Label Counts")
+plt.xlabel("Sentiment")
+plt.ylabel("Count")
+plt.tight_layout()
+plt.show()
+```
+
+This bar plot shows how many reviews fall into each sentiment category.
+It's a quick way to assess whether the dataset skews more positive,
+negative, or neutral.
+
+
+### Yelp Dataset Case Study
+
+In this case study, we apply the same sentiment analysis to a large
+real-world dataset. The dataset is a filtered sample of 70,000 reviews from the
+Yelp Open Dataset, which originally contains over 6.9 million reviews collected
+from businesses across 11 metropolitan areas. The sample size was selected to
+provide a balance between performance and statistical diversity.
+
+#### Step 1: Loading and Scoring Reviews
+```{python}
+url = 'https://raw.githubusercontent.com/CoderAmmar0/Yelp_data/main/yelp_data.parquet'
+yelp_df = pd.read_parquet(url, engine='pyarrow')
+yelp_df["score"] = yelp_df["text"].apply(lambda x: TextBlob(x).sentiment.polarity)
+yelp_df["label"] = yelp_df["score"].apply(label_sentiment)
+```
+
+After loading the reviews into a DataFrame, we compute polarity scores for each
+ review using the same TextBlob method as before.
+
+These scores are converted into sentiment labels 
+(Positive, Negative, or Neutral) using the label_sentiment function previously
+defined.
+
+This step essentially extends the same logic we used in the small sample 
+dataset to a much larger dataset.
+
+#### Step 2: Sentiment Score Distribution
+
+```{python}
+fig = px.histogram(yelp_df, x="score", nbins=30, title="Yelp Sentiment Score Distribution")
+fig.show()
+```
+
+This histogram gives a sense of how sentiment polarity is distributed across 
+all Yelp reviews in the sample. 
+
+Peaks near 1 or -1 may suggest strongly worded opinions.
+
+A central concentration near 0 would indicate a significant number of neutral 
+reviews.
+
+#### Step 3: Sentiment Label Frequency
+
+```{python}
+yelp_df["label"].value_counts().plot(kind="bar", title="Yelp Sentiment Labels")
+plt.xlabel("Sentiment")
+plt.ylabel("Count")
+plt.tight_layout()
+plt.show()
+```
+
+This bar chart summarizes how many reviews fall into each sentiment category.
+This allows us to quickly answer questions like:
+
+- Are most users satisfied with their experience?
+
+- Is there a balance between negative and positive reviews?
+
+- How common is neutral sentiment in real-world feedback?
+
+
+#### Step 4: WordClouds
+Word clouds provide a visual summary of the most frequent words found in the 
+reviews. They are especially helpful for qualitative insight, allowing us to 
+quickly spot terms that are commonly used in each sentiment category.
+
+```{python}
+from PIL import Image
+import numpy as np
+
+def plot_wordcloud(text, title):
+    wc = WordCloud(width=800, height=400, background_color='white')
+    wc.generate(text)
+    plt.figure(figsize=(10, 5))
+    plt.imshow(wc, interpolation='bilinear')
+    plt.axis("off")
+    plt.title(title)
+    plt.show()
+
+plot_wordcloud(" ".join(yelp_df[yelp_df["label"] == "Positive"]["text"]), "WordCloud of Positive Reviews")
+plot_wordcloud(" ".join(yelp_df[yelp_df["label"] == "Negative"]["text"]), "WordCloud of Negative Reviews")
+plot_wordcloud(" ".join(yelp_df[yelp_df["label"] == "Neutral"]["text"]), "WordCloud of Neutral Reviews")
+```
+
+In this function, we initialize a WordCloud object with a white background and
+specified image dimensions. The generate() method takes a string and counts
+word frequency, scaling word size based on how often each one appears. The
+result is rendered with matplotlib.
+
+The join() method concatenates all review texts in the subset into one large 
+string.
+
+This string is passed to the word cloud generator. Each generated word cloud 
+helps us infer common themes or phrases associated with different sentiment
+types.
+
+For example, we might expect to see words like "good," "amazing," or "perfect"
+in positive reviews, while negative reviews may feature "bad," "disappointed,"
+or "terrible."
+
+#### Step 5: Subjectivity and Score Correlation
+In this step, we explore how the sentiment polarity relates to its subjectivity.
+This type of analysis can help us understand whether strong opinions are
+associated with more personal or emotional language.
+
+```{python}
+yelp_df["subjectivity"] = yelp_df["text"].apply(lambda x: TextBlob(x).sentiment.subjectivity)
+fig = px.scatter(yelp_df, x="score", y="subjectivity", color="label", title="Yelp Review Sentiment vs Subjectivity")
+fig.show()
+```
+
+This scatter plot maps each review by its sentiment polarity (x-axis) and
+subjectivity (y-axis). Points are colored by sentiment label: positive, 
+negative, or neutral. 
+
+Highly subjective reviews tend to have strong sentiment either positive or
+negative. Neutral reviews are often more objective, clustering lower on
+the y-axis.
+#### Best and worst reviews
+This final step highlights the most extreme examples in the dataset:
+the review with the highest sentiment score and the one with the lowest.
+
+```{python}
+print("Most Positive:\n", yelp_df.loc[yelp_df['score'].idxmax(), 'text'][:500])
+print("\nMost Negative:\n", yelp_df.loc[yelp_df['score'].idxmin(), 'text'][:500])
+```
+
+We use idxmax() and idxmin() to locate the reviews with maximum and
+minimum polarity scores.
+These reviews represent the most enthusiastic and the most critical opinions
+in the sample.
+
+### Common Use Cases for Sentiment Analysis
+
+- Product Reviews: Classify customer reviews to monitor satisfaction trends.
+
+- Social Media Monitoring: Track public sentiment on platforms like Twitter
+  or Reddit.
+
+- Customer Support: Analyze support tickets to identify recurring issues.
+
+- Financial News: Assess the tone of headlines and reports to infer market
+  sentiment.
+
+- Employee Feedback: Evaluate internal surveys to understand staff
+  sentiment.
+
+These applications use similar methods but may require tuning or advanced
+models depending on the context.
+
+### Summary
+
+Sentiment analysis is an efficient way to extract and understand user opinions
+from text. In this section, we used TextBlob as a simple and interpretable
+tool to perform sentiment scoring and classification. While it works well
+for basic analysis and educational purposes, more advanced models such
+as VADER, spaCy, or more advanced models are better for real-world use
+when you need higher accuracy and a better understanding of context.
+
+### Further Readings
+
+* [TextBlob Sentiment Analysis Tutorial] (@RealPython2025TextBlobTutorial)  
+* [TextBlob Official Documentation] (@TextBlobDocs2025)  
+* [Sentiment Analysis with TextBlob – DataCamp] (@DataCamp2025BeginnerTextBlob)  
+* [How to Create a Word Cloud in Python – DataCamp] (@DataCamp2025WordCloud)  
