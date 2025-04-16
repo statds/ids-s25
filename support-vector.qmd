@@ -1,21 +1,31 @@
 ## Support Vector Machine(SVM)
 
-This section has been prepared by Shubhan Tamhane, a sophmore majoring in Statistical Data Science and minoring in Financial Analysis at the University of Connecticut. This section will primarily focus on the ins and outs of the popular supervised machine learning algorithim, **Support Vector Machine.** There will also be a brief demonstration using the MNIST dataset for image classification. 
+This section has been prepared by Shubhan Tamhane, a sophmore majoring in
+Statistical Data Science and minoring in Financial Analysis at the University of
+Connecticut. This section will primarily focus on the ins and outs of the
+popular supervised machine learning algorithim, Support Vector Machine. There
+will also be a brief demonstration using the MNIST dataset for image
+classification. 
 
 ### Introduction
 
 **What is SVM?**
 
- - SVM is a supervised machine learning algorhithm that is used mainly for classification tasks 
- - It works well in high dimensional spaces and makes a clear decision boundry between groups 
+ - SVM is a supervised machine learning algorhithm that is used mainly for
+   classification tasks 
+ - It works well in high dimensional spaces and makes a clear decision boundry
+   between groups 
 
 **Core Idea** 
 
- - SVM works by finding the best boundry **(Hyperplane)** that seperates the data into classes
- - It chooses a hyperplane with the **maximum margin**, the widest gap between the classes 
- - The closest points to the boundry are called **support vectors**  
+ - SVM works by finding the best boundry (Hyperplane) that seperates the data
+   into classes
+ - It chooses a hyperplane with the maximum margin, the widest gap between the
+   classes 
+ - The closest points to the boundry are called support vectors  
 
 ### Example 1
+Code to set up original 
 ```{python}
 import numpy as np
 import matplotlib.pyplot as plt
@@ -63,17 +73,18 @@ plt.show()
 **Margin** 
 
  - Distance between decision boundry and nearest data points
- - **SVM** tries to maximize this margin
+ - SVM tries to maximize this margin
 
 **Support Vectors**
 
  - Critical data points that determine the position of the decision boundry
- - Only the support vectors are used to make the decision boundry, unlike most ML algorithms
+ - Only the support vectors are used to make the decision boundry, unlike most
+   ML algorithms
 
 **Linear vs Non-Linear** 
 
- - **Linear:** A straight line can seperate the classes (Example 1)
- - **Non-linear data:** Use **kernels** to transform the space (Next Example)
+ - Linear: A straight line can seperate the classes (Example 1)
+ - Non-linear data: Use kernels to transform the space (Next Example)
 
 ### More Realistic Example
 
@@ -101,7 +112,8 @@ plt.tight_layout()
 plt.show()
 ```
 
- - In this example, we can see that the data is impossible to set a hyperplane without having many misclassifications due to high overlap 
+ - In this example, we can see that the data is impossible to set a hyperplane
+   without having many misclassifications due to high overlap 
 
  - To fix this problem, we can plot this data in a 2-dimensional space
    - Keep the X-axis as the original data points
@@ -144,20 +156,24 @@ plt.tight_layout()
 plt.show()
 ```
 
- - In the 2d transformation, we can clearly see a clear maximum margin without any misclassifications 
+ - In the 2d transformation, we can clearly see a clear maximum margin without
+   any misclassifications 
  - The transformed data is now linearly seperable 
 
 ### The Kernel Trick 
 
- - When data is not linearily seperable we can use **kernels** to implicitly transform them to a higher dimension where it can be more seperable
- - This happens without computing the transformation directly, saving computational space 
- - Using the Kernel Trick allows SVM to draw a straight boundry in the transformed space 
+ - When data is not linearily seperable we can use kernels to implicitly
+   transform them to a higher dimension where it can be more seperable
+ - This happens without computing the transformation directly, saving
+   computational space 
+ - Using the Kernel Trick allows SVM to draw a straight boundry in the
+   transformed space 
 
 | Kernel | Use Case |
 |--------|----------|
-| **Linear** | Data that’s already separable with a straight line (Example 1) |
-| **Polynomial** | When the decision boundary is curved (Example 2) |
-| **RBF (Radial Basis Function)** | For complex, non-linear boundaries | 
+| Linear | Data that’s already separable with a straight line (Example 1) |
+| Polynomial | When the decision boundary is curved (Example 2) |
+| RBF (Radial Basis Function) | For complex, non-linear boundaries | 
 
 **Radial Basis Function Kernel**
 
@@ -207,7 +223,8 @@ X_train, X_test, y_train, y_test = train_test_split(X, y,
 random_state=3255, test_size=0.2)
 ```
 
-Fit a Support Vector Classifier model on data, using a Radius Basis Function Kernel, gamma set to scale, and C set to 1. 
+Fit a Support Vector Classifier model on data, using a Radius Basis Function
+Kernel, gamma set to scale, and C set to 1. 
 ```{python}
 m1 = SVC(kernel = 'rbf', gamma='scale', C =1)
 m1.fit(X_test, y_test)
@@ -222,10 +239,13 @@ print("F1 Score:", f1_score(y_test, y_pred, pos_label=9))
 print("Confusion Matrix:", confusion_matrix(y_test, y_pred))
 ```
 
-From the above output we can see that the SVM model has a high accuracy, precision, and F1 score. Furthermore, we can see from the confusion matrix that there are few misclassifications. 
+From the above output we can see that the SVM model has a high accuracy,
+precision, and F1 score. Furthermore, we can see from the confusion matrix that
+there are few misclassifications. 
 
 ### Further Readings 
 
  - [Support Vector Machines: Theory and Applications] (@Schölkopf2004SVMTheory)
  - [Support Vector Machines for Machine Learning] (@Brownlee2016SVMGuide)
  - [Support Vector Machines - scikit-learn documentation] (@scikitLearnSVM)
+
