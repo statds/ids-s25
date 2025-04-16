@@ -1,51 +1,47 @@
 
 ## A Primer on Random Forest
-This section was prepared by Gaofei Zhang. I am a second year PhD student in Health Promotion Science. 
+This section was prepared by Gaofei Zhang. 
+I am a second year PhD student in Health Promotion Science. 
 
 ### Welcome to our presentation on **Random Forest**
 
-In today's talk, we will explore what Random Forest is, why it matters, and how to apply it to real-world data.
+In today's talk, we will explore what Random Forest is, why it matters,
+and how to apply it to real-world data.
 
 We will cover the basic concepts and practical steps for using a Random Forest regressor. 
-In our example, we predict the number of persons injured in NYC crashes by using accident attributes.
+In our example, we predict the number of persons injured in NYC crashes by using 
+accident attributes.
 
 
----
+## A Primer on Random Forest
 
-### Outline
+Random Forest is a supervised ensemble learning method that builds multiple
+decision trees and combines their outputs to improve predictive performance
+and control overfitting. It is widely used for both classification and
+regression tasks due to its robustness and interpretability.
 
-1. **Introduction**: What is and Why Random Forest?  
-2. **Random Forest Principles & Parameter Tuning**  
-3. **Concrete Example**: NYC Crash Data for Injury Prediction
-4. **Feature Importance & Discussion**  
-5. **Conclusion & Further Readings**
+### Conceptual Foundations
 
----
+**1. Bootstrap Aggregating (Bagging)**
+- For each tree, sample the training set with replacement (bootstrapping).
+- This creates diverse datasets so trees are uncorrelated.
 
-### 1. Introduction: What is and Why Random Forest?
+**2. Random Feature Selection**
+- At each node, select a random subset of features when splitting.
+- This further decorrelates trees, reducing variance.
 
-- **Definition**: A Random Forest is an ensemble method that aggregates 
-  the predictions of many decision trees, each a “small expert.”
-- **Advantages**:
-  - **Reduced Overfitting**: By averaging many trees, the variance is reduced.
-  - **Robustness**: Randomness in sampling and feature selection leads to a more stable model.
-  - **Automatic Feature Selection**: It provides an intrinsic measure of 
-    feature importance.
+**3. Aggregation of Predictions**
+- **Classification**: each tree votes; the majority class wins.
+- **Regression**: average the outputs of all trees.
 
----
+**Advantages**
+- Reduces overfitting compared to single trees.  
+- Provides feature importance metrics.  
+- Handles both numerical and categorical data well.
 
-- **Application Scenarios**:
-  - **Classification**: e.g., predicting if an accident is fatal.
-  - **Regression**: e.g., predicting the number of injuries.
-  - **Anomaly Detection**: spotting unusual cases.
-
-- **Justification**:  
-  Random Forest often outperforms single decision trees because it 
-  mitigates overfitting and leverages the “wisdom of crowds.”
-
----
-
-### 2. Random Forest Principles & Parameter Tuning
+**Limitations**
+- Computationally intensive for large forests.  
+- Model size can be large, affecting memory usage.
 
 #### Random Forest Principles
 
@@ -56,7 +52,6 @@ In our example, we predict the number of persons injured in NYC crashes by using
   - *Random Feature Selection*: At each split, only a subset of features is considered.
 - **Voting/Averaging**: For classification, predictions are made by majority vote.
 
----
 
 #### Parameter Tuning
 
@@ -71,243 +66,105 @@ In our example, we predict the number of persons injured in NYC crashes by using
   Tuning these parameters can further reduce overfitting, improve generalization, 
   and provide better insight into feature contributions.
 
----
-
-#### Random Forest Parameter Tuning Code Example
-
-```{python}
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-#| echo: true
-#| eval: true
-#| include: true
-
-
-import warnings
-import pandas as pd
-warnings.filterwarnings("ignore", category=pd.errors.SettingWithCopyWarning)
-warnings.filterwarnings("ignore", category=FutureWarning)
-
-import numpy as np
-import matplotlib.pyplot as plt
-
-from sklearn.model_selection import train_test_split, GridSearchCV
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import r2_score, mean_squared_error
-from tabulate import tabulate
-
-def preprocess_data(csv_path):
-    # Load dataset
-    df = pd.read_csv(csv_path)
-    # Extract CRASH HOUR from CRASH TIME (assumed format "HH:MM")
-    df["CRASH HOUR"] = pd.to_datetime(df["CRASH TIME"], format="%H:%M", errors="coerce").dt.hour
-    if df["CRASH HOUR"].isnull().sum() > 0:
-        df["CRASH HOUR"].fillna(df["CRASH HOUR"].median(), inplace=True)
-    print("Data shape:", df.shape)
-    print("First 5 rows:")
-    print(df.head())
-    return df
-
-def feature_engineering(df):
-    # Drop rows with missing BOROUGH or ZIP CODE
-    df = df.dropna(subset=["BOROUGH", "ZIP CODE"])
-    # Convert BOROUGH to uppercase and ZIP CODE to string
-    df.loc[:, "BOROUGH"] = df["BOROUGH"].astype(str).str.upper()
-    df.loc[:, "ZIP CODE"] = df["ZIP CODE"].astype(int).astype(str)
-    # Create dummy variables for BOROUGH and ZIP CODE
-    df_dummies = pd.get_dummies(df[["BOROUGH", "ZIP CODE"]], drop_first=True)
-    # Select numerical features: LATITUDE, LONGITUDE, CRASH HOUR
-    numerical_features = ["LATITUDE", "LONGITUDE", "CRASH HOUR"]
-    df_numerical = df[numerical_features]
-    # Combine dummy variables and numerical features
-    X = pd.concat([df_dummies, df_numerical], axis=1)
-    # Target: NUMBER OF PERSONS INJURED, fill missing with 0
-    y = pd.to_numeric(df["NUMBER OF PERSONS INJURED"], errors="coerce").fillna(0)
-    return X, y
-
-def tune_parameters(X_train, y_train):
-    param_grid = {
-        "n_estimators": [500, 1000, 2000],
-        "max_depth": [None, 10, 20],
-        "max_features": ["sqrt", "log2"]
-    }
-    rf = RandomForestRegressor(random_state=42)
-    grid_search = GridSearchCV(estimator=rf, param_grid=param_grid,
-                               cv=5, n_jobs=-1, scoring="r2")
-    grid_search.fit(X_train, y_train)
-    print("\nBest parameters found:", grid_search.best_params_)
-    print("Best cross-validation R² score:", grid_search.best_score_)
-    return grid_search.best_params_
-
-def train_and_evaluate_rf(X_train, X_test, y_train, y_test, best_params):
-    if best_params is None:
-        best_params = {"n_estimators": 1000, "max_depth": None, "max_features": "sqrt"}
-    rf_model = RandomForestRegressor(
-        n_estimators=best_params["n_estimators"],
-        max_depth=best_params["max_depth"],
-        max_features=best_params["max_features"],
-        random_state=42
-    )
-    rf_model.fit(X_train, y_train)
-    y_pred = rf_model.predict(X_test)
-    r2 = r2_score(y_test, y_pred)
-    mse = mean_squared_error(y_test, y_pred)
-    print("\nRandom Forest R² Score:", r2)
-    print("Random Forest Mean Squared Error:", mse)
-    return rf_model, y_pred
-
-def display_feature_importance(rf_model, feature_names):
-    importances = rf_model.feature_importances_
-    indices = np.argsort(importances)[::-1]
-    print("\nFeature Importances:")
-    for idx in indices:
-        print(f"  {feature_names[idx]}: {importances[idx]:.4f}")
-    plt.figure(figsize=(10, 5))
-    plt.title("Feature Importance")
-    plt.bar(range(len(feature_names)), importances[indices], align="center")
-    sorted_features = [feature_names[i] for i in indices]
-    plt.xticks(range(len(feature_names)), sorted_features, rotation=45)
-    plt.tight_layout()
-    plt.show()
-
-def main():
-    # Load and preprocess data
-    from pathlib import Path
-
-    base_dir = Path.cwd()
-    csv_path = base_dir / "data" / "nyccrashes_2024w0630_by20250212.csv"
-
-    df = preprocess_data(csv_path)
-    
-    # Feature engineering: use BOROUGH, ZIP CODE, LATITUDE, LONGITUDE, CRASH HOUR
-    X, y = feature_engineering(df)
-    print("\nFeature matrix shape:", X.shape)
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
-    print("\nTrain set size:", X_train.shape)
-    print("Test set size:", X_test.shape)
-    
-    # Parameter tuning
-    print("\nTuning parameters with GridSearchCV...")
-    best_params = tune_parameters(X_train, y_train)
-    
-    # Train and evaluate the Random Forest regressor
-    rf_model, y_pred = train_and_evaluate_rf(X_train, X_test, y_train, y_test, best_params)
-    
-    # Display feature importance
-    display_feature_importance(rf_model, X.columns.tolist())
-        
-    print("\nAll done!")
-
-if __name__ == "__main__":
-    main()
-
-```
-
-
----
-
-### 3. Concrete Example: NYC Crash Data
+#### Concrete Example: NYC Crash Data
 
 This example demonstrates how to build a Random Forest regression model using 
 accident attributes to predict "NUMBER OF PERSONS INJURED".
 
----
 
-#### Step 3.1: Load & Prepare the Data
+### 1. Data Preprocessing
+
+We start by loading the NYC crash dataset and extracting the crash hour from
+the crash time column. This transforms a string time into an integer hour.
 
 ```{python}
-#| echo: true
-#| eval: true
+#| echo: true  
+#| eval: true  
 #| include: true
-
-import warnings
-# Suppress SettingWithCopyWarning and FutureWarning
-warnings.filterwarnings("ignore", category=pd.errors.SettingWithCopyWarning)
-warnings.filterwarnings("ignore", category=FutureWarning)
-
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
+from pathlib import Path
 
-from sklearn.model_selection import train_test_split, GridSearchCV
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import r2_score, mean_squared_error
-from tabulate import tabulate
+# Build dynamic file path
+dir_path = Path.cwd() / "data"
+csv_file = dir_path / "nyccrashes_2024w0630_by20250212.csv"
 
-def preprocess_data(csv_path):
-    # Load dataset
-    df = pd.read_csv(csv_path)
-    # Extract CRASH HOUR from CRASH TIME (assumed format "HH:MM")
-    df["CRASH HOUR"] = pd.to_datetime(df["CRASH TIME"], format="%H:%M", errors="coerce").dt.hour
-    if df["CRASH HOUR"].isnull().sum() > 0:
-        df["CRASH HOUR"].fillna(df["CRASH HOUR"].median(), inplace=True)
+# Load data and parse crash hour
+def preprocess_data(path):
+    df = pd.read_csv(path)
+    df["CRASH HOUR"] = pd.to_datetime(
+        df["CRASH TIME"], format="%H:%M",
+        errors="coerce"
+    ).dt.hour
+    if df["CRASH HOUR"].isnull().any():
+        med = df["CRASH HOUR"].median()
+        df["CRASH HOUR"].fillna(med, inplace=True)
     print("Data shape:", df.shape)
-    print("First 5 rows:")
     print(df.head())
     return df
 
-df = preprocess_data("data/nyccrashes_2024w0630_by20250212.csv")
-
+# Execute preprocessing
+df = preprocess_data(csv_file)
 ```
-
----
-
 #### Result Explanation
 - **Data shape** (1876, 30) – 1876 rows and 30 columns.
 - **First 5 rows** show sample records.
 
----
 
-#### Step 3.2: Feature Engineering & Data Splitting
+### 2. Feature Engineering & Train/Test Split
+
+Here we encode categorical features and combine with numeric ones, then
+split into training and testing subsets.
 
 ```{python}
-#| echo: true
-#| eval: true
+#| echo: true  
+#| eval: true  
 #| include: true
-
-import warnings
-import pandas as pd
-warnings.filterwarnings("ignore", category=pd.errors.SettingWithCopyWarning)
-warnings.filterwarnings("ignore", category=FutureWarning)
-
 import numpy as np
-import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
 
-from sklearn.model_selection import train_test_split, GridSearchCV
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import r2_score, mean_squared_error
-from tabulate import tabulate
-
+# Create features X and target y
 def feature_engineering(df):
-    # Drop rows with missing BOROUGH or ZIP CODE
-    df = df.dropna(subset=["BOROUGH", "ZIP CODE"])
-    # Use .loc to avoid chained assignment warnings
-    df.loc[:, "BOROUGH"] = df["BOROUGH"].astype(str).str.upper()
-    df.loc[:, "ZIP CODE"] = df["ZIP CODE"].astype(int).astype(str)
-    # Create dummy variables for BOROUGH and ZIP CODE
-    df_dummies = pd.get_dummies(df[["BOROUGH", "ZIP CODE"]], drop_first=True)
-    # Select numerical features: LATITUDE, LONGITUDE, CRASH HOUR
-    numerical_features = ["LATITUDE", "LONGITUDE", "CRASH HOUR"]
-    df_numerical = df[numerical_features]
-    # Combine dummy variables and numerical features
-    X = pd.concat([df_dummies, df_numerical], axis=1)
-    # Target: NUMBER OF PERSONS INJURED, fill missing with 0
-    y = pd.to_numeric(df["NUMBER OF PERSONS INJURED"], errors="coerce").fillna(0)
+    df.columns = df.columns.str.strip()
+    df = df.dropna(
+        subset=["BOROUGH", "ZIP CODE"]
+    )
+    df["BOROUGH"] = df["BOROUGH"].str.upper()
+    df["ZIP CODE"] = (
+        df["ZIP CODE"].astype(int)
+        .astype(str)
+    )
+    cats = pd.get_dummies(
+        df[["BOROUGH", "ZIP CODE"]],
+        drop_first=True
+    )
+    nums = df[["LATITUDE", "LONGITUDE",
+               "CRASH HOUR"]]
+    X = pd.concat([cats, nums], axis=1)
+    y = pd.to_numeric(
+        df["NUMBER OF PERSONS INJURED"],
+        errors="coerce"
+    ).fillna(0)
     return X, y
 
-    base_dir = Path.cwd()
-    csv_path = base_dir / "data" / "nyccrashes_2024w0630_by20250212.csv"
-
-    df = preprocess_data(csv_path)
-    X, y = feature_engineering(df)
-
-    print("Feature matrix shape:", X.shape)
-    print("Target vector shape:", y.shape)
+# Execute feature engineering
+df_X, df_y = feature_engineering(df)
+print("Feature matrix shape:", df_X.shape)
+X_train, X_test, y_train, y_test = (
+    train_test_split(
+        df_X, df_y,
+        test_size=0.3,
+        random_state=42
+    )
+)
+print("Train set:", X_train.shape)
+print("Test set:", X_test.shape)
 ```
+
+Results will be like:
+
 - Feature matrix shape: (1334, 174)\
 - Train set size: (933, 174)\
 - Test set size: (401, 174)\
----
 
 #### Result Explanation
 - Feature matrix shape: (1334, 174)\
@@ -328,187 +185,100 @@ def feature_engineering(df):
 
     174: Each sample in the test set has 174 features.
 
----
 
-#### Step 3.3: Parameter Tuning and Model Training
+### 3. Parameter Tuning & Model Training
+
+We use grid search to find optimal hyperparameters and then evaluate the model
+on the test set.
 
 ```{python}
-#| echo: true
-#| eval: true
+#| echo: true  
+#| eval: true  
 #| include: true
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.model_selection import GridSearchCV
+from sklearn.metrics import (
+    r2_score, mean_squared_error
+)
 
-# The tune_parameters function uses GridSearchCV to tune the parameters of the Random Forest regressor,
-# obtaining the best parameters: {'max_depth': 10, 'max_features': 'log2', 'n_estimators': 100}.
-# Then, the train_and_evaluate_rf function trains the model with these parameters and evaluates it,
-# printing the model's R² score and Mean Squared Error.
-
-def tune_parameters(X_train, y_train):
-
-    # Define the parameter grid
+# Tune hyperparameters and train model
+def tune_and_train(
+    X_tr, y_tr, X_te, y_te
+):
     param_grid = {
         "n_estimators": [500, 1000, 2000],
         "max_depth": [None, 10, 20],
         "max_features": ["sqrt", "log2"]
     }
-    
-    # Initialize the Random Forest Regressor
-    rf = RandomForestRegressor(random_state=42)
-    
-    # Perform grid search with 5-fold cross-validation
-    grid_search = GridSearchCV(estimator=rf, param_grid=param_grid,
-                               cv=5, n_jobs=-1, scoring="r2")
-    grid_search.fit(X_train, y_train)
-    
-    # Print the best parameters and cross-validation R² score
-    print("\nBest parameters found:", grid_search.best_params_)
-    print("Best cross-validation R² score:", grid_search.best_score_)
-    
-    return grid_search.best_params_
-
-def train_and_evaluate_rf(X_train, X_test, y_train, y_test, best_params):
-   # Use default parameters if best_params is None
-    if best_params is None:
-        best_params = {"n_estimators": 1000, "max_depth": None, "max_features": "sqrt"}
-    
-    # Create and train the Random Forest Regressor with tuned parameters
-    rf_model = RandomForestRegressor(
-        n_estimators=best_params["n_estimators"],
-        max_depth=best_params["max_depth"],
-        max_features=best_params["max_features"],
+    rf = RandomForestRegressor(
         random_state=42
     )
-    rf_model.fit(X_train, y_train)
-    
-    # Predict on the test set
-    y_pred = rf_model.predict(X_test)
-    
-    # Evaluate the model using R² score and Mean Squared Error (MSE)
-    r2 = r2_score(y_test, y_pred)
-    mse = mean_squared_error(y_test, y_pred)
-    
-    print("\nRandom Forest R² Score:", r2)
-    print("Random Forest Mean Squared Error:", mse)
-    
-    return rf_model, y_pred
+    gs = GridSearchCV(
+        rf, param_grid,
+        cv=5, n_jobs=-1,
+        scoring="r2"
+    )
+    gs.fit(X_tr, y_tr)
+    print("Best params:", gs.best_params_)
+    print("CV R²:", gs.best_score_)
+    model = gs.best_estimator_
+    preds = model.predict(X_te)
+    print("Test R²:", r2_score(y_te, preds))
+    print("Test MSE:", mean_squared_error(
+        y_te, preds
+    ))
+    return model
 
+# Execute tuning and training
+rf_model = tune_and_train(
+    X_train, y_train,
+    X_test, y_test
+)
 ```
 
+Results will be like:
 
 - Best Parameters: {'max_depth': 10, 'max_features': 'log2', 'n_estimators': 2000}\
 - Best cross-validation R² score: -0.01704506305455513\
 - Random Forest R² Score: -0.023889832065792982\
 - Random Forest Mean Squared Error: 0.8725932213499686\
 
----
 
-#### Step 3.4: Feature Importance Visualization
+### 4. Visualize Feature Importance
+
+Plot the importance of each feature to interpret the model.
 
 ```{python}
-#| echo: true
-#| eval: true
+#| echo: true  
+#| eval: true  
 #| include: true
-
-import warnings
-import pandas as pd
-warnings.filterwarnings("ignore", category=pd.errors.SettingWithCopyWarning)
-warnings.filterwarnings("ignore", category=FutureWarning)
-
-import numpy as np
 import matplotlib.pyplot as plt
 
-from sklearn.model_selection import train_test_split, GridSearchCV
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import r2_score, mean_squared_error
-from tabulate import tabulate
-
-def preprocess_data(csv_path):
-    # Load dataset
-    df = pd.read_csv(csv_path)
-    # Extract CRASH HOUR from CRASH TIME (assumed format "HH:MM")
-    df["CRASH HOUR"] = pd.to_datetime(df["CRASH TIME"], format="%H:%M", errors="coerce").dt.hour
-    if df["CRASH HOUR"].isnull().sum() > 0:
-        df["CRASH HOUR"].fillna(df["CRASH HOUR"].median(), inplace=True)
-
-    return df
-
-def feature_engineering(df):
-    # Drop rows with missing BOROUGH or ZIP CODE
-    df = df.dropna(subset=["BOROUGH", "ZIP CODE"])
-    # Convert BOROUGH to uppercase and ZIP CODE to string
-    df.loc[:, "BOROUGH"] = df["BOROUGH"].astype(str).str.upper()
-    df.loc[:, "ZIP CODE"] = df["ZIP CODE"].astype(int).astype(str)
-    # Create dummy variables for BOROUGH and ZIP CODE
-    df_dummies = pd.get_dummies(df[["BOROUGH", "ZIP CODE"]], drop_first=True)
-    # Select numerical features: LATITUDE, LONGITUDE, CRASH HOUR
-    numerical_features = ["LATITUDE", "LONGITUDE", "CRASH HOUR"]
-    df_numerical = df[numerical_features]
-    # Combine dummy variables and numerical features
-    X = pd.concat([df_dummies, df_numerical], axis=1)
-    # Target: NUMBER OF PERSONS INJURED, fill missing with 0
-    y = pd.to_numeric(df["NUMBER OF PERSONS INJURED"], errors="coerce").fillna(0)
-    return X, y
-
-def tune_parameters(X_train, y_train):
-    param_grid = {
-        "n_estimators": [500, 1000, 2000],
-        "max_depth": [None, 10, 20],
-        "max_features": ["sqrt", "log2"]
-    }
-    rf = RandomForestRegressor(random_state=42)
-    grid_search = GridSearchCV(estimator=rf, param_grid=param_grid,
-                               cv=5, n_jobs=-1, scoring="r2")
-    grid_search.fit(X_train, y_train)
-    return grid_search.best_params_
-
-def train_and_evaluate_rf(X_train, X_test, y_train, y_test, best_params):
-    if best_params is None:
-        best_params = {"n_estimators": 1000, "max_depth": None, "max_features": "sqrt"}
-    rf_model = RandomForestRegressor(
-        n_estimators=best_params["n_estimators"],
-        max_depth=best_params["max_depth"],
-        max_features=best_params["max_features"],
-        random_state=42
+# Plot feature importances
+def plot_importance(
+    model, names
+):
+    imp = model.feature_importances_
+    order = np.argsort(imp)[::-1]
+    plt.figure(figsize=(8, 4))
+    plt.bar(
+        range(len(imp)), imp[order],
+        align="center"
     )
-    rf_model.fit(X_train, y_train)
-    y_pred = rf_model.predict(X_test)
-    r2 = r2_score(y_test, y_pred)
-    mse = mean_squared_error(y_test, y_pred)
-    return rf_model, y_pred
-
-def display_feature_importance(rf_model, feature_names):
-    importances = rf_model.feature_importances_
-    indices = np.argsort(importances)[::-1]
-    plt.figure(figsize=(10, 5))
+    plt.xticks(
+        range(len(imp)),
+        [names[i] for i in order],
+        rotation=45
+    )
     plt.title("Feature Importance")
-    plt.bar(range(len(feature_names)), importances[indices], align="center")
-    sorted_features = [feature_names[i] for i in indices]
-    plt.xticks(range(len(feature_names)), sorted_features, rotation=45)
     plt.tight_layout()
     plt.show()
 
-def main():
-    # Load and preprocess data
-    from pathlib import Path
-
-    base_dir = Path.cwd()
-    csv_path = base_dir / "data" / "nyccrashes_2024w0630_by20250212.csv"
-    df = preprocess_data(csv_path)
-    
-    # Feature engineering: use BOROUGH, ZIP CODE, LATITUDE, LONGITUDE, CRASH HOUR
-    X, y = feature_engineering(df)
-    
-    # Split data into training and test sets
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
-
-    # Parameter tuning
-    best_params = tune_parameters(X_train, y_train)
-    
-    # Train and evaluate the Random Forest regressor
-    rf_model, y_pred = train_and_evaluate_rf(X_train, X_test, y_train, y_test, best_params)
-    
+# Execute visualization
+plot_importance(
+    rf_model, df_X.columns.tolist()
+)
 ```
-
----
 
 #### Result Explanation
 - The printed values and the bar chart visually show the importance of each feature, 
@@ -518,35 +288,16 @@ Feature Importances:\
   LATITUDE: 0.2243\
   LONGITUDE: 0.1978\
   CRASH HOUR: 0.1854\
----
+  
+### 5. Summary & Further Reading
 
-### 4. Feature Importance & Discussion
+- **Key takeaways**: Random Forest reduces variance by bagging and random
+  feature selection.  
+- **Important features**: `LATITUDE`, `LONGITUDE`, and `CRASH HOUR`.  
 
-- The results show that LATITUDE, LONGITUDE, and CRASH HOUR significantly impact the model predictions, 
-suggesting these attributes play a major role in predicting the number of persons injured.
+**Further Reading:**  
+1. Breiman, L. (2001). _Random Forests_.  
+2. Scikit-learn docs: `RandomForestRegressor`.  
+3. Quarto docs for reproducibility.  
 
-- Although the R² scores in both cross-validation and testing are negative, 
-this reflects the current limitations of the model and indicates potential areas for improvement in feature engineering and model tuning.
-
----
-
-### 5. Conclusion & Further Readings
-
-**Key Takeaways**  
-
-- Random Forest Regression leverages multiple decision trees to average predictions and reduce overfitting.
-
-- Parameter tuning, it offers additional improvements and control over model performance.
-
-- In this example, accident attributes were used to predict "NUMBER OF PERSONS INJURED", 
-demonstrating a practical application of Random Forest in regression tasks.
-
----
-
-**Further Readings**  
-1. [@Breiman2001random]: Original paper on Random Forests.  
-2. [@Pedregosa2011scikit]: Official scikit-learn documentation.  
-3. [@QuartoDocs2023]: Quarto documentation for reproducible data analysis.
-
----
-**Thanks for Listening !**
+— End of section —
