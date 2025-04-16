@@ -334,6 +334,7 @@ for _ in range(m):
 
 Pooling MI Results
 
+
 - we have multiple regression models formed from multiple imputed datasets, but we need one final model.
 - To achieve this, we pool the results using Rubin's combination rules.
 - For parameter estimates, we simply take the average.
