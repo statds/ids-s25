@@ -386,3 +386,40 @@ better generalization performance in many practical tasks.
 <!-- {{< include _naivebayes.qmd >}} -->
 
 <!-- {{< include _smote.qmd >}} -->
+
+## Synthetic Minority Over-Sampling Technique (SMOTE)
+
+SMOTE (Synthetic Minority Over-Sampling Technique) is a data 
+preprocessing method that is designed to address class imbalance in 
+supervised learning tasks. Instead of duplicating existing minority class 
+instances, SMOTE generates synthetic examples by interpolating between existing
+minority samples using $K$-nearest neighbors (KNN) [@chawla2002smote]. Class 
+imbalance can significantly distort model performance, often leading to poor 
+recall for the minority class and misleadingly high accuracy, as models tend to
+favor the majority class. By generating new, diverse samples in feature space, 
+SMOTE creates a more balanced and learnable distribution that helps classifiers
+detect minority class patterns more effectively.
+
+### Algorithm Formulation
+
+The SMOTE algorithm operates by linearly interpolating between a random
+minority instances $x_i$ and one of it's $k$ nearest neighbors $x_{zi}$ in the 
+minority class. For a given synthetic instance $x_{\text{new}}$, the generation
+process is defined as: 
+
+$$
+\mathbf{x}_{\text{new}} = \mathbf{x}_i + \lambda (\mathbf{x}_zi - \mathbf{x}_i)
+$$
+
+where $$\delta \sim U(0, 1)$ is a random number sampled from a uniform 
+distribution. This process is repeated until the desired over-sampling ratio is
+achieved. By generating synthetic samples that are not exact duplicates, the 
+chance of overlapping dsata points and overfitting is reduced. It also provides
+a smoother decision boundary for the classifier.  
+
++ Parameters:
+   - $k$: Number of nearest neighbors (commonly $k=5$)
+   - Over-sample rate: Desired proportion of synthetic samples
+
+### Demonstration
+
