@@ -352,10 +352,10 @@ Please use the following table to sign up.
    04/09 |  Kravette, Noah   | Working with NetCDF Data 
    04/09 |  Symula, Sebastian   | Imputation Methods for Missing Data
    04/09 |  Tomaino, Mario Anthony   | K-Prototypes Clustering
-   04/14 |  Reed, Kyle Daniel   | 
+   04/14 |  Reed, Kyle Daniel   | Autoencoders
    04/14 |  Chen, Yifei   | 
    04/14 |  Mundiwala, Mohammad Moiz   | Math animations with manim
-   04/16 |  Lin, Selena   | 
+   04/16 |  Lin, Selena   | Naive Bayes
    04/16 |  Pfeifer, Nicholas Theodore | Choosing the number of clusters in clustering
    04/16 |  Vellore, Ajeeth Krishna | Neural Network Basics
 
