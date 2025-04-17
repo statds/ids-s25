@@ -423,3 +423,56 @@ a smoother decision boundary for the classifier.
 
 ### Demonstration
 
+For a simple demonstration, lets generate a random dataset using sklearn. 
+It will feature a severe class imbalance. We will compare the SMOTE enhanced
+model's performance to a baseline model and see the improvements. 
+
+
+```{python}
+
+# Import necessary packages
+from sklearn.datasets import make_classification
+from collections import Counter
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import classification_report
+
+# Generate random dataset for classification with class imbalance
+X, y = make_classification(
+    n_samples=1000,
+    n_features=10,
+    n_informative=3,
+    n_redundant=1,
+    n_classes=2,
+    weights=[0.95, 0.05],  
+    flip_y=0,
+    random_state=1234
+)
+
+# Show total instances of every class
+print(f'Class distribution: {Counter(y)}')
+
+# Split the data into 20:80 test train
+X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y, random_state=1234)
+
+# Build first classification model
+model = LogisticRegression()
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+print(classification_report(y_test, y_pred))
+
+# Now implement SMOTE
+from imblearn.over_sampling import SMOTE
+smote = SMOTE(random_state=1234)
+
+# Use SMOTE to enhance the generated dataset
+# Never apply SMOTE to testing splits only to train
+X_resampled, y_resampled = smote.fit_resample(X_train, y_train)
+
+# Second classification model enhanced with SMOTE
+smote_enhanced_model = LogisticRegression()
+smote_enhanced_model.fit(X_resampled, y_resampled)
+smote_y_pred = smote_enhanced_model.predict(X_test)
+print(classification_report(y_test, smote_y_pred))
+
+```
