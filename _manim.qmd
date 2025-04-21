@@ -138,10 +138,20 @@ class TransformCycle(Scene):
 
 ### Using $\LaTeX$
 
+Part of what makes manim so useful for math is its natural use of Latex when 
+writing text. Other animation softwares do not support precise math notation
+using Latex which often used by experts. In the following example, I show 
+a very simple demonstration on how text using Latex and related objects 
+(ellipse) can be positioned in the frame. First notice the different animations
+that are happening; then we can explore the code!
 
 <video autoplay muted loop style="width:6in; max-width:100%;">
   <source src="vids/ProbabilityEvents.mp4" type="video/mp4">
 </video>
+
+The code used to generate the video is presented below. It should be easy(ish)
+to follow since we use the same format as the previous animation. This time
+I included more arguements to the objects (position, color, width, height, etc).
 
 ```{python}
 #| eval: false
@@ -165,8 +175,10 @@ class ProbabilityEvents(Scene):
         prFormula.next_to(prUnion, buff=0.4).move_to(1.5*LEFT)   
 ```
 
-These here are the commands that animate. This is where you can be 
-creative!
+Using the defined objects from above, 
+below are the commands that actually animate. This is where you can be 
+creative! The animation occur sequentially. When multiple animations are 
+listed in the `self.play()` method, they begin at the same time. 
 
 ```{python}
 #| eval: false
@@ -176,20 +188,43 @@ creative!
         self.play(FadeOut(prE1), FadeOut(prE2), FadeIn(prUnion))
         self.wait(1)
         self.play(Transform(prUnion, prFormula),
-                  intersection.animate.set_fill(color=BLACK, opacity=1),
+                  intersection.animate.set_fill(color=WHITE, opacity=1),
                   ellipse1.animate.set_fill(opacity=0.9),
                     ellipse2.animate.set_fill(opacity=0.9),
                     run_time=3) 
         self.wait()
 ```
 
-### Visualizing Support Vector Machine 
+How cool. Try and edit this animation I made slightly to see how different 
+parameters effect the final result. I found that it was the best way to learn. 
 
+### Visualizing Support Vector Machine 
+Some data is distributed in a 2 dimensional plane. Some samples are blue and 
+some are white. When trying to seperate the white samples from blue
+ (called binary classification), we see it is not possible when they are 
+ shown in 2D. We can draw a linear boundary where blue is on one side and 
+ white is on the other. My animation shows the utility of the Kernel Trick 
+ used by SVM. We apply a nonlinear transformation to increase the dimensionality
+ of the feature space. Then, in the higher dimension, we search for a
+ hyperplane that can split the two classes. Once that hyper plane is found, 
+ we can map that plane back into the feature space using the inverse of the 
+ non-linear transformation. For this animation, I used a parabaloid 
+ transformation to keep it simple and clear. The hyper plane intersects the
+ parabaloid as a conic section - ellipse in 2D. The camera pans to top down
+ view to show the feature space now segmented using the kernel trick. SVM is 
+ a highly abstract mathemtical tool that can be hard to imagine. I feel that
+ in this low dimensional case (2D and 3D), we can convey the most important
+ ideas without getting into the math. 
 
 <video autoplay muted loop style="width:6in; max-width:100%;">
   <source src="vids/Scatter.mp4" type="video/mp4">
 </video>
 
+
+I split the movie shown above into sections or scenes below. Every single 
+animation or motion presented above is written in these relatively short 
+blocks of code. 
+ 
 #### Axis
 ```{python}
 #| eval: false
