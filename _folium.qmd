@@ -77,7 +77,7 @@ m = folium.Map(location=[50, -100], zoom_start=4)
 
 folium.GeoJson('data/us_states.json', name="USA").add_to(m)
 
-folium.GeoJson('data/canada_provinces.geojson', name="Canada").add_to(m)
+folium.GeoJson('data/canada_provinces.json', name="Canada").add_to(m)
 
 folium.LayerControl().add_to(m)
 
@@ -110,7 +110,7 @@ m = folium.Map(location=[50, -100], zoom_start=4)
 folium.GeoJson('data/us_states.json', name="USA",
                style_function= lambda x: style).add_to(m)
 
-folium.GeoJson('data/canada_provinces.geojson', name="Canada",
+folium.GeoJson('data/canada_provinces.json', name="Canada",
                style_function= lambda x: style).add_to(m)
 
 
@@ -484,7 +484,7 @@ m = folium.Map(location=[40.7128, -74], zoom_start=12,
 style = {'color': 'orange', 'weight': 1,
                 'fillColor': 'white'}  
 
-folium.GeoJson("data/new-york-city-boroughs.geojson", name='Borough borders',
+folium.GeoJson("data/new-york-city-boroughs.json", name='Borough borders',
 style_function=lambda x: style).add_to(m)
 
 
