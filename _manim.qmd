@@ -356,8 +356,8 @@ self.wait(2)
 
 ### Learnings
 
-  - Takes time upfront, but allows you to convey concepts quickly
-  - You can impress sponsors or boss
+  - Takes time upfront, but allows you to convey abstract concepts quickly.
+  - You can impress sponsors or your boss. 
   - It is cool. I made this for the lab I work in using just an image (.svg) icon!
 
 
