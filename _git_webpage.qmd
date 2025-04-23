@@ -2,38 +2,55 @@
 
 ### Introduction
 
-Hello, This section was created by Ruth Nasejje. I am a Statistical Data Science Major. This section will show you how to build your own webpage through github webpages in a easy and striaghtforward way.
+Hello, This section was created by Ruth Nasejje. I am a Statistical Data 
+Science Major. This section will show you how to build your own webpage 
+through github webpages in a easy and straightforward way.
 
 
 ### Why is it important? 
 
-1. A portfolio is a valuable tool that serves as a central place for students, recruiters, and the general public to view your accomplishments.
+1. A portfolio is a valuable tool that serves as a central place for students,
+ recruiters, and the general public to view your accomplishments.
 
-2. It provides an opportunity to showcase and compile your achievements in one convenient location.
+2. It provides an opportunity to showcase and compile your achievements in one 
+convenient location.
 
-3. This can include a variety of content such as publications, projects, personal interests, and more.
+3. This can include a variety of content such as publications, projects, 
+personal interests, and more.
 
-4. A well-curated portfolio is essential for personal branding, job applications, and is an effective tool for networking with professionals in your field.
+4. A well-curated portfolio is essential for personal branding,
+ job applications, and is an effective tool for networking
+  with professionals in your field.
 
 ### Options
 
 | Feature |  Jekyll  |  Next.js  |  Hugo  |
 |---------|------------|-------------|----------|
 |  Language  | Ruby | JavaScript (React) | Go  |
-|  Best For  | Personal blogs, project sites, documentation | Dynamic web apps, hybrid static/dynamic websites  | Large static websites, fast builds |
-|  Performance  | Slower build times | Optimized with Static Site Generation (SSG) and Server-Side Rendering (SSR) | Extremely fast build times |
-|  Ease of Use  | Easy setup with GitHub Pages | Requires React/Node.js knowledge; more complex setup  | Simple setup; steeper learning curve |
-|  Flexibility  | Limited flexibility | Highly flexible; supports both static & dynamic content | Very flexible for static sites |
-|  Hosting  | Works seamlessly with GitHub Pages | Requires custom setup or platforms like Vercel | Flexible; works with many hosting options |
+|  Best For  | Personal blogs, project sites, documentation | Dynamic web apps, 
+hybrid static/dynamic websites  | Large static websites, fast builds |
+|  Performance  | Slower build times | Optimized with Static Site Generation 
+(SSG) and Server-Side Rendering (SSR) | Extremely fast build times |
+|  Ease of Use  | Easy setup with GitHub Pages | Requires 
+React/Node.js knowledge; more complex setup  | Simple setup; 
+steeper learning curve |
+|  Flexibility  | Limited flexibility | Highly flexible; 
+supports both static & dynamic content | Very flexible for static sites |
+|  Hosting  | Works seamlessly with GitHub Pages | Requires custom 
+setup or platforms like Vercel | Flexible; works with many hosting options |
 
 
 ### Downloading Jekyll
-For this presentation we are working with with Jekyll since it is the most compatible
+For this presentation we are working with Jekyll since it is t
+he most compatible
 
 For MacOS: 
 
-As MacOS users, the first step is to insure that you have Homebrew, if not install. After that you want to install the necessary packages that align with GitPages:
+As MacOS users, the first step is to insure that you have Homebrew, 
+if not install. After that you want to install the necessary 
+packages that align with GitPages:
 ```{bash}
+#| eval: false
 brew install ruby
 brew install node
 gem install --user-install bundler jekyll
@@ -42,8 +59,10 @@ gem install --user-install bundler jekyll
 
 For Windows: 
 
-Here you simply install Chocolatey. Then install the needed packages in you terminal through choco: 
+Here you simply install Chocolatey. Then install the needed packages 
+in you terminal through choco: 
 ```{bash}
+#| eval: false
 choco install ruby 
 choco install nodejs
 gem install bundler jekyll
@@ -55,42 +74,52 @@ gem install bundler jekyll
 ### Creating your Github Repo 
 
 #### 1. Choose a Jekyll Theme
-- Jekyll has a collection of themes available in its [official repository](https://jekyllrb.com/resources/).
-- For this example, we will use academicpages, a popular academic portfolio theme for students and professors.
+- Jekyll has a collection of themes available in 
+its [official repository](https://jekyllrb.com/resources/).
+- For this example, we will use academicpages, a popular 
+academic portfolio theme for students and professors.
 
 ####  2. Fork the Repository
 
 1. Go to the theme repository on GitHub.
 2. Click "Fork" (top-right corner).
 3. Name your repository:  username.github.io
-* this step is important because all git personal webpages are accessed by this naming format.
+* this step is important because all git personal webpages 
+are accessed by this naming format.
 
 ```{bash}
+#| eval: false
 git clone https://github.com/yourusername/yourusername.github.io
 
-cd yourusername.github.io
+cd rnasejje.github.io
 ```
 
 
 ### Editing Your Website
 
-In general all tempaltes have a same format, so there are designated attributes
+In general all templates have a same format, so there are designated attributes
 in each specific file/folder.
 
 #### _config.yml
 
-- This file controls all site wide settings like title, color scheme, and navigation (if you have multiple tabs on your webpage)
+- This file controls all site wide settings like title, color scheme, 
+and navigation (if you have multiple tabs on your webpage)
 
 #### _pages
 
-- This folder contians a collection of .md and .html files, each file represents a tab on your website, and the can be edited individually. If you do not find this format then the pages may have their own individual folders in the directory.
+- This folder contains a collection of .md and .html files, each file 
+represents a tab on your website, and the can be edited individually. 
+If you do not find this format then the pages may have their own 
+individual folders in the directory.
 
 #### _layouts and _includes
 
-- Both these folders affect the structure and design of the website, so be cautious when making modifications
+- Both these folders affect the structure and design of the website, 
+so be cautious when making modifications
 
 #### Gemfile
-- This is where you can add custom jykell features and dependencies, for example site maps, comment sections, etc. 
+- This is where you can add custom jykell features and dependencies, 
+for example site maps, comment sections, etc. 
 
 
 
@@ -99,27 +128,35 @@ Next, we want to download and check that are dependencies are correct.
 
 1. Install of the jekyll dependencies to your local repo
 ```{bash}
+#| eval: false
 bundle install
 
 ```
 
-Then check if (gem "jekyll-livereload", "~> 0.2.2") is in the Gemfile, and if not add it. This dependency allows us to reload our local website preview, after each edit.
+Then check if (gem "jekyll-livereload", "~> 0.2.2") is in the Gemfile, 
+and if not add it. This dependency allows us to reload our local website 
+preview, after each edit.
 
 2. To generate a static folder to preview your page: 
 ```{bash}
+#| eval: false
 bundle exec jekyll serve
 ```
  
 
 Then you will recieve: Server address: http://127.0.0.1:4000
 
-- this link is the local website you will reference throughout the editing process. 
+- this link is the local website you will reference throughout 
+the editing process. 
 
-### Accessesing Your webpage
-Once everything is complete, push and check actions to see if it has fully deployed. 
-To find your active webpage link, open your git settings> Pages, under suorce check that branch is main and save.
+### Accessing Your webpage
+Once everything is complete, push and check actions to see if it 
+has fully deployed. 
+To find your active webpage link, open your git settings> Pages, 
+under source check that branch is main and save.
 
-At this point you webpage link should be active at: https://yourusername.github.io
+At this point you webpage link should be active
+ at: https://rnasejje.github.io
 
 ### Further Reading
 
