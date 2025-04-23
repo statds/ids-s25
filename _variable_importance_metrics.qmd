@@ -1,0 +1,440 @@
+## Variable Importance Metrics in Supervised Learning
+
+This section was written by Xavier Febles, a junior majoring in Statistical
+Data Science at the University of Connecticut. 
+
+This section explores different methods for interpreting machine learning
+models in Python. We'll use scikit-learn to train models and calculate 
+feature importances through Gini importance from Random Forests, 
+Permutation importance for evaluating the effect of shuffling features, 
+and Lasso regression to observe how regularization impacts feature 
+coefficients. We'll also use pandas for data handling and SHAP for 
+visualizing global and local model explanations, helping us better 
+understand feature contributions and interactions in our models.
+ 
+
+### Introduction
+
+Variable importance metrics help measure the contribution of each feature in
+predicting the target variable. These metrics improve model interpretability,
+assist in feature selection, and enhance performance.
+
+#### Topics Covered:
+
+- Gini Importance (Tree-based models)
+- Permutation Importance (Model-agnostic)
+- Regularization (Lasso)
+- SHAP (Shapley Additive Explanations)
+
+
+#### What are Variable Importance Metrics?
+
+Variable importance metrics assess how much each feature contributes to the prediction outcome in supervised learning tasks.
+
+
+#### Types of Variable Importance Metrics
+
+- Tree-based methods: e.g., Gini Importance
+- Ensemble models: e.g., Random Forest
+- Linear models: e.g., Regularization (Lasso, Ridge)
+- Model-agnostic methods: e.g., Permutation Importance, SHAP
+
+
+### Gini Importance
+
+Gini Importance measures the mean decrease in impurity from splits using a
+feature. Higher values indicate greater influence on predictions. It is 
+calculated based on how much a feature contributes to reducing uncertainty 
+at each split in the decision trees.
+
+```{python}
+#| echo: true       # Show the code
+#| output: true     # Show the output
+
+
+from sklearn.ensemble import RandomForestClassifier
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.datasets import make_classification
+
+# Simulate dataset
+X, y = make_classification(n_samples=1000, n_features=10, n_informative=5, random_state=42)
+X = pd.DataFrame(X, columns=[f'feature_{i}' for i in range(1, 11)])
+
+# Split dataset
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Train model
+rf = RandomForestClassifier(random_state=42)
+rf.fit(X_train, y_train)
+
+# Gini importance
+df_gini = pd.DataFrame({
+    'feature': X_train.columns,
+    'gini_importance': rf.feature_importances_
+}).sort_values(by='gini_importance', ascending=False)
+
+print(df_gini)
+```
+
+A classification dataset was simulated with 1,000 samples and 10 features.
+The data was split into training and testing sets, using an 80/20 split.
+A Random Forest Classifier was trained on the training data to build the
+model. Gini importance was then calculated for each feature to understand
+their contribution to the model’s decisions.
+
+The output ranks the features by their importance scores, showing that 
+feature_5, feature_10, and feature_1 are the top three most influential
+features. Feature_5 has the highest importance, indicating it plays the 
+largest role in predicting the target variable in this simulated dataset.
+
+
+### Permutation Importance  
+
+Permutation Importance measures the drop in model performance after
+shuffling a feature. Positive values suggest that these features contribute
+positively to the model, while negative values indicate they may harm
+performance.
+
+The standard deviation of Permutation Importance shows the
+variability in each feature’s importance score.
+
+```{python}
+#| echo: true       # Show the code
+#| output: true     # Show the output
+
+
+import pandas as pd
+import numpy as np
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.datasets import make_classification
+from sklearn.inspection import permutation_importance
+
+# Simulate a dataset
+X, y = make_classification(n_samples=1000, n_features=10, n_informative=5, random_state=42)
+
+# Convert to a DataFrame for easier handling
+X = pd.DataFrame(X, columns=[f'feature_{i}' for i in range(1, 11)])
+
+# Split the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Fit a RandomForest model
+rf = RandomForestClassifier(random_state=42)
+rf.fit(X_train, y_train)
+
+# Get Permutation Importance
+perm_importance = permutation_importance(rf, X_test, y_test, random_state=42)
+
+# Create a DataFrame to display the results
+df_perm = pd.DataFrame({
+    'feature': X_test.columns,
+    'permutation_importance_mean': perm_importance.importances_mean,
+    'permutation_importance_std': perm_importance.importances_std
+}).sort_values(by='permutation_importance_mean', ascending=False)
+
+# Display the feature importances
+print(df_perm)
+
+```
+
+
+This code demonstrates how to compute Permutation Importance using a
+RandomForest model. It starts by generating a synthetic dataset with 1,000
+samples and 10 features, of which 5 are informative. The dataset is split
+into training and testing sets. A RandomForestClassifier is trained on the
+training data, and then the permutation importance is calculated on the test
+set. The permutation importance measures how much the model's accuracy drops
+when the values of each feature are randomly shuffled, thus breaking the
+relationship between the feature and the target. Finally, the results are
+stored in a DataFrame and sorted by importance.
+
+The output is a table listing each feature along with its mean and standard
+deviation of permutation importance. Higher mean values indicate that
+shuffling the feature leads to a larger drop in model performance, meaning
+the feature is important for predictions. For example, `feature_5` has the
+highest importance, while features with negative values like `feature_3` and
+`feature_8` may contribute noise or have little predictive power.
+
+### Regularization (Lasso)
+
+Regularization techniques shrink the coefficients to reduce overfitting. Lasso,
+in particular, drives some coefficients to zero, promoting feature selection. 
+By doing so, it simplifies the model and helps improve interpretability,
+especially when dealing with high-dimensional data.
+
+
+```{python}
+#| echo: true       # Show the code
+#| output: true     # Show the output
+
+import pandas as pd
+import numpy as np
+from sklearn.linear_model import Lasso
+from sklearn.model_selection import train_test_split
+from sklearn.datasets import make_regression
+
+# Simulate a dataset
+X, y = make_regression(n_samples=1000, n_features=10, n_informative=5, noise=0.1, random_state=42)
+
+# Convert to a DataFrame for easier handling
+X = pd.DataFrame(X, columns=[f'feature_{i}' for i in range(1, 11)])
+
+# Split the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Fit a Lasso model
+lasso = Lasso(alpha=0.05, random_state=42)
+lasso.fit(X_train, y_train)
+
+# Get Lasso coefficients
+coefficients = lasso.coef_
+
+# Create a DataFrame to display the results
+df_lasso = pd.DataFrame({
+    'feature': X_train.columns,
+    'lasso_coefficient': coefficients
+}).sort_values(by='lasso_coefficient', ascending=False)
+
+# Display the coefficients
+print(df_lasso)
+
+```
+
+
+This code uses Lasso regression for feature selection. It starts by creating
+a simulated dataset with 1,000 samples and 10 features, where 5 features are
+informative. The features are stored in a pandas DataFrame, and the data is
+split into training and testing sets. A Lasso model is set up with alpha 0.05,
+which controls how strongly the model penalizes large coefficients. The model
+is trained on the training data, and the resulting coefficients for each
+feature are extracted. These coefficients are then stored in a DataFrame and
+sorted to show which features have the most impact on the predictions.
+
+The output lists each feature and its Lasso coefficient. Features with non-zero
+coefficients, like feature_1 and feature_4, are identified as important for the
+model. Features with coefficients of zero, such as feature_3 and feature_6, are
+excluded from the model. This shows how Lasso helps simplify the model by
+shrinking unimportant feature coefficients to zero, making it easier to
+interpret and reducing overfitting.
+
+
+### SHAP: Introduction
+
+#### What is SHAP (SHAPley Additive Explanations)?
+
+SHAP is based on Shapley values from game theory. The goal is to fairly 
+distribute the contribution of each feature to a prediction. SHAP is model 
+agnostic, so it works with Linear models, Tree-based models, Deep learning 
+models
+
+#### Why SHAP?
+- Consistency – If a feature increases model performance, SHAP assigns it a 
+higher value.
+- Local accuracy – SHAP values sum to the exact model prediction.
+- Handles feature interactions better than other methods.
+
+### SHAP: Mathematics Behind It
+
+The Shapley value equation is:
+
+φᵢ = the sum over all subsets S of N excluding i of (|S|! × (|N| − |S| − 1)! ÷ |N|!) times [f(S ∪ {i}) − f(S)].
+
+Where:
+
+S = subset of features
+N = total number of features
+f(S) = model output for subset
+ϕᵢ = contribution of feature i
+
+Essentially SHAP values compute the marginal contribution of a feature 
+averaged over all possible feature combinations. The sum of all SHAP values 
+equals the model’s total prediction.
+
+### Installing SHAP
+
+To install SHAP, run:  
+`pip install shap`
+
+Make sure your NumPy version is 2.1 or lower for compatibility.
+
+You also need to have Microsoft C++ Build Tools installed.
+
+
+### SHAP Visualizations
+
+The shap package allows for for 3 main types of plots. 
+
+`shap.summary_plot(shap_values, X_test)`
+This creates a global summary plot of feature importance. `shap_values`
+contains the SHAP values for all predictions, showing how features impact
+the model output. `X_test` provides the feature data. Each dot in the plot
+represents a feature’s impact for one instance, with color showing feature
+value. This helps identify the most influential features overall.
+
+`shap.dependence_plot('variable_name', shap_values, X_test, interaction_index)`
+This shows the relationship between a single feature and its SHAP value.
+The string `'variable_name'` selects the feature to plot. `shap_values`
+provides the SHAP values, while `X_test` supplies feature data. The
+`interaction_index` controls which feature's value is used for coloring,
+highlighting potential feature interactions.
+
+`shap.plots.force(shap_values[index])`
+This creates a force plot to explain an individual prediction. 
+`shap_values[index]` selects the SHAP values for one specific instance.
+The plot visualizes how each feature contributes to pushing the prediction
+higher or lower, providing an intuitive breakdown of that decision.
+
+Important note: This will not be included in the code as it requires
+being saved separately in html or Jupyter Notebook format.
+
+#### Example of SHAP
+
+For this example we will be using the built in sklearn diabetes dataset.
+
+A quick summary of each varaible:
+
+- age — Age of the patient  
+- sex — Sex of the patient  
+- bmi — Body Mass Index  
+- bp — Blood pressure  
+- s1 — T-cell count  
+- s2 — LDL cholesterol  
+- s3 — HDL cholesterol  
+- s4 — Total cholesterol  
+- s5 — Serum triglycerides (blood sugar proxy)  
+- s6 — Blood sugar level  
+
+#### SHAP Code using Linear Model
+```{python}
+#| echo: true       # Show the code
+#| output: true     # Show the output
+
+ 
+import shap
+import sklearn
+from sklearn.datasets import load_diabetes
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
+
+# Load dataset
+X, y = load_diabetes(return_X_y=True, as_frame=True)
+
+# Split data
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Fit linear regression model
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+# Create the SHAP explainer with the masker
+explainer = shap.Explainer(model, X_train)
+shap_values = explainer(X_test)
+
+# SHAP Summary Plot
+shap.summary_plot(shap_values.values, X_test)
+
+# SHAP Dependence Plot (example with 'bmi')
+shap.dependence_plot('bmi', shap_values.values, X_test, interaction_index='bp')
+
+
+```
+
+#### Explaining the code and output 
+
+- `explainer = shap.Explainer(model, X_train)`:  
+  This initializes a SHAP explainer using the trained model and the training
+  data (`X_train`). The explainer learns how the model makes predictions by
+  seeing how it behaves on this data. `X_train` acts as the masker, which
+  helps SHAP understand the feature distribution when simulating the absence
+  of a feature.
+
+- `shap_values = explainer(X_test)`:  
+  This computes the SHAP values for the test data (`X_test`). The SHAP
+  values show the contribution of each feature to every individual prediction
+  in the test set.
+
+The first plot is a SHAP summary plot that ranks the features by their
+overall importance to the model’s predictions. Features like s1, s5, and bmi
+show the greatest impact, meaning changes in these values most strongly
+influence the output. Each dot represents an individual data point, with
+color indicating the value of the feature (high in pink, low in blue). This
+helps show not only which features matter most but also how their value
+ranges affect the predictions.
+
+The second plot is a SHAP dependence plot focusing on bmi. It shows a clear
+positive relationship: as bmi increases, its contribution to the model
+prediction rises sharply. The color gradient represents blood pressure (bp),
+helping to illustrate how bmi interacts with bp in shaping the outcome.
+Higher bp values (pink) tend to cluster with higher bmi and higher SHAP
+values, suggesting a compounding effect.
+
+
+
+
+#### Other SHAP functions
+
+- `shap.TreeExplainer(model)`: Explains tree based models
+
+- `shap.DeepExplainer(model)`: Explains deep learning based models (works well with packages like tensorflow)
+
+#### SHAP: Advantages and Challenges
+
+Advantages:
+- Handles feature interactions.
+- Provides consistent and reliable explanations.
+- Works across different model types.
+
+Challenges:
+- Computationally expensive for large datasets.This could mean that it will 
+require approximation for complex models.
+
+
+#### Pros and Cons of Each Method:
+
+| Method          | Pros                       | Cons                       |
+|-----------------|----------------------------|----------------------------|
+| Gini Importance | Fast, easy to compute      | Biased toward high-        |
+|                 |                            | cardinality features       |
+| Lasso           | Performs feature selection | Sensitive to correlated    |
+|                 | fast                       | features, assumes          |
+|                 |                            | linearity                  |
+| Permutation     | Simple to compute          | Affected by correlated     |
+|                 |                            | features                   |
+| SHAP            | Handles interactions,      | Computationally expensive  |
+|                 | consistent                 |                            |
+
+#### How Each Method Handles Feature Interactions:
+
+| Method           | Handles Interactions | Notes                        |
+|------------------|----------------------|-----------------------------|
+| Gini Importance  | Indirectly           | Captures splits based on    |
+|                  |                      | feature combinations        |
+| Permutation      | Yes                  | Measures impact after       |
+| Importance       |                      | shuffling all features      |
+| Lasso            | No                   | Treats features             |
+|                  |                      | independently, assumes      |
+|                  |                      | linearity                   |
+| SHAP             | Yes                  | Captures interaction        |
+|                  |                      | effects explicitly          |
+
+
+
+#### When to Use Which Method
+- Tree-based models: Use SHAP or permutation importance for better accuracy.
+- Linear models: Coefficients and regularization for interpretability.
+- Complex models: SHAP handles feature interactions better.
+
+#### Recommended Strategy
+- Start with permutation importance or Gini importance for quick insights.
+- Use SHAP for deeper understanding and interaction effects.
+- For linear models, regularization helps with feature selection.
+
+### Conclusion:
+- Variable importance helps in understanding and improving models.
+- SHAP provides the most consistent and interpretable results.
+- Different methods work better depending on model type and complexity.
+
