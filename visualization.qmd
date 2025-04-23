@@ -5,3 +5,5 @@
 <!-- This section is to be included as a tutorial for geospatial data. -->
 {{< include _spatial_data.qmd >}}
 
+
+{{< include _folium.qmd >}}
