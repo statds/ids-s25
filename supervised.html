@@ -293,6 +293,18 @@ window.Quarto = {
   <li><a href="#demonstration" id="toc-demonstration" class="nav-link" data-scroll-target="#demonstration"><span class="header-section-number">9.2.3</span> Demonstration</a></li>
   <li><a href="#xgboost-extreme-gradient-boosting" id="toc-xgboost-extreme-gradient-boosting" class="nav-link" data-scroll-target="#xgboost-extreme-gradient-boosting"><span class="header-section-number">9.2.4</span> XGBoost: Extreme Gradient Boosting</a></li>
   </ul></li>
+  <li><a href="#variable-importance-metrics-in-supervised-learning" id="toc-variable-importance-metrics-in-supervised-learning" class="nav-link" data-scroll-target="#variable-importance-metrics-in-supervised-learning"><span class="header-section-number">9.3</span> Variable Importance Metrics in Supervised Learning</a>
+  <ul class="collapse">
+  <li><a href="#introduction-1" id="toc-introduction-1" class="nav-link" data-scroll-target="#introduction-1"><span class="header-section-number">9.3.1</span> Introduction</a></li>
+  <li><a href="#gini-importance" id="toc-gini-importance" class="nav-link" data-scroll-target="#gini-importance"><span class="header-section-number">9.3.2</span> Gini Importance</a></li>
+  <li><a href="#permutation-importance" id="toc-permutation-importance" class="nav-link" data-scroll-target="#permutation-importance"><span class="header-section-number">9.3.3</span> Permutation Importance</a></li>
+  <li><a href="#regularization-lasso" id="toc-regularization-lasso" class="nav-link" data-scroll-target="#regularization-lasso"><span class="header-section-number">9.3.4</span> Regularization (Lasso)</a></li>
+  <li><a href="#shap-introduction" id="toc-shap-introduction" class="nav-link" data-scroll-target="#shap-introduction"><span class="header-section-number">9.3.5</span> SHAP: Introduction</a></li>
+  <li><a href="#shap-mathematics-behind-it" id="toc-shap-mathematics-behind-it" class="nav-link" data-scroll-target="#shap-mathematics-behind-it"><span class="header-section-number">9.3.6</span> SHAP: Mathematics Behind It</a></li>
+  <li><a href="#installing-shap" id="toc-installing-shap" class="nav-link" data-scroll-target="#installing-shap"><span class="header-section-number">9.3.7</span> Installing SHAP</a></li>
+  <li><a href="#shap-visualizations" id="toc-shap-visualizations" class="nav-link" data-scroll-target="#shap-visualizations"><span class="header-section-number">9.3.8</span> SHAP Visualizations</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="header-section-number">9.3.9</span> Conclusion:</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -443,7 +455,7 @@ F_m(x) = F_{m-1}(x) + \eta \, h_m(x),
 <section id="demonstration" class="level3" data-number="9.2.3">
 <h3 data-number="9.2.3" class="anchored" data-anchor-id="demonstration"><span class="header-section-number">9.2.3</span> Demonstration</h3>
 <p>Here’s a practical example using <code>scikit-learn</code> to demonstrate gradient boosting on the California housing dataset. First, import necessary libraries and load the data:</p>
-<div id="91b764b2" class="cell" data-execution_count="1">
+<div id="44249a29" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> fetch_california_housing</span>
@@ -456,14 +468,14 @@ F_m(x) = F_{m-1}(x) + \eta \, h_m(x),
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>X, y <span class="op">=</span> housing.data, housing.target</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Next, split the dataset into training and testing sets:</p>
-<div id="4f9bf6ab" class="cell" data-execution_count="2">
+<div id="b8095517" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Train-test split</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    X, y, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">20250407</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Then, set up and train a stochastic gradient boosting model:</p>
-<div id="c454c6e0" class="cell" data-execution_count="3">
+<div id="1954ac67" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gradient Boosting Model with stochastic subsampling</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>gbm <span class="op">=</span> GradientBoostingRegressor(</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    n_estimators<span class="op">=</span><span class="dv">200</span>,</span>
@@ -896,7 +908,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 </div>
 </div>
 <p>Finally, make predictions and evaluate the model performance:</p>
-<div id="5d65798d" class="cell" data-execution_count="4">
+<div id="8e758ecd" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Predictions</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> gbm.predict(X_test)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -976,6 +988,471 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 </tbody>
 </table>
 <p>XGBoost is therefore more suitable for large-scale problems and provides better generalization performance in many practical tasks.</p>
+</section>
+</section>
+<section id="variable-importance-metrics-in-supervised-learning" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="variable-importance-metrics-in-supervised-learning"><span class="header-section-number">9.3</span> Variable Importance Metrics in Supervised Learning</h2>
+<p>This section was written by Xavier Febles, a junior majoring in Statistical Data Science at the University of Connecticut.</p>
+<p>This section explores different methods for interpreting machine learning models in Python. We’ll use scikit-learn to train models and calculate feature importances through Gini importance from Random Forests, Permutation importance for evaluating the effect of shuffling features, and Lasso regression to observe how regularization impacts feature coefficients. We’ll also use pandas for data handling and SHAP for visualizing global and local model explanations, helping us better understand feature contributions and interactions in our models.</p>
+<section id="introduction-1" class="level3" data-number="9.3.1">
+<h3 data-number="9.3.1" class="anchored" data-anchor-id="introduction-1"><span class="header-section-number">9.3.1</span> Introduction</h3>
+<p>Variable importance metrics help measure the contribution of each feature in predicting the target variable. These metrics improve model interpretability, assist in feature selection, and enhance performance.</p>
+<section id="topics-covered" class="level4" data-number="9.3.1.1">
+<h4 data-number="9.3.1.1" class="anchored" data-anchor-id="topics-covered"><span class="header-section-number">9.3.1.1</span> Topics Covered:</h4>
+<ul>
+<li>Gini Importance (Tree-based models)</li>
+<li>Permutation Importance (Model-agnostic)</li>
+<li>Regularization (Lasso)</li>
+<li>SHAP (Shapley Additive Explanations)</li>
+</ul>
+</section>
+<section id="what-are-variable-importance-metrics" class="level4" data-number="9.3.1.2">
+<h4 data-number="9.3.1.2" class="anchored" data-anchor-id="what-are-variable-importance-metrics"><span class="header-section-number">9.3.1.2</span> What are Variable Importance Metrics?</h4>
+<p>Variable importance metrics assess how much each feature contributes to the prediction outcome in supervised learning tasks.</p>
+</section>
+<section id="types-of-variable-importance-metrics" class="level4" data-number="9.3.1.3">
+<h4 data-number="9.3.1.3" class="anchored" data-anchor-id="types-of-variable-importance-metrics"><span class="header-section-number">9.3.1.3</span> Types of Variable Importance Metrics</h4>
+<ul>
+<li>Tree-based methods: e.g., Gini Importance</li>
+<li>Ensemble models: e.g., Random Forest</li>
+<li>Linear models: e.g., Regularization (Lasso, Ridge)</li>
+<li>Model-agnostic methods: e.g., Permutation Importance, SHAP</li>
+</ul>
+</section>
+</section>
+<section id="gini-importance" class="level3" data-number="9.3.2">
+<h3 data-number="9.3.2" class="anchored" data-anchor-id="gini-importance"><span class="header-section-number">9.3.2</span> Gini Importance</h3>
+<p>Gini Importance measures the mean decrease in impurity from splits using a feature. Higher values indicate greater influence on predictions. It is calculated based on how much a feature contributes to reducing uncertainty at each split in the decision trees.</p>
+<div id="b6091a8d" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestClassifier</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> make_classification</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate dataset</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>X, y <span class="op">=</span> make_classification(n_samples<span class="op">=</span><span class="dv">1000</span>, n_features<span class="op">=</span><span class="dv">10</span>, n_informative<span class="op">=</span><span class="dv">5</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> pd.DataFrame(X, columns<span class="op">=</span>[<span class="ss">f'feature_</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">'</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">11</span>)])</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Split dataset</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Train model</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>rf <span class="op">=</span> RandomForestClassifier(random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>rf.fit(X_train, y_train)</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Gini importance</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>df_gini <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">'feature'</span>: X_train.columns,</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">'gini_importance'</span>: rf.feature_importances_</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>}).sort_values(by<span class="op">=</span><span class="st">'gini_importance'</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_gini)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      feature  gini_importance
+4   feature_5         0.206109
+9  feature_10         0.167711
+0   feature_1         0.159516
+5   feature_6         0.143680
+3   feature_4         0.120340
+6   feature_7         0.069936
+1   feature_2         0.065147
+8   feature_9         0.025048
+2   feature_3         0.021608
+7   feature_8         0.020905</code></pre>
+</div>
+</div>
+<p>A classification dataset was simulated with 1,000 samples and 10 features. The data was split into training and testing sets, using an 80/20 split. A Random Forest Classifier was trained on the training data to build the model. Gini importance was then calculated for each feature to understand their contribution to the model’s decisions.</p>
+<p>The output ranks the features by their importance scores, showing that feature_5, feature_10, and feature_1 are the top three most influential features. Feature_5 has the highest importance, indicating it plays the largest role in predicting the target variable in this simulated dataset.</p>
+</section>
+<section id="permutation-importance" class="level3" data-number="9.3.3">
+<h3 data-number="9.3.3" class="anchored" data-anchor-id="permutation-importance"><span class="header-section-number">9.3.3</span> Permutation Importance</h3>
+<p>Permutation Importance measures the drop in model performance after shuffling a feature. Positive values suggest that these features contribute positively to the model, while negative values indicate they may harm performance.</p>
+<p>The standard deviation of Permutation Importance shows the variability in each feature’s importance score.</p>
+<div id="20430a76" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestClassifier</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> make_classification</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.inspection <span class="im">import</span> permutation_importance</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate a dataset</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>X, y <span class="op">=</span> make_classification(n_samples<span class="op">=</span><span class="dv">1000</span>, n_features<span class="op">=</span><span class="dv">10</span>, n_informative<span class="op">=</span><span class="dv">5</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to a DataFrame for easier handling</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> pd.DataFrame(X, columns<span class="op">=</span>[<span class="ss">f'feature_</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">'</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">11</span>)])</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Split the dataset into training and testing sets</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit a RandomForest model</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>rf <span class="op">=</span> RandomForestClassifier(random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>rf.fit(X_train, y_train)</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Get Permutation Importance</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>perm_importance <span class="op">=</span> permutation_importance(rf, X_test, y_test, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a DataFrame to display the results</span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>df_perm <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">'feature'</span>: X_test.columns,</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">'permutation_importance_mean'</span>: perm_importance.importances_mean,</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">'permutation_importance_std'</span>: perm_importance.importances_std</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>}).sort_values(by<span class="op">=</span><span class="st">'permutation_importance_mean'</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the feature importances</span></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_perm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      feature  permutation_importance_mean  permutation_importance_std
+4   feature_5                        0.185                    0.028810
+5   feature_6                        0.110                    0.019748
+0   feature_1                        0.096                    0.028531
+9  feature_10                        0.035                    0.013038
+3   feature_4                        0.025                    0.011402
+1   feature_2                        0.007                    0.002449
+6   feature_7                       -0.002                    0.006782
+8   feature_9                       -0.003                    0.002449
+7   feature_8                       -0.007                    0.006000
+2   feature_3                       -0.008                    0.004000</code></pre>
+</div>
+</div>
+<p>This code demonstrates how to compute Permutation Importance using a RandomForest model. It starts by generating a synthetic dataset with 1,000 samples and 10 features, of which 5 are informative. The dataset is split into training and testing sets. A RandomForestClassifier is trained on the training data, and then the permutation importance is calculated on the test set. The permutation importance measures how much the model’s accuracy drops when the values of each feature are randomly shuffled, thus breaking the relationship between the feature and the target. Finally, the results are stored in a DataFrame and sorted by importance.</p>
+<p>The output is a table listing each feature along with its mean and standard deviation of permutation importance. Higher mean values indicate that shuffling the feature leads to a larger drop in model performance, meaning the feature is important for predictions. For example, <code>feature_5</code> has the highest importance, while features with negative values like <code>feature_3</code> and <code>feature_8</code> may contribute noise or have little predictive power.</p>
+</section>
+<section id="regularization-lasso" class="level3" data-number="9.3.4">
+<h3 data-number="9.3.4" class="anchored" data-anchor-id="regularization-lasso"><span class="header-section-number">9.3.4</span> Regularization (Lasso)</h3>
+<p>Regularization techniques shrink the coefficients to reduce overfitting. Lasso, in particular, drives some coefficients to zero, promoting feature selection. By doing so, it simplifies the model and helps improve interpretability, especially when dealing with high-dimensional data.</p>
+<div id="26a4ee63" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> Lasso</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> make_regression</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate a dataset</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>X, y <span class="op">=</span> make_regression(n_samples<span class="op">=</span><span class="dv">1000</span>, n_features<span class="op">=</span><span class="dv">10</span>, n_informative<span class="op">=</span><span class="dv">5</span>, noise<span class="op">=</span><span class="fl">0.1</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to a DataFrame for easier handling</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> pd.DataFrame(X, columns<span class="op">=</span>[<span class="ss">f'feature_</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">'</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">11</span>)])</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Split the dataset into training and testing sets</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit a Lasso model</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>lasso <span class="op">=</span> Lasso(alpha<span class="op">=</span><span class="fl">0.05</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>lasso.fit(X_train, y_train)</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Get Lasso coefficients</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>coefficients <span class="op">=</span> lasso.coef_</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a DataFrame to display the results</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>df_lasso <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">'feature'</span>: X_train.columns,</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">'lasso_coefficient'</span>: coefficients</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>}).sort_values(by<span class="op">=</span><span class="st">'lasso_coefficient'</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the coefficients</span></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_lasso)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      feature  lasso_coefficient
+0   feature_1          58.243886
+3   feature_4          32.080140
+6   feature_7          10.253066
+9  feature_10           9.377729
+4   feature_5           7.121199
+1   feature_2          -0.000000
+5   feature_6           0.000000
+2   feature_3          -0.000000
+7   feature_8          -0.000000
+8   feature_9          -0.000000</code></pre>
+</div>
+</div>
+<p>This code uses Lasso regression for feature selection. It starts by creating a simulated dataset with 1,000 samples and 10 features, where 5 features are informative. The features are stored in a pandas DataFrame, and the data is split into training and testing sets. A Lasso model is set up with alpha 0.05, which controls how strongly the model penalizes large coefficients. The model is trained on the training data, and the resulting coefficients for each feature are extracted. These coefficients are then stored in a DataFrame and sorted to show which features have the most impact on the predictions.</p>
+<p>The output lists each feature and its Lasso coefficient. Features with non-zero coefficients, like feature_1 and feature_4, are identified as important for the model. Features with coefficients of zero, such as feature_3 and feature_6, are excluded from the model. This shows how Lasso helps simplify the model by shrinking unimportant feature coefficients to zero, making it easier to interpret and reducing overfitting.</p>
+</section>
+<section id="shap-introduction" class="level3" data-number="9.3.5">
+<h3 data-number="9.3.5" class="anchored" data-anchor-id="shap-introduction"><span class="header-section-number">9.3.5</span> SHAP: Introduction</h3>
+<section id="what-is-shap-shapley-additive-explanations" class="level4" data-number="9.3.5.1">
+<h4 data-number="9.3.5.1" class="anchored" data-anchor-id="what-is-shap-shapley-additive-explanations"><span class="header-section-number">9.3.5.1</span> What is SHAP (SHAPley Additive Explanations)?</h4>
+<p>SHAP is based on Shapley values from game theory. The goal is to fairly distribute the contribution of each feature to a prediction. SHAP is model agnostic, so it works with Linear models, Tree-based models, Deep learning models</p>
+</section>
+<section id="why-shap" class="level4" data-number="9.3.5.2">
+<h4 data-number="9.3.5.2" class="anchored" data-anchor-id="why-shap"><span class="header-section-number">9.3.5.2</span> Why SHAP?</h4>
+<ul>
+<li>Consistency – If a feature increases model performance, SHAP assigns it a higher value.</li>
+<li>Local accuracy – SHAP values sum to the exact model prediction.</li>
+<li>Handles feature interactions better than other methods.</li>
+</ul>
+</section>
+</section>
+<section id="shap-mathematics-behind-it" class="level3" data-number="9.3.6">
+<h3 data-number="9.3.6" class="anchored" data-anchor-id="shap-mathematics-behind-it"><span class="header-section-number">9.3.6</span> SHAP: Mathematics Behind It</h3>
+<p>The Shapley value equation is:</p>
+<p>φᵢ = the sum over all subsets S of N excluding i of (|S|! × (|N| − |S| − 1)! ÷ |N|!) times [f(S ∪ {i}) − f(S)].</p>
+<p>Where:</p>
+<p>S = subset of features N = total number of features f(S) = model output for subset ϕᵢ = contribution of feature i</p>
+<p>Essentially SHAP values compute the marginal contribution of a feature averaged over all possible feature combinations. The sum of all SHAP values equals the model’s total prediction.</p>
+</section>
+<section id="installing-shap" class="level3" data-number="9.3.7">
+<h3 data-number="9.3.7" class="anchored" data-anchor-id="installing-shap"><span class="header-section-number">9.3.7</span> Installing SHAP</h3>
+<p>To install SHAP, run:<br>
+<code>pip install shap</code></p>
+<p>Make sure your NumPy version is 2.1 or lower for compatibility.</p>
+<p>You also need to have Microsoft C++ Build Tools installed.</p>
+</section>
+<section id="shap-visualizations" class="level3" data-number="9.3.8">
+<h3 data-number="9.3.8" class="anchored" data-anchor-id="shap-visualizations"><span class="header-section-number">9.3.8</span> SHAP Visualizations</h3>
+<p>The shap package allows for for 3 main types of plots.</p>
+<p><code>shap.summary_plot(shap_values, X_test)</code> This creates a global summary plot of feature importance. <code>shap_values</code> contains the SHAP values for all predictions, showing how features impact the model output. <code>X_test</code> provides the feature data. Each dot in the plot represents a feature’s impact for one instance, with color showing feature value. This helps identify the most influential features overall.</p>
+<p><code>shap.dependence_plot('variable_name', shap_values, X_test, interaction_index)</code> This shows the relationship between a single feature and its SHAP value. The string <code>'variable_name'</code> selects the feature to plot. <code>shap_values</code> provides the SHAP values, while <code>X_test</code> supplies feature data. The <code>interaction_index</code> controls which feature’s value is used for coloring, highlighting potential feature interactions.</p>
+<p><code>shap.plots.force(shap_values[index])</code> This creates a force plot to explain an individual prediction. <code>shap_values[index]</code> selects the SHAP values for one specific instance. The plot visualizes how each feature contributes to pushing the prediction higher or lower, providing an intuitive breakdown of that decision.</p>
+<p>Important note: This will not be included in the code as it requires being saved separately in html or Jupyter Notebook format.</p>
+<section id="example-of-shap" class="level4" data-number="9.3.8.1">
+<h4 data-number="9.3.8.1" class="anchored" data-anchor-id="example-of-shap"><span class="header-section-number">9.3.8.1</span> Example of SHAP</h4>
+<p>For this example we will be using the built in sklearn diabetes dataset.</p>
+<p>A quick summary of each varaible:</p>
+<ul>
+<li>age — Age of the patient<br>
+</li>
+<li>sex — Sex of the patient<br>
+</li>
+<li>bmi — Body Mass Index<br>
+</li>
+<li>bp — Blood pressure<br>
+</li>
+<li>s1 — T-cell count<br>
+</li>
+<li>s2 — LDL cholesterol<br>
+</li>
+<li>s3 — HDL cholesterol<br>
+</li>
+<li>s4 — Total cholesterol<br>
+</li>
+<li>s5 — Serum triglycerides (blood sugar proxy)<br>
+</li>
+<li>s6 — Blood sugar level</li>
+</ul>
+</section>
+<section id="shap-code-using-linear-model" class="level4" data-number="9.3.8.2">
+<h4 data-number="9.3.8.2" class="anchored" data-anchor-id="shap-code-using-linear-model"><span class="header-section-number">9.3.8.2</span> SHAP Code using Linear Model</h4>
+<div id="1bd75cce" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> shap</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sklearn</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_diabetes</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Load dataset</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>X, y <span class="op">=</span> load_diabetes(return_X_y<span class="op">=</span><span class="va">True</span>, as_frame<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Split data</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit linear regression model</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LinearRegression()</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>model.fit(X_train, y_train)</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the SHAP explainer with the masker</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>explainer <span class="op">=</span> shap.Explainer(model, X_train)</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>shap_values <span class="op">=</span> explainer(X_test)</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="co"># SHAP Summary Plot</span></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>shap.summary_plot(shap_values.values, X_test)</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a><span class="co"># SHAP Dependence Plot (example with 'bmi')</span></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>shap.dependence_plot(<span class="st">'bmi'</span>, shap_values.values, X_test, interaction_index<span class="op">=</span><span class="st">'bp'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="supervised_files/figure-html/cell-9-output-1.png" width="716" height="516" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="supervised_files/figure-html/cell-9-output-2.png" width="657" height="434" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="explaining-the-code-and-output" class="level4" data-number="9.3.8.3">
+<h4 data-number="9.3.8.3" class="anchored" data-anchor-id="explaining-the-code-and-output"><span class="header-section-number">9.3.8.3</span> Explaining the code and output</h4>
+<ul>
+<li><p><code>explainer = shap.Explainer(model, X_train)</code>:<br>
+This initializes a SHAP explainer using the trained model and the training data (<code>X_train</code>). The explainer learns how the model makes predictions by seeing how it behaves on this data. <code>X_train</code> acts as the masker, which helps SHAP understand the feature distribution when simulating the absence of a feature.</p></li>
+<li><p><code>shap_values = explainer(X_test)</code>:<br>
+This computes the SHAP values for the test data (<code>X_test</code>). The SHAP values show the contribution of each feature to every individual prediction in the test set.</p></li>
+</ul>
+<p>The first plot is a SHAP summary plot that ranks the features by their overall importance to the model’s predictions. Features like s1, s5, and bmi show the greatest impact, meaning changes in these values most strongly influence the output. Each dot represents an individual data point, with color indicating the value of the feature (high in pink, low in blue). This helps show not only which features matter most but also how their value ranges affect the predictions.</p>
+<p>The second plot is a SHAP dependence plot focusing on bmi. It shows a clear positive relationship: as bmi increases, its contribution to the model prediction rises sharply. The color gradient represents blood pressure (bp), helping to illustrate how bmi interacts with bp in shaping the outcome. Higher bp values (pink) tend to cluster with higher bmi and higher SHAP values, suggesting a compounding effect.</p>
+</section>
+<section id="other-shap-functions" class="level4" data-number="9.3.8.4">
+<h4 data-number="9.3.8.4" class="anchored" data-anchor-id="other-shap-functions"><span class="header-section-number">9.3.8.4</span> Other SHAP functions</h4>
+<ul>
+<li><p><code>shap.TreeExplainer(model)</code>: Explains tree based models</p></li>
+<li><p><code>shap.DeepExplainer(model)</code>: Explains deep learning based models (works well with packages like tensorflow)</p></li>
+</ul>
+</section>
+<section id="shap-advantages-and-challenges" class="level4" data-number="9.3.8.5">
+<h4 data-number="9.3.8.5" class="anchored" data-anchor-id="shap-advantages-and-challenges"><span class="header-section-number">9.3.8.5</span> SHAP: Advantages and Challenges</h4>
+<p>Advantages: - Handles feature interactions. - Provides consistent and reliable explanations. - Works across different model types.</p>
+<p>Challenges: - Computationally expensive for large datasets.This could mean that it will require approximation for complex models.</p>
+</section>
+<section id="pros-and-cons-of-each-method" class="level4" data-number="9.3.8.6">
+<h4 data-number="9.3.8.6" class="anchored" data-anchor-id="pros-and-cons-of-each-method"><span class="header-section-number">9.3.8.6</span> Pros and Cons of Each Method:</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 23%">
+<col style="width: 38%">
+<col style="width: 38%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Pros</th>
+<th>Cons</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Gini Importance</td>
+<td>Fast, easy to compute</td>
+<td>Biased toward high-</td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td>cardinality features</td>
+</tr>
+<tr class="odd">
+<td>Lasso</td>
+<td>Performs feature selection</td>
+<td>Sensitive to correlated</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>fast</td>
+<td>features, assumes</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td>linearity</td>
+</tr>
+<tr class="even">
+<td>Permutation</td>
+<td>Simple to compute</td>
+<td>Affected by correlated</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td>features</td>
+</tr>
+<tr class="even">
+<td>SHAP</td>
+<td>Handles interactions,</td>
+<td>Computationally expensive</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>consistent</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="how-each-method-handles-feature-interactions" class="level4" data-number="9.3.8.7">
+<h4 data-number="9.3.8.7" class="anchored" data-anchor-id="how-each-method-handles-feature-interactions"><span class="header-section-number">9.3.8.7</span> How Each Method Handles Feature Interactions:</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 26%">
+<col style="width: 31%">
+<col style="width: 42%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Handles Interactions</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Gini Importance</td>
+<td>Indirectly</td>
+<td>Captures splits based on</td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td>feature combinations</td>
+</tr>
+<tr class="odd">
+<td>Permutation</td>
+<td>Yes</td>
+<td>Measures impact after</td>
+</tr>
+<tr class="even">
+<td>Importance</td>
+<td></td>
+<td>shuffling all features</td>
+</tr>
+<tr class="odd">
+<td>Lasso</td>
+<td>No</td>
+<td>Treats features</td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td>independently, assumes</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td>linearity</td>
+</tr>
+<tr class="even">
+<td>SHAP</td>
+<td>Yes</td>
+<td>Captures interaction</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td>effects explicitly</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="when-to-use-which-method" class="level4" data-number="9.3.8.8">
+<h4 data-number="9.3.8.8" class="anchored" data-anchor-id="when-to-use-which-method"><span class="header-section-number">9.3.8.8</span> When to Use Which Method</h4>
+<ul>
+<li>Tree-based models: Use SHAP or permutation importance for better accuracy.</li>
+<li>Linear models: Coefficients and regularization for interpretability.</li>
+<li>Complex models: SHAP handles feature interactions better.</li>
+</ul>
+</section>
+<section id="recommended-strategy" class="level4" data-number="9.3.8.9">
+<h4 data-number="9.3.8.9" class="anchored" data-anchor-id="recommended-strategy"><span class="header-section-number">9.3.8.9</span> Recommended Strategy</h4>
+<ul>
+<li>Start with permutation importance or Gini importance for quick insights.</li>
+<li>Use SHAP for deeper understanding and interaction effects.</li>
+<li>For linear models, regularization helps with feature selection.</li>
+</ul>
+</section>
+</section>
+<section id="conclusion" class="level3" data-number="9.3.9">
+<h3 data-number="9.3.9" class="anchored" data-anchor-id="conclusion"><span class="header-section-number">9.3.9</span> Conclusion:</h3>
+<ul>
+<li>Variable importance helps in understanding and improving models.</li>
+<li>SHAP provides the most consistent and interpretable results.</li>
+<li>Different methods work better depending on model type and complexity.</li>
+</ul>
 <!-- {{< include _naivebayes.qmd >}} -->
 <!-- {{< include _smote.qmd >}} -->
 

@@ -126,6 +126,35 @@ div.csl-indent {
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -283,6 +312,14 @@ div.csl-indent {
   <li><a href="#conclusion-1" id="toc-conclusion-1" class="nav-link" data-scroll-target="#conclusion-1"><span class="header-section-number">5.6.10</span> Conclusion</a></li>
   <li><a href="#further-readings" id="toc-further-readings" class="nav-link" data-scroll-target="#further-readings"><span class="header-section-number">5.6.11</span> Further Readings:</a></li>
   </ul></li>
+  <li><a href="#imputation-methods-for-missing-data" id="toc-imputation-methods-for-missing-data" class="nav-link" data-scroll-target="#imputation-methods-for-missing-data"><span class="header-section-number">5.7</span> Imputation Methods for Missing Data</a>
+  <ul class="collapse">
+  <li><a href="#what-is-data-imputation" id="toc-what-is-data-imputation" class="nav-link" data-scroll-target="#what-is-data-imputation"><span class="header-section-number">5.7.1</span> What is Data Imputation?</a></li>
+  <li><a href="#inspecting-missingness" id="toc-inspecting-missingness" class="nav-link" data-scroll-target="#inspecting-missingness"><span class="header-section-number">5.7.2</span> Inspecting Missingness</a></li>
+  <li><a href="#methods-of-imputation" id="toc-methods-of-imputation" class="nav-link" data-scroll-target="#methods-of-imputation"><span class="header-section-number">5.7.3</span> Methods of Imputation</a></li>
+  <li><a href="#conclusions" id="toc-conclusions" class="nav-link" data-scroll-target="#conclusions"><span class="header-section-number">5.7.4</span> Conclusions</a></li>
+  <li><a href="#further-readings-1" id="toc-further-readings-1" class="nav-link" data-scroll-target="#further-readings-1"><span class="header-section-number">5.7.5</span> Further Readings</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -356,20 +393,20 @@ repository.</p>
 <ul>
 <li>Using the following code to import the Pandas library in Python</li>
 </ul>
-<div id="c9529a44" class="cell" data-execution_count="1">
+<div id="0f5202f3" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>Using the following code to load the data set</li>
 </ul>
-<div id="69e9b8ea" class="cell" data-execution_count="2">
+<div id="d20e66d9" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"data/nyccrashes_2024w0630_by20250212.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="renaming-the-columns" class="level4" data-number="5.2.2.2">
 <h4 data-number="5.2.2.2" class="anchored" data-anchor-id="renaming-the-columns"><span class="header-section-number">5.2.2.2</span> Renaming The Columns</h4>
 <p>Using the following codes to rename the columns.</p>
-<div id="514ee170" class="cell" data-execution_count="3">
+<div id="b67071ae" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df.columns <span class="op">=</span> [col.strip().lower().replace(<span class="st">" "</span>, <span class="st">"_"</span>) <span class="cf">for</span> col <span class="kw">in</span> df.columns]</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>df.columns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
@@ -391,7 +428,7 @@ repository.</p>
 <section id="viewing-the-first-few-rows" class="level4" data-number="5.2.2.3">
 <h4 data-number="5.2.2.3" class="anchored" data-anchor-id="viewing-the-first-few-rows"><span class="header-section-number">5.2.2.3</span> Viewing the First Few Rows</h4>
 <p>The head function in Pandas is used to display the first few rows of a DataFrame.</p>
-<div id="c341d3a9" class="cell" data-execution_count="4">
+<div id="d8ab4cd4" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df.head() <span class="co"># Default value of n is 5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <div>
@@ -562,7 +599,7 @@ repository.</p>
 <li>Number of non-null values per column</li>
 <li>Memory usage</li>
 </ul>
-<div id="f1464953" class="cell" data-execution_count="5">
+<div id="1560bb4f" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df.info()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
@@ -615,7 +652,7 @@ memory usage: 425.2+ KB</code></pre>
 <h4 data-number="5.2.2.5" class="anchored" data-anchor-id="descriptive-statistics"><span class="header-section-number">5.2.2.5</span> Descriptive Statistics</h4>
 <p>The discribe function provides summary statistics for numerical columns in a<br>
 Pandas DataFrame.</p>
-<div id="b7e5109f" class="cell" data-execution_count="6">
+<div id="128ad5fe" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df.describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <div>
@@ -780,7 +817,7 @@ Pandas DataFrame.</p>
 <h4 data-number="5.2.3.1" class="anchored" data-anchor-id="selecting-specific-columns"><span class="header-section-number">5.2.3.1</span> Selecting Specific Columns</h4>
 <p>Sometimes, we only need certain columns.</p>
 <p>In this case, you can use select function.</p>
-<div id="7d469feb" class="cell" data-execution_count="7">
+<div id="4d3d31fe" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df_selected <span class="op">=</span> df[[<span class="st">'crash_date'</span>, <span class="st">'crash_time'</span>, <span class="st">'borough'</span>, </span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>                  <span class="st">'number_of_persons_injured'</span>]]</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>df_selected.head() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -845,7 +882,7 @@ Pandas DataFrame.</p>
 <h4 data-number="5.2.3.2" class="anchored" data-anchor-id="filtering-data"><span class="header-section-number">5.2.3.2</span> Filtering Data</h4>
 <p>when you would like to filter certain specific data (e.g., Crashes in 2024-06-30),<br>
 you can using the following data to define:</p>
-<div id="52e9f1d7" class="cell" data-execution_count="8">
+<div id="9a307195" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert crash date to datetime format</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'crash_date'</span>] <span class="op">=</span> pd.to_datetime(df[<span class="st">'crash_date'</span>])</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1016,7 +1053,7 @@ you can using the following data to define:</p>
 <p>The query function in Pandas is used to filter a DataFrame using a more<br>
 readable, SQL-like syntax. For example, now I would like to find the crashes with<br>
 the number of persons injured more than 2. We can using the following code:</p>
-<div id="55f9bbe3" class="cell" data-execution_count="9">
+<div id="04ff549d" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df_filtered <span class="op">=</span> df.query(<span class="st">"`number_of_persons_injured` &gt; 2"</span>)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>df_filtered.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
@@ -1200,7 +1237,7 @@ with the crash dataset.</p>
 <li><p>Merges the aggregated injury data with the crash dataset using merge function on<br>
 the <code>borough</code> column.</p></li>
 </ul>
-<div id="9d349220" class="cell" data-execution_count="10">
+<div id="66626973" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Aggregate total injuries per borough</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>df_borough_info <span class="op">=</span> df.groupby(</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>          <span class="st">'borough'</span>, as_index<span class="op">=</span><span class="va">False</span></span>
@@ -1295,7 +1332,7 @@ table), two-variable tables (contingency table).</p>
 <p>A one-variable table (also called a frequency table) shows the distribution of<br>
 values for a single categorical variable.</p>
 <p>For example, we can count the number of crashes per borough:</p>
-<div id="5849d63c" class="cell" data-execution_count="11">
+<div id="5475ce90" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>borough_counts <span class="op">=</span> df[<span class="st">'borough'</span>].value_counts()</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>borough_counts</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
@@ -1316,7 +1353,7 @@ helps identify which borough has the highest accident frequency.</p>
 <p>A two-variable table (also called a contingency table) shows the relationship<br>
 between two categorical variables.</p>
 <p>For example, we can analyze the number of crashes per borough per day:</p>
-<div id="ff6751e6" class="cell" data-execution_count="12">
+<div id="451e73c3" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make pivot table</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>borough_day_table <span class="op">=</span> df.pivot_table(</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    index<span class="op">=</span><span class="st">'crash_date'</span>,</span>
@@ -1432,7 +1469,7 @@ Media, 2022. https://wesmckinney.com/book/.</p>
 <p>The following functions in Pandas are used to convert data types. This is<br>
 important when working with dates and categorical data to ensure proper analysis.</p>
 <p>For example, we want to:</p>
-<div id="9af01fee" class="cell" data-execution_count="13">
+<div id="7b883b84" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert crash date to datetime format</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'crash_date'</span>] <span class="op">=</span> pd.to_datetime(df[<span class="st">'crash_date'</span>])</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'crash_date'</span>]</span>
@@ -1459,7 +1496,7 @@ Name: zip_code, Length: 1876, dtype: object</code></pre>
 <section id="sorting-data" class="level4" data-number="5.2.6.2">
 <h4 data-number="5.2.6.2" class="anchored" data-anchor-id="sorting-data"><span class="header-section-number">5.2.6.2</span> Sorting Data</h4>
 <p>We can sort data by one or more columns:</p>
-<div id="4be1784f" class="cell" data-execution_count="14">
+<div id="b062e3aa" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort by date and time</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>df_sorted <span class="op">=</span> df.sort_values(</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    by<span class="op">=</span>[<span class="st">'crash_date'</span>, <span class="st">'crash_time'</span>], </span>
@@ -1631,7 +1668,7 @@ Name: zip_code, Length: 1876, dtype: object</code></pre>
 <h4 data-number="5.2.6.3" class="anchored" data-anchor-id="handling-missing-data"><span class="header-section-number">5.2.6.3</span> Handling Missing Data</h4>
 <p>Pandas provides methods for handling missing values.</p>
 <p>For example, you can using the following codes to fix the missing data.</p>
-<div id="0961bc1e" class="cell" data-execution_count="15">
+<div id="a0014003" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check for missing values</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>df.isna().<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="15">
@@ -1667,7 +1704,7 @@ vehicle_type_code_5              1862
 dtype: int64</code></pre>
 </div>
 </div>
-<div id="c6078cbd" class="cell" data-execution_count="16">
+<div id="e3f69b2c" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fill missing values with NaN</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>df.fillna(<span class="bu">float</span>(<span class="st">'nan'</span>), inplace<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>df.fillna</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1778,7 +1815,7 @@ python.</p>
 <section id="example-nyc-crash-data" class="level2" data-number="5.3">
 <h2 data-number="5.3" class="anchored" data-anchor-id="example-nyc-crash-data"><span class="header-section-number">5.3</span> Example: NYC Crash Data</h2>
 <p>Consider a subset of the NYC Crash Data, which contains all NYC motor vehicle collisions data with documentation from <a href="https://data.cityofnewyork.us/Public-Safety/Motor-Vehicle-Collisions-Crashes/h9gi-nx95">NYC Open Data</a>. We downloaded the crash data for the week of June 30, 2024, on February 12, 2025, in CSC format.</p>
-<div id="22730f39" class="cell" data-execution_count="17">
+<div id="864ba455" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1828,7 +1865,7 @@ dtype: int64</code></pre>
 </div>
 </div>
 <p>Take a peek at the first five rows:</p>
-<div id="7f54b4c2" class="cell" data-execution_count="18">
+<div id="86522ce0" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="18">
 <div>
@@ -1990,7 +2027,7 @@ dtype: int64</code></pre>
 </div>
 </div>
 <p>A quick summary of the data types of the columns:</p>
-<div id="a189cb18" class="cell" data-execution_count="19">
+<div id="150f98d3" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>df.info()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
@@ -2032,7 +2069,7 @@ memory usage: 410.5+ KB</code></pre>
 </div>
 </div>
 <p>Now we can do some cleaning after a quick browse.</p>
-<div id="c1392bbb" class="cell" data-execution_count="20">
+<div id="22531010" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace invalid coordinates (latitude=0, longitude=0 or NaN) with NaN</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>df.loc[(df[<span class="st">'latitude'</span>] <span class="op">==</span> <span class="dv">0</span>) <span class="op">&amp;</span> (df[<span class="st">'longitude'</span>] <span class="op">==</span> <span class="dv">0</span>), </span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>       [<span class="st">'latitude'</span>, <span class="st">'longitude'</span>]] <span class="op">=</span> pd.NA</span>
@@ -2050,7 +2087,7 @@ memory usage: 410.5+ KB</code></pre>
 <span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.drop(columns<span class="op">=</span>[<span class="st">'crash_date'</span>, <span class="st">'crash_time'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s get some basic frequency tables of <code>borough</code> and <code>zip_code</code>, whose values could be used to check their validity against the legitmate values.</p>
-<div id="3095506b" class="cell" data-execution_count="21">
+<div id="002e1eaf" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Frequency table for 'borough' without filling missing values</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>borough_freq <span class="op">=</span> df[<span class="st">'borough'</span>].value_counts(dropna<span class="op">=</span><span class="va">False</span>).reset_index()</span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>borough_freq.columns <span class="op">=</span> [<span class="st">'borough'</span>, <span class="st">'count'</span>]</span>
@@ -2135,7 +2172,7 @@ memory usage: 410.5+ KB</code></pre>
 </div>
 </div>
 <p>A comprehensive list of ZIP codes by borough can be obtained, for example, from <a href="https://www.nyc.gov/assets/doh/downloads/pdf/ah/zipcodetable.pdf">the New York City Department of Health’s UHF Codes</a>. We can use this list to check the validity of the zip codes in the data.</p>
-<div id="7040e19c" class="cell" data-execution_count="22">
+<div id="7863967e" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># List of valid NYC ZIP codes compiled from UHF codes</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Define all_valid_zips based on the earlier extracted ZIP codes</span></span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>all_valid_zips <span class="op">=</span> {</span>
@@ -2221,7 +2258,7 @@ memory usage: 410.5+ KB</code></pre>
 </div>
 <p>As it turns out, the collection of valid NYC zip codes differ from different sources. From <a href="https://www.unitedstateszipcodes.org/">United States Zip Codes</a>, <code>10065</code> appears to be a valid NYC zip code. Under this circumstance, it might be safer to not remove any zip code from the data.</p>
 <p>To be safe, let’s concatenate valid and invalid zips.</p>
-<div id="e512e4bd" class="cell" data-execution_count="23">
+<div id="958298e5" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert invalid ZIP codes to a set of strings</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>invalid_zips_set <span class="op">=</span> <span class="bu">set</span>(invalid_zip_freq[<span class="st">'zip_code'</span>].dropna().astype(<span class="bu">str</span>))</span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2232,7 +2269,7 @@ memory usage: 410.5+ KB</code></pre>
 <span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>merged_zips <span class="op">=</span> invalid_zips_set <span class="op">|</span> valid_zips_set  <span class="co"># Union of both sets</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Are missing in zip code and borough always co-occur?</p>
-<div id="054fe2af" class="cell" data-execution_count="24">
+<div id="128f8e1e" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check if missing values in 'zip_code' and 'borough' always co-occur</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Count rows where both are missing</span></span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>missing_cooccur <span class="op">=</span> df[[<span class="st">'zip_code'</span>, <span class="st">'borough'</span>]].isnull().<span class="bu">all</span>(axis<span class="op">=</span><span class="dv">1</span>).<span class="bu">sum</span>()</span>
@@ -2251,7 +2288,7 @@ memory usage: 410.5+ KB</code></pre>
 <p>First make sure <code>geopy</code> is installed.</p>
 <pre class="shell"><code>pip install geopy</code></pre>
 <p>Now we use model <code>Nominatim</code> in package <code>geopy</code> to reverse geocode.</p>
-<div id="22b847a1" class="cell" data-execution_count="25">
+<div id="1f741b2b" class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> geopy.geocoders <span class="im">import</span> Nominatim</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2261,7 +2298,7 @@ memory usage: 410.5+ KB</code></pre>
 <span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>geolocator <span class="op">=</span> Nominatim(user_agent<span class="op">=</span><span class="st">"jyGeopyTry"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We write a function to do the reverse geocoding given lattitude and longitude.</p>
-<div id="994362df" class="cell" data-execution_count="26">
+<div id="981df339" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to fill missing zip_code</span></span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_zip_code(latitude, longitude):</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
@@ -2279,7 +2316,7 @@ memory usage: 410.5+ KB</code></pre>
 <span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>        time.sleep(<span class="dv">1</span>)  <span class="co"># Delay to avoid overwhelming the service</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s try it out:</p>
-<div id="f1aab4dd" class="cell" data-execution_count="27">
+<div id="9775a538" class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example usage</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>latitude <span class="op">=</span> <span class="fl">40.730610</span></span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>longitude <span class="op">=</span> <span class="op">-</span><span class="fl">73.935242</span></span>
@@ -2317,7 +2354,7 @@ memory usage: 410.5+ KB</code></pre>
 <p>Now that we have NYC crash data, we might want to analyze patterns at the zip-code level to understand whether certain demographic or economic factors correlate with traffic incidents. While the crash dataset provides details about individual accidents, such as location, time, and severity, it does not contain contextual information about the neighborhoods where these crashes occur.</p>
 <p>To perform meaningful zip-code-level analysis, we need additional data sources that provide relevant demographic, economic, and geographic variables. For example, understanding whether high-income areas experience fewer accidents, or whether population density influences crash frequency, requires integrating Census data. Key variables such as population size, median household income, employment rate, and population density can provide valuable context for interpreting crash trends across different zip codes.</p>
 <p>Since the Census Bureau provides detailed estimates for these variables at the zip-code level, we can use the Census API or other tools to retrieve relevant data and merge it with the NYC crash dataset. To access the Census API, you need an API key, which is free and easy to obtain. Visit the <a href="https://api.census.gov/data/key_signup.html">Census API Request page</a> and submit your email address to receive a key. Once you have the key, you must include it in your API requests to access Census data. The following demonstration assumes that you have registered, obtained your API key, and saved it in a file called <code>censusAPIkey.txt</code>.</p>
-<div id="8018e81c" class="cell" data-execution_count="28">
+<div id="36bee16b" class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import modules</span></span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -2331,7 +2368,7 @@ memory usage: 410.5+ KB</code></pre>
 <span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> Census(api_key)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Suppose that we want to get some basic info from ACS data of the year of 2023 for all the NYC zip codes. The variable names can be found in the <a href="https://www.census.gov/programs-surveys/acs/technical-documentation/table-shells.html">ACS variable documentation</a>.</p>
-<div id="fee8e68f" class="cell" data-execution_count="29">
+<div id="fbf27b3a" class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>ACS_YEAR <span class="op">=</span> <span class="dv">2023</span></span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>ACS_DATASET <span class="op">=</span> <span class="st">"acs/acs5"</span></span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2353,7 +2390,7 @@ memory usage: 410.5+ KB</code></pre>
 <span id="cb40-19"><a href="#cb40-19" aria-hidden="true" tabindex="-1"></a>merged_zips <span class="op">=</span> <span class="bu">list</span>(<span class="bu">map</span>(<span class="bu">str</span>, merged_zips))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s set up the query to request the ACS data, and process the returned data.</p>
-<div id="3ee9655a" class="cell" data-execution_count="30">
+<div id="8fe2814e" class="cell" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>acs_data <span class="op">=</span> c.acs5.get(</span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">list</span>(ACS_VARIABLES.keys()), </span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'for'</span>: <span class="ss">f'zip code tabulation area:</span><span class="sc">{</span><span class="st">","</span><span class="sc">.</span>join(merged_zips)<span class="sc">}</span><span class="ss">'</span>}</span>
@@ -2370,7 +2407,7 @@ memory usage: 410.5+ KB</code></pre>
 <div class="sourceCode" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>df_acs.to_feather(<span class="st">"data/acs2023.feather"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The population density could be an important factor for crash likelihood. To obtain the population densities, we need the areas of the zip codes. The shape files can be obtained from NYC Open Data.</p>
-<div id="e0f2f7e8" class="cell" data-execution_count="31">
+<div id="9cdb78be" class="cell" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> zipfile</span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
@@ -2395,7 +2432,7 @@ Shapefile extracted to: MODZCTA_Shapefile</code></pre>
 </div>
 </div>
 <p>Now we process the shape file to calculate the areas of the polygons.</p>
-<div id="84c23ea5" class="cell" data-execution_count="32">
+<div id="1bc6376c" class="cell" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 2: Automatically detect the correct .shp file</span></span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>shapefile_path <span class="op">=</span> <span class="va">None</span></span>
 <span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> os.listdir(extract_dir):</span>
@@ -2430,11 +2467,11 @@ Shapefile extracted to: MODZCTA_Shapefile</code></pre>
 </div>
 </div>
 <p>Let’s export this data frame for future usage in feather format (see next Section).</p>
-<div id="75bedbb0" class="cell" data-execution_count="33">
+<div id="a632fa71" class="cell" data-execution_count="33">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>gdf[[<span class="st">'modzcta'</span>, <span class="st">'land_area_sq_miles'</span>]].to_feather(<span class="st">'data/nyc_zip_areas.feather'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now we are ready to merge the two data frames.</p>
-<div id="6ec60e75" class="cell" data-execution_count="34">
+<div id="3eef70df" class="cell" data-execution_count="34">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge ACS data (`df_acs`) directly with MODZCTA land area (`gdf`)</span></span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>gdf <span class="op">=</span> gdf.merge(df_acs, left_on<span class="op">=</span><span class="st">'modzcta'</span>, right_on<span class="op">=</span><span class="st">'ZIP Code'</span>, how<span class="op">=</span><span class="st">'left'</span>)</span>
 <span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2456,7 +2493,7 @@ Shapefile extracted to: MODZCTA_Shapefile</code></pre>
 </div>
 </div>
 <p>Some visualization of population density.</p>
-<div id="00c56901" class="cell" data-execution_count="35">
+<div id="cef813da" class="cell" data-execution_count="35">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
 <span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2506,7 +2543,7 @@ Shapefile extracted to: MODZCTA_Shapefile</code></pre>
 <pre class="shell"><code>pip install pyarrow</code></pre>
 <p>Feather is a fast, lightweight, and easy-to-use binary file format for storing data frames, optimized for speed and efficiency, particularly for IPC and data sharing between Python and R or Julia.</p>
 <p>The following code processes the cleaned data in CSV format from Mohammad Mundiwala and write out in Arrow format.</p>
-<div id="9302460b" class="cell" data-execution_count="36">
+<div id="1e6a8b66" class="cell" data-execution_count="36">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Read CSV, ensuring 'zip_code' is string and 'crash_datetime' is parsed as datetime</span></span>
@@ -2527,7 +2564,7 @@ Shapefile extracted to: MODZCTA_Shapefile</code></pre>
 <span id="cb52-18"><a href="#cb52-18" aria-hidden="true" tabindex="-1"></a>df.to_feather(<span class="st">'nyccrashes_cleaned.feather'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s compare the file sizes of the feather format and the CSV format.</p>
-<div id="67fb7c70" class="cell" data-execution_count="37">
+<div id="1840e013" class="cell" data-execution_count="37">
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="co"># File paths</span></span>
@@ -2639,7 +2676,7 @@ Feather file size: 0.19 MB</code></pre>
 <ul>
 <li>Use <code>data.to_sql</code> to store dataframe as an SQL table.</li>
 </ul>
-<div id="435b75eb" class="cell" data-execution_count="38">
+<div id="d54df7f4" class="cell" data-execution_count="38">
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sqlite3</span>
 <span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2669,7 +2706,7 @@ Feather file size: 0.19 MB</code></pre>
 <section id="display-the-table" class="level4" data-number="5.6.3.2">
 <h4 data-number="5.6.3.2" class="anchored" data-anchor-id="display-the-table"><span class="header-section-number">5.6.3.2</span> Display the Table</h4>
 <p>We can display the table by querying all (or some) of the data and using the <code>.head()</code> command</p>
-<div id="c9921b17" class="cell" data-execution_count="39">
+<div id="be063ac3" class="cell" data-execution_count="39">
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Query to select all data (or limit rows to avoid overload)</span></span>
 <span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">"SELECT * FROM nyc_crashes LIMIT 10;"</span></span>
 <span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2844,7 +2881,7 @@ Feather file size: 0.19 MB</code></pre>
 <section id="create-the-lookup-table" class="level4" data-number="5.6.4.1">
 <h4 data-number="5.6.4.1" class="anchored" data-anchor-id="create-the-lookup-table"><span class="header-section-number">5.6.4.1</span> Create the lookup table</h4>
 <p>Create the lookup table using the <code>create table</code> command with the corresponding column names.</p>
-<div id="240f3fab" class="cell" data-execution_count="40">
+<div id="60b0ba27" class="cell" data-execution_count="40">
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Connect to the SQLite database</span></span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>cursor <span class="op">=</span> conn.cursor()</span>
 <span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2863,7 +2900,7 @@ Feather file size: 0.19 MB</code></pre>
 <section id="populate-the-lookup-table-with-distinct-values" class="level4" data-number="5.6.4.2">
 <h4 data-number="5.6.4.2" class="anchored" data-anchor-id="populate-the-lookup-table-with-distinct-values"><span class="header-section-number">5.6.4.2</span> Populate the Lookup Table with Distinct Values</h4>
 <p>Populate the lookup table with the values contained in contributing_factor_vehicle_1.</p>
-<div id="aa9fb90f" class="cell" data-execution_count="41">
+<div id="2b5c57d8" class="cell" data-execution_count="41">
 <div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>cursor.execute(<span class="st">'''</span></span>
 <span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a><span class="st">INSERT OR IGNORE INTO contributing_factor_lookup (factor_description)</span></span>
 <span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT DISTINCT contributing_factor_vehicle_1</span></span>
@@ -2879,7 +2916,7 @@ Feather file size: 0.19 MB</code></pre>
 <section id="update-the-original-table-to-include-factor_id" class="level4" data-number="5.6.4.3">
 <h4 data-number="5.6.4.3" class="anchored" data-anchor-id="update-the-original-table-to-include-factor_id"><span class="header-section-number">5.6.4.3</span> Update the Original Table to Include factor_id</h4>
 <p>Use <code>ALTER TABLE</code> to add factor_id column into original table.</p>
-<div id="e0796d97" class="cell" data-execution_count="42">
+<div id="fa1e2f06" class="cell" data-execution_count="42">
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>cursor.execute(<span class="st">'''</span></span>
 <span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="st">ALTER TABLE nyc_crashes ADD COLUMN factor_id INTEGER;</span></span>
 <span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a><span class="st">'''</span>)</span>
@@ -2892,7 +2929,7 @@ Feather file size: 0.19 MB</code></pre>
 <section id="update-the-original-table-with-corresponding-codes" class="level4" data-number="5.6.4.4">
 <h4 data-number="5.6.4.4" class="anchored" data-anchor-id="update-the-original-table-with-corresponding-codes"><span class="header-section-number">5.6.4.4</span> Update the Original Table with Corresponding Codes</h4>
 <p>Use <code>UPDATE</code> command to update table with factor descriptions.</p>
-<div id="bc77670b" class="cell" data-execution_count="43">
+<div id="00eef2fe" class="cell" data-execution_count="43">
 <div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>cursor.execute(<span class="st">'''</span></span>
 <span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="st">UPDATE nyc_crashes</span></span>
 <span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a><span class="st">SET factor_id = (</span></span>
@@ -2911,7 +2948,7 @@ Feather file size: 0.19 MB</code></pre>
 <section id="query-with-a-join-to-retrieve-full-descriptions" class="level4" data-number="5.6.4.5">
 <h4 data-number="5.6.4.5" class="anchored" data-anchor-id="query-with-a-join-to-retrieve-full-descriptions"><span class="header-section-number">5.6.4.5</span> Query with a Join to Retrieve Full Descriptions</h4>
 <p>Use <code>JOIN</code> command to recieve contributing factor descriptions from factor_id.</p>
-<div id="00f16921" class="cell" data-output-location="slide" data-execution_count="44">
+<div id="0c1147f4" class="cell" data-output-location="slide" data-execution_count="44">
 <div class="sourceCode cell-code" id="cb67"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">'''</span></span>
 <span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT n.*, l.factor_description</span></span>
 <span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a><span class="st">FROM nyc_crashes n</span></span>
@@ -3089,7 +3126,7 @@ Feather file size: 0.19 MB</code></pre>
 <section id="display-table-with-factor.id" class="level4" data-number="5.6.4.6">
 <h4 data-number="5.6.4.6" class="anchored" data-anchor-id="display-table-with-factor.id"><span class="header-section-number">5.6.4.6</span> Display Table With factor.id</h4>
 <p>Since we added factor_id column to dataframe, we can now display the table including the factor_id column using a query.</p>
-<div id="64b8a3f9" class="cell" data-execution_count="45">
+<div id="77ad05c6" class="cell" data-execution_count="45">
 <div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Query to select all data (or limit rows to avoid overload)</span></span>
 <span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">"SELECT * FROM nyc_crashes LIMIT 10;"</span></span>
 <span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -3266,7 +3303,7 @@ Feather file size: 0.19 MB</code></pre>
 <li><code>INSERT INTO table_name (columns) VALUES (values</code></li>
 </ul>
 <p>Insert a new crash record into the nyc_crashes table with the date 06/30/2024, time 10:15, location BROOKLYN, and contributing factor “Driver Inattention/Distraction”.</p>
-<div id="c63dc82c" class="cell" data-execution_count="46">
+<div id="10ba128d" class="cell" data-execution_count="46">
 <div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>cursor <span class="op">=</span> conn.cursor()</span>
 <span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Adds a crash on 06/30/2024 at 10:15 in</span></span>
@@ -3283,7 +3320,7 @@ Feather file size: 0.19 MB</code></pre>
 <section id="verify-the-record-exists" class="level4" data-number="5.6.5.1">
 <h4 data-number="5.6.5.1" class="anchored" data-anchor-id="verify-the-record-exists"><span class="header-section-number">5.6.5.1</span> Verify the record exists</h4>
 <p>We can use a query for a specific data point to verify if addition was successful.</p>
-<div id="345ad7b0" class="cell" data-execution_count="47">
+<div id="07201434" class="cell" data-execution_count="47">
 <div class="sourceCode cell-code" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>query_before <span class="op">=</span> <span class="st">"""</span></span>
 <span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT * FROM nyc_crashes </span></span>
 <span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a><span class="st">WHERE crash_date = '2024-06-30' </span></span>
@@ -3365,7 +3402,7 @@ Feather file size: 0.19 MB</code></pre>
 <section id="deleting-data" class="level3" data-number="5.6.6">
 <h3 data-number="5.6.6" class="anchored" data-anchor-id="deleting-data"><span class="header-section-number">5.6.6</span> Deleting Data</h3>
 <p>Use <code>DELETE FROM</code> statement to delete data</p>
-<div id="dc882530" class="cell" data-execution_count="48">
+<div id="62ec81f9" class="cell" data-execution_count="48">
 <div class="sourceCode cell-code" id="cb72"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>delete_query <span class="op">=</span> <span class="st">"""</span></span>
 <span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a><span class="st">DELETE FROM nyc_crashes</span></span>
 <span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a><span class="st">WHERE crash_date = '2024-06-30' </span></span>
@@ -3380,7 +3417,7 @@ Feather file size: 0.19 MB</code></pre>
 <section id="verify-the-deletion" class="level4" data-number="5.6.6.1">
 <h4 data-number="5.6.6.1" class="anchored" data-anchor-id="verify-the-deletion"><span class="header-section-number">5.6.6.1</span> Verify the deletion</h4>
 <p>We can use a query for a specific data point to verify if deletion was successful.</p>
-<div id="82115f3e" class="cell" data-execution_count="49">
+<div id="8a9fb07e" class="cell" data-execution_count="49">
 <div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>query_after <span class="op">=</span> <span class="st">"""</span></span>
 <span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT * FROM nyc_crashes </span></span>
 <span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a><span class="st">WHERE crash_date = '2024-06-30' </span></span>
@@ -3446,7 +3483,7 @@ Feather file size: 0.19 MB</code></pre>
 <section id="query-to-find-distinct-contributing-factors" class="level4" data-number="5.6.7.1">
 <h4 data-number="5.6.7.1" class="anchored" data-anchor-id="query-to-find-distinct-contributing-factors"><span class="header-section-number">5.6.7.1</span> Query to find distinct contributing factors</h4>
 <p>This query selects the distinct contributing factors from the contributing_factor_vehicle_1 column.</p>
-<div id="f09becbc" class="cell" data-execution_count="50">
+<div id="3622eb4c" class="cell" data-execution_count="50">
 <div class="sourceCode cell-code" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">"SELECT DISTINCT contributing_factor_vehicle_1 FROM nyc_crashes;"</span></span>
 <span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>factors <span class="op">=</span> pd.read_sql_query(query, conn)</span>
@@ -3495,7 +3532,7 @@ Feather file size: 0.19 MB</code></pre>
 <section id="can-query-using-factor.id" class="level4" data-number="5.6.7.2">
 <h4 data-number="5.6.7.2" class="anchored" data-anchor-id="can-query-using-factor.id"><span class="header-section-number">5.6.7.2</span> Can query using factor.id</h4>
 <p>This query selects the distinct contributing factors using the factor_id column.</p>
-<div id="93996cc4" class="cell" data-execution_count="51">
+<div id="6870e17a" class="cell" data-execution_count="51">
 <div class="sourceCode cell-code" id="cb76"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">"""</span></span>
 <span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT DISTINCT n.factor_id, l.factor_description </span></span>
 <span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a><span class="st">FROM nyc_crashes n</span></span>
@@ -3565,7 +3602,7 @@ Feather file size: 0.19 MB</code></pre>
 <li>Identify the most common contributing factors.</li>
 <li>Understand trends related to vehicle crash causes.</li>
 </ul>
-<div id="d979a360" class="cell" data-execution_count="52">
+<div id="cc6bd8d8" class="cell" data-execution_count="52">
 <div class="sourceCode cell-code" id="cb77"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>factor_count <span class="op">=</span> pd.read_sql_query(<span class="st">"""</span></span>
 <span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT contributing_factor_vehicle_1, COUNT(*) AS count </span></span>
 <span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a><span class="st">FROM nyc_crashes </span></span>
@@ -3648,7 +3685,7 @@ Feather file size: 0.19 MB</code></pre>
 <section id="visualizing-analysis" class="level3" data-number="5.6.9">
 <h3 data-number="5.6.9" class="anchored" data-anchor-id="visualizing-analysis"><span class="header-section-number">5.6.9</span> Visualizing Analysis</h3>
 <p>Can use Plotnine to visualize our Analysis for contributing_factor_vehicle_1 in a chart.</p>
-<div id="5d7e0941" class="cell" data-output-location="slide" data-execution_count="53">
+<div id="639ea53b" class="cell" data-output-location="slide" data-execution_count="53">
 <div class="sourceCode cell-code" id="cb78"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> plotnine <span class="im">import</span> ggplot, aes, geom_bar, theme_minimal, coord_flip, labs</span>
 <span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>db_path <span class="op">=</span> <span class="st">'nyc_crash.db'</span></span>
@@ -3702,6 +3739,389 @@ Feather file size: 0.19 MB</code></pre>
 <li>[Master Using SQL with Python - Using SQL with Pandas] (<span class="citation" data-cites="Cafferky2019SQLPandas">Cafferky (<a href="references.html#ref-Cafferky2019SQLPandas" role="doc-biblioref">2019</a>)</span>)</li>
 </ul>
 <hr>
+<!-- This section is to be included as a tutorial for Data Imputation. -->
+</section>
+</section>
+<section id="imputation-methods-for-missing-data" class="level2" data-number="5.7">
+<h2 data-number="5.7" class="anchored" data-anchor-id="imputation-methods-for-missing-data"><span class="header-section-number">5.7</span> Imputation Methods for Missing Data</h2>
+<ul>
+<li><p>This section was prepared by Sebastian Symula, a Junior Statistical Data Science major with a domain in statistics and a minor in math graduating in the fall.</p></li>
+<li><p>This section will serve as an introduction into what data imputation is, when to do it, as well as comparing and contrasting a few different methods of imputation.</p></li>
+</ul>
+<section id="what-is-data-imputation" class="level3" data-number="5.7.1">
+<h3 data-number="5.7.1" class="anchored" data-anchor-id="what-is-data-imputation"><span class="header-section-number">5.7.1</span> What is Data Imputation?</h3>
+<p>In practice, most datasets will have missing values. This can be due to things like faulty equipment, nonresponse, or the data not existing in the first place.</p>
+<p>When data is missing, you have two options:</p>
+<ul>
+<li>Ignore it (Complete Case Analysis): We only use complete rows without missing data for our analysis.</li>
+<li>Impute it: We fill in missing values using some statistical method.</li>
+</ul>
+<p>Types of Missing Data:</p>
+<ul>
+<li><p>Missing Completely at Random (MCAR):This is the best case scenario. There is no pattern to be observed with missing and observed data. The full rows can be treated as an independent subset of the full dataset. This does not introduce bias and is usually not a realistic assumption. Each row has same chance of being missing.</p></li>
+<li><p>Missing at Random (MAR): Missing data can be explained by observed data. missingness of data is related to observed variables, but not to the missing values themselves. Therefore, the mechanism of missingness can be modeled with observed data.</p></li>
+<li><p>Missing Not at Random (MNAR): This is when the missingness may say something about the true value, due to some unobserved data. So the fact that the value is missing has an impact on the true value. Do NOT impute in this case.</p></li>
+</ul>
+<p>Types of Missing Data Example:</p>
+<p>Let’s imagine we have a dataset where one column is gender and the other is the respondent’s happiness score from a survey.</p>
+<ul>
+<li>MCAR: If we see a relatively even spread of missing values between men and women. In this case the complete cases would be an independent subset of the dataset and we could run complete case analysis without any bias provided the missing data isn’t a large portion of our set.</li>
+<li>MAR: If we see a pattern of more missing values for men, but we assume this is due to men not finishing the survey and does not correlate with their happiness score. In this case we can use the observed cases for men to impute the missing ones.</li>
+<li>MNAR: If we think someone who’s less happy might be less likely to complete the survey. Can’t use observed values to predict missing ones.</li>
+</ul>
+</section>
+<section id="inspecting-missingness" class="level3" data-number="5.7.2">
+<h3 data-number="5.7.2" class="anchored" data-anchor-id="inspecting-missingness"><span class="header-section-number">5.7.2</span> Inspecting Missingness</h3>
+<p>Let’s create a complete dataset, then introduce MAR data:</p>
+<div id="163c104e" class="cell" data-execution_count="54">
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">10</span>)</span>
+<span id="cb79-5"><a href="#cb79-5" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> {</span>
+<span id="cb79-6"><a href="#cb79-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'ID'</span>: np.arange(<span class="dv">1</span>, <span class="dv">3000</span> <span class="op">+</span> <span class="dv">1</span>),</span>
+<span id="cb79-7"><a href="#cb79-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Age'</span>: np.random.randint(<span class="dv">18</span>, <span class="dv">60</span>,<span class="dv">3000</span>),</span>
+<span id="cb79-8"><a href="#cb79-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Salary'</span>: np.random.randint(<span class="dv">30000</span>, <span class="dv">100000</span>, <span class="dv">3000</span>),</span>
+<span id="cb79-9"><a href="#cb79-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Department'</span>: np.random.choice([<span class="st">'Sales'</span>, <span class="st">'HR'</span>, <span class="st">'IT'</span>, <span class="st">'Finance'</span>], <span class="dv">3000</span>),</span>
+<span id="cb79-10"><a href="#cb79-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Location'</span>: np.random.choice([<span class="st">'Remote'</span>, <span class="st">'Hybrid'</span>], <span class="dv">3000</span>),</span>
+<span id="cb79-11"><a href="#cb79-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Tenure'</span>: np.random.randint(<span class="dv">0</span>,<span class="dv">35</span>, <span class="dv">3000</span>)</span>
+<span id="cb79-12"><a href="#cb79-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb79-13"><a href="#cb79-13" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Dataset has 6 columns and 3000 rows.</p>
+<p>Introducing Missing Values:</p>
+<div id="05557592" class="cell" data-execution_count="55">
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>sal_prob <span class="op">=</span> np.clip((df[<span class="st">'Age'</span>] <span class="op">-</span> <span class="dv">30</span>) <span class="op">/</span> <span class="dv">40</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>sal_mask <span class="op">=</span> np.random.uniform(<span class="dv">0</span>, <span class="dv">1</span>, size<span class="op">=</span><span class="dv">3000</span>) <span class="op">&lt;</span> sal_prob</span>
+<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a>dep_prob <span class="op">=</span> np.clip((<span class="dv">35</span> <span class="op">-</span> df[<span class="st">'Tenure'</span>]) <span class="op">/</span> <span class="dv">35</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb80-4"><a href="#cb80-4" aria-hidden="true" tabindex="-1"></a>dep_mask <span class="op">=</span> np.random.uniform(<span class="dv">0</span>, <span class="dv">1</span>, size<span class="op">=</span><span class="dv">3000</span>) <span class="op">&lt;</span> dep_prob</span>
+<span id="cb80-5"><a href="#cb80-5" aria-hidden="true" tabindex="-1"></a>ten_prob <span class="op">=</span> np.where(df[<span class="st">'Location'</span>] <span class="op">==</span> <span class="st">'Hybrid'</span>, <span class="fl">0.6</span>, <span class="fl">0.1</span>) </span>
+<span id="cb80-6"><a href="#cb80-6" aria-hidden="true" tabindex="-1"></a>ten_mask <span class="op">=</span> np.random.uniform(<span class="dv">0</span>, <span class="dv">1</span>, size<span class="op">=</span><span class="dv">3000</span>) <span class="op">&lt;</span> ten_prob</span>
+<span id="cb80-7"><a href="#cb80-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Create dataset with missing values</span></span>
+<span id="cb80-8"><a href="#cb80-8" aria-hidden="true" tabindex="-1"></a>df_missing <span class="op">=</span> df.copy()</span>
+<span id="cb80-9"><a href="#cb80-9" aria-hidden="true" tabindex="-1"></a>df_missing.loc[sal_mask, <span class="st">'Salary'</span>] <span class="op">=</span> np.nan</span>
+<span id="cb80-10"><a href="#cb80-10" aria-hidden="true" tabindex="-1"></a>df_missing.loc[dep_mask, <span class="st">'Department'</span>] <span class="op">=</span> np.nan</span>
+<span id="cb80-11"><a href="#cb80-11" aria-hidden="true" tabindex="-1"></a>df_missing.loc[ten_mask, <span class="st">'Tenure'</span>] <span class="op">=</span> np.nan</span>
+<span id="cb80-12"><a href="#cb80-12" aria-hidden="true" tabindex="-1"></a>missing_vals <span class="op">=</span> df_missing.isnull()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Probability of <code>Salary</code> being missing increases as <code>Age</code> increases</p>
+<p>Probability of <code>Department</code> being missing increases as <code>Tenure</code> decreases</p>
+<p>Probability of <code>Tenure</code> being missing is greater if <code>Location</code> is Hybrid</p>
+<div id="737374fb" class="cell" data-execution_count="56">
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>df_missing.isna().<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="54">
+<pre><code>ID               0
+Age              0
+Salary         785
+Department    1573
+Location         0
+Tenure        1052
+dtype: int64</code></pre>
+</div>
+</div>
+<p><code>isna().sum()</code> is a good place to start when looking at missing data. It provides the sum of missing data by column.</p>
+<p>Inspecting Missingness: Age vs Salary</p>
+<div id="7531f434" class="cell" data-execution_count="57">
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb83-4"><a href="#cb83-4" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(data<span class="op">=</span>df_missing, x<span class="op">=</span><span class="st">'Age'</span>, y<span class="op">=</span><span class="st">'Salary'</span>, alpha<span class="op">=</span><span class="fl">0.6</span>, color<span class="op">=</span><span class="st">'blue'</span>)</span>
+<span id="cb83-5"><a href="#cb83-5" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"MAR Missing Pattern: Income Missing More for Older Individuals"</span>)</span>
+<span id="cb83-6"><a href="#cb83-6" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="manipulation_files/figure-html/cell-58-output-1.png" width="841" height="523" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We can see that there is a trend of more missing values for <code>Salary</code> as <code>Age</code> increases.</p>
+<p>Inspecting Missingness: Tenure vs Department</p>
+<div id="0d5d9ca7" class="cell" data-execution_count="58">
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>df_missing[<span class="st">'dep_missing'</span>] <span class="op">=</span> df_missing[<span class="st">'Department'</span>].isnull().astype(<span class="bu">int</span>)</span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Bin Tenure for easier visualization</span></span>
+<span id="cb84-4"><a href="#cb84-4" aria-hidden="true" tabindex="-1"></a>df_missing[<span class="st">'tenure_binned'</span>] <span class="op">=</span> pd.cut(df[<span class="st">'Tenure'</span>], bins<span class="op">=</span>[<span class="dv">0</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">35</span>], </span>
+<span id="cb84-5"><a href="#cb84-5" aria-hidden="true" tabindex="-1"></a>                             labels<span class="op">=</span>[<span class="st">'0-5'</span>, <span class="st">'6-10'</span>, <span class="st">'11-20'</span>, <span class="st">'21-30'</span>, <span class="st">'30+'</span>], </span>
+<span id="cb84-6"><a href="#cb84-6" aria-hidden="true" tabindex="-1"></a>                             include_lowest<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb84-7"><a href="#cb84-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Bar plot to show % of missingness per tenure bin</span></span>
+<span id="cb84-8"><a href="#cb84-8" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
+<span id="cb84-9"><a href="#cb84-9" aria-hidden="true" tabindex="-1"></a>sns.barplot(x<span class="op">=</span>df_missing[<span class="st">'tenure_binned'</span>], y<span class="op">=</span>df_missing[<span class="st">'dep_missing'</span>], estimator<span class="op">=</span>np.mean, palette<span class="op">=</span><span class="st">"coolwarm"</span>)</span>
+<span id="cb84-10"><a href="#cb84-10" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Tenure (Binned)"</span>)</span>
+<span id="cb84-11"><a href="#cb84-11" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Proportion of Department Missing"</span>)</span>
+<span id="cb84-12"><a href="#cb84-12" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Proportion of Missing Department Values by Tenure"</span>)</span>
+<span id="cb84-13"><a href="#cb84-13" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb84-14"><a href="#cb84-14" aria-hidden="true" tabindex="-1"></a>df_missing.drop(columns<span class="op">=</span>[<span class="st">'dep_missing'</span>,<span class="st">'tenure_binned'</span>],inplace<span class="op">=</span> <span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/var/folders/cq/5ysgnwfn7c3g0h46xyzvpj800000gn/T/ipykernel_90324/955409734.py:9: FutureWarning: 
+
+Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.
+</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="manipulation_files/figure-html/cell-59-output-2.png" width="663" height="449" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>There are more missing values for <code>Department</code> as <code>Tenure</code> decreases.</p>
+<p>Inspecting Missingness: Location vs Tenure</p>
+<div id="f3907d79" class="cell" data-execution_count="59">
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>df_missing[<span class="st">'missingflag_ten'</span>] <span class="op">=</span> df_missing[<span class="st">'Tenure'</span>].isnull()</span>
+<span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.impute <span class="im">import</span> MissingIndicator</span>
+<span id="cb86-4"><a href="#cb86-4" aria-hidden="true" tabindex="-1"></a>indicator <span class="op">=</span> MissingIndicator(missing_values<span class="op">=</span>np.nan, features<span class="op">=</span><span class="st">'all'</span>)</span>
+<span id="cb86-5"><a href="#cb86-5" aria-hidden="true" tabindex="-1"></a>mask_all <span class="op">=</span> indicator.fit_transform(df_missing)</span>
+<span id="cb86-6"><a href="#cb86-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot scatter with missingness indicated by color</span></span>
+<span id="cb86-7"><a href="#cb86-7" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
+<span id="cb86-8"><a href="#cb86-8" aria-hidden="true" tabindex="-1"></a>sns.countplot(data<span class="op">=</span>df_missing, x<span class="op">=</span><span class="st">'Location'</span>, hue<span class="op">=</span>df_missing[<span class="st">'missingflag_ten'</span>], palette<span class="op">=</span>{<span class="va">True</span>: <span class="st">'red'</span>, <span class="va">False</span>: <span class="st">'blue'</span>})</span>
+<span id="cb86-9"><a href="#cb86-9" aria-hidden="true" tabindex="-1"></a>df_missing.drop(columns <span class="op">=</span> [<span class="st">'missingflag_ten'</span>], inplace <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb86-10"><a href="#cb86-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Customize the plot</span></span>
+<span id="cb86-11"><a href="#cb86-11" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb86-12"><a href="#cb86-12" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Missing Tenure by Location: Hybrid vs Remote"</span>)</span>
+<span id="cb86-13"><a href="#cb86-13" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Location"</span>)</span>
+<span id="cb86-14"><a href="#cb86-14" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Count"</span>)</span>
+<span id="cb86-15"><a href="#cb86-15" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>&lt;Figure size 768x480 with 0 Axes&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="manipulation_files/figure-html/cell-60-output-2.png" width="676" height="449" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>More missing values for <code>Tenure</code> when <code>Location</code> is Hybrid.</p>
+<p>When Is Imputing a Good Idea?</p>
+<p>Imputing might be the right decision if:</p>
+<ul>
+<li><p>It makes sense in the context of the data. Sometimes missing values are expected.</p></li>
+<li><p>It wouldn’t introduce extra bias. Depends on the kind of missing data.</p></li>
+<li><p>Deleting would result in losing important data.</p></li>
+<li><p>The computational cost isn’t too great.</p></li>
+<li><p>The missing data is greater than 5 percent of the dataset.</p></li>
+</ul>
+</section>
+<section id="methods-of-imputation" class="level3" data-number="5.7.3">
+<h3 data-number="5.7.3" class="anchored" data-anchor-id="methods-of-imputation"><span class="header-section-number">5.7.3</span> Methods of Imputation</h3>
+<section id="simple-methods" class="level4" data-number="5.7.3.1">
+<h4 data-number="5.7.3.1" class="anchored" data-anchor-id="simple-methods"><span class="header-section-number">5.7.3.1</span> Simple Methods</h4>
+<ul>
+<li><p>Mean</p></li>
+<li><p>Median</p></li>
+<li><p>Mode</p>
+<ul>
+<li><p>These can be a good initial option but will underestimate error.</p></li>
+<li><p>Fast and easy computationally.</p></li>
+<li><p>Will mess up visuals. There will be large clumps around the mean/median/mode.</p></li>
+</ul></li>
+</ul>
+<p>Mean/Mode Imputation</p>
+<p>For simplicity, we will exclusively be using functions from <code>sklearn</code> throughout. Specifically <code>sklearn.impute</code>.</p>
+<div id="f0afbcc0" class="cell" data-execution_count="60">
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="co"># importing and initialize imputations</span></span>
+<span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.impute <span class="im">import</span> SimpleImputer</span>
+<span id="cb88-3"><a href="#cb88-3" aria-hidden="true" tabindex="-1"></a>imp_mean <span class="op">=</span> SimpleImputer(missing_values<span class="op">=</span>np.nan, strategy<span class="op">=</span><span class="st">'mean'</span>)</span>
+<span id="cb88-4"><a href="#cb88-4" aria-hidden="true" tabindex="-1"></a>imp_mode <span class="op">=</span> SimpleImputer(missing_values<span class="op">=</span>np.nan, strategy<span class="op">=</span><span class="st">'most_frequent'</span>)</span>
+<span id="cb88-5"><a href="#cb88-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb88-6"><a href="#cb88-6" aria-hidden="true" tabindex="-1"></a><span class="co">## making a copy dataframe with missing values for imputation use</span></span>
+<span id="cb88-7"><a href="#cb88-7" aria-hidden="true" tabindex="-1"></a>mean_df <span class="op">=</span> df_missing.copy()</span>
+<span id="cb88-8"><a href="#cb88-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb88-9"><a href="#cb88-9" aria-hidden="true" tabindex="-1"></a><span class="co"># imputing numeric and categorical features separately</span></span>
+<span id="cb88-10"><a href="#cb88-10" aria-hidden="true" tabindex="-1"></a>mean_df[[<span class="st">'Salary'</span>, <span class="st">'Tenure'</span>]] <span class="op">=</span> imp_mean.fit_transform(mean_df[[<span class="st">'Salary'</span>, <span class="st">'Tenure'</span>]])</span>
+<span id="cb88-11"><a href="#cb88-11" aria-hidden="true" tabindex="-1"></a>mean_df[[<span class="st">'Department'</span>]] <span class="op">=</span> imp_mode.fit_transform(mean_df[[<span class="st">'Department'</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Realistically, we don’t need to use these functions. We could manually impute the mean or mode.</p>
+<p>Evaluating Mean/Mode Imputation:</p>
+<div id="0feab192" class="cell" data-execution_count="61">
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="co"># calculating rmse</span></span>
+<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_squared_error</span>
+<span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a>rmse_salary_simple <span class="op">=</span> np.sqrt(mean_squared_error(df[<span class="st">'Salary'</span>], mean_df[<span class="st">'Salary'</span>]))</span>
+<span id="cb89-4"><a href="#cb89-4" aria-hidden="true" tabindex="-1"></a>rmse_tenure_simple <span class="op">=</span> np.sqrt(mean_squared_error(df[<span class="st">'Tenure'</span>], mean_df[<span class="st">'Tenure'</span>]))</span>
+<span id="cb89-5"><a href="#cb89-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb89-6"><a href="#cb89-6" aria-hidden="true" tabindex="-1"></a><span class="co"># calculating accuracy</span></span>
+<span id="cb89-7"><a href="#cb89-7" aria-hidden="true" tabindex="-1"></a>correct_imputations <span class="op">=</span> (df[missing_vals][<span class="st">'Department'</span>] <span class="op">==</span> mean_df[missing_vals][<span class="st">'Department'</span>]).<span class="bu">sum</span>()</span>
+<span id="cb89-8"><a href="#cb89-8" aria-hidden="true" tabindex="-1"></a>total_imputed <span class="op">=</span> missing_vals[<span class="st">'Department'</span>].<span class="bu">sum</span>()</span>
+<span id="cb89-9"><a href="#cb89-9" aria-hidden="true" tabindex="-1"></a>categorical_accuracy <span class="op">=</span> correct_imputations <span class="op">/</span> total_imputed</span>
+<span id="cb89-10"><a href="#cb89-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb89-11"><a href="#cb89-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Tenure Error: </span><span class="sc">{</span>rmse_tenure_simple<span class="sc">}</span><span class="ss"> years'</span>)</span>
+<span id="cb89-12"><a href="#cb89-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Salary Error: $</span><span class="sc">{</span>rmse_salary_simple<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb89-13"><a href="#cb89-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Department Accuracy: </span><span class="sc">{</span>categorical_accuracy<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Tenure Error: 6.0706196465053335 years
+Salary Error: $10658.00027447137
+Department Accuracy: 0.24284806102987921</code></pre>
+</div>
+</div>
+<p>For evaluating accuracy of imputations, we will be using mean squared error for continuous variables and proportion of correct imputations for categorical data.</p>
+<p>KNN Imputation</p>
+<p>One of the most popular methods of imputation. Finds <span class="math inline">\(k\)</span> nearest neighbors that don’t have missing values for the given column. Uses the mean of these values to impute missing value.</p>
+<ul>
+<li>Uses Euclidean distance to find nearest neighbors</li>
+<li>Becomes computationally expensive for higher values of <span class="math inline">\(k\)</span></li>
+<li>Can be used for MCAR and MAR</li>
+</ul>
+<p>KNN Imputation Example:</p>
+<div id="6aaacefa" class="cell" data-execution_count="62">
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="co"># importing and initializing imputer</span></span>
+<span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.impute <span class="im">import</span> KNNImputer</span>
+<span id="cb91-3"><a href="#cb91-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> OrdinalEncoder</span>
+<span id="cb91-4"><a href="#cb91-4" aria-hidden="true" tabindex="-1"></a>knn_df <span class="op">=</span> df_missing.copy()</span>
+<span id="cb91-5"><a href="#cb91-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb91-6"><a href="#cb91-6" aria-hidden="true" tabindex="-1"></a><span class="co"># encoding the categorical column (doesn't work on strings)</span></span>
+<span id="cb91-7"><a href="#cb91-7" aria-hidden="true" tabindex="-1"></a>encoder <span class="op">=</span> OrdinalEncoder(handle_unknown<span class="op">=</span><span class="st">'use_encoded_value'</span>, unknown_value<span class="op">=</span>np.nan)</span>
+<span id="cb91-8"><a href="#cb91-8" aria-hidden="true" tabindex="-1"></a>knn_df[[<span class="st">'Department'</span>,<span class="st">'Location'</span>]] <span class="op">=</span> encoder.fit_transform(knn_df[[<span class="st">'Department'</span>,<span class="st">'Location'</span>]])</span>
+<span id="cb91-9"><a href="#cb91-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb91-10"><a href="#cb91-10" aria-hidden="true" tabindex="-1"></a><span class="co"># imputing the dataFrame using k = 8</span></span>
+<span id="cb91-11"><a href="#cb91-11" aria-hidden="true" tabindex="-1"></a>imputer <span class="op">=</span> KNNImputer(n_neighbors<span class="op">=</span><span class="dv">8</span>, weights<span class="op">=</span><span class="st">"uniform"</span>)</span>
+<span id="cb91-12"><a href="#cb91-12" aria-hidden="true" tabindex="-1"></a>knn_df_imputed <span class="op">=</span> imputer.fit_transform(knn_df)</span>
+<span id="cb91-13"><a href="#cb91-13" aria-hidden="true" tabindex="-1"></a><span class="co"># converting back to DataFrame</span></span>
+<span id="cb91-14"><a href="#cb91-14" aria-hidden="true" tabindex="-1"></a>knn_df <span class="op">=</span> pd.DataFrame(knn_df_imputed, columns<span class="op">=</span>knn_df.columns)</span>
+<span id="cb91-15"><a href="#cb91-15" aria-hidden="true" tabindex="-1"></a><span class="co"># rounding the encoded column to integers (sometimes knn doesn't return # ints)</span></span>
+<span id="cb91-16"><a href="#cb91-16" aria-hidden="true" tabindex="-1"></a>knn_df[<span class="st">'Department'</span>] <span class="op">=</span> np.<span class="bu">round</span>(knn_df[<span class="st">'Department'</span>]).astype(<span class="bu">int</span>)</span>
+<span id="cb91-17"><a href="#cb91-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb91-18"><a href="#cb91-18" aria-hidden="true" tabindex="-1"></a><span class="co"># reverse encoding back to strings for accuracy evaluation</span></span>
+<span id="cb91-19"><a href="#cb91-19" aria-hidden="true" tabindex="-1"></a>knn_df[[<span class="st">'Department'</span>,<span class="st">'Location'</span>]] <span class="op">=</span> encoder.inverse_transform(knn_df[[<span class="st">'Department'</span>,<span class="st">'Location'</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>This KNN Imputer only works with numeric data, so we encoded the categorical features.</li>
+<li>The number of neighbors, <span class="math inline">\(k\)</span> can be tuned. In this case we choose <span class="math inline">\(k\)</span> = 8. Typically 5-10 is a good number.</li>
+</ul>
+<p>KNN Accuracy:</p>
+<div id="4eeae706" class="cell" data-execution_count="63">
+<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="co"># finding rmse for Salary and Tenure</span></span>
+<span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a>rmse_salary_knn <span class="op">=</span> np.sqrt(mean_squared_error(df[<span class="st">'Salary'</span>], knn_df[<span class="st">'Salary'</span>]))</span>
+<span id="cb92-3"><a href="#cb92-3" aria-hidden="true" tabindex="-1"></a>rmse_tenure_knn <span class="op">=</span> np.sqrt(mean_squared_error(df[<span class="st">'Tenure'</span>], knn_df[<span class="st">'Tenure'</span>]))</span>
+<span id="cb92-4"><a href="#cb92-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb92-5"><a href="#cb92-5" aria-hidden="true" tabindex="-1"></a>correct_imputations <span class="op">=</span> (df[missing_vals][<span class="st">'Department'</span>] <span class="op">==</span> knn_df[missing_vals][<span class="st">'Department'</span>]).<span class="bu">sum</span>()</span>
+<span id="cb92-6"><a href="#cb92-6" aria-hidden="true" tabindex="-1"></a>total_imputed <span class="op">=</span> missing_vals[<span class="st">'Department'</span>].<span class="bu">sum</span>()</span>
+<span id="cb92-7"><a href="#cb92-7" aria-hidden="true" tabindex="-1"></a>categorical_accuracy <span class="op">=</span> correct_imputations <span class="op">/</span> total_imputed</span>
+<span id="cb92-8"><a href="#cb92-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb92-9"><a href="#cb92-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Tenure Error: </span><span class="sc">{</span>rmse_tenure_knn<span class="sc">}</span><span class="ss"> years'</span>)</span>
+<span id="cb92-10"><a href="#cb92-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Salary Error: $</span><span class="sc">{</span>rmse_salary_knn<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb92-11"><a href="#cb92-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Department Accuracy: </span><span class="sc">{</span>categorical_accuracy<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Tenure Error: 6.2255413084593165 years
+Salary Error: $11300.874134353271
+Department Accuracy: 0.2663699936427209</code></pre>
+</div>
+</div>
+<ul>
+<li>The root MSE for both Tenure and Salary increased</li>
+<li>Department accuracy increased slightly over the 1 in 4 random guessing that was used with mode imputation.</li>
+</ul>
+<p>Problems with Single Imputation</p>
+<ul>
+<li><p>All these examples have been methods of single imputation, in which one value is imputed for each missing value.</p></li>
+<li><p>Only having one value is understating the uncertainty of the true value and when we use single imputation, the imputed value will almost always be incorrect.</p></li>
+<li><p>Since we’re very uncertain about the true values, we should impute multiple times to correctly account for uncertainty.</p></li>
+</ul>
+</section>
+<section id="multiple-imputation" class="level4" data-number="5.7.3.2">
+<h4 data-number="5.7.3.2" class="anchored" data-anchor-id="multiple-imputation"><span class="header-section-number">5.7.3.2</span> Multiple Imputation</h4>
+<p>Execute another imputation technique (like KNN) <span class="math inline">\(m\)</span> times on randomly sampled subsets that don’t have missing values for the given column. This creates a set of possible values instead of just one. We then perform statistical analysis on each of the <span class="math inline">\(m\)</span> complete datasets and pool the results of the analysis.</p>
+<ul>
+<li>Can become computationally expensive for large datasets or large values of <span class="math inline">\(m\)</span>.</li>
+<li><span class="math inline">\(m\)</span> can take on any value. Common range is 20-100, but generally bigger is better.</li>
+</ul>
+<p>Multiple Imputation by Chained Equations (MICE)</p>
+<ul>
+<li>Step 1: A simple imputation, such as imputing the mean, is performed for every missing value in the dataset. These mean imputations can be thought of as “place holders.”</li>
+<li>Step 2: The “place holder” mean imputations for one variable (“var”) are set back to missing.</li>
+<li>Step 3: The observed values from the variable “var” in Step 2 are regressed on the other variables in the imputation model.</li>
+<li>Step 4: This process is repeated for each feature with missing values, then the entire process is repeated for a given number of iterations until the algorithm reaches convergence (imputed values yield similar results after each iteration).</li>
+<li>This forms 1 imputed dataset. We repeat this process <span class="math inline">\(m\)</span> times.</li>
+</ul>
+<p>Using statsmodels.imputation.mice</p>
+<ul>
+<li>We will be using the <code>MICEData</code> function from <code>statsmodels.imputation. mice</code> for multiple imputation.</li>
+<li><code>k_pmm</code>: This is the size of the sample used to perform predictive mean matching. Predictive mean matching is similar to KNN in that it uses similar rows to impute.</li>
+<li><code>perturbation_method</code>: Adds random noise to imputations to account for uncertainty. We use ‘gaussian’ for this because we are adding noise generated from a normal distribution.</li>
+</ul>
+<p>MI Example</p>
+<div id="4e2d10d7" class="cell" data-execution_count="64">
+<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.imputation.mice <span class="im">import</span> MICEData</span>
+<span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
+<span id="cb94-3"><a href="#cb94-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb94-4"><a href="#cb94-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> OrdinalEncoder</span>
+<span id="cb94-5"><a href="#cb94-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb94-6"><a href="#cb94-6" aria-hidden="true" tabindex="-1"></a><span class="co"># copying data and encode categorical variables</span></span>
+<span id="cb94-7"><a href="#cb94-7" aria-hidden="true" tabindex="-1"></a>df_mi <span class="op">=</span> df_missing.copy()</span>
+<span id="cb94-8"><a href="#cb94-8" aria-hidden="true" tabindex="-1"></a>encoder <span class="op">=</span> OrdinalEncoder(handle_unknown<span class="op">=</span><span class="st">'use_encoded_value'</span>, unknown_value<span class="op">=</span>np.nan)</span>
+<span id="cb94-9"><a href="#cb94-9" aria-hidden="true" tabindex="-1"></a>df_mi[[<span class="st">'Department'</span>, <span class="st">'Location'</span>]] <span class="op">=</span> encoder.fit_transform(df_mi[[<span class="st">'Department'</span>, <span class="st">'Location'</span>]]).astype(<span class="bu">int</span>)</span>
+<span id="cb94-10"><a href="#cb94-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb94-11"><a href="#cb94-11" aria-hidden="true" tabindex="-1"></a><span class="co"># performing Multiple Imputation</span></span>
+<span id="cb94-12"><a href="#cb94-12" aria-hidden="true" tabindex="-1"></a>mice_data <span class="op">=</span> MICEData(df_mi,k_pmm <span class="op">=</span> <span class="dv">30</span>, perturbation_method<span class="op">=</span><span class="st">'gaussian'</span>)</span>
+<span id="cb94-13"><a href="#cb94-13" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> <span class="dv">20</span>  <span class="co"># Number of imputed datasets</span></span>
+<span id="cb94-14"><a href="#cb94-14" aria-hidden="true" tabindex="-1"></a>imputed_datasets <span class="op">=</span> []</span>
+<span id="cb94-15"><a href="#cb94-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(m):</span>
+<span id="cb94-16"><a href="#cb94-16" aria-hidden="true" tabindex="-1"></a>    mice_data.update_all()  <span class="co"># Perform one imputation step</span></span>
+<span id="cb94-17"><a href="#cb94-17" aria-hidden="true" tabindex="-1"></a>    imputed_datasets.append(mice_data.data.copy())  <span class="co"># Store a copy of the imputed dataset</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/var/folders/cq/5ysgnwfn7c3g0h46xyzvpj800000gn/T/ipykernel_90324/3889701920.py:9: RuntimeWarning: invalid value encountered in cast</code></pre>
+</div>
+</div>
+<p>Pooling MI Results</p>
+<ul>
+<li><p>we have multiple regression models formed from multiple imputed datasets, but we need one final model.</p></li>
+<li><p>To achieve this, we pool the results using Rubin’s combination rules.</p></li>
+<li><p>For parameter estimates, we simply take the average.</p></li>
+<li><p>For within imputation variance, we take the average of variances.</p></li>
+<li><p>For between imputation variance, we use the equation given by:</p></li>
+</ul>
+<p><span class="math inline">\(b = \frac{1}{m - 1} \sum_{i = 1}^{m} (\theta_i - \hat{\theta})^2\)</span>.</p>
+<ul>
+<li>For pooled total variance of imputed datasets, we use the equation:</li>
+</ul>
+<p><span class="math inline">\(t = w + (1 + 1/m)*b\)</span>,</p>
+<p>where <span class="math inline">\(w\)</span> is the within imputation variance, <span class="math inline">\(b\)</span> is the between imputation variance, <span class="math inline">\(m\)</span> is the total number of imputed datasets, <span class="math inline">\(\theta\)</span> is a parameter estimate, and <span class="math inline">\(\hat{theta}\)</span> is our pooled parameter estimate.</p>
+<p>MI Results</p>
+<p>Here we fit a linear regression model to each of the 20 imputed dataframes.</p>
+<div id="305f6bb2" class="cell" data-execution_count="65">
+<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fitting regression models on imputed datasets one at a time</span></span>
+<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> [sm.OLS(df[<span class="st">'Salary'</span>], sm.add_constant(df[[<span class="st">'Department'</span>, <span class="st">'Location'</span>,<span class="st">'Tenure'</span>]])).fit() <span class="cf">for</span> df <span class="kw">in</span> imputed_datasets]</span>
+<span id="cb96-3"><a href="#cb96-3" aria-hidden="true" tabindex="-1"></a><span class="co"># pooling estimates using Rubin's Rules (shown above)</span></span>
+<span id="cb96-4"><a href="#cb96-4" aria-hidden="true" tabindex="-1"></a>params <span class="op">=</span> np.array([res.params <span class="cf">for</span> res <span class="kw">in</span> results])</span>
+<span id="cb96-5"><a href="#cb96-5" aria-hidden="true" tabindex="-1"></a>bse <span class="op">=</span> np.array([res.bse <span class="cf">for</span> res <span class="kw">in</span> results])</span>
+<span id="cb96-6"><a href="#cb96-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb96-7"><a href="#cb96-7" aria-hidden="true" tabindex="-1"></a>pooled_means <span class="op">=</span> params.mean(axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb96-8"><a href="#cb96-8" aria-hidden="true" tabindex="-1"></a>pooled_se <span class="op">=</span> np.sqrt(bse.mean(axis<span class="op">=</span><span class="dv">0</span>) <span class="op">+</span> ((<span class="dv">1</span> <span class="op">+</span> <span class="dv">1</span><span class="op">/</span>m) <span class="op">*</span> params.var(axis<span class="op">=</span><span class="dv">0</span>, ddof<span class="op">=</span><span class="dv">1</span>)))</span>
+<span id="cb96-9"><a href="#cb96-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Pooled Coefficients:</span><span class="ch">\n</span><span class="st">"</span>, pooled_means)</span>
+<span id="cb96-10"><a href="#cb96-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Pooled Standard Errors:</span><span class="ch">\n</span><span class="st">"</span>, pooled_se)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Pooled Coefficients:
+ [ 1.48366491e-33 -7.17518361e-15  7.38865124e-34  2.46007132e-32]
+
+Pooled Standard Errors:
+ [5.26793854e-18 1.15848202e-08 3.71753761e-18 2.14508949e-17]</code></pre>
+</div>
+</div>
+<p>The first coefficient/se is for the intercept.</p>
+</section>
+</section>
+<section id="conclusions" class="level3" data-number="5.7.4">
+<h3 data-number="5.7.4" class="anchored" data-anchor-id="conclusions"><span class="header-section-number">5.7.4</span> Conclusions</h3>
+<ul>
+<li>Not everything needs to be imputed, we need to consider the context of the data. If we suspect that the missing data is MNAR, we do not impute.</li>
+<li>Need to weigh computational cost with accuracy. Multiple imputation can be difficult on large datasets.</li>
+<li>Overall, multiple imputation is a safe bet.</li>
+</ul>
+<p>Imputing in R:</p>
+<p>These examples were all done in python, because that is the language we’ve used for this class. However, R has much more sophisticated packages and functions for imputing. Specifically the <code>mice</code> package in R has plenty of options for multiple imputation, with a lot of documentation available.</p>
+<p>I would recommend checking this out!</p>
+</section>
+<section id="further-readings-1" class="level3" data-number="5.7.5">
+<h3 data-number="5.7.5" class="anchored" data-anchor-id="further-readings-1"><span class="header-section-number">5.7.5</span> Further Readings</h3>
+<ul>
+<li><a href="https://real-statistics.com/%20handling-missing-data/multiple-imputation-mi/%20combining-multiple-imputations/">Combining Multiple Imputations</a></li>
+<li><a href="https://pmc.ncbi.nlm.nih.%20gov/articles/PMC3074241/">Multiple Imputation by Chained Equations</a></li>
+<li><a href="https://www.statsmodels.org/dev/%20generated/statsmodels.imputation.mice.MICEData.html">statsmodels.imputation.mice</a></li>
+</ul>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
