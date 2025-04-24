@@ -33,6 +33,7 @@ folium==0.19.5
 fonttools==4.55.3
 fqdn==1.5.1
 free_proxy==1.1.3
+gapstatistics==0.1.5
 geographiclib==2.0
 geopandas==1.0.1
 geopy==2.4.1
