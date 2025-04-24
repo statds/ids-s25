@@ -1,0 +1,235 @@
+## Why NetCDF?
+
+NetCDF (Network Common Data Format) is a widely used format for storing array-based scientific data.
+Especially in fields like climate science, oceanography, and atmospheric modeling.
+
+NetCDF is a machine-independent data format for array-oriented scientific data.
+It was developed by the Unidata Program Center under UCAR in Boulder, Colorado.
+NetCDF provides a data model, a library, and a portable format for managing large scientific datasets.
+
+### What is NetCDF?
+
+NetCDF stands for the Network Common Data Format.
+It was developed to manage array-oriented scientific data.
+This includes a data model, a software library, and a portable file format
+
+### History of NetCDF
+
+In the 1980s, researchers lacked a standard, portable data format.
+This was because scientific software was rarely reused across disciplines.
+To solve this and influenced by NASA's Common Data Format (CDF).
+Glen David created the first NetCDF prototype in 1988.
+
+### Key Features of NetCDF Files
+
+Some key features of NetCDF files include:
+
+- Self-Describing: Metadata stored with data
+- Portable: Works across platforms and languages
+- Scalable: Fast access to data subsets
+- Appendable: Add data without rewriting the file
+- Sharable: Multiple readers, one writer
+- Archivable: Maintains backward compatibility
+
+
+### Why Use NetCDF?
+
+NetCDF files addresse challenges in scientific data storage.
+Such as high dimensionality, platform compativility, and metadata integration.
+This makes NetCDF files ideal for many scientific displicenes.
+These include climate modeling and large-scale simulations across disciplanes.
+Really, any scientific data requiring scalability and performance
+
+## NetCDF Structure
+
+
+### NetCDF Classic Data Model
+
+The class NetCDF data model includes:
+
+- Dimensions: Define shape of data (e.g., time, lat, lon)
+- Variables: Store multi-dimensional data arrays
+- Attributes: Metadata for variables or the entire file
+- Data Types: Specify data precision and storage
+
+
+### NetCDF Data Storage: Multidimensionality
+
+The NetCDF files can contain many dimensions as discussed eariler. 
+A 3D array could be a time-sereies of 2D arrays.
+A 4D array adds a 'stack'of 2D arrays across a time-sereies.
+And this can go up significantly and also store higher dimensions.
+THis of course depends on the type of data and what the intention of the data is for.
+
+An example:
+```none
+Temperature(time, altitude, latitude, longitude)
+```
+
+### Languages Supported
+
+There are a few lanagues that can be support.
+The core API's maintained by Unidata are C, C++, Fortran, and Java.
+However many community packages exist and can be quite extensive. 
+These include Python (with xarray and netCDF4 packages), R, MATLAB, Ruby, and Julia.
+
+
+## Using NetCDF Data
+
+### Common Tools
+
+Some common command line tools for NetCDF data within linus included below. 
+
+- `ncdump`: Convert binary to human-readable header format
+- `ncgen`: Convert text to binary
+- `ncview`: Simple GUI preview (requires XQuartz)
+- `NCO` / `CDO`: Command-line tools for NetCDF data and processing climate data
+- `xarray`: Python library for NetCDF data
+
+### XQuartz
+
+Using a command to view NetCDF data below.
+
+Command:
+```bash
+ncview netcdf_file.nc
+```
+
+As long as you have XQuartz installed, it will launch to let you view your data spatially.
+XQuartz enables basic graphical display.
+It is a simple ways to visualize your data through remote rendering.
+
+### Common NCO Usage
+
+SOme common NCO command line usage are listed below. 
+
+- `ncks`: Extract, append, or subset data  
+  - `-v`: extract variable  
+  - `-A`: append data  
+  - Example:
+    ```bash
+    ncks -A -v variable name.TS.nc new_NetCDF_withTS.nc
+    ```
+
+- `ncrename`: Rename variables/dimensions  
+  - `-v`: rename variable    
+  - `-O`: overwrite  
+  - Example:
+    ```bash
+    ncrename -O -v TS,ts name.TS.nc name.ts.nc
+    ```
+
+- `ncap2`: Modify or create variables  
+  - `-s`: script string  
+  - Example:
+    ```bash
+    ncap2 -O -s 'ts=double(ts)' name.ts.nc name.ts.nc
+    ```
+
+- `ncrcat`: Concatenate files along a dimension
+
+
+### Python with xarray Example
+
+A python example using NetCDF files will be done as an example.
+Here we will import NetCDF data from a data base.
+We will retrieve piControl data for a TOA radiaitve imbalance calculation. 
+Then, calculate piControl Radiative Imbalance
+Lastly we will then calculate the weighted global average. 
+
+
+$\textbf{Code Example:}$
+
+```{python}
+import numpy as np
+import xarray as xr
+
+rsdt_pi_url = "http://aims3.llnl.gov/thredds/dodsC/css03_data/CMIP6/CMIP/NCAR/CESM2/piControl/r1i1p1f1/Amon/rsdt/gn/v20190320/rsdt_Amon_CESM2_piControl_r1i1p1f1_gn_000101-009912.nc"
+rsut_pi_url = "http://aims3.llnl.gov/thredds/dodsC/css03_data/CMIP6/CMIP/NCAR/CESM2/piControl/r1i1p1f1/Amon/rsut/gn/v20190320/rsut_Amon_CESM2_piControl_r1i1p1f1_gn_000101-009912.nc"
+rlut_pi_url = "http://aims3.llnl.gov/thredds/dodsC/css03_data/CMIP6/CMIP/NCAR/CESM2/piControl/r1i1p1f1/Amon/rlut/gn/v20190320/rlut_Amon_CESM2_piControl_r1i1p1f1_gn_000101-009912.nc"
+
+# load the dataset from url's
+rsdt_ds = xr.open_dataset(rsdt_pi_url, engine='netcdf4') 
+rsut_ds = xr.open_dataset(rsut_pi_url, engine='netcdf4') 
+rlut_ds = xr.open_dataset(rlut_pi_url, engine='netcdf4') 
+print(rsdt_ds) # prints header: like ncdump -h file.nc
+```
+Data provided: [@cmip6cesm2]
+
+This loads the data from URL climate database with xarray. 
+The data is:
+
+1. rsdt: Incoming shortwave (UV, visible light, etc) from the Sun to the Earth.
+2. rsut: Reflected shortwave from the Earth's albedo (clouds, ice, etc) back to space.
+3. rlut: Outgoing longwave (infared radiation) from the Earth to space.
+
+```{python}
+# Net Flux = SW_incoming - SW_reflected - LW_outgoing
+F_net = rsdt_ds['rsdt'] - rsut_ds['rsut'] - rlut_ds['rlut']
+F_net = F_net.mean(dim='time') # average time dimension
+print(F_net.shape, F_net.dims)
+```
+
+Here we calculate the net radiative flux.
+This is by taking the total incoming radiaitve flux and subtracting the total outgoing flux.
+The time dimension is averaged out.
+This makes the net Flux only dependent on Latitude and Longitude.
+
+```{python}
+weights = np.cos(np.deg2rad(F_net.lat))  # lateral weights
+weights.name = "weights"
+F_net_global = F_net.weighted(weights).mean(("lat", "lon")) # weighted average
+print(f' Global mean net TOA flux: {F_net_global.values} W/m²')
+```
+Here the latitude and longitude are averaged out just like the time dimension.
+However, a weighted average is used over latitude.
+This accounts for the spatial difference from the poles to the equator.
+The net flux is reduced from a 3D variiable to 0D.
+A single averaged value.
+This shows the radiaitve balance--the amount of energy in the climate system. 
+
+```{python}
+import matplotlib.pyplot as plt
+import cartopy.crs as ccrs
+import cartopy.feature as cfeature
+plt.figure(figsize=(10, 5))
+ax = plt.axes(projection=ccrs.PlateCarree())
+F_net.plot(ax=ax, transform=ccrs.PlateCarree(), cmap='bwr', cbar_kwargs={'label': 'Net TOA Flux (W/m²)'})
+ax.coastlines()
+ax.add_feature(cfeature.BORDERS, linestyle=':')
+ax.set_title("Net TOA Radiative Flux")
+plt.show()
+```
+
+Before the 2D to 0D globalmean average happens we can take the spatial distribution. 
+This plots 'F_net' on a geospatial map using cartopy.
+
+Therefore this code:
+
+1. Shows global mean net TOA flux: 0.732 W/$\text{m}^2$
+2. Shows a base geospatial plot of the net TOA flux
+
+
+## NetCDF Summary and Use
+
+### NetCDF in the Scientific Community
+
+- Used by 1300+ institutions globally
+- Organizations:
+  - NASA, NOAA, DOE, NCAR, etc
+  - Universities and research labs
+  - Meteorological and oceanographic centers
+
+### Summary
+
+- NetCDF is a powerful standard for managing scientific data.
+- Supported by a global community.
+- Ideal for complex, multidimensional, time-evolving datasets.
+
+
+### References and Further Reading
+
+- [@esri](https://pro.arcgis.com/en/pro-app/latest/help/data/multidimensional/fundamentals-of-netcdf-data-storage.htm)
+- [@unidata2021](https://docs.unidata.ucar.edu/nug/2.0-draft/enhanced_data_model.html)
+- [@cmip6cesm2](https://aims2.llnl.gov/search/cmip6/?mip_era=CMIP6&activity_id=CMIP&institution_id=NCAR&source_id=CESM2-FV2&experiment_id=piControl)
+
