@@ -426,3 +426,5 @@ By tuning the number of knots or other model parameters, we can
 achieve a model that strikes the right balance, capturing the true
 patterns in the data without fitting the noise.
 
+<!-- Adding neural network information -->
+{{< include _neural_network_basics.qmd >}}
