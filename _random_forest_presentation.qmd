@@ -3,7 +3,7 @@
 This section was prepared by Gaofei Zhang. 
 I am a second year PhD student in Health Promotion Science. 
 
-### Welcome to our presentation on **Random Forest**
+### Welcome to our presentation on Random Forest
 
 In today's talk, we will explore what Random Forest is, why it matters,
 and how to apply it to real-world data.
@@ -22,47 +22,47 @@ regression tasks due to its robustness and interpretability.
 
 ### Conceptual Foundations
 
-**1. Bootstrap Aggregating (Bagging)**
+1. Bootstrap Aggregating (Bagging)
 - For each tree, sample the training set with replacement (bootstrapping).
 - This creates diverse datasets so trees are uncorrelated.
 
-**2. Random Feature Selection**
+2. Random Feature Selection
 - At each node, select a random subset of features when splitting.
 - This further decorrelates trees, reducing variance.
 
-**3. Aggregation of Predictions**
-- **Classification**: each tree votes; the majority class wins.
-- **Regression**: average the outputs of all trees.
+3. Aggregation of Predictions
+- Classification: each tree votes; the majority class wins.
+- Regression: average the outputs of all trees.
 
-**Advantages**
+Advantages
 - Reduces overfitting compared to single trees.  
 - Provides feature importance metrics.  
 - Handles both numerical and categorical data well.
 
-**Limitations**
+Limitations
 - Computationally intensive for large forests.  
 - Model size can be large, affecting memory usage.
 
 #### Random Forest Principles
 
-- **Ensemble Method**: Combines many decision trees.
-- **Randomness**:  
+- Ensemble Method: Combines many decision trees.
+- Randomness:  
   - *Bootstrap Sampling*: Each tree is trained on a random sample (with 
     replacement) of the dataset.
   - *Random Feature Selection*: At each split, only a subset of features is considered.
-- **Voting/Averaging**: For classification, predictions are made by majority vote.
+- Voting/Averaging: For classification, predictions are made by majority vote.
 
 
 #### Parameter Tuning
 
-- **Key Parameters**:  
+- Key Parameters:  
   - `n_estimators`: Number of trees in the forest.  
   - `max_depth`: Maximum depth of each tree.  
   - `max_features`: Number of features to consider when looking for the best 
     split.
-- **Tuning Process**:  
+- Tuning Process:  
   Using methods like GridSearchCV, one can search for the optimal combination of these parameters to improve performance.
-- **Justification**:  
+- Justification:  
   Tuning these parameters can further reduce overfitting, improve generalization, 
   and provide better insight into feature contributions.
 
@@ -106,8 +106,8 @@ def preprocess_data(path):
 df = preprocess_data(csv_file)
 ```
 #### Result Explanation
-- **Data shape** (1876, 30) – 1876 rows and 30 columns.
-- **First 5 rows** show sample records.
+- Data shape (1876, 30) – 1876 rows and 30 columns.
+- First 5 rows show sample records.
 
 
 ### 2. Feature Engineering & Train/Test Split
@@ -291,13 +291,15 @@ Feature Importances:\
   
 ### 5. Summary & Further Reading
 
-- **Key takeaways**: Random Forest reduces variance by bagging and random
+- Key takeaways: Random Forest reduces variance by bagging and random
   feature selection.  
-- **Important features**: `LATITUDE`, `LONGITUDE`, and `CRASH HOUR`.  
+- Important features: `LATITUDE`, `LONGITUDE`, and `CRASH HOUR`.  
 
-**Further Reading:**  
-1. Breiman, L. (2001). _Random Forests_.  
-2. Scikit-learn docs: `RandomForestRegressor`.  
-3. Quarto docs for reproducibility.  
+### Further Readings:
+
+* [Random forests](@Breiman2001RandomForests)   
+* [Scikit-learn: RandomForestRegressor](@ScikitLearnRandomForestRegressor)   
+* [Quarto docs for reproducibility](@QuartoDocsReproducibility) 
+ 
 
 — End of section —
