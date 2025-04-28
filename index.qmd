@@ -296,7 +296,10 @@ your scheduled presentation. Here are some example tasks:
 + Random forest
 + Gradient boosting machine
 + Naive Bayes
-+ Neural networks
++ Neural networks basics
++ MLP/ANN/CNN/RNN/LSTM
++ Uniform manifold approximation and projection 
++ Automatic differentiation
 + Deep learning
 + TensorFlow
 + Autoencoders
