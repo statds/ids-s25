@@ -54,7 +54,27 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -283,6 +303,15 @@ window.Quarto = {
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">10.3.5</span> Summary</a></li>
   <li><a href="#further-readings" id="toc-further-readings" class="nav-link" data-scroll-target="#further-readings"><span class="header-section-number">10.3.6</span> Further Readings</a></li>
   </ul></li>
+  <li><a href="#choosing-the-optimal-number-of-clusters" id="toc-choosing-the-optimal-number-of-clusters" class="nav-link" data-scroll-target="#choosing-the-optimal-number-of-clusters"><span class="header-section-number">10.4</span> Choosing the Optimal Number of Clusters</a>
+  <ul class="collapse">
+  <li><a href="#why-clustering-what-is-it" id="toc-why-clustering-what-is-it" class="nav-link" data-scroll-target="#why-clustering-what-is-it"><span class="header-section-number">10.4.1</span> Why Clustering? What is it?</a></li>
+  <li><a href="#how-to-measure-the-quality-of-clustering-outcome" id="toc-how-to-measure-the-quality-of-clustering-outcome" class="nav-link" data-scroll-target="#how-to-measure-the-quality-of-clustering-outcome"><span class="header-section-number">10.4.2</span> How to measure the quality of clustering outcome</a></li>
+  <li><a href="#clustering-algorithms" id="toc-clustering-algorithms" class="nav-link" data-scroll-target="#clustering-algorithms"><span class="header-section-number">10.4.3</span> Clustering Algorithms</a></li>
+  <li><a href="#methods-for-selecting-the-optimal-number-of-clusters" id="toc-methods-for-selecting-the-optimal-number-of-clusters" class="nav-link" data-scroll-target="#methods-for-selecting-the-optimal-number-of-clusters"><span class="header-section-number">10.4.4</span> Methods for selecting the optimal number of clusters</a></li>
+  <li><a href="#conclusions" id="toc-conclusions" class="nav-link" data-scroll-target="#conclusions"><span class="header-section-number">10.4.5</span> Conclusions</a></li>
+  <li><a href="#further-readings-1" id="toc-further-readings-1" class="nav-link" data-scroll-target="#further-readings-1"><span class="header-section-number">10.4.6</span> Further Readings</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -337,21 +366,21 @@ window.Quarto = {
 <section id="example-iris-data" class="level3" data-number="10.1.2">
 <h3 data-number="10.1.2" class="anchored" data-anchor-id="example-iris-data"><span class="header-section-number">10.1.2</span> Example: Iris Data</h3>
 <p>K-means clustering can be implemented using the <code>scikit-learn</code> library. Below, we apply it to the Iris dataset.</p>
-<div id="d808f6b7" class="cell" data-execution_count="1">
+<div id="0cef963c" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn <span class="im">import</span> datasets</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="886b8aa3" class="cell" data-execution_count="2">
+<div id="bc92d4a6" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the Iris dataset</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>iris <span class="op">=</span> datasets.load_iris()</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> iris.data[:, :<span class="dv">2</span>]  <span class="co"># Using only two features</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> iris.target</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We visualize the observations based on their true species labels.</p>
-<div id="50f87c14" class="cell" data-execution_count="3">
+<div id="c29b827c" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Scatter plot of true species labels</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>scatter <span class="op">=</span> ax.scatter(X[:, <span class="dv">0</span>], X[:, <span class="dv">1</span>], c<span class="op">=</span>y,</span>
@@ -371,7 +400,7 @@ window.Quarto = {
 </div>
 </div>
 <p>Now, we apply K-means clustering to the data.</p>
-<div id="831b30ef" class="cell" data-execution_count="4">
+<div id="9b8431da" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Train K-means model</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>Kmean <span class="op">=</span> KMeans(n_clusters<span class="op">=</span><span class="dv">3</span>, init<span class="op">=</span><span class="st">'k-means++'</span>,</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>               n_init<span class="op">=</span><span class="dv">10</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
@@ -797,7 +826,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 </div>
 <p>Several parameters can be adjusted for better performance. See: &lt;https://scikit-learn.org/stable/modules/generated/ sklearn.cluster.KMeans.html&gt;</p>
 <p>K-means provides cluster centroids, representing the center of each cluster.</p>
-<div id="f733b759" class="cell" data-execution_count="5">
+<div id="c198b1b8" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Print predicted cluster centers</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Cluster Centers:"</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(Kmean.cluster_centers_)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -809,7 +838,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 </div>
 </div>
 <p>We plot the centroids along with clustered points.</p>
-<div id="20c0b2a4" class="cell" data-execution_count="6">
+<div id="d59c8781" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot centroids on the scatter plot</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>ax.scatter(X[:, <span class="dv">0</span>], X[:, <span class="dv">1</span>], c<span class="op">=</span>Kmean.labels_,</span>
@@ -834,7 +863,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 <section id="comparing-true-and-predicted-labels" class="level4" data-number="10.1.2.1">
 <h4 data-number="10.1.2.1" class="anchored" data-anchor-id="comparing-true-and-predicted-labels"><span class="header-section-number">10.1.2.1</span> Comparing True and Predicted Labels</h4>
 <p>By plotting the results side by side, we can see how well K-means clustering approximates the true labels.</p>
-<div id="1de8c143" class="cell" data-execution_count="7">
+<div id="f8fb491e" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare true vs. predicted labels</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>fig, axs <span class="op">=</span> plt.subplots(ncols<span class="op">=</span><span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">5</span>),</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>                        constrained_layout<span class="op">=</span><span class="va">True</span>)</span>
@@ -873,7 +902,7 @@ div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
 <section id="making-predictions-on-new-data" class="level3" data-number="10.1.3">
 <h3 data-number="10.1.3" class="anchored" data-anchor-id="making-predictions-on-new-data"><span class="header-section-number">10.1.3</span> Making Predictions on New Data</h3>
 <p>Once trained, the model can classify new data points.</p>
-<div id="4acfb865" class="cell" data-execution_count="8">
+<div id="37f4e71c" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample test data points</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>sample_test <span class="op">=</span> np.array([[<span class="dv">3</span>, <span class="dv">4</span>], [<span class="dv">7</span>, <span class="dv">4</span>]])</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -934,7 +963,7 @@ q_{ij} = \frac{\bigl(1 + \| y_i - y_j \|^2 \bigr)^{-1}}{\sum_{k \neq l} \bigl(1 
 <section id="demonstration-with-a-subset-of-the-nist-digits-data" class="level3" data-number="10.2.4">
 <h3 data-number="10.2.4" class="anchored" data-anchor-id="demonstration-with-a-subset-of-the-nist-digits-data"><span class="header-section-number">10.2.4</span> Demonstration with a Subset of the NIST Digits Data</h3>
 <p>Below is a brief example in Python using t-SNE on a small subset of the MNIST digits (which is itself a curated subset of the original NIST data).</p>
-<div id="79d5b434" class="cell" data-execution_count="9">
+<div id="fbc6eca1" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> fetch_openml</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.manifold <span class="im">import</span> TSNE</span>
@@ -995,7 +1024,7 @@ q_{ij} = \frac{\bigl(1 + \| y_i - y_j \|^2 \bigr)^{-1}}{\sum_{k \neq l} \bigl(1 
 <section id="curse-of-dimensionality" class="level4" data-number="10.3.1.1">
 <h4 data-number="10.3.1.1" class="anchored" data-anchor-id="curse-of-dimensionality"><span class="header-section-number">10.3.1.1</span> Curse of Dimensionality</h4>
 <p>The Euclidean distance between data points, which we represent as vectors, shrinks with the number of dimensions. To demonstrate this, let’s generate 10,000 vectors of n dimensions each, where n ranges from 2 to 50, with integer entries ranging from -100 to 100. By selecting a random vector, Q, of the same dimension, we can calculate the Euclidean distance of Q to each of these 10,000 vectors. The plot below shows the logarithm, to the base 10, of difference between the maximum and minimum distances divided by the minimum distance as a function of the number of dimensions.</p>
-<div id="11e5d886" class="cell" data-execution_count="10">
+<div id="bb527c9a" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#import libraries</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -1040,16 +1069,10 @@ q_{ij} = \frac{\bigl(1 + \| y_i - y_j \|^2 \bigr)^{-1}}{\sum_{k \neq l} \bigl(1 
 <span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a>ax.yaxis.set_minor_locator(AutoMinorLocator())</span>
 <span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>/var/folders/cq/5ysgnwfn7c3g0h46xyzvpj800000gn/T/ipykernel_88765/2366423172.py:31: RuntimeWarning:
-
-divide by zero encountered in scalar divide
-</code></pre>
-</div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="unsupervised_files/figure-html/cell-11-output-2.png" width="589" height="429" class="figure-img"></p>
+<p><img src="unsupervised_files/figure-html/cell-11-output-1.png" width="589" height="429" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1059,51 +1082,51 @@ divide by zero encountered in scalar divide
 <section id="intuition" class="level3" data-number="10.3.2">
 <h3 data-number="10.3.2" class="anchored" data-anchor-id="intuition"><span class="header-section-number">10.3.2</span> Intuition</h3>
 <p>We aim to find orthogonal directions of maximum variance in data. Directions with sufficiently low variance in the data can be removed.</p>
-<div id="9788a114" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.RandomState(<span class="dv">0</span>)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>n_samples <span class="op">=</span> <span class="dv">200</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co">#generate a 2D dataset with 200 entries from </span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co">#a multivariate normal distribution</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co">#with covariances [[3, 3], [3, 4]]</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">#and mean [0, 0]</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> rng.multivariate_normal(mean<span class="op">=</span>[<span class="dv">0</span>,<span class="dv">0</span>], <span class="op">\</span></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>cov<span class="op">=</span>[[<span class="dv">3</span>, <span class="dv">3</span>], [<span class="dv">3</span>, <span class="dv">4</span>]], size<span class="op">=</span>n_samples)</span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co">#perform PCA on the generated data to find </span></span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="co">#the two principal components</span></span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>pca <span class="op">=</span> PCA(n_components<span class="op">=</span><span class="dv">2</span>).fit(X)</span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="co">#plot the generated data wih label 'Data'</span></span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>plt.scatter(X[:,<span class="dv">0</span>], X[:,<span class="dv">1</span>], label <span class="op">=</span> <span class="st">'Data'</span>)</span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="co">#plot the first principal component scaled by </span></span>
-<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="co">#its explained variance</span></span>
-<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="co">#set color, linewidth and label</span></span>
-<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>first_principal_cpt_explained_var <span class="op">=</span> pca.explained_variance_[<span class="dv">0</span>]</span>
-<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>first_principal_cpt <span class="op">=</span> [[<span class="dv">0</span>, pca.components_[<span class="dv">0</span>][<span class="dv">0</span>]<span class="op">*</span>first_principal_cpt_explained_var] <span class="op">\</span></span>
-<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>, [<span class="dv">0</span>, pca.components_[<span class="dv">0</span>][<span class="dv">1</span>]<span class="op">*</span>first_principal_cpt_explained_var]]</span>
-<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>plt.plot(first_principal_cpt[<span class="dv">0</span>], first_principal_cpt[<span class="dv">1</span>] <span class="op">\</span></span>
-<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>, color<span class="op">=</span><span class="st">'green'</span>, linewidth<span class="op">=</span><span class="dv">5</span> <span class="op">\</span></span>
-<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>, label <span class="op">=</span> <span class="vs">r'First Principal Component ($p_1$)'</span>)</span>
-<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a><span class="co">#plot the second principal component scaled by </span></span>
-<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a><span class="co">#its explained variance</span></span>
-<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a><span class="co">#set color, linewidth and label</span></span>
-<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>second_principal_cpt_explained_var <span class="op">=</span> pca.explained_variance_[<span class="dv">1</span>]</span>
-<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>second_principal_cpt <span class="op">=</span> [[<span class="dv">0</span>, pca.components_[<span class="dv">1</span>][<span class="dv">0</span>]<span class="op">*</span>second_principal_cpt_explained_var] <span class="op">\</span></span>
-<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a>, [<span class="dv">0</span>, pca.components_[<span class="dv">1</span>][<span class="dv">1</span>]<span class="op">*</span>second_principal_cpt_explained_var]]</span>
-<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a>plt.plot(second_principal_cpt[<span class="dv">0</span>],  second_principal_cpt[<span class="dv">1</span>] <span class="op">\</span></span>
-<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a>, color<span class="op">=</span><span class="st">'red'</span>, linewidth<span class="op">=</span><span class="dv">5</span> <span class="op">\</span></span>
-<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a>, label <span class="op">=</span> <span class="vs">r'Second Principal Component ($p_2$)'</span>)</span>
-<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">""</span>)</span>
-<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"First Feature"</span>, loc <span class="op">=</span> <span class="st">'right'</span>, fontsize <span class="op">=</span> <span class="dv">10</span>)</span>
-<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Second Feature"</span>, loc <span class="op">=</span> <span class="st">'top'</span>, fontsize <span class="op">=</span> <span class="dv">10</span>)</span>
-<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
-<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="632a1094" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.RandomState(<span class="dv">0</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>n_samples <span class="op">=</span> <span class="dv">200</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co">#generate a 2D dataset with 200 entries from </span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co">#a multivariate normal distribution</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co">#with covariances [[3, 3], [3, 4]]</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co">#and mean [0, 0]</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> rng.multivariate_normal(mean<span class="op">=</span>[<span class="dv">0</span>,<span class="dv">0</span>], <span class="op">\</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>cov<span class="op">=</span>[[<span class="dv">3</span>, <span class="dv">3</span>], [<span class="dv">3</span>, <span class="dv">4</span>]], size<span class="op">=</span>n_samples)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="co">#perform PCA on the generated data to find </span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="co">#the two principal components</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>pca <span class="op">=</span> PCA(n_components<span class="op">=</span><span class="dv">2</span>).fit(X)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="co">#plot the generated data wih label 'Data'</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>plt.scatter(X[:,<span class="dv">0</span>], X[:,<span class="dv">1</span>], label <span class="op">=</span> <span class="st">'Data'</span>)</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="co">#plot the first principal component scaled by </span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="co">#its explained variance</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="co">#set color, linewidth and label</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>first_principal_cpt_explained_var <span class="op">=</span> pca.explained_variance_[<span class="dv">0</span>]</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>first_principal_cpt <span class="op">=</span> [[<span class="dv">0</span>, pca.components_[<span class="dv">0</span>][<span class="dv">0</span>]<span class="op">*</span>first_principal_cpt_explained_var] <span class="op">\</span></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>, [<span class="dv">0</span>, pca.components_[<span class="dv">0</span>][<span class="dv">1</span>]<span class="op">*</span>first_principal_cpt_explained_var]]</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>plt.plot(first_principal_cpt[<span class="dv">0</span>], first_principal_cpt[<span class="dv">1</span>] <span class="op">\</span></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>, color<span class="op">=</span><span class="st">'green'</span>, linewidth<span class="op">=</span><span class="dv">5</span> <span class="op">\</span></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>, label <span class="op">=</span> <span class="vs">r'First Principal Component ($p_1$)'</span>)</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a><span class="co">#plot the second principal component scaled by </span></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a><span class="co">#its explained variance</span></span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a><span class="co">#set color, linewidth and label</span></span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>second_principal_cpt_explained_var <span class="op">=</span> pca.explained_variance_[<span class="dv">1</span>]</span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>second_principal_cpt <span class="op">=</span> [[<span class="dv">0</span>, pca.components_[<span class="dv">1</span>][<span class="dv">0</span>]<span class="op">*</span>second_principal_cpt_explained_var] <span class="op">\</span></span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>, [<span class="dv">0</span>, pca.components_[<span class="dv">1</span>][<span class="dv">1</span>]<span class="op">*</span>second_principal_cpt_explained_var]]</span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>plt.plot(second_principal_cpt[<span class="dv">0</span>],  second_principal_cpt[<span class="dv">1</span>] <span class="op">\</span></span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>, color<span class="op">=</span><span class="st">'red'</span>, linewidth<span class="op">=</span><span class="dv">5</span> <span class="op">\</span></span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>, label <span class="op">=</span> <span class="vs">r'Second Principal Component ($p_2$)'</span>)</span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">""</span>)</span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"First Feature"</span>, loc <span class="op">=</span> <span class="st">'right'</span>, fontsize <span class="op">=</span> <span class="dv">10</span>)</span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Second Feature"</span>, loc <span class="op">=</span> <span class="st">'top'</span>, fontsize <span class="op">=</span> <span class="dv">10</span>)</span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1177,48 +1200,48 @@ x_m^{T} \frac{p}{||p||}
 <section id="pca-with-and-without-scaling" class="level3" data-number="10.3.4">
 <h3 data-number="10.3.4" class="anchored" data-anchor-id="pca-with-and-without-scaling"><span class="header-section-number">10.3.4</span> PCA With and Without Scaling</h3>
 <p>For proper implementation of PCA, data must be scaled. To demonstrate this, we generate a dataset with the first 4 features selected from a normal distribution with mean 0 and standard deviation 1. We then append a fifth feature drawn from a uniform distribution with integer entries ranging from 1 to 10. The plot of the projection of the data onto first principal component versus the projection onto the second principal component does not show the expected noise structure unless the data is scaled.</p>
-<div id="180a3bb0" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co">#generate a feature of size 10,000 with integer entries </span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co">#ranging from 1 to 10</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>feature <span class="op">=</span> np.random.randint(<span class="dv">1</span>, <span class="dv">10</span>, <span class="dv">10000</span>)</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">10000</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>P <span class="op">=</span> <span class="dv">4</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="co">#generate a 4D dataset drawn from a normal distribution of 10,000 entries</span></span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="co">#then append the feature to X, making it a 5D dataset</span></span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.random.normal(size<span class="op">=</span>[N,P])</span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.append(X, feature.reshape(<span class="dv">10000</span>,<span class="dv">1</span>), axis <span class="op">=</span> <span class="dv">1</span>)</span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="co">#perform PCA with 2 components on the dataset without scaling</span></span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>pca <span class="op">=</span> PCA(<span class="dv">2</span>)</span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>pca_no_scale <span class="op">=</span> pca.fit_transform(X)</span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="co">#plot the projection of the data onto the first principal</span></span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a><span class="co">#component versus the projection onto </span></span>
-<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="co">#the second principal component</span></span>
-<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>plt.scatter(pca_no_scale[:,<span class="dv">0</span>], pca_no_scale[:,<span class="dv">1</span>])</span>
-<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"PCA without Scaling"</span>)</span>
-<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Principal Component 1"</span>, loc <span class="op">=</span> <span class="st">'right'</span>, fontsize <span class="op">=</span> <span class="dv">10</span>)</span>
-<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Principal Component 2"</span>, loc <span class="op">=</span> <span class="st">'top'</span>, fontsize <span class="op">=</span> <span class="dv">10</span>)</span>
-<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a><span class="co">#scale data, mean-center and divide by the standard deviation</span></span>
-<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>Xn <span class="op">=</span> scale(X)</span>
-<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a><span class="co">#perform PCA with 2 components on the scaled data</span></span>
-<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>pca <span class="op">=</span> PCA(<span class="dv">2</span>)</span>
-<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>pca_scale <span class="op">=</span> pca.fit_transform(Xn)</span>
-<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a><span class="co">#plot the projection of the data onto the first principal </span></span>
-<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a><span class="co">#component versus the projection onto</span></span>
-<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a><span class="co">#the second principal component</span></span>
-<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a>plt.scatter(pca_scale[:,<span class="dv">0</span>], pca_scale[:,<span class="dv">1</span>])</span>
-<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"PCA with Scaling"</span>)</span>
-<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Principal Component 1"</span>, loc <span class="op">=</span> <span class="st">'right'</span>, fontsize <span class="op">=</span> <span class="dv">10</span>)</span>
-<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Principal Component 2"</span>, loc <span class="op">=</span> <span class="st">'top'</span>, fontsize <span class="op">=</span> <span class="dv">10</span>)</span>
-<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="4d6e3826" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co">#generate a feature of size 10,000 with integer entries </span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co">#ranging from 1 to 10</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>feature <span class="op">=</span> np.random.randint(<span class="dv">1</span>, <span class="dv">10</span>, <span class="dv">10000</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">10000</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>P <span class="op">=</span> <span class="dv">4</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co">#generate a 4D dataset drawn from a normal distribution of 10,000 entries</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co">#then append the feature to X, making it a 5D dataset</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.random.normal(size<span class="op">=</span>[N,P])</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.append(X, feature.reshape(<span class="dv">10000</span>,<span class="dv">1</span>), axis <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="co">#perform PCA with 2 components on the dataset without scaling</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>pca <span class="op">=</span> PCA(<span class="dv">2</span>)</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>pca_no_scale <span class="op">=</span> pca.fit_transform(X)</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="co">#plot the projection of the data onto the first principal</span></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="co">#component versus the projection onto </span></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="co">#the second principal component</span></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>plt.scatter(pca_no_scale[:,<span class="dv">0</span>], pca_no_scale[:,<span class="dv">1</span>])</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"PCA without Scaling"</span>)</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Principal Component 1"</span>, loc <span class="op">=</span> <span class="st">'right'</span>, fontsize <span class="op">=</span> <span class="dv">10</span>)</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Principal Component 2"</span>, loc <span class="op">=</span> <span class="st">'top'</span>, fontsize <span class="op">=</span> <span class="dv">10</span>)</span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a><span class="co">#scale data, mean-center and divide by the standard deviation</span></span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>Xn <span class="op">=</span> scale(X)</span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a><span class="co">#perform PCA with 2 components on the scaled data</span></span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>pca <span class="op">=</span> PCA(<span class="dv">2</span>)</span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>pca_scale <span class="op">=</span> pca.fit_transform(Xn)</span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a><span class="co">#plot the projection of the data onto the first principal </span></span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a><span class="co">#component versus the projection onto</span></span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a><span class="co">#the second principal component</span></span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a>plt.scatter(pca_scale[:,<span class="dv">0</span>], pca_scale[:,<span class="dv">1</span>])</span>
+<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"PCA with Scaling"</span>)</span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Principal Component 1"</span>, loc <span class="op">=</span> <span class="st">'right'</span>, fontsize <span class="op">=</span> <span class="dv">10</span>)</span>
+<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Principal Component 2"</span>, loc <span class="op">=</span> <span class="st">'top'</span>, fontsize <span class="op">=</span> <span class="dv">10</span>)</span>
+<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1249,8 +1272,1162 @@ x_m^{T} \frac{p}{||p||}
 <li><p><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4792409/">Principal component analysis: a review and recent developments</a></p></li>
 <li><p><a href="https://www.stat.cmu.edu/~cshalizi/uADA/12/lectures/ch18.pdf">Principal Components Analysis</a></p></li>
 </ul>
+</section>
+</section>
+<section id="choosing-the-optimal-number-of-clusters" class="level2" data-number="10.4">
+<h2 data-number="10.4" class="anchored" data-anchor-id="choosing-the-optimal-number-of-clusters"><span class="header-section-number">10.4</span> Choosing the Optimal Number of Clusters</h2>
+<p>This section was contributed by Nicholas Pfeifer, a junior majoring in Statistics and minoring in Real Estate and Computer Science.</p>
+<p>This section will cover the following:</p>
+<ul>
+<li><p>Why use clustering? What are its applications?</p></li>
+<li><p>K-means Clustering and Hierarchical Clustering algorithms</p></li>
+<li><p>How to determine the optimal number of clusters</p></li>
+</ul>
+<section id="why-clustering-what-is-it" class="level3" data-number="10.4.1">
+<h3 data-number="10.4.1" class="anchored" data-anchor-id="why-clustering-what-is-it"><span class="header-section-number">10.4.1</span> Why Clustering? What is it?</h3>
+<p>Clustering is an exploratory approach looking to identify natural categories in the data. The overall goal is to Place observations into groups (“clusters”) based on similarities or patterns. It can be viewed as an <strong>Unsupervised Learning</strong> technique since the algorithm does not use a target variable to discover patterns and make groups. This is in contrast to regression, for instance, where the target variable is used in the process of generating a model. Clustering can be effective at identifying trends, patterns, or outliers in a dataset.</p>
+<ul>
+<li>Clustering is useful when…
+<ul>
+<li>the true number of clusters is not known in advance</li>
+<li>working with large unlabeled data</li>
+<li>looking to detect anomolies/outliers</li>
+</ul></li>
+</ul>
+<section id="applications" class="level4" data-number="10.4.1.1">
+<h4 data-number="10.4.1.1" class="anchored" data-anchor-id="applications"><span class="header-section-number">10.4.1.1</span> Applications</h4>
+<p>Clustering has a plethora of applications. Some of the most popular ones are outlined below.</p>
+<ul>
+<li>Market Reasearch
+<ul>
+<li>Customer Segmentation - grouping customers by demographics or behaviors</li>
+<li>Sales Analysis - based on the clusters, which groups purchase the product/service and which groups do not</li>
+</ul></li>
+<li>Anomaly Detection
+<ul>
+<li>Banks - combat fraud by distinguishing characteristics that stand out</li>
+</ul></li>
+<li>Image Segmentation
+<ul>
+<li>Identifying sections, objects, or regions of interest</li>
+<li>Classify land using satellite imagery - vegetation, industrial use, etc.</li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="how-to-measure-the-quality-of-clustering-outcome" class="level3" data-number="10.4.2">
+<h3 data-number="10.4.2" class="anchored" data-anchor-id="how-to-measure-the-quality-of-clustering-outcome"><span class="header-section-number">10.4.2</span> How to measure the quality of clustering outcome</h3>
+<p>When assigning data points to clusters, there are two aspects to consider when judging the quality of the resulting clusters:</p>
+<ol type="1">
+<li><strong>Intra-cluster Distance</strong>: The distance between data points within a cluster (can also be referred to as within-cluster distance)
+<ul>
+<li>The smaller the distance/variation within clusters, the better the clustering result</li>
+<li>Ideally similar data points are clustered together</li>
+</ul></li>
+<li><strong>Inter-cluster Distance</strong>: The distance between data points in separate clusters (can also be referred to as between-cluster distance)
+<ul>
+<li>The larger the distance/variation between clusters, the better the clustering result</li>
+<li>Ideally dissimilar data points are in different clusters</li>
+</ul></li>
+</ol>
+<p>In essence, the objective is for points within a cluster to be as similar to each other as possible, and for points belonging to different clusters to be as distinct as possible.</p>
+<p>The following code outputs two possible ways to cluster 10 observations from the MNIST handwritten digits dataset introduced in the Unsupervised Learning chapter of these class notes. The dimensionally of the observations has been reduced to 2 dimensions using t-SNE in order to make visualization easier.</p>
+<div id="e257e8fb" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> fetch_openml</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.manifold <span class="im">import</span> TSNE</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>mnist <span class="op">=</span> fetch_openml(<span class="st">'mnist_784'</span>, version<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>mnist_example_df <span class="op">=</span> pd.DataFrame(mnist.data)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>mnist_example_df <span class="op">=</span> mnist_example_df[:<span class="dv">10</span>]</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>tsne <span class="op">=</span> TSNE(n_components<span class="op">=</span><span class="dv">2</span>, perplexity<span class="op">=</span><span class="dv">5</span>,</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>            learning_rate<span class="op">=</span><span class="st">'auto'</span>,</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>            init<span class="op">=</span><span class="st">'random'</span>, random_state<span class="op">=</span><span class="dv">416</span>)</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>mnist_example_df <span class="op">=</span> tsne.fit_transform(mnist_example_df)</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>mnist_example_df <span class="op">=</span> pd.DataFrame(mnist_example_df)</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>mnist_example_df.columns <span class="op">=</span> [<span class="st">'dimension_1'</span>, <span class="st">'dimension_2'</span>]</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>mnist_example_df[<span class="st">'clustering_1'</span>] <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>mnist_example_df[<span class="st">'clustering_2'</span>] <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">2</span>]</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>fig, (ax1, ax2) <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>ax1.scatter(mnist_example_df[<span class="st">'dimension_1'</span>],</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>            mnist_example_df[<span class="st">'dimension_2'</span>],</span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> mnist_example_df[<span class="st">'clustering_1'</span>],</span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>            cmap <span class="op">=</span> <span class="st">'rainbow'</span>)</span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>ax1.set_xlabel(<span class="st">'Dimension 1'</span>)</span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>ax1.set_ylabel(<span class="st">'Dimension 2'</span>)</span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>ax1.set_title(<span class="st">'Clustering 1'</span>)</span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>ax2.scatter(mnist_example_df[<span class="st">'dimension_1'</span>],</span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>            mnist_example_df[<span class="st">'dimension_2'</span>],</span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> mnist_example_df[<span class="st">'clustering_2'</span>],</span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>            cmap <span class="op">=</span> <span class="st">'rainbow'</span>)</span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a>ax2.set_xlabel(<span class="st">'Dimension 1'</span>)</span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a>ax2.set_ylabel(<span class="st">'Dimension 2'</span>)</span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>ax2.set_title(<span class="st">'Clustering 2'</span>)</span>
+<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="unsupervised_files/figure-html/cell-14-output-1.png" width="950" height="470" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Here are two different clusterings. Hopefully it is apparent which clustering is preferred. Clustering 1 is better than clustering 2 since points in the same cluster are closer to each other, and the clusters themselves are further apart. Some points in clustering 2 are more similar to points of other clusters than points within their own cluster. Ideally a clustering more closely resembles the result seen in clustering 1.</p>
+</section>
+<section id="clustering-algorithms" class="level3" data-number="10.4.3">
+<h3 data-number="10.4.3" class="anchored" data-anchor-id="clustering-algorithms"><span class="header-section-number">10.4.3</span> Clustering Algorithms</h3>
+<p>They are many different clustering algorithms out there, but for simplicity this section will focus on the K-means and Hierarchical clustering algorithms.</p>
+<ul>
+<li><strong>K-means</strong>
+<ul>
+<li>Top-down approach</li>
+<li>Centroid based</li>
+</ul></li>
+<li><strong>Hierarchical (Agglomerative)</strong>
+<ul>
+<li>Bottom-up approach</li>
+<li>Tree-like structure</li>
+</ul></li>
+<li>Others include:
+<ul>
+<li>K-mediods, DBSCAN, Gaussian Mixture Model, etc.</li>
+</ul></li>
+</ul>
+<section id="k-means-algorithm" class="level4" data-number="10.4.3.1">
+<h4 data-number="10.4.3.1" class="anchored" data-anchor-id="k-means-algorithm"><span class="header-section-number">10.4.3.1</span> K-means Algorithm</h4>
+<p>The K-means algorithm has already been introduced in the unsupervised learning chapter, so this will serve as a brief refresher. The steps of the algorithm are as follows:</p>
+<ol type="1">
+<li>Must specify a number of clusters k</li>
+<li>Data points are randomly assigned to k intial clusters</li>
+<li>The centroid of each cluster is calculated</li>
+<li>Data points are reassigned to the cluster with the closest centroid according to euclidean distance</li>
+<li>Iterate the previous 2 steps until cluster assignments no longer change or a set number of iterations have been completed</li>
+</ol>
+<div id="e00eeed2" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>mnist_example_df <span class="op">=</span> mnist_example_df.drop([<span class="st">'clustering_1'</span>, <span class="st">'clustering_2'</span>],</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>axis <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>kmeans <span class="op">=</span> KMeans(n_clusters <span class="op">=</span> <span class="dv">3</span>, random_state <span class="op">=</span> <span class="dv">416</span>, </span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>n_init <span class="op">=</span> <span class="dv">16</span>).fit(mnist_example_df)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>mnist_example_df[<span class="st">'labels'</span>] <span class="op">=</span> kmeans.labels_</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">7</span>))</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>plt.scatter(mnist_example_df[<span class="st">'dimension_1'</span>],</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>        mnist_example_df[<span class="st">'dimension_2'</span>],</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>        c <span class="op">=</span> mnist_example_df[<span class="st">'labels'</span>],</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>        cmap <span class="op">=</span> <span class="st">'rainbow'</span>)</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>plt.scatter(kmeans.cluster_centers_[:, <span class="dv">0</span>],</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>        kmeans.cluster_centers_[:, <span class="dv">1</span>],</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>        marker <span class="op">=</span> <span class="st">'*'</span>, c <span class="op">=</span> <span class="st">'y'</span>, label <span class="op">=</span> <span class="st">'Centroids'</span>,</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>        s <span class="op">=</span> <span class="dv">100</span>)</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Dimension 1'</span>)</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Dimension 2'</span>)</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'K-means with k = 3'</span>)</span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>plt.legend()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="unsupervised_files/figure-html/cell-15-output-1.png" width="819" height="597" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Here is an example clustering result of K-means clustering with k = 3 (clusters) on the same 10 MNIST observations. The final centroids are included in the plot.</p>
+</section>
+<section id="hierarchical-clustering-algorithm" class="level4" data-number="10.4.3.2">
+<h4 data-number="10.4.3.2" class="anchored" data-anchor-id="hierarchical-clustering-algorithm"><span class="header-section-number">10.4.3.2</span> Hierarchical Clustering Algorithm</h4>
+<p>Hierarchical clustering is another algorithm which differs substantially from K-means. Something particularly of note is that the hierarchical approach does not require the number of clusters to be specified in advance. This can be seen as a drawback of K-means. The decision on the number of clusters can be made by based on the resulting tree-like structure called a <strong>Dendrogram</strong>. The steps of this algorithm are shown below:</p>
+<ol type="1">
+<li>Each data point is initailly assigned to its own cluster</li>
+<li>Check the distance between every possible pair of clusters</li>
+<li>Merge the closest pair of clusters into one cluster</li>
+<li>Iterate the previous 2 steps until all of the data points are in one cluster</li>
+<li>Cut the resulting Dendrogram</li>
+</ol>
+<div id="3c837e88" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> AgglomerativeClustering</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.cluster.hierarchy <span class="im">import</span> dendrogram, linkage</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>mnist_example_df <span class="op">=</span> mnist_example_df.drop([<span class="st">'labels'</span>], axis <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>fig, axs <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">8</span>))</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>H_Clust <span class="op">=</span> AgglomerativeClustering(n_clusters <span class="op">=</span> <span class="va">None</span>, distance_threshold <span class="op">=</span> <span class="dv">0</span>,</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>linkage <span class="op">=</span> <span class="st">'ward'</span>)</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>clusters <span class="op">=</span> H_Clust.fit_predict(mnist_example_df)</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>clust_linkage <span class="op">=</span> linkage(mnist_example_df, method <span class="op">=</span> <span class="st">'ward'</span>,</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>metric <span class="op">=</span> <span class="st">'euclidean'</span>)</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.figure(figsize=(10, 7))</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>dendrogram(clust_linkage, ax <span class="op">=</span> axs[<span class="dv">0</span>, <span class="dv">1</span>])</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">0</span>, <span class="dv">1</span>].set_title(<span class="st">'Dendrogram'</span>)</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">0</span>, <span class="dv">1</span>].set_xlabel(<span class="st">'Sample Index'</span>)</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">0</span>, <span class="dv">1</span>].set_ylabel(<span class="st">'Distance'</span>)</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">0</span>, <span class="dv">0</span>].scatter(mnist_example_df[<span class="st">'dimension_1'</span>],</span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>            mnist_example_df[<span class="st">'dimension_2'</span>], c<span class="op">=</span>clusters, cmap<span class="op">=</span><span class="st">'rainbow'</span>)</span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, label <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="bu">range</span>(<span class="dv">0</span>, <span class="dv">10</span>)):</span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>    axs[<span class="dv">0</span>, <span class="dv">0</span>].text(mnist_example_df[<span class="st">'dimension_1'</span>][i] <span class="op">-</span> <span class="dv">3</span>,</span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>    mnist_example_df[<span class="st">'dimension_2'</span>][i], <span class="bu">str</span>(label),</span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>    fontsize <span class="op">=</span> <span class="dv">16</span>, ha <span class="op">=</span> <span class="st">'right'</span>)</span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">0</span>, <span class="dv">0</span>].set_title(<span class="st">'Hierarchical Clustering'</span>)</span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">0</span>, <span class="dv">0</span>].set_xlabel(<span class="st">'Dimension 1'</span>)</span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">0</span>, <span class="dv">0</span>].set_ylabel(<span class="st">'Dimension 2'</span>)</span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>H_Clust <span class="op">=</span> AgglomerativeClustering(n_clusters <span class="op">=</span> <span class="dv">4</span>, distance_threshold <span class="op">=</span> <span class="va">None</span>,</span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>linkage <span class="op">=</span> <span class="st">'ward'</span>)</span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a>clusters <span class="op">=</span> H_Clust.fit_predict(mnist_example_df)</span>
+<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a>clust_linkage <span class="op">=</span> linkage(mnist_example_df, method <span class="op">=</span> <span class="st">'ward'</span>,</span>
+<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a>metric <span class="op">=</span> <span class="st">'euclidean'</span>)</span>
+<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.figure(figsize=(10, 7))</span></span>
+<span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a>dendrogram(clust_linkage, color_threshold <span class="op">=</span> <span class="dv">70</span>, ax <span class="op">=</span> axs[<span class="dv">1</span>, <span class="dv">1</span>])</span>
+<span id="cb17-41"><a href="#cb17-41" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">1</span>, <span class="dv">1</span>].set_title(<span class="st">'Dendrogram'</span>)</span>
+<span id="cb17-42"><a href="#cb17-42" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">1</span>, <span class="dv">1</span>].set_xlabel(<span class="st">'Sample Index'</span>)</span>
+<span id="cb17-43"><a href="#cb17-43" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">1</span>, <span class="dv">1</span>].set_ylabel(<span class="st">'Distance'</span>)</span>
+<span id="cb17-44"><a href="#cb17-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-45"><a href="#cb17-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-46"><a href="#cb17-46" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">1</span>, <span class="dv">0</span>].scatter(mnist_example_df[<span class="st">'dimension_1'</span>],</span>
+<span id="cb17-47"><a href="#cb17-47" aria-hidden="true" tabindex="-1"></a>            mnist_example_df[<span class="st">'dimension_2'</span>], c<span class="op">=</span>clusters, cmap<span class="op">=</span><span class="st">'rainbow'</span>)</span>
+<span id="cb17-48"><a href="#cb17-48" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, label <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="bu">range</span>(<span class="dv">0</span>, <span class="dv">10</span>)):</span>
+<span id="cb17-49"><a href="#cb17-49" aria-hidden="true" tabindex="-1"></a>    axs[<span class="dv">1</span>, <span class="dv">0</span>].text(mnist_example_df[<span class="st">'dimension_1'</span>][i] <span class="op">-</span> <span class="dv">3</span>,</span>
+<span id="cb17-50"><a href="#cb17-50" aria-hidden="true" tabindex="-1"></a>    mnist_example_df[<span class="st">'dimension_2'</span>][i], <span class="bu">str</span>(label),</span>
+<span id="cb17-51"><a href="#cb17-51" aria-hidden="true" tabindex="-1"></a>    fontsize <span class="op">=</span> <span class="dv">16</span>, ha <span class="op">=</span> <span class="st">'right'</span>)</span>
+<span id="cb17-52"><a href="#cb17-52" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">1</span>, <span class="dv">0</span>].set_title(<span class="st">'Hierarchical Clustering'</span>)</span>
+<span id="cb17-53"><a href="#cb17-53" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">1</span>, <span class="dv">0</span>].set_xlabel(<span class="st">'Dimension 1'</span>)</span>
+<span id="cb17-54"><a href="#cb17-54" aria-hidden="true" tabindex="-1"></a>axs[<span class="dv">1</span>, <span class="dv">0</span>].set_ylabel(<span class="st">'Dimension 2'</span>)</span>
+<span id="cb17-55"><a href="#cb17-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-56"><a href="#cb17-56" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb17-57"><a href="#cb17-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-58"><a href="#cb17-58" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="unsupervised_files/figure-html/cell-16-output-1.png" width="950" height="759" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Here is an example of Hierarchical clustering on the same 10 MNIST observations. The top row is the result when the number of clusters has not been specified. In the top left plot each data point is its own cluster. The indices of the data points can be seen in the dendrogram to the right. For this plot (top right) the colors are irrelevant. Potential clusterings of data points can be seen as the clusters are merged from bottom to top. The smaller the vertical distance the closer those clusters are to each other (and vice-versa). In the bottom row, the algorithm has been instructed to generate 4 clusters. The colors in the dendrogram do not align with those shown in the plot, so it is better to refer to the indices. Here, the dendrogram has been cut such that the closest clusters are merged together until there are 4 clusters. How to choose the height to cut the dendrogram will be discussed later on in the section.</p>
+</section>
+</section>
+<section id="methods-for-selecting-the-optimal-number-of-clusters" class="level3" data-number="10.4.4">
+<h3 data-number="10.4.4" class="anchored" data-anchor-id="methods-for-selecting-the-optimal-number-of-clusters"><span class="header-section-number">10.4.4</span> Methods for selecting the optimal number of clusters</h3>
+<p>Selecting the optimal number of clusters is important since the results can be misleading if our clustering differs greatly from the true number of clusters. There are many different methods for selecting the optimal number of clusters, but for now we will delve into 4 of the most popular methods. It is important to note that no method works well in every scenario and that different methods can give differing results.</p>
+<p>Here are the methods covered in this section:</p>
+<ul>
+<li>Inspect a Dendrogram</li>
+<li>Elbow Method</li>
+<li>Silhouette Method</li>
+<li>Gap Statistic</li>
+</ul>
+<section id="hierarchical-clustering-example" class="level4" data-number="10.4.4.1">
+<h4 data-number="10.4.4.1" class="anchored" data-anchor-id="hierarchical-clustering-example"><span class="header-section-number">10.4.4.1</span> Hierarchical Clustering Example</h4>
+<p>In this example we will continue to use the MNIST dataset, however this time 2000 observations will be selected at random to be clustered.</p>
+<div id="2f97848d" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> fetch_openml</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.utils <span class="im">import</span> resample</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Fetching NIST dataset</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>mnist <span class="op">=</span> fetch_openml(<span class="st">'mnist_784'</span>, version<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>mnist_df <span class="op">=</span> pd.DataFrame(mnist.data)</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Taking a random sample of 2000 images</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>mnist_rand <span class="op">=</span> resample(mnist_df, n_samples <span class="op">=</span> <span class="dv">2000</span>, random_state <span class="op">=</span> <span class="dv">416</span>)</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>mnist_rand <span class="op">=</span> mnist_rand.reset_index().drop(<span class="st">'index'</span>, axis <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Keeping track of the target values</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>mnist_target_df <span class="op">=</span> pd.DataFrame(mnist.target)</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>mnist_target_rand <span class="op">=</span> resample(mnist_target_df,</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>                             n_samples <span class="op">=</span> <span class="dv">2000</span>,</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>                             random_state <span class="op">=</span> <span class="dv">416</span>)</span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>mnist_target_rand <span class="op">=</span> mnist_target_rand.reset_index().drop(<span class="st">'index'</span>, axis <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Distribution is fairly even</span></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>mnist_target_rand[<span class="st">'class'</span>].value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="16">
+<pre><code>class
+1    211
+3    209
+2    208
+5    202
+9    202
+8    201
+6    198
+7    197
+0    189
+4    183
+Name: count, dtype: int64</code></pre>
+</div>
+</div>
+<p>The distribution of the 2000 randomly sampled handwritten digits is shown above. The distribution of the digitsappears to be fairly evenly distributed.</p>
+<p>Once again, the dimensionality of these images is reduced to 2 dimensions using t-SNE.</p>
+<div id="af4c299e" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.manifold <span class="im">import</span> TSNE</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co"># t-SNE dimensionality reduction</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>tsne <span class="op">=</span> TSNE(n_components<span class="op">=</span><span class="dv">2</span>, perplexity<span class="op">=</span><span class="dv">30</span>,</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>            learning_rate<span class="op">=</span><span class="st">'auto'</span>,</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>            init<span class="op">=</span><span class="st">'random'</span>, random_state<span class="op">=</span><span class="dv">416</span>)</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>mnist_embedded <span class="op">=</span> tsne.fit_transform(mnist_rand)</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>mnist_embedded_df <span class="op">=</span> pd.DataFrame(mnist_embedded)</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>mnist_embedded_df.columns <span class="op">=</span> [<span class="st">'dimension_1'</span>, <span class="st">'dimension_2'</span>]</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">7</span>))</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>plt.scatter(mnist_embedded_df[<span class="st">'dimension_1'</span>],</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>            mnist_embedded_df[<span class="st">'dimension_2'</span>])</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Random Sample of 2000 MNIST Digits'</span>)</span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Dimension 1'</span>)</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Dimension 2'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="unsupervised_files/figure-html/cell-18-output-1.png" width="819" height="597" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Here is a scatterplot of the 2000 randomly sampled images above without looking at their actual labels.</p>
+<div id="e804cdf5" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> AgglomerativeClustering</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.cluster.hierarchy <span class="im">import</span> dendrogram, linkage</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>H_Clust <span class="op">=</span>  AgglomerativeClustering(n_clusters <span class="op">=</span> <span class="va">None</span>, distance_threshold <span class="op">=</span> <span class="dv">0</span>,</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>linkage <span class="op">=</span> <span class="st">'ward'</span>)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>clusters <span class="op">=</span> H_Clust.fit_predict(mnist_embedded_df)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>clust_linkage <span class="op">=</span> linkage(mnist_embedded_df, method <span class="op">=</span> <span class="st">'ward'</span>)</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">7</span>))</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>dendrogram(clust_linkage)</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Dendrogram'</span>)</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Sample Index'</span>)</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Distance'</span>)</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="unsupervised_files/figure-html/cell-19-output-1.png" width="828" height="601" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>After conducting Hierarchical clustering without specifying the number of clusters, we have a dendrogram. Now comes the decision of where to make a horizontal cut. There is a paper about “dynamic cuts” that are flexible and do not cut at a constant height, but that is outside of the current scope (<span class="citation" data-cites="langfelder2008defining">Langfelder et al. (<a href="references.html#ref-langfelder2008defining" role="doc-biblioref">2008</a>)</span>). When looking at the dendrogram above, suppose we do not know the true number of clusters. Generally, when cutting the tree, we want the resulting clusters to be around the same height. Vertical distance represents dissimilarity, so we do not want clusters of high disimilarity to be merged together. Remember that good clustering involves small distances within clusters and large distances between clusters. This is a subjective approach and sometimes it may be difficult to find the best height to cut the dendrogram. Perhaps with domain knowledge a predefined threshold could be a good height at which to cut. For this example I chose to cut the tree at a height of 200. That resulted in 11 clusters which will be analyzed below.</p>
+<div id="ccf6b917" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.cluster.hierarchy <span class="im">import</span> cut_tree</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co"># cut the tree</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>new_clusters <span class="op">=</span> cut_tree(clust_linkage, height <span class="op">=</span> <span class="dv">200</span>)</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>mnist_embedded_df[<span class="st">'cluster'</span>] <span class="op">=</span> new_clusters</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the new clusters</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">7</span>))</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>plt.scatter(mnist_embedded_df[<span class="st">'dimension_1'</span>],</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>            mnist_embedded_df[<span class="st">'dimension_2'</span>], c<span class="op">=</span>mnist_embedded_df[<span class="st">'cluster'</span>], </span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>            cmap<span class="op">=</span><span class="st">'rainbow'</span>)</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Hierarchical Clustering (11 clusters)'</span>)</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Dimension 1'</span>)</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Dimension 2'</span>)</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="unsupervised_files/figure-html/cell-20-output-1.png" width="819" height="597" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Here are the 11 clusters obtained after cutting the tree. What do these clusters signify? Maybe by adding some labels to the clusters, that will become more clear.</p>
+<div id="1d9202e9" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot clusters with labels (cluster labels not actual!)</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">7</span>))</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>scatter <span class="op">=</span> plt.scatter(mnist_embedded_df[<span class="st">'dimension_1'</span>],</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>             mnist_embedded_df[<span class="st">'dimension_2'</span>], c<span class="op">=</span>mnist_embedded_df[<span class="st">'cluster'</span>], </span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>             cmap<span class="op">=</span><span class="st">'rainbow'</span>)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Hierarchical Clustering (11 clusters)'</span>)</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Dimension 1'</span>)</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Dimension 2'</span>)</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>legend1 <span class="op">=</span> plt.legend(<span class="op">*</span>scatter.legend_elements(), title<span class="op">=</span><span class="st">"Cluster"</span>)</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>plt.gca().add_artist(legend1)</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="unsupervised_files/figure-html/cell-21-output-1.png" width="819" height="597" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Now the clusters have been associated with their cluster label, but this does not represent the actual handwritten digits.</p>
+<p>In this case it is hard to determine what the clusters signify if the target values are unknown. However we do know the target value (actual handwritten digit) for each image. This information can help to label the clusters and make them more interpretable.</p>
+<div id="aaa9360f" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>mnist_embedded_df[<span class="st">'actual'</span>] <span class="op">=</span> mnist_target_rand[<span class="st">'class'</span>]</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="co"># calculating mode and proportion of observations in the cluster that are the </span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co"># mode in each cluster</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>modes <span class="op">=</span> mnist_embedded_df.groupby(<span class="st">'cluster'</span>).agg(</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>            {<span class="st">'actual'</span>: [<span class="kw">lambda</span> x: x.mode().iloc[<span class="dv">0</span>],</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>             <span class="kw">lambda</span> y: (y <span class="op">==</span> y.mode().iloc[<span class="dv">0</span>]).<span class="bu">sum</span>()<span class="op">/</span><span class="bu">len</span>(y)]})</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>modes.columns <span class="op">=</span> [<span class="st">'mode'</span>, <span class="st">'proportion'</span>]</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>modes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="21">
+<div>
 
 
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">mode</th>
+<th data-quarto-table-cell-role="th">proportion</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">cluster</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>9</td>
+<td>0.478764</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>8</td>
+<td>0.950920</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>3</td>
+<td>0.812500</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>0</td>
+<td>0.937824</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>7</td>
+<td>0.401042</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>5</td>
+<td>0.704000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>6</td>
+<td>0.941463</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>7</td>
+<td>0.697987</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>5</td>
+<td>0.881579</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>2</td>
+<td>0.972973</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">10</td>
+<td>1</td>
+<td>0.661442</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>This code above calculates the mode digit of each cluster along with the proportion of observations in the cluster that are the mode. Now let’s label the clusters by their mode.</p>
+<div id="85dfa3c0" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot clusters with (actual) labels (modes)</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>new_labels <span class="op">=</span> modes[<span class="st">'mode'</span>]</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">7</span>))</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>scatter <span class="op">=</span> plt.scatter(mnist_embedded_df[<span class="st">'dimension_1'</span>],</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>             mnist_embedded_df[<span class="st">'dimension_2'</span>], c<span class="op">=</span>mnist_embedded_df[<span class="st">'cluster'</span>], </span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>             cmap<span class="op">=</span><span class="st">'rainbow'</span>)</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Hierarchical Clustering (11 clusters)'</span>)</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Dimension 1'</span>)</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Dimension 2'</span>)</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>handles, _ <span class="op">=</span> scatter.legend_elements()</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>plt.legend(handles, new_labels, title<span class="op">=</span><span class="st">"Mode"</span>)</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="unsupervised_files/figure-html/cell-23-output-1.png" width="819" height="597" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Now we can get a better understanding of the clustering. Although there are 11 clusters in total, you will notice that every digit does not appear as the mode of a cluster. 9 is not the mode of any cluster while 4 and 7 are the modes of multiple clusters. At the very least the clusters with 4 and 7 as the mode are very close to each other. Also intuitively the digits 0, 6, and 8 are written similarly, so it makes sense to see those clusters in the same general area.</p>
+<p>Just out of curiosity, let’s look at the actual distribution of the digits.</p>
+<div id="05e94200" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Showing the actual distribution of classes</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>mnist_embedded_df[<span class="st">'actual'</span>] <span class="op">=</span> mnist_embedded_df[<span class="st">'actual'</span>].astype(<span class="st">'int64'</span>)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">7</span>))</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>scatter <span class="op">=</span> plt.scatter(mnist_embedded_df[<span class="st">'dimension_1'</span>],</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>            mnist_embedded_df[<span class="st">'dimension_2'</span>],</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> mnist_embedded_df[<span class="st">'actual'</span>], cmap<span class="op">=</span><span class="st">'rainbow'</span>)</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Dimension 1'</span>)</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Dimension 2'</span>)</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'True Distribution of Target'</span>)</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>legend1 <span class="op">=</span> plt.legend(<span class="op">*</span>scatter.legend_elements(), title<span class="op">=</span><span class="st">"Value"</span>)</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>plt.gca().add_artist(legend1)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="unsupervised_files/figure-html/cell-24-output-1.png" width="819" height="597" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Analyzing the cluster performance by viewing the actual distribution of the target is becoming de facto supervized learning, but not really since the clustering algorithm does not know or use the information of the target. For the purposes of this section it is just to see how well the clustering found the true clusters. For the most part it looks like the clustering did a moderately good job at identifying the true clusters of the digits in 2 dimensions. The digits 4, 7, and 9 seem to be very similar in 2D and is understandably more difficult for the algorithm to distinguish.</p>
+<p>Since the true number of clusters is known, let’s see what it looks like with 10 clusters just out of curiosity again.</p>
+<div id="5e68ae55" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Try cutting with 10 clusters instead</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>new_clusters <span class="op">=</span> cut_tree(clust_linkage, n_clusters<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>mnist_embedded_df[<span class="st">'cluster'</span>] <span class="op">=</span> new_clusters</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>modes <span class="op">=</span> mnist_embedded_df.groupby(<span class="st">'cluster'</span>).agg(</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>            {<span class="st">'actual'</span>: [<span class="kw">lambda</span> x: x.mode().iloc[<span class="dv">0</span>],</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>             <span class="kw">lambda</span> y: (y <span class="op">==</span> y.mode().iloc[<span class="dv">0</span>]).<span class="bu">sum</span>()<span class="op">/</span><span class="bu">len</span>(y),</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>             <span class="kw">lambda</span> x: x.value_counts().index[<span class="dv">1</span>],</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>             <span class="kw">lambda</span> y: (y <span class="op">==</span> y.value_counts().index[<span class="dv">1</span>]).<span class="bu">sum</span>()<span class="op">/</span><span class="bu">len</span>(y)]})</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>modes.columns <span class="op">=</span> [<span class="st">'mode'</span>, <span class="st">'proportion'</span>, <span class="st">'mode_2'</span>, <span class="st">'proportion_2'</span>]</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot clusters with mode labels</span></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>new_labels <span class="op">=</span> modes[<span class="st">'mode'</span>]</span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">7</span>))</span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>scatter <span class="op">=</span> plt.scatter(mnist_embedded_df[<span class="st">'dimension_1'</span>],</span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>             mnist_embedded_df[<span class="st">'dimension_2'</span>], c<span class="op">=</span>mnist_embedded_df[<span class="st">'cluster'</span>],</span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>             cmap<span class="op">=</span><span class="st">'rainbow'</span>)</span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Hierarchical Clustering (10 clusters)'</span>)</span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Dimension 1'</span>)</span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Dimension 2'</span>)</span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a>handles, _ <span class="op">=</span> scatter.legend_elements()</span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a>plt.legend(handles, new_labels, title<span class="op">=</span><span class="st">"Mode"</span>)</span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="unsupervised_files/figure-html/cell-25-output-1.png" width="819" height="597" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The difference appears to be that the two clusters with 4 as mode merged into one cluster.</p>
+<div id="a271684c" class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>modes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="25">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">mode</th>
+<th data-quarto-table-cell-role="th">proportion</th>
+<th data-quarto-table-cell-role="th">mode_2</th>
+<th data-quarto-table-cell-role="th">proportion_2</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">cluster</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>9</td>
+<td>0.478764</td>
+<td>4</td>
+<td>0.424710</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>8</td>
+<td>0.576389</td>
+<td>5</td>
+<td>0.305556</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>3</td>
+<td>0.812500</td>
+<td>5</td>
+<td>0.125000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>0</td>
+<td>0.937824</td>
+<td>2</td>
+<td>0.031088</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>7</td>
+<td>0.401042</td>
+<td>9</td>
+<td>0.307292</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>6</td>
+<td>0.941463</td>
+<td>0</td>
+<td>0.029268</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>7</td>
+<td>0.697987</td>
+<td>4</td>
+<td>0.228188</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>5</td>
+<td>0.881579</td>
+<td>3</td>
+<td>0.065789</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>2</td>
+<td>0.972973</td>
+<td>9</td>
+<td>0.009009</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>1</td>
+<td>0.661442</td>
+<td>2</td>
+<td>0.250784</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>This table contains the mode of each cluster as well as the second most common value in each cluster denoted at mode_2. Interestingly, 9 appears as the second most common value in 3 different clusters.</p>
+</section>
+<section id="k-means-clustering-example-elbow-method" class="level4" data-number="10.4.4.2">
+<h4 data-number="10.4.4.2" class="anchored" data-anchor-id="k-means-clustering-example-elbow-method"><span class="header-section-number">10.4.4.2</span> K-means Clustering Example: Elbow Method</h4>
+<p>For the next 3 methods the K-means algorithm will be used on the same random 2000 MNIST images in 2 dimensions.</p>
+<p>The goal of the Elbow method is to minimize the within cluster sum of squares (WSS), which is also refered to as inertia. The optimal number of clusters is K such that adding another cluster does not (significantly) improve WSS. Whenever the number of clusters increases, inertia will decrease since there are fewer points in each cluster that become closer to their cluster’s center. The idea of the Elbow method is that the rate of decrease in WSS changes based on the optimal number of clusters, K. When k &lt; K, (approaching optimal number) inertia decreases rapidly. When k &gt; K, (going past optimal number) inertia decreases slowly. K is found by plotting inertia over a range of k and looking for a bend or “elbow”, hence the name.</p>
+<div id="da2dfdf0" class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># K-means</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="co"># removing non-nist columns</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>mnist_embedded_df <span class="op">=</span> mnist_embedded_df.drop([<span class="st">'cluster'</span>, <span class="st">'actual'</span>], axis <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="co"># elbow method for k between 1 and 20 on same MNIST data</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>wcss <span class="op">=</span> []</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">21</span>):</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>     model <span class="op">=</span> KMeans(n_clusters <span class="op">=</span> k, random_state <span class="op">=</span> <span class="dv">416</span>).fit(mnist_embedded_df)</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>     wcss.append(model.inertia_)</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">7</span>))</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>plt.plot(<span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">21</span>), wcss, <span class="st">'bx-'</span>)</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Number of Clusters (k)'</span>)</span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Within-Cluster Sum of Squares'</span>)</span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Elbow Method'</span>)</span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Seems inconclusive, maybe 7?</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="unsupervised_files/figure-html/cell-27-output-1.png" width="812" height="597" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The code above stores the inertia for values of k between 1 and 20, and creates the plot. In this case it is somewhat inconclusive. It looks like the decrease in inertia starts to slow down at k = 7. Like with the dendrogram, this method is also subjective.</p>
+</section>
+<section id="k-means-clustering-example-silhouette-method" class="level4" data-number="10.4.4.3">
+<h4 data-number="10.4.4.3" class="anchored" data-anchor-id="k-means-clustering-example-silhouette-method"><span class="header-section-number">10.4.4.3</span> K-means Clustering Example: Silhouette Method</h4>
+<p>Next is the Silhouette method, which is the most objective method of the 4 covered in this section</p>
+<p><strong>Silhouette Score</strong></p>
+<p>Before delving into the Silhouette method, it is good to get an understanding of Silhouette Score. The silhouette s of a data point is, <span class="math display">\[s = (b-a)/\max(a, b).\]</span></p>
+<ul>
+<li>At each data point, the distance to its cluster’s center = a</li>
+<li>And the distance to the second best cluster center = b
+<ul>
+<li>Second best suggests closest cluster that is not the current cluster</li>
+</ul></li>
+<li>s can take any value between -1 and 1</li>
+</ul>
+<p><strong>Interpreting Silhouette Score</strong></p>
+<p>There are 3 main categories that a data point can fall into:</p>
+<ul>
+<li>If a data point is very close to its own cluster and very far from the second best cluster (a is small, and b is big), then s is close to 1 (close to <span class="math inline">\(b/b\)</span>)</li>
+<li>If a data point is roughly the same distance to its own cluster as the second best cluster (<span class="math inline">\(a \approx b\)</span>), then s <span class="math inline">\(\approx\)</span> 0</li>
+<li>If a data point is very far from its own cluster and very close to the second best cluster (a is big, and b is small), then s is close to -1 (close to -a/a)</li>
+</ul>
+<p>For optimal clustering, we want most data points to fall into the first category. In other words we want silhouette scores to be as close to 1 as possible.</p>
+<p><strong>Silhouette Coefficient</strong></p>
+<p>The Silhouette Coefficient is represented by the average silhouette score of the data points. This metric does a good job of summarizing both within-cluster and between-cluster variation. The closer the Silhouette Coefficient is to 1, the better the clustering. Similar to the Elbow method, the optimal K is selected by calculating the Silhouette Coefficient over a range of k’s, and choosing K with the maximum Silhouette Coefficient.</p>
+<div id="b404d2af" class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Silhoutte method</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> silhouette_score</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>silhouette_average_scores <span class="op">=</span> []</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span> (<span class="dv">2</span>, <span class="dv">21</span>):</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    kmeans <span class="op">=</span> KMeans(n_clusters <span class="op">=</span> k, random_state <span class="op">=</span> <span class="dv">416</span>)</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>    cluster_labels <span class="op">=</span> kmeans.fit_predict(mnist_embedded_df)</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>    silhouette_avg <span class="op">=</span> silhouette_score(mnist_embedded_df, cluster_labels)</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>    silhouette_average_scores.append(silhouette_avg)</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot silhouette scores</span></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">7</span>))</span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>plt.plot(<span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">2</span>,<span class="dv">21</span>)), silhouette_average_scores, marker<span class="op">=</span><span class="st">'o'</span>)</span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Silhouette Coefficients"</span>)</span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Number of Clusters (k)"</span>)</span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Average Silhouette Score"</span>)</span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a><span class="co"># k = 7 has the highest average silhouette score</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="unsupervised_files/figure-html/cell-28-output-1.png" width="820" height="597" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Here the Silhouette Coefficient is calculated for k between 2 and 20. The maximum occurs at k = 7, which is coincidentally the same result as the Elbow method. Let’s visualize how these 7 clusters look on our 2000 MNIST digits.</p>
+<div id="f023d293" class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>kmeans <span class="op">=</span> KMeans(n_clusters <span class="op">=</span> <span class="dv">7</span>, random_state <span class="op">=</span> <span class="dv">416</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>cluster_labels <span class="op">=</span> kmeans.fit_predict(mnist_embedded_df)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>mnist_embedded_df[<span class="st">'cluster'</span>] <span class="op">=</span> cluster_labels</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="co"># K-means with k= 7 (cluster labels, not actual!)</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">7</span>))</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>scatter <span class="op">=</span> plt.scatter(mnist_embedded_df[<span class="st">'dimension_1'</span>],</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>             mnist_embedded_df[<span class="st">'dimension_2'</span>], c<span class="op">=</span>mnist_embedded_df[<span class="st">'cluster'</span>],</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>             cmap<span class="op">=</span><span class="st">'rainbow'</span>)</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'K-means with k = 7 clusters'</span>)</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Dimension 1'</span>)</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Dimension 2'</span>)</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>legend1 <span class="op">=</span> plt.legend(<span class="op">*</span>scatter.legend_elements(), title<span class="op">=</span><span class="st">"Cluster"</span>)</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>plt.gca().add_artist(legend1)</span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="unsupervised_files/figure-html/cell-29-output-1.png" width="819" height="597" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>These are just the cluster labels, not the actual digits.</p>
+<div id="57402fc2" class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>mnist_embedded_df[<span class="st">'actual'</span>] <span class="op">=</span> mnist_target_rand[<span class="st">'class'</span>]</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>modes <span class="op">=</span> mnist_embedded_df.groupby(<span class="st">'cluster'</span>).agg(</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>            {<span class="st">'actual'</span>: [<span class="kw">lambda</span> x: x.mode().iloc[<span class="dv">0</span>],</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>             <span class="kw">lambda</span> y: (y <span class="op">==</span> y.mode().iloc[<span class="dv">0</span>]).<span class="bu">sum</span>()<span class="op">/</span><span class="bu">len</span>(y),</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>             <span class="kw">lambda</span> x: x.value_counts().index[<span class="dv">1</span>],</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>             <span class="kw">lambda</span> y: (y <span class="op">==</span> y.value_counts().index[<span class="dv">1</span>]).<span class="bu">sum</span>()<span class="op">/</span><span class="bu">len</span>(y)]})</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>modes.columns <span class="op">=</span> [<span class="st">'mode'</span>, <span class="st">'proportion'</span>, <span class="st">'mode_2'</span>, <span class="st">'proportion_2'</span>]</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>modes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="29">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">mode</th>
+<th data-quarto-table-cell-role="th">proportion</th>
+<th data-quarto-table-cell-role="th">mode_2</th>
+<th data-quarto-table-cell-role="th">proportion_2</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">cluster</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1</td>
+<td>0.642633</td>
+<td>2</td>
+<td>0.250784</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>0</td>
+<td>0.858491</td>
+<td>5</td>
+<td>0.070755</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>9</td>
+<td>0.467626</td>
+<td>4</td>
+<td>0.410072</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>8</td>
+<td>0.433566</td>
+<td>2</td>
+<td>0.384615</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>3</td>
+<td>0.610932</td>
+<td>5</td>
+<td>0.225080</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>7</td>
+<td>0.565079</td>
+<td>4</td>
+<td>0.200000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>6</td>
+<td>0.695341</td>
+<td>5</td>
+<td>0.243728</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Here are the modes which can be used to label the 7 clusters.</p>
+<div id="44e6d5de" class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot clusters with (actual) labels (modes)</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>new_labels <span class="op">=</span> modes[<span class="st">'mode'</span>]</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">7</span>))</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>scatter <span class="op">=</span> plt.scatter(mnist_embedded_df[<span class="st">'dimension_1'</span>],</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>             mnist_embedded_df[<span class="st">'dimension_2'</span>], c<span class="op">=</span>mnist_embedded_df[<span class="st">'cluster'</span>],</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>             cmap<span class="op">=</span><span class="st">'rainbow'</span>)</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'K-means with k = 7 clusters'</span>)</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Dimension 1'</span>)</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Dimension 2'</span>)</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>handles, _ <span class="op">=</span> scatter.legend_elements()</span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>plt.legend(handles, new_labels, title<span class="op">=</span><span class="st">"Mode"</span>)</span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="unsupervised_files/figure-html/cell-31-output-1.png" width="819" height="597" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Now we have the actual mode labels of the 7 clusters obtained from K-means. Interestingly, the area that used to have 4 as the label now has 9. Now this digits that do not appear as the mode in any cluster are 4, 5, and 8. Looking back at the modes table we see that these digits frequently appear as the second most common value in a cluster at a high rate. Obviously 7 is not the true number of clusters, but perhaps the 2D representation is obscuring the ability to find disimilarities between some of the digits.</p>
+<div id="d957135d" class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Showing the actual distribution of classes</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>mnist_embedded_df[<span class="st">'actual'</span>] <span class="op">=</span> mnist_embedded_df[<span class="st">'actual'</span>].astype(<span class="st">'int64'</span>)</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">7</span>))</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>scatter <span class="op">=</span> plt.scatter(mnist_embedded_df[<span class="st">'dimension_1'</span>],</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>            mnist_embedded_df[<span class="st">'dimension_2'</span>],</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> mnist_embedded_df[<span class="st">'actual'</span>], cmap<span class="op">=</span><span class="st">'rainbow'</span>)</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Dimension 1'</span>)</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Dimension 2'</span>)</span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'True Distribution of Target'</span>)</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>legend1 <span class="op">=</span> plt.legend(<span class="op">*</span>scatter.legend_elements(), title<span class="op">=</span><span class="st">"Value"</span>)</span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>plt.gca().add_artist(legend1)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="unsupervised_files/figure-html/cell-32-output-1.png" width="819" height="597" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>For reference, here is the true distribution of the handwritten digits again.</p>
+</section>
+<section id="k-means-clustering-example-gap-statistic" class="level4" data-number="10.4.4.4">
+<h4 data-number="10.4.4.4" class="anchored" data-anchor-id="k-means-clustering-example-gap-statistic"><span class="header-section-number">10.4.4.4</span> K-means Clustering Example: Gap Statistic</h4>
+<p>The last method to be covered is the Gap Statistic. The Gap Statistic for a number of clusters k can be written as</p>
+<p><span class="math display">\[Gap(k) = \frac{1}{B}\sum_{b=1}^{B} \log(W_{kb}) - \log(W_k).\]</span></p>
+<ul>
+<li>Compares the total (within) intra-cluster variation for a range of k’s with their expected values</li>
+<li>Calculated by comparing the inertia of a clustered dataset with the inertia of a uniformly distributed random data set (covering the same ranges in the data space)</li>
+<li>A number of random samples (B) are generated that are then clustered over a range of k’s while keeping track of the inertia</li>
+<li><span class="math inline">\(W_{kb}\)</span> is the inertia of the b-th random sample with k clusters and <span class="math inline">\(W_k\)</span> is the inertia of the original data with k clusters</li>
+</ul>
+<p>We also need the standard deviation,</p>
+<p><span class="math display">\[s_k = \sqrt{1 + \frac{1}{B}}\sqrt{\frac{1}{B}\sum_{b=1}^{B} (\log(W_{kb}) - \overline{W})^2}.\]</span></p>
+<p>Where</p>
+<p><span class="math display">\[\overline{W} = \frac{1}{B}\sum_{b=1}^{B} \log(W_{kb}).\]</span></p>
+<p>Choose the smallest k such that the gap statistic is within one standard deviation of the gap at k + 1.</p>
+<p>This can be represented by the expression,</p>
+<p><span class="math display">\[Gap(k) \geq Gap(k+1) - s_{k+1}.\]</span></p>
+<p>The optimal k may vary over multiple gap statistic simulations since there is randomness involved.</p>
+<div id="27b0f6cd" class="cell" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># gap statistic</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="co"># removing non-nist columns</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>mnist_embedded_df <span class="op">=</span> mnist_embedded_df.drop([<span class="st">'cluster'</span>, <span class="st">'actual'</span>], axis <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calc_gap_statistic(data, max_k, n <span class="op">=</span> <span class="dv">10</span>):</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Generate reference data from a uniform distribution</span></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> generate_reference_data(X):</span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> np.random.uniform(low <span class="op">=</span> data.<span class="bu">min</span>(axis<span class="op">=</span><span class="dv">0</span>),</span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>        high <span class="op">=</span> data.<span class="bu">max</span>(axis<span class="op">=</span><span class="dv">0</span>),</span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>        size<span class="op">=</span>X.shape)</span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>    gap_values <span class="op">=</span> []</span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Loop over a range of k values</span></span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, max_k <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Fit K-means to the original data</span></span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>        kmeans <span class="op">=</span> KMeans(n_clusters <span class="op">=</span> k, random_state <span class="op">=</span> <span class="dv">416</span>)</span>
+<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a>        kmeans.fit(data)</span>
+<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a>        original_inertia <span class="op">=</span> kmeans.inertia_</span>
+<span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb35-22"><a href="#cb35-22" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Compute the average inertia for the reference datasets</span></span>
+<span id="cb35-23"><a href="#cb35-23" aria-hidden="true" tabindex="-1"></a>        reference_inertia <span class="op">=</span> []</span>
+<span id="cb35-24"><a href="#cb35-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb35-25"><a href="#cb35-25" aria-hidden="true" tabindex="-1"></a>            random_data <span class="op">=</span> generate_reference_data(data)</span>
+<span id="cb35-26"><a href="#cb35-26" aria-hidden="true" tabindex="-1"></a>            kmeans.fit(random_data)</span>
+<span id="cb35-27"><a href="#cb35-27" aria-hidden="true" tabindex="-1"></a>            reference_inertia.append(kmeans.inertia_)</span>
+<span id="cb35-28"><a href="#cb35-28" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb35-29"><a href="#cb35-29" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Calculate the Gap statistic</span></span>
+<span id="cb35-30"><a href="#cb35-30" aria-hidden="true" tabindex="-1"></a>        gap <span class="op">=</span> np.log(np.mean(reference_inertia)) <span class="op">-</span> np.log(original_inertia)</span>
+<span id="cb35-31"><a href="#cb35-31" aria-hidden="true" tabindex="-1"></a>        gap_values.append(gap)</span>
+<span id="cb35-32"><a href="#cb35-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-33"><a href="#cb35-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> gap_values</span>
+<span id="cb35-34"><a href="#cb35-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-35"><a href="#cb35-35" aria-hidden="true" tabindex="-1"></a>gap_values <span class="op">=</span> calc_gap_statistic(mnist_embedded_df, <span class="dv">20</span>, n <span class="op">=</span> <span class="dv">100</span>)</span>
+<span id="cb35-36"><a href="#cb35-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-37"><a href="#cb35-37" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">7</span>))</span>
+<span id="cb35-38"><a href="#cb35-38" aria-hidden="true" tabindex="-1"></a>plt.plot(<span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">21</span>), gap_values, marker<span class="op">=</span><span class="st">'o'</span>)</span>
+<span id="cb35-39"><a href="#cb35-39" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Gap Statistic vs Number of Clusters'</span>)</span>
+<span id="cb35-40"><a href="#cb35-40" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Number of Clusters (k)'</span>)</span>
+<span id="cb35-41"><a href="#cb35-41" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Gap Statistic'</span>)</span>
+<span id="cb35-42"><a href="#cb35-42" aria-hidden="true" tabindex="-1"></a>plt.grid()</span>
+<span id="cb35-43"><a href="#cb35-43" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb35-44"><a href="#cb35-44" aria-hidden="true" tabindex="-1"></a><span class="co"># 2 is the best?</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="unsupervised_files/figure-html/cell-33-output-1.png" width="821" height="597" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Here a function is defined to calculate the gap statistic. It is calculated for k between 1 and 20 with B = 100 random datasets (the more datasets that are used, the more computationally expensive). In the plot we are looking for the k where the gap statistic is greater than at k + 1 minus standard deviation. In this case we do not even need standard deviation since we observe that Gap(2) is greater than Gap(3). This means that the optimal K is 2 based on this method.</p>
+<p>This process can also be conducted using the gapstatistics package.</p>
+<p><code>pip install gapstatistics</code></p>
+<div id="3c967134" class="cell" data-execution_count="33">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> gapstatistics <span class="im">import</span> gapstatistics</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>gs <span class="op">=</span> gapstatistics.GapStatistics(distance_metric<span class="op">=</span><span class="st">'euclidean'</span>)</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>optimal <span class="op">=</span> gs.fit_predict(K <span class="op">=</span> <span class="dv">20</span>, X <span class="op">=</span> np.array(mnist_embedded_df))</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Optimal: </span><span class="sc">{</span>optimal<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Optimal: 2</code></pre>
+</div>
+</div>
+<p>The result is also an optimal K of 2. It appears that this method is not very good for this dataset.</p>
+<div id="9322f253" class="cell" data-execution_count="34">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>kmeans <span class="op">=</span> KMeans(n_clusters <span class="op">=</span> <span class="dv">2</span>, random_state <span class="op">=</span> <span class="dv">416</span>)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>cluster_labels <span class="op">=</span> kmeans.fit_predict(mnist_embedded_df)</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>mnist_embedded_df[<span class="st">'cluster'</span>] <span class="op">=</span> cluster_labels</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Cluster labels!</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">7</span>))</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>scatter <span class="op">=</span> plt.scatter(mnist_embedded_df[<span class="st">'dimension_1'</span>],</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>             mnist_embedded_df[<span class="st">'dimension_2'</span>], c<span class="op">=</span>mnist_embedded_df[<span class="st">'cluster'</span>],</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>             cmap<span class="op">=</span><span class="st">'rainbow'</span>)</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'K-means with k = 2 clusters'</span>)</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Dimension 1'</span>)</span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Dimension 2'</span>)</span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>legend1 <span class="op">=</span> plt.legend(<span class="op">*</span>scatter.legend_elements(), title<span class="op">=</span><span class="st">"Cluster"</span>)</span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>plt.gca().add_artist(legend1)</span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="unsupervised_files/figure-html/cell-35-output-1.png" width="819" height="597" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Here we have K-means with k = 2 with default cluster labels.</p>
+<div id="cea179d7" class="cell" data-execution_count="35">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>mnist_embedded_df[<span class="st">'actual'</span>] <span class="op">=</span> mnist_target_rand[<span class="st">'class'</span>]</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>modes <span class="op">=</span> mnist_embedded_df.groupby(<span class="st">'cluster'</span>).agg(</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>            {<span class="st">'actual'</span>: [<span class="kw">lambda</span> x: x.mode().iloc[<span class="dv">0</span>],</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>             <span class="kw">lambda</span> y: (y <span class="op">==</span> y.mode().iloc[<span class="dv">0</span>]).<span class="bu">sum</span>()<span class="op">/</span><span class="bu">len</span>(y),</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>             <span class="kw">lambda</span> x: x.value_counts().index[<span class="dv">1</span>],</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>             <span class="kw">lambda</span> y: (y <span class="op">==</span> y.value_counts().index[<span class="dv">1</span>]).<span class="bu">sum</span>()<span class="op">/</span><span class="bu">len</span>(y)]})</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>modes.columns <span class="op">=</span> [<span class="st">'mode'</span>, <span class="st">'proportion'</span>, <span class="st">'mode_2'</span>, <span class="st">'proportion_2'</span>]</span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot clusters with labels (actual)</span></span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>new_labels <span class="op">=</span> modes[<span class="st">'mode'</span>]</span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">7</span>))</span>
+<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a>scatter <span class="op">=</span> plt.scatter(mnist_embedded_df[<span class="st">'dimension_1'</span>],</span>
+<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a>             mnist_embedded_df[<span class="st">'dimension_2'</span>], c<span class="op">=</span>mnist_embedded_df[<span class="st">'cluster'</span>],</span>
+<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a>             cmap<span class="op">=</span><span class="st">'rainbow'</span>)</span>
+<span id="cb39-18"><a href="#cb39-18" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'K-means with k = 2 clusters'</span>)</span>
+<span id="cb39-19"><a href="#cb39-19" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Dimension 1'</span>)</span>
+<span id="cb39-20"><a href="#cb39-20" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Dimension 2'</span>)</span>
+<span id="cb39-21"><a href="#cb39-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-22"><a href="#cb39-22" aria-hidden="true" tabindex="-1"></a>handles, _ <span class="op">=</span> scatter.legend_elements()</span>
+<span id="cb39-23"><a href="#cb39-23" aria-hidden="true" tabindex="-1"></a>plt.legend(handles, new_labels, title<span class="op">=</span><span class="st">"Mode"</span>)</span>
+<span id="cb39-24"><a href="#cb39-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-25"><a href="#cb39-25" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="unsupervised_files/figure-html/cell-36-output-1.png" width="819" height="597" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Here are the mode labels but that does not tell us very much.</p>
+<div id="0058e285" class="cell" data-execution_count="36">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>mnist_embedded_df[mnist_embedded_df[<span class="st">'cluster'</span>] <span class="op">==</span> <span class="dv">0</span>][<span class="st">'actual'</span>].value_counts()</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 1, 9, 7, 4, and 2 are similar</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="36">
+<pre><code>actual
+1    211
+9    197
+7    196
+4    181
+2    117
+5     70
+8     22
+3     10
+0      1
+6      1
+Name: count, dtype: int64</code></pre>
+</div>
+</div>
+<div id="9efcad69" class="cell" data-execution_count="37">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>mnist_embedded_df[mnist_embedded_df[<span class="st">'cluster'</span>] <span class="op">==</span> <span class="dv">1</span>][<span class="st">'actual'</span>].value_counts()</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 3, 6, 0, 8, and 5 are similar</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="37">
+<pre><code>actual
+3    199
+6    197
+0    188
+8    179
+5    132
+2     91
+9      5
+4      2
+7      1
+1      0
+Name: count, dtype: int64</code></pre>
+</div>
+</div>
+<p>At the very least we can see which images of handwritten digits look similar in 2 dimensions.</p>
+</section>
+</section>
+<section id="conclusions" class="level3" data-number="10.4.5">
+<h3 data-number="10.4.5" class="anchored" data-anchor-id="conclusions"><span class="header-section-number">10.4.5</span> Conclusions</h3>
+<ul>
+<li>Using clustering we can figure out which digits look similar to each other when writing by hand</li>
+<li>The true number of clusters in 2D may be different than in the original dimensions. Maybe the algorithms would be better at identifying the different clusters of the MNIST data in 3D</li>
+<li>Choosing the right number of clusters can be challenging but is very important</li>
+<li>There are many methods for selecting the optimal number of clusters and they can yield different results</li>
+</ul>
+</section>
+<section id="further-readings-1" class="level3" data-number="10.4.6">
+<h3 data-number="10.4.6" class="anchored" data-anchor-id="further-readings-1"><span class="header-section-number">10.4.6</span> Further Readings</h3>
+<p><a href="@langfelder2008defining">Defining clusters from a hierarchical cluster tree</a></p>
+<p><a href="@sklearnAgglomerativeClustering">sklearn AgglomerativeClustering Documentation</a></p>
+<p><a href="@loehr2024gapstatistics">gapstatistics PyPI Documentation</a></p>
+<p><a href="@hayasaka2022how">How many Clusters? - Towards Data Science</a></p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
+<div id="ref-langfelder2008defining" class="csl-entry" role="listitem">
+Langfelder, P., Zhang, B., &amp; Horvath, S. (2008). Defining clusters from a hierarchical cluster tree: The dynamic tree cut package for r. <em>Bioinformatics</em>, <em>24</em>(5), 719–720.
+</div>
+</div>
 </section>
 </section>
 
