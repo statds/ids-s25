@@ -326,4 +326,4 @@ In the visualization:
 
 {{< include _pca.qmd >}}
 
-{{< include optimal_clustering_notes.qmd >}}
+{{< include _choosing_k.qmd >}}
