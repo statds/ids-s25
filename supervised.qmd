@@ -385,6 +385,8 @@ better generalization performance in many practical tasks.
 
 {{< include _variable_importance.qmd >}}
 
+{{< include _shap.qmd >}}
+
 {{< include _svm.qmd >}}
 
 <!-- {{< include _naivebayes.qmd >}} -->
