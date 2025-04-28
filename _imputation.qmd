@@ -1,0 +1,466 @@
+
+## Imputation Methods for Missing Data
+
+- This section was prepared by Sebastian Symula, a Junior Statistical
+Data Science major with a domain in statistics and a minor in math
+graduating in the fall.
+
+- This section will serve as an introduction into what data imputation
+is, when to do it, as well as comparing and contrasting a few different
+methods of imputation.
+
+### What is Data Imputation?
+In practice, most datasets will have missing values. This can be due to
+things like faulty equipment, nonresponse, or the data not existing in
+the first place.
+
+When data is missing, you have two options:
+
+- Ignore it (Complete Case Analysis): We only use complete rows without
+missing data for our analysis.
+- Impute it: We fill in missing values using some statistical method.
+
+
+
+Types of Missing Data:
+
+- Missing Completely at Random (MCAR):This is the best case scenario. 
+There is no pattern to be observed with missing and observed data. The
+full rows can be treated as an independent subset of the full dataset.
+This does not introduce bias and is usually not a realistic assumption.
+Each row has same chance of being missing.
+
+- Missing at Random (MAR): Missing data can be explained by observed
+data. missingness of data is related to observed variables, but not to
+the missing values themselves. Therefore, the mechanism of missingness
+can be modeled with observed data.
+
+- Missing Not at Random (MNAR): This is when the missingness may say
+something about the true value, due to some unobserved data. So the fact
+that the value is missing has an impact on the true value. Do NOT impute
+in this case.
+
+Types of Missing Data Example:
+
+Let's imagine we have a dataset where one column is gender and the other
+is the respondent's happiness score from a survey.
+
+- MCAR: If we see a relatively even spread of missing values between men
+and women. In this case the complete cases would be an independent
+subset of the dataset and we could run complete case analysis without
+any bias provided the missing data isn't a large portion of our set.
+- MAR: If we see a pattern of more missing values for men, but we assume
+this is due to men not finishing the survey and does not correlate with
+their happiness score. In this case we can use the observed cases for 
+men to impute the missing ones.
+- MNAR: If we think someone who's less happy might be less likely to
+complete the survey. Can't use observed values to predict missing ones.
+
+
+### Inspecting Missingness
+
+Let's create a complete dataset, then introduce MAR data:
+
+```{python}
+#| echo: true
+import pandas as pd
+import numpy as np
+
+np.random.seed(10)
+data = {
+    'ID': np.arange(1, 3000 + 1),
+    'Age': np.random.randint(18, 60,3000),
+    'Salary': np.random.randint(30000, 100000, 3000),
+    'Department': np.random.choice(['Sales', 'HR', 'IT', 'Finance'], 3000),
+    'Location': np.random.choice(['Remote', 'Hybrid'], 3000),
+    'Tenure': np.random.randint(0,35, 3000)
+}
+df = pd.DataFrame(data)
+```
+
+Dataset has 6 columns and 3000 rows.
+
+Introducing Missing Values:
+
+```{python}
+#| echo: true
+sal_prob = np.clip((df['Age'] - 30) / 40, 0, 1)
+sal_mask = np.random.uniform(0, 1, size=3000) < sal_prob
+dep_prob = np.clip((35 - df['Tenure']) / 35, 0, 1)
+dep_mask = np.random.uniform(0, 1, size=3000) < dep_prob
+ten_prob = np.where(df['Location'] == 'Hybrid', 0.6, 0.1) 
+ten_mask = np.random.uniform(0, 1, size=3000) < ten_prob
+# Create dataset with missing values
+df_missing = df.copy()
+df_missing.loc[sal_mask, 'Salary'] = np.nan
+df_missing.loc[dep_mask, 'Department'] = np.nan
+df_missing.loc[ten_mask, 'Tenure'] = np.nan
+missing_vals = df_missing.isnull()
+```
+
+Probability of `Salary` being missing increases as `Age` increases
+
+Probability of `Department` being missing increases as `Tenure` decreases
+
+Probability of `Tenure` being missing is greater if `Location` is Hybrid
+
+
+```{python}
+#| echo: true
+df_missing.isna().sum()
+```
+
+`isna().sum()` is a good place to start when looking at missing data. It
+provides the sum of missing data by column.
+
+
+Inspecting Missingness: Age vs Salary
+
+```{python}
+import seaborn as sns
+import matplotlib.pyplot as plt
+plt.figure(figsize=(10, 6))
+sns.scatterplot(data=df_missing, x='Age', y='Salary', alpha=0.6, color='blue')
+plt.title("MAR Missing Pattern: Income Missing More for Older Individuals")
+plt.show()
+```
+
+We can see that there is a trend of more missing values for `Salary` as
+`Age` increases.
+
+
+Inspecting Missingness: Tenure vs Department
+
+```{python}
+df_missing['dep_missing'] = df_missing['Department'].isnull().astype(int)
+
+# Bin Tenure for easier visualization
+df_missing['tenure_binned'] = pd.cut(df['Tenure'], bins=[0, 5, 10, 20, 30, 35], 
+                             labels=['0-5', '6-10', '11-20', '21-30', '30+'], 
+                             include_lowest=True)
+# Bar plot to show % of missingness per tenure bin
+plt.figure(figsize=(8, 5))
+sns.barplot(x=df_missing['tenure_binned'], y=df_missing['dep_missing'], estimator=np.mean, palette="coolwarm")
+plt.xlabel("Tenure (Binned)")
+plt.ylabel("Proportion of Department Missing")
+plt.title("Proportion of Missing Department Values by Tenure")
+plt.show()
+df_missing.drop(columns=['dep_missing','tenure_binned'],inplace= True)
+```
+
+There are more missing values for `Department` as `Tenure` decreases.
+
+
+Inspecting Missingness: Location vs Tenure
+
+```{python}
+plt.figure(figsize=(8, 5))
+df_missing['missingflag_ten'] = df_missing['Tenure'].isnull()
+from sklearn.impute import MissingIndicator
+indicator = MissingIndicator(missing_values=np.nan, features='all')
+mask_all = indicator.fit_transform(df_missing)
+# Plot scatter with missingness indicated by color
+plt.figure(figsize=(8, 5))
+sns.countplot(data=df_missing, x='Location', hue=df_missing['missingflag_ten'], palette={True: 'red', False: 'blue'})
+df_missing.drop(columns = ['missingflag_ten'], inplace = True)
+# Customize the plot
+plt.legend()
+plt.title("Missing Tenure by Location: Hybrid vs Remote")
+plt.xlabel("Location")
+plt.ylabel("Count")
+plt.show()
+```
+
+More missing values for `Tenure` when `Location` is Hybrid.
+
+
+When Is Imputing a Good Idea?
+
+
+Imputing might be the right decision if:
+
+  - It makes sense in the context of the data. Sometimes missing values
+  are expected.
+
+  - It wouldn't introduce extra bias. Depends on the kind of missing data.
+
+  - Deleting would result in losing important data.
+
+  - The computational cost isn't too great.
+
+  - The missing data is greater than 5 percent of the dataset.
+
+### Methods of Imputation
+
+#### Simple Methods
+- Mean
+- Median
+- Mode
+
+
+  - These can be a good initial option but will underestimate error.
+
+  - Fast and easy computationally.
+
+  - Will mess up visuals. There will be large clumps around the 
+  mean/median/mode.
+
+Mean/Mode Imputation
+
+For simplicity, we will exclusively be using functions from `sklearn`
+throughout. Specifically `sklearn.impute`.
+
+```{python}
+#| echo: true
+
+# importing and initialize imputations
+from sklearn.impute import SimpleImputer
+imp_mean = SimpleImputer(missing_values=np.nan, strategy='mean')
+imp_mode = SimpleImputer(missing_values=np.nan, strategy='most_frequent')
+
+## making a copy dataframe with missing values for imputation use
+mean_df = df_missing.copy()
+
+# imputing numeric and categorical features separately
+mean_df[['Salary', 'Tenure']] = imp_mean.fit_transform(mean_df[['Salary', 'Tenure']])
+mean_df[['Department']] = imp_mode.fit_transform(mean_df[['Department']])
+```
+
+Realistically, we don't need to use these functions. We could manually
+impute the mean or mode.
+
+Evaluating Mean/Mode Imputation:
+
+```{python}
+#| echo: true
+
+# calculating rmse
+from sklearn.metrics import mean_squared_error
+rmse_salary_simple = np.sqrt(mean_squared_error(df['Salary'], mean_df['Salary']))
+rmse_tenure_simple = np.sqrt(mean_squared_error(df['Tenure'], mean_df['Tenure']))
+
+# calculating accuracy
+correct_imputations = (df[missing_vals]['Department'] == mean_df[missing_vals]['Department']).sum()
+total_imputed = missing_vals['Department'].sum()
+categorical_accuracy = correct_imputations / total_imputed
+
+print(f'Tenure Error: {rmse_tenure_simple} years')
+print(f'Salary Error: ${rmse_salary_simple}')
+print(f'Department Accuracy: {categorical_accuracy}')
+```
+
+For evaluating accuracy of imputations, we will be using mean squared
+error for continuous variables and proportion of correct imputations for
+categorical data.
+
+
+KNN Imputation
+
+One of the most popular methods of imputation. Finds $k$ nearest
+neighbors that don't have missing values for the given column. Uses the
+mean of these values to impute missing value.
+
+- Uses Euclidean distance to find nearest neighbors
+- Becomes computationally expensive for higher values of $k$
+- Can be used for MCAR and MAR
+
+KNN Imputation Example:
+
+```{python}
+#| echo: true
+# importing and initializing imputer
+from sklearn.impute import KNNImputer
+from sklearn.preprocessing import OrdinalEncoder
+knn_df = df_missing.copy()
+
+# encoding the categorical column (doesn't work on strings)
+encoder = OrdinalEncoder(handle_unknown='use_encoded_value', unknown_value=np.nan)
+knn_df[['Department','Location']] = encoder.fit_transform(knn_df[['Department','Location']])
+
+# imputing the dataFrame using k = 8
+imputer = KNNImputer(n_neighbors=8, weights="uniform")
+knn_df_imputed = imputer.fit_transform(knn_df)
+# converting back to DataFrame
+knn_df = pd.DataFrame(knn_df_imputed, columns=knn_df.columns)
+# rounding the encoded column to integers (sometimes knn doesn't return # ints)
+knn_df['Department'] = np.round(knn_df['Department']).astype(int)
+
+# reverse encoding back to strings for accuracy evaluation
+knn_df[['Department','Location']] = encoder.inverse_transform(knn_df[['Department','Location']])
+```
+
+- This KNN Imputer only works with numeric data, so we encoded the
+categorical features. 
+- The number of neighbors, $k$ can be tuned. In this case we choose $k$
+= 8. Typically 5-10 is a good number.
+
+KNN Accuracy:
+
+```{python}
+#| echo: true
+
+# finding rmse for Salary and Tenure
+rmse_salary_knn = np.sqrt(mean_squared_error(df['Salary'], knn_df['Salary']))
+rmse_tenure_knn = np.sqrt(mean_squared_error(df['Tenure'], knn_df['Tenure']))
+
+correct_imputations = (df[missing_vals]['Department'] == knn_df[missing_vals]['Department']).sum()
+total_imputed = missing_vals['Department'].sum()
+categorical_accuracy = correct_imputations / total_imputed
+
+print(f'Tenure Error: {rmse_tenure_knn} years')
+print(f'Salary Error: ${rmse_salary_knn}')
+print(f'Department Accuracy: {categorical_accuracy}')
+```
+
+- The root MSE for both Tenure and Salary increased 
+- Department accuracy increased slightly over the 1 in 4 random guessing
+that was used with mode imputation.
+
+Problems with Single Imputation
+
+- All these examples have been methods of single imputation, in which
+one value is imputed for each missing value. 
+
+- Only having one value is understating the uncertainty of the true 
+value and when we use single imputation, the imputed value will almost 
+always be incorrect.
+
+- Since we're very uncertain about the true values, we should impute 
+multiple times to correctly account for uncertainty.
+
+
+#### Multiple Imputation
+
+Execute another imputation technique (like KNN) $m$ times on randomly 
+sampled subsets that don't have missing values for the given column. 
+This creates a set of possible values instead of just one. We then 
+perform statistical analysis on each of the $m$ complete datasets and 
+pool the results of the analysis.
+
+- Can become computationally expensive for large datasets or large 
+values of $m$.
+- $m$ can take on any value. Common range is 20-100, but generally 
+bigger is better.
+
+Multiple Imputation by Chained Equations (MICE)
+
+- Step 1: A simple imputation, such as imputing the mean, is performed 
+for every missing value in the dataset. These mean imputations can be 
+thought of as “place holders.”
+- Step 2: The “place holder” mean imputations for one variable (“var”) 
+are set back to missing.
+- Step 3: The observed values from the variable “var” in Step 2 are 
+regressed on the other variables in the imputation model.
+- Step 4: This process is repeated for each feature with missing values, 
+then the entire process is repeated for a given number of iterations 
+until the algorithm reaches convergence (imputed values yield similar 
+results after each iteration).
+- This forms 1 imputed dataset. We repeat this process $m$ times.
+
+Using statsmodels.imputation.mice
+
+- We will be using the `MICEData` function from `statsmodels.imputation.
+mice` for multiple imputation.
+- `k_pmm`: This is the size of the sample used to perform predictive 
+mean matching. Predictive mean matching is similar to KNN in that it 
+uses similar rows to impute.
+- `perturbation_method`: Adds random noise to imputations to account for 
+uncertainty. We use 'gaussian' for this because we are adding noise 
+generated from a normal distribution.
+
+
+MI Example
+
+```{python}
+#| echo: true
+from statsmodels.imputation.mice import MICEData
+import statsmodels.api as sm
+import numpy as np
+from sklearn.preprocessing import OrdinalEncoder
+
+# copying data and encode categorical variables
+df_mi = df_missing.copy()
+encoder = OrdinalEncoder(handle_unknown='use_encoded_value', unknown_value=np.nan)
+df_mi[['Department', 'Location']] = encoder.fit_transform(df_mi[['Department', 'Location']]).astype(int)
+
+# performing Multiple Imputation
+mice_data = MICEData(df_mi,k_pmm = 30, perturbation_method='gaussian')
+m = 20  # Number of imputed datasets
+imputed_datasets = []
+for _ in range(m):
+    mice_data.update_all()  # Perform one imputation step
+    imputed_datasets.append(mice_data.data.copy())  # Store a copy of the imputed dataset
+```
+
+Pooling MI Results
+
+
+- we have multiple regression models formed from multiple imputed 
+datasets, but we need one final model.
+- To achieve this, we pool the results using Rubin's combination rules.
+- For parameter estimates, we simply take the average.
+- For within imputation variance, we take the average of variances.
+
+- For between imputation variance, we use the equation given by:
+
+$b = \frac{1}{m - 1} \sum_{i = 1}^{m} (\theta_i - \hat{\theta})^2$.
+
+- For pooled total variance of imputed datasets, we use the equation:
+
+$t = w + (1 + 1/m)*b$,
+
+where $w$ is the within imputation variance, $b$ is the between 
+imputation variance, $m$ is the total number of imputed datasets, 
+$\theta$ is a parameter estimate, and $\hat{theta}$ is our pooled 
+parameter estimate.
+
+
+MI Results
+
+Here we fit a linear regression model to each of the 20 imputed 
+dataframes.
+
+```{python}
+#| echo: true
+# fitting regression models on imputed datasets one at a time
+results = [sm.OLS(df['Salary'], sm.add_constant(df[['Department', 'Location','Tenure']])).fit() for df in imputed_datasets]
+# pooling estimates using Rubin's Rules (shown above)
+params = np.array([res.params for res in results])
+bse = np.array([res.bse for res in results])
+
+pooled_means = params.mean(axis=0)
+pooled_se = np.sqrt(bse.mean(axis=0) + ((1 + 1/m) * params.var(axis=0, ddof=1)))
+print("Pooled Coefficients:\n", pooled_means)
+print("\nPooled Standard Errors:\n", pooled_se)
+```
+
+The first coefficient/se is for the intercept.
+
+
+### Conclusions
+
+- Not everything needs to be imputed, we need to consider the context of 
+the data. If we suspect that the missing data is MNAR, we do not impute.
+- Need to weigh computational cost with accuracy. Multiple imputation 
+can be difficult on large datasets.
+- Overall, multiple imputation is a safe bet.
+
+Imputing in R:
+
+These examples were all done in python, because that is the language 
+we've used for this class. However, R has much more sophisticated 
+packages and functions for imputing. Specifically the `mice` package in 
+R has plenty of options for multiple imputation, with a lot of 
+documentation available.
+
+I would recommend checking this out!
+
+### Further Readings
+
+- [Combining Multiple Imputations](https://real-statistics.com/
+handling-missing-data/multiple-imputation-mi/
+combining-multiple-imputations/)
+- [Multiple Imputation by Chained Equations](https://pmc.ncbi.nlm.nih.
+gov/articles/PMC3074241/)
+- [statsmodels.imputation.mice](https://www.statsmodels.org/dev/
+generated/statsmodels.imputation.mice.MICEData.html)
