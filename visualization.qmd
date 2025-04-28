@@ -1,5 +1,6 @@
 # Data Visualization
 
+<!-- This section is to be included as a tutorial for ggplot with plotnine. -->
 <!-- {{< include _plotnine.qmd >}} -->
 
 <!-- This section is to be included as a tutorial for geospatial data. -->
