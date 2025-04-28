@@ -1,0 +1,926 @@
+## Choosing the Optimal Number of Clusters
+
+This section was contributed by Nicholas Pfeifer, a junior majoring in
+Statistics and minoring in Real Estate and Computer Science.
+
+This section will cover the following:
+
++ Why use clustering? What are its applications?
+
++ K-means Clustering and Hierarchical Clustering algorithms
+
++ How to determine the optimal number of clusters
+
+### Why Clustering? What is it?
+
+Clustering is an exploratory approach looking to identify natural categories
+in the data. The overall goal is to Place observations into groups
+("clusters") based on similarities or patterns. It can be viewed as an
+**Unsupervised Learning** technique since the algorithm does not use a target
+variable to discover patterns and make groups. This is in contrast to
+regression, for instance, where the target variable is used in the process of
+generating a model. Clustering can be effective at identifying trends,
+patterns, or outliers in a dataset.
+
++ Clustering is useful when...
+    + the true number of clusters is not known in advance
+    + working with large unlabeled data
+    + looking to detect anomolies/outliers
+
+#### Applications
+
+Clustering has a plethora of applications. Some of the most popular ones are
+outlined below.
+
++ Market Reasearch
+    + Customer Segmentation - grouping customers by demographics or behaviors
+    + Sales Analysis - based on the clusters, which groups purchase the
+    product/service and which groups do not
++ Anomaly Detection
+    + Banks - combat fraud by distinguishing characteristics that stand out
++ Image Segmentation
+    + Identifying sections, objects, or regions of interest
+    + Classify land using satellite imagery - vegetation, industrial use, etc.
+
+### How to measure the quality of clustering outcome
+
+When assigning data points to clusters, there are two aspects to consider when
+judging the quality of the resulting clusters:
+
+1. **Intra-cluster Distance**: The distance between data points within a
+cluster (can also be referred to as within-cluster distance)
+    + The smaller the distance/variation within clusters, the better the
+    clustering result
+    + Ideally similar data points are clustered together
+2. **Inter-cluster Distance**: The distance between data points in separate
+clusters (can also be referred to as between-cluster distance)
+    + The larger the distance/variation between clusters, the better the
+    clustering result
+    + Ideally dissimilar data points are in different clusters
+
+In essence, the objective is for points within a cluster to be as similar to
+each other as possible, and for points belonging to different clusters to be
+as distinct as possible.
+
+The following code outputs two possible ways to cluster 10 observations from
+the MNIST handwritten digits dataset introduced in the Unsupervised Learning
+chapter of these class notes. The dimensionally of the observations has been
+reduced to 2 dimensions using t-SNE in order to make visualization easier.
+
+```{python}
+from sklearn.datasets import fetch_openml
+import numpy as np
+import pandas as pd
+from sklearn.manifold import TSNE
+import matplotlib.pyplot as plt
+
+mnist = fetch_openml('mnist_784', version=1)
+mnist_example_df = pd.DataFrame(mnist.data)
+mnist_example_df = mnist_example_df[:10]
+
+tsne = TSNE(n_components=2, perplexity=5,
+            learning_rate='auto',
+            init='random', random_state=416)
+
+mnist_example_df = tsne.fit_transform(mnist_example_df)
+
+mnist_example_df = pd.DataFrame(mnist_example_df)
+mnist_example_df.columns = ['dimension_1', 'dimension_2']
+
+mnist_example_df['clustering_1'] = [1, 1, 3, 2, 3, 3, 2, 1, 2, 3]
+mnist_example_df['clustering_2'] = [1, 1, 2, 2, 3, 3, 1, 3, 2, 2]
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 5))
+
+ax1.scatter(mnist_example_df['dimension_1'],
+            mnist_example_df['dimension_2'],
+            c = mnist_example_df['clustering_1'],
+            cmap = 'rainbow')
+ax1.set_xlabel('Dimension 1')
+ax1.set_ylabel('Dimension 2')
+ax1.set_title('Clustering 1')
+
+ax2.scatter(mnist_example_df['dimension_1'],
+            mnist_example_df['dimension_2'],
+            c = mnist_example_df['clustering_2'],
+            cmap = 'rainbow')
+ax2.set_xlabel('Dimension 1')
+ax2.set_ylabel('Dimension 2')
+ax2.set_title('Clustering 2')
+
+plt.tight_layout();
+```
+
+Here are two different clusterings. Hopefully it is apparent which clustering
+is preferred. Clustering 1 is better than clustering 2 since points in the
+same cluster are closer to each other, and the clusters themselves are further
+apart. Some points in clustering 2 are more similar to points of other clusters
+than points within their own cluster. Ideally a clustering more closely
+resembles the result seen in clustering 1.
+
+### Clustering Algorithms
+
+They are many different clustering algorithms out there, but for simplicity
+this section will focus on the K-means and Hierarchical clustering algorithms.
+
++ **K-means**
+    + Top-down approach
+    + Centroid based
++ **Hierarchical (Agglomerative)**
+    + Bottom-up approach
+    + Tree-like structure
++ Others include:
+    + K-mediods, DBSCAN, Gaussian Mixture Model, etc.
+
+#### K-means Algorithm
+
+The K-means algorithm has already been introduced in the unsupervised learning
+chapter, so this will serve as a brief refresher. The steps of the algorithm
+are as follows:
+
+1. Must specify a number of clusters k
+2. Data points are randomly assigned to k intial clusters
+3. The centroid of each cluster is calculated
+4. Data points are reassigned to the cluster with the closest centroid
+according to euclidean distance
+5. Iterate the previous 2 steps until cluster assignments no longer change or
+a set number of iterations have been completed
+
+```{python}
+from sklearn.cluster import KMeans
+
+mnist_example_df = mnist_example_df.drop(['clustering_1', 'clustering_2'],
+axis = 1)
+
+kmeans = KMeans(n_clusters = 3, random_state = 416, 
+n_init = 16).fit(mnist_example_df)
+
+mnist_example_df['labels'] = kmeans.labels_
+
+plt.figure(figsize=(10, 7))
+plt.scatter(mnist_example_df['dimension_1'],
+        mnist_example_df['dimension_2'],
+        c = mnist_example_df['labels'],
+        cmap = 'rainbow')
+plt.scatter(kmeans.cluster_centers_[:, 0],
+        kmeans.cluster_centers_[:, 1],
+        marker = '*', c = 'y', label = 'Centroids',
+        s = 100)
+
+plt.xlabel('Dimension 1')
+plt.ylabel('Dimension 2')
+plt.title('K-means with k = 3')
+plt.legend();
+```
+
+Here is an example clustering result of K-means clustering with k = 3
+(clusters) on the same 10 MNIST observations. The final centroids are
+included in the plot.
+
+#### Hierarchical Clustering Algorithm
+
+Hierarchical clustering is another algorithm which differs substantially from
+K-means. Something particularly of note is that the hierarchical approach does
+not require the number of clusters to be specified in advance. This can be
+seen as a drawback of K-means. The decision on the number of clusters
+can be made by based on the resulting tree-like structure called a 
+**Dendrogram**. The steps of this algorithm are shown below:
+
+1. Each data point is initailly assigned to its own cluster
+2. Check the distance between every possible pair of clusters
+3. Merge the closest pair of clusters into one cluster
+4. Iterate the previous 2 steps until all of the data points are in one cluster
+5. Cut the resulting Dendrogram
+
+```{python}
+from sklearn.cluster import AgglomerativeClustering
+from scipy.cluster.hierarchy import dendrogram, linkage
+
+mnist_example_df = mnist_example_df.drop(['labels'], axis = 1)
+
+fig, axs = plt.subplots(2, 2, figsize=(10, 8))
+
+H_Clust = AgglomerativeClustering(n_clusters = None, distance_threshold = 0,
+linkage = 'ward')
+clusters = H_Clust.fit_predict(mnist_example_df)
+
+clust_linkage = linkage(mnist_example_df, method = 'ward',
+metric = 'euclidean')
+
+#plt.figure(figsize=(10, 7))
+dendrogram(clust_linkage, ax = axs[0, 1])
+axs[0, 1].set_title('Dendrogram')
+axs[0, 1].set_xlabel('Sample Index')
+axs[0, 1].set_ylabel('Distance')
+
+axs[0, 0].scatter(mnist_example_df['dimension_1'],
+            mnist_example_df['dimension_2'], c=clusters, cmap='rainbow')
+for i, label in enumerate(range(0, 10)):
+    axs[0, 0].text(mnist_example_df['dimension_1'][i] - 3,
+    mnist_example_df['dimension_2'][i], str(label),
+    fontsize = 16, ha = 'right')
+axs[0, 0].set_title('Hierarchical Clustering')
+axs[0, 0].set_xlabel('Dimension 1')
+axs[0, 0].set_ylabel('Dimension 2')
+
+
+H_Clust = AgglomerativeClustering(n_clusters = 4, distance_threshold = None,
+linkage = 'ward')
+clusters = H_Clust.fit_predict(mnist_example_df)
+
+clust_linkage = linkage(mnist_example_df, method = 'ward',
+metric = 'euclidean')
+
+#plt.figure(figsize=(10, 7))
+dendrogram(clust_linkage, color_threshold = 70, ax = axs[1, 1])
+axs[1, 1].set_title('Dendrogram')
+axs[1, 1].set_xlabel('Sample Index')
+axs[1, 1].set_ylabel('Distance')
+
+
+axs[1, 0].scatter(mnist_example_df['dimension_1'],
+            mnist_example_df['dimension_2'], c=clusters, cmap='rainbow')
+for i, label in enumerate(range(0, 10)):
+    axs[1, 0].text(mnist_example_df['dimension_1'][i] - 3,
+    mnist_example_df['dimension_2'][i], str(label),
+    fontsize = 16, ha = 'right')
+axs[1, 0].set_title('Hierarchical Clustering')
+axs[1, 0].set_xlabel('Dimension 1')
+axs[1, 0].set_ylabel('Dimension 2')
+
+plt.tight_layout()
+
+plt.show()
+```
+
+Here is an example of Hierarchical clustering on the same 10 MNIST
+observations. The top row is the result when the number of clusters has not
+been specified. In the top left plot each data point is its own cluster. The
+indices of the data points can be seen in the dendrogram to the right. For
+this plot (top right) the colors are irrelevant. Potential clusterings of
+data points can be seen as the clusters are merged from bottom to top. The
+smaller the vertical distance the closer those clusters are to each other
+(and vice-versa). In the bottom row, the algorithm has been instructed to
+generate 4 clusters. The colors in the dendrogram do not align with those
+shown in the plot, so it is better to refer to the indices. Here, the
+dendrogram has been cut such that the closest clusters are merged together
+until there are 4 clusters. How to choose the height to cut the dendrogram
+will be discussed later on in the section.
+
+### Methods for selecting the optimal number of clusters
+
+Selecting the optimal number of clusters is important since the results can
+be misleading if our clustering differs greatly from the true number of
+clusters. There are many different methods for selecting the optimal number
+of clusters, but for now we will delve into 4 of the most popular methods.
+It is important to note that no method works well in every scenario and that
+different methods can give differing results.
+
+Here are the methods covered in this section:
+
++ Inspect a Dendrogram
++ Elbow Method
++ Silhouette Method
++ Gap Statistic
+
+#### Hierarchical Clustering Example
+
+In this example we will continue to use the MNIST dataset, however this time
+2000 observations will be selected at random to be clustered.
+
+```{python}
+from sklearn.datasets import fetch_openml
+import numpy as np
+import pandas as pd
+from sklearn.utils import resample
+
+# Fetching NIST dataset
+mnist = fetch_openml('mnist_784', version=1)
+
+mnist_df = pd.DataFrame(mnist.data)
+
+# Taking a random sample of 2000 images
+mnist_rand = resample(mnist_df, n_samples = 2000, random_state = 416)
+
+mnist_rand = mnist_rand.reset_index().drop('index', axis = 1)
+
+# Keeping track of the target values
+mnist_target_df = pd.DataFrame(mnist.target)
+mnist_target_rand = resample(mnist_target_df,
+                             n_samples = 2000,
+                             random_state = 416)
+mnist_target_rand = mnist_target_rand.reset_index().drop('index', axis = 1)
+
+# Distribution is fairly even
+mnist_target_rand['class'].value_counts()
+```
+
+The distribution of the 2000 randomly sampled handwritten digits is shown
+above. The distribution of the digitsappears to be fairly evenly distributed.
+
+Once again, the dimensionality of these images is reduced to 2 dimensions
+using t-SNE.
+
+```{python}
+from sklearn.manifold import TSNE
+import matplotlib.pyplot as plt
+
+# t-SNE dimensionality reduction
+tsne = TSNE(n_components=2, perplexity=30,
+            learning_rate='auto',
+            init='random', random_state=416)
+
+mnist_embedded = tsne.fit_transform(mnist_rand)
+
+mnist_embedded_df = pd.DataFrame(mnist_embedded)
+mnist_embedded_df.columns = ['dimension_1', 'dimension_2']
+
+plt.figure(figsize=(10, 7))
+plt.scatter(mnist_embedded_df['dimension_1'],
+            mnist_embedded_df['dimension_2'])
+plt.title('Random Sample of 2000 MNIST Digits')
+plt.xlabel('Dimension 1')
+plt.ylabel('Dimension 2');
+```
+
+Here is a scatterplot of the 2000 randomly sampled images above without
+looking at their actual labels.
+
+```{python}
+#| echo: true
+
+from sklearn.cluster import AgglomerativeClustering
+from scipy.cluster.hierarchy import dendrogram, linkage
+
+H_Clust =  AgglomerativeClustering(n_clusters = None, distance_threshold = 0,
+linkage = 'ward')
+clusters = H_Clust.fit_predict(mnist_embedded_df)
+
+clust_linkage = linkage(mnist_embedded_df, method = 'ward')
+
+plt.figure(figsize=(10, 7))
+dendrogram(clust_linkage)
+plt.title('Dendrogram')
+plt.xlabel('Sample Index')
+plt.ylabel('Distance')
+plt.show()
+```
+
+After conducting Hierarchical clustering without specifying the number of
+clusters, we have a dendrogram. Now comes the decision of where to make a
+horizontal cut. There is a paper about "dynamic cuts" that are flexible and do
+not cut at a constant height, but that is outside of the current scope
+(@langfelder2008defining). When looking at the dendrogram above, suppose we do
+not know the true number of clusters. Generally, when cutting the tree, we want
+the resulting clusters to be around the same height. Vertical distance
+represents dissimilarity, so we do not want clusters of high disimilarity to be
+merged together. Remember that good clustering involves small distances within
+clusters and large distances between clusters. This is a subjective approach
+and sometimes it may be difficult to find the best height to cut the
+dendrogram. Perhaps with domain knowledge a predefined threshold could be a
+good height at which to cut. For this example I chose to cut the tree at a
+height of 200. That resulted in 11 clusters which will be analyzed below.
+
+```{python}
+from scipy.cluster.hierarchy import cut_tree
+
+# cut the tree
+new_clusters = cut_tree(clust_linkage, height = 200)
+
+mnist_embedded_df['cluster'] = new_clusters
+
+# Plot the new clusters
+plt.figure(figsize=(10, 7))
+plt.scatter(mnist_embedded_df['dimension_1'],
+            mnist_embedded_df['dimension_2'], c=mnist_embedded_df['cluster'], 
+            cmap='rainbow')
+plt.title('Hierarchical Clustering (11 clusters)')
+plt.xlabel('Dimension 1')
+plt.ylabel('Dimension 2')
+plt.show()
+```
+
+Here are the 11 clusters obtained after cutting the tree. What do these
+clusters signify? Maybe by adding some labels to the clusters, that will
+become more clear.
+
+```{python}
+# Plot clusters with labels (cluster labels not actual!)
+
+plt.figure(figsize=(10, 7))
+scatter = plt.scatter(mnist_embedded_df['dimension_1'],
+             mnist_embedded_df['dimension_2'], c=mnist_embedded_df['cluster'], 
+             cmap='rainbow')
+plt.title('Hierarchical Clustering (11 clusters)')
+plt.xlabel('Dimension 1')
+plt.ylabel('Dimension 2')
+legend1 = plt.legend(*scatter.legend_elements(), title="Cluster")
+plt.gca().add_artist(legend1)
+plt.show()
+```
+
+Now the clusters have been associated with their cluster label, but this does
+not represent the actual handwritten digits.
+
+In this case it is hard to determine what the clusters signify if the target
+values are unknown. However we do know the target value (actual handwritten
+digit) for each image. This information can help to label the clusters and make
+them more interpretable.
+
+```{python}
+mnist_embedded_df['actual'] = mnist_target_rand['class']
+
+# calculating mode and proportion of observations in the cluster that are the 
+# mode in each cluster
+modes = mnist_embedded_df.groupby('cluster').agg(
+            {'actual': [lambda x: x.mode().iloc[0],
+             lambda y: (y == y.mode().iloc[0]).sum()/len(y)]})
+
+modes.columns = ['mode', 'proportion']
+modes
+```
+
+This code above calculates the mode digit of each cluster along with the
+proportion of observations in the cluster that are the mode. Now let's label
+the clusters by their mode.
+
+```{python}
+# Plot clusters with (actual) labels (modes)
+
+new_labels = modes['mode']
+
+plt.figure(figsize=(10, 7))
+scatter = plt.scatter(mnist_embedded_df['dimension_1'],
+             mnist_embedded_df['dimension_2'], c=mnist_embedded_df['cluster'], 
+             cmap='rainbow')
+plt.title('Hierarchical Clustering (11 clusters)')
+plt.xlabel('Dimension 1')
+plt.ylabel('Dimension 2')
+
+handles, _ = scatter.legend_elements()
+plt.legend(handles, new_labels, title="Mode")
+
+plt.show()
+```
+
+Now we can get a better understanding of the clustering. Although there are 11
+clusters in total, you will notice that every digit does not appear as the mode
+of a cluster. 9 is not the mode of any cluster while 4 and 7 are the modes of
+multiple clusters. At the very least the clusters with 4 and 7 as the mode are
+very close to each other. Also intuitively the digits 0, 6, and 8 are written
+similarly, so it makes sense to see those clusters in the same general area.
+
+Just out of curiosity, let's look at the actual distribution of the digits.
+
+```{python}
+# Showing the actual distribution of classes
+
+mnist_embedded_df['actual'] = mnist_embedded_df['actual'].astype('int64')
+
+plt.figure(figsize=(10, 7))
+scatter = plt.scatter(mnist_embedded_df['dimension_1'],
+            mnist_embedded_df['dimension_2'],
+            c = mnist_embedded_df['actual'], cmap='rainbow')
+plt.xlabel('Dimension 1')
+plt.ylabel('Dimension 2')
+plt.title('True Distribution of Target')
+legend1 = plt.legend(*scatter.legend_elements(), title="Value")
+plt.gca().add_artist(legend1);
+```
+
+Analyzing the cluster performance by viewing the actual distribution of the
+target is becoming de facto supervized learning, but not really since the
+clustering algorithm does not know or use the information of the target. For
+the purposes of this section it is just to see how well the clustering found
+the true clusters. For the most part it looks like the clustering did a
+moderately good job at identifying the true clusters of the digits in 2
+dimensions. The digits 4, 7, and 9 seem to be very similar in 2D and is
+understandably more difficult for the algorithm to distinguish.
+
+Since the true number of clusters is known, let's see what it looks like with
+10 clusters just out of curiosity again. 
+
+```{python}
+# Try cutting with 10 clusters instead
+new_clusters = cut_tree(clust_linkage, n_clusters=10)
+mnist_embedded_df['cluster'] = new_clusters
+
+modes = mnist_embedded_df.groupby('cluster').agg(
+            {'actual': [lambda x: x.mode().iloc[0],
+             lambda y: (y == y.mode().iloc[0]).sum()/len(y),
+             lambda x: x.value_counts().index[1],
+             lambda y: (y == y.value_counts().index[1]).sum()/len(y)]})
+
+modes.columns = ['mode', 'proportion', 'mode_2', 'proportion_2']
+
+# Plot clusters with mode labels
+
+new_labels = modes['mode']
+
+plt.figure(figsize=(10, 7))
+scatter = plt.scatter(mnist_embedded_df['dimension_1'],
+             mnist_embedded_df['dimension_2'], c=mnist_embedded_df['cluster'],
+             cmap='rainbow')
+plt.title('Hierarchical Clustering (10 clusters)')
+plt.xlabel('Dimension 1')
+plt.ylabel('Dimension 2')
+
+handles, _ = scatter.legend_elements()
+plt.legend(handles, new_labels, title="Mode")
+
+plt.show()
+```
+
+The difference appears to be that the two clusters with 4 as mode merged into
+one cluster.
+
+```{python}
+modes
+```
+
+This table contains the mode of each cluster as well as the second most common
+value in each cluster denoted at mode_2. Interestingly, 9 appears as the second
+most common value in 3 different clusters.
+
+#### K-means Clustering Example: Elbow Method
+
+For the next 3 methods the K-means algorithm will be used on the same random
+2000 MNIST images in 2 dimensions.
+
+The goal of the Elbow method is to minimize the within cluster sum of squares
+(WSS), which is also refered to as inertia. The optimal number of clusters is
+K such that adding another cluster does not (significantly) improve WSS.
+Whenever the number of clusters increases, inertia will decrease since there
+are fewer points in each cluster that become closer to their cluster's center.
+The idea of the Elbow method is that the rate of decrease in WSS changes based
+on the optimal number of clusters, K. When k < K, (approaching optimal number)
+inertia decreases rapidly. When k > K, (going past optimal number) inertia
+decreases slowly. K is found by plotting inertia over a range of k and looking
+for a bend or "elbow", hence the name.
+
+```{python}
+# K-means
+from sklearn.cluster import KMeans
+
+# removing non-nist columns
+mnist_embedded_df = mnist_embedded_df.drop(['cluster', 'actual'], axis = 1)
+
+# elbow method for k between 1 and 20 on same MNIST data
+
+wcss = []
+
+for k in range(1, 21):
+     model = KMeans(n_clusters = k, random_state = 416).fit(mnist_embedded_df)
+     wcss.append(model.inertia_)
+
+plt.figure(figsize=(10, 7))
+plt.plot(range(1, 21), wcss, 'bx-')
+plt.xlabel('Number of Clusters (k)')
+plt.ylabel('Within-Cluster Sum of Squares')
+plt.title('Elbow Method')
+plt.show()
+# Seems inconclusive, maybe 7?
+```
+
+The code above stores the inertia for values of k between 1 and 20, and creates
+the plot. In this case it is somewhat inconclusive. It looks like the decrease
+in inertia starts to slow down at k = 7. Like with the dendrogram, this method
+is also subjective.
+
+#### K-means Clustering Example: Silhouette Method
+
+Next is the Silhouette method, which is the most objective method of the 4
+covered in this section
+
+**Silhouette Score**
+
+Before delving into the Silhouette method, it is good to get an understanding
+of Silhouette Score. The silhouette s of a data point is,
+$$s = (b-a)/\max(a, b).$$
+
++ At each data point, the distance to its cluster’s center = a
++ And the distance to the second best cluster center = b
+    + Second best suggests closest cluster that is not the current cluster
++ s can take any value between -1 and 1
+
+**Interpreting Silhouette Score**
+
+There are 3 main categories that a data point can fall into:
+
++ If a data point is very close to its own cluster and very far from the second
+best cluster (a is small, and b is big), then s is close to 1 (close to $b/b$)
++ If a data point is roughly the same distance to its own cluster as the second
+best cluster ($a \approx b$), then s $\approx$ 0
++ If a data point is very far from its own cluster and very close to the second
+best cluster (a is big, and b is small), then s is close to -1 (close to -a/a)
+
+For optimal clustering, we want most data points to fall into the first
+category. In other words we want silhouette scores to be as close to 1 as
+possible.
+
+**Silhouette Coefficient**
+
+The Silhouette Coefficient is represented by the average silhouette score of
+the data points. This metric does a good job of summarizing both
+within-cluster and between-cluster variation. The closer the Silhouette
+Coefficient is to 1, the better the clustering. Similar to the Elbow method,
+the optimal K is selected by calculating the Silhouette Coefficient over a
+range of k's, and choosing K with the maximum Silhouette Coefficient.
+
+```{python}
+# Silhoutte method
+from sklearn.metrics import silhouette_score
+
+silhouette_average_scores = []
+
+for k in range (2, 21):
+    kmeans = KMeans(n_clusters = k, random_state = 416)
+    cluster_labels = kmeans.fit_predict(mnist_embedded_df)
+
+    silhouette_avg = silhouette_score(mnist_embedded_df, cluster_labels)
+    silhouette_average_scores.append(silhouette_avg)
+
+# Plot silhouette scores
+plt.figure(figsize=(10, 7))
+plt.plot(list(range(2,21)), silhouette_average_scores, marker='o')
+plt.title("Silhouette Coefficients")
+plt.xlabel("Number of Clusters (k)")
+plt.ylabel("Average Silhouette Score")
+plt.show()
+# k = 7 has the highest average silhouette score
+```
+
+Here the Silhouette Coefficient is calculated for k between 2 and 20. The
+maximum occurs at k = 7, which is coincidentally the same result as the Elbow
+method. Let's visualize how these 7 clusters look on our 2000 MNIST digits.
+
+```{python}
+kmeans = KMeans(n_clusters = 7, random_state = 416)
+cluster_labels = kmeans.fit_predict(mnist_embedded_df)
+mnist_embedded_df['cluster'] = cluster_labels
+
+# K-means with k= 7 (cluster labels, not actual!)
+plt.figure(figsize=(10, 7))
+scatter = plt.scatter(mnist_embedded_df['dimension_1'],
+             mnist_embedded_df['dimension_2'], c=mnist_embedded_df['cluster'],
+             cmap='rainbow')
+plt.title('K-means with k = 7 clusters')
+plt.xlabel('Dimension 1')
+plt.ylabel('Dimension 2')
+legend1 = plt.legend(*scatter.legend_elements(), title="Cluster")
+plt.gca().add_artist(legend1)
+plt.show()
+```
+
+These are just the cluster labels, not the actual digits.
+
+```{python}
+mnist_embedded_df['actual'] = mnist_target_rand['class']
+
+modes = mnist_embedded_df.groupby('cluster').agg(
+            {'actual': [lambda x: x.mode().iloc[0],
+             lambda y: (y == y.mode().iloc[0]).sum()/len(y),
+             lambda x: x.value_counts().index[1],
+             lambda y: (y == y.value_counts().index[1]).sum()/len(y)]})
+
+modes.columns = ['mode', 'proportion', 'mode_2', 'proportion_2']
+modes
+```
+
+Here are the modes which can be used to label the 7 clusters.
+
+```{python}
+# Plot clusters with (actual) labels (modes)
+new_labels = modes['mode']
+
+plt.figure(figsize=(10, 7))
+scatter = plt.scatter(mnist_embedded_df['dimension_1'],
+             mnist_embedded_df['dimension_2'], c=mnist_embedded_df['cluster'],
+             cmap='rainbow')
+plt.title('K-means with k = 7 clusters')
+plt.xlabel('Dimension 1')
+plt.ylabel('Dimension 2')
+
+handles, _ = scatter.legend_elements()
+plt.legend(handles, new_labels, title="Mode")
+
+plt.show()
+```
+
+Now we have the actual mode labels of the 7 clusters obtained from K-means.
+Interestingly, the area that used to have 4 as the label now has 9. Now this
+digits that do not appear as the mode in any cluster are 4, 5, and 8. Looking
+back at the modes table we see that these digits frequently appear as the
+second most common value in a cluster at a high rate. Obviously 7 is not the
+true number of clusters, but perhaps the 2D representation is obscuring the
+ability to find disimilarities between some of the digits.
+
+```{python}
+# Showing the actual distribution of classes
+
+mnist_embedded_df['actual'] = mnist_embedded_df['actual'].astype('int64')
+
+plt.figure(figsize=(10, 7))
+scatter = plt.scatter(mnist_embedded_df['dimension_1'],
+            mnist_embedded_df['dimension_2'],
+            c = mnist_embedded_df['actual'], cmap='rainbow')
+plt.xlabel('Dimension 1')
+plt.ylabel('Dimension 2')
+plt.title('True Distribution of Target')
+legend1 = plt.legend(*scatter.legend_elements(), title="Value")
+plt.gca().add_artist(legend1);
+```
+
+For reference, here is the true distribution of the handwritten digits again.
+
+#### K-means Clustering Example: Gap Statistic
+
+The last method to be covered is the Gap Statistic. The Gap Statistic for a
+number of clusters k can be written as
+
+$$Gap(k) = \frac{1}{B}\sum_{b=1}^{B} \log(W_{kb}) - \log(W_k).$$
+
++ Compares the total (within) intra-cluster variation for a range of k's
+with their expected values
++ Calculated by comparing the inertia of a clustered dataset with the inertia
+of a uniformly distributed random data set (covering the same ranges in the
+data space)
++ A number of random samples (B) are generated that are then clustered
+over a range of k's while keeping track of the inertia
++ $W_{kb}$ is the inertia of the b-th random sample with k clusters and $W_k$
+is the inertia of the original data with k clusters
+
+We also need the standard deviation,
+
+$$s_k = \sqrt{1 + \frac{1}{B}}\sqrt{\frac{1}{B}\sum_{b=1}^{B} (\log(W_{kb}) - \overline{W})^2}.$$
+
+Where
+
+$$\overline{W} = \frac{1}{B}\sum_{b=1}^{B} \log(W_{kb}).$$
+
+Choose the smallest k such that the gap statistic is within one
+standard deviation of the gap at k + 1.
+
+This can be represented by the expression,
+
+$$Gap(k) \geq Gap(k+1) - s_{k+1}.$$
+
+The optimal k may vary over multiple gap statistic simulations since there is
+randomness involved.
+
+```{python}
+# gap statistic
+
+# removing non-nist columns
+mnist_embedded_df = mnist_embedded_df.drop(['cluster', 'actual'], axis = 1)
+
+def calc_gap_statistic(data, max_k, n = 10):
+    # Generate reference data from a uniform distribution
+    def generate_reference_data(X):
+        return np.random.uniform(low = data.min(axis=0),
+        high = data.max(axis=0),
+        size=X.shape)
+
+    gap_values = []
+
+    # Loop over a range of k values
+    for k in range(1, max_k + 1):
+        # Fit K-means to the original data
+        kmeans = KMeans(n_clusters = k, random_state = 416)
+        kmeans.fit(data)
+        original_inertia = kmeans.inertia_
+    
+        # Compute the average inertia for the reference datasets
+        reference_inertia = []
+        for _ in range(n):
+            random_data = generate_reference_data(data)
+            kmeans.fit(random_data)
+            reference_inertia.append(kmeans.inertia_)
+        
+        # Calculate the Gap statistic
+        gap = np.log(np.mean(reference_inertia)) - np.log(original_inertia)
+        gap_values.append(gap)
+
+    return gap_values
+
+gap_values = calc_gap_statistic(mnist_embedded_df, 20, n = 100)
+
+plt.figure(figsize=(10, 7))
+plt.plot(range(1, 21), gap_values, marker='o')
+plt.title('Gap Statistic vs Number of Clusters')
+plt.xlabel('Number of Clusters (k)')
+plt.ylabel('Gap Statistic')
+plt.grid()
+plt.show()
+# 2 is the best?
+```
+
+Here a function is defined to calculate the gap statistic. It is calculated for
+k between 1 and 20 with B = 100 random datasets (the more datasets that are
+used, the more computationally expensive). In the plot we are looking for the k
+where the gap statistic is greater than at k + 1 minus standard deviation.
+In this case we do not even need standard deviation since we observe that
+Gap(2) is greater than Gap(3). This means that the optimal K is 2 based on this
+method.
+
+This process can also be conducted using the gapstatistics package.
+
+`pip install gapstatistics`
+
+```{python}
+from gapstatistics import gapstatistics
+
+gs = gapstatistics.GapStatistics(distance_metric='euclidean')
+
+optimal = gs.fit_predict(K = 20, X = np.array(mnist_embedded_df))
+
+print(f'Optimal: {optimal}')
+```
+
+The result is also an optimal K of 2. It appears that this method is not
+very good for this dataset.
+
+```{python}
+kmeans = KMeans(n_clusters = 2, random_state = 416)
+cluster_labels = kmeans.fit_predict(mnist_embedded_df)
+mnist_embedded_df['cluster'] = cluster_labels
+
+# Cluster labels!
+plt.figure(figsize=(10, 7))
+scatter = plt.scatter(mnist_embedded_df['dimension_1'],
+             mnist_embedded_df['dimension_2'], c=mnist_embedded_df['cluster'],
+             cmap='rainbow')
+plt.title('K-means with k = 2 clusters')
+plt.xlabel('Dimension 1')
+plt.ylabel('Dimension 2')
+legend1 = plt.legend(*scatter.legend_elements(), title="Cluster")
+plt.gca().add_artist(legend1)
+plt.show()
+```
+
+Here we have K-means with k = 2 with default cluster labels.
+
+```{python}
+mnist_embedded_df['actual'] = mnist_target_rand['class']
+
+modes = mnist_embedded_df.groupby('cluster').agg(
+            {'actual': [lambda x: x.mode().iloc[0],
+             lambda y: (y == y.mode().iloc[0]).sum()/len(y),
+             lambda x: x.value_counts().index[1],
+             lambda y: (y == y.value_counts().index[1]).sum()/len(y)]})
+
+modes.columns = ['mode', 'proportion', 'mode_2', 'proportion_2']
+
+# Plot clusters with labels (actual)
+new_labels = modes['mode']
+
+plt.figure(figsize=(10, 7))
+scatter = plt.scatter(mnist_embedded_df['dimension_1'],
+             mnist_embedded_df['dimension_2'], c=mnist_embedded_df['cluster'],
+             cmap='rainbow')
+plt.title('K-means with k = 2 clusters')
+plt.xlabel('Dimension 1')
+plt.ylabel('Dimension 2')
+
+handles, _ = scatter.legend_elements()
+plt.legend(handles, new_labels, title="Mode")
+
+plt.show()
+```
+
+Here are the mode labels but that does not tell us very much.
+
+```{python}
+mnist_embedded_df[mnist_embedded_df['cluster'] == 0]['actual'].value_counts()
+# 1, 9, 7, 4, and 2 are similar
+```
+
+```{python}
+mnist_embedded_df[mnist_embedded_df['cluster'] == 1]['actual'].value_counts()
+# 3, 6, 0, 8, and 5 are similar
+```
+
+At the very least we can see which images of handwritten digits look similar
+in 2 dimensions. 
+
+### Conclusions
+
++ Using clustering we can figure out which digits look similar to each other
+when writing by hand
++ The true number of clusters in 2D may be different than in the original
+dimensions. Maybe the algorithms would be better at identifying the different
+clusters of the MNIST data in 3D
++ Choosing the right number of clusters can be challenging but is very
+important
++ There are many methods for selecting the optimal number of clusters and they
+can yield different results
+
+### Further Readings
+
+[Defining clusters from a hierarchical cluster tree](@langfelder2008defining)
+
+[sklearn AgglomerativeClustering Documentation](@sklearnAgglomerativeClustering)
+
+[gapstatistics PyPI Documentation](@loehr2024gapstatistics)
+
+[How many Clusters? - Towards Data Science](@hayasaka2022how)
