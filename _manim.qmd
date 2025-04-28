@@ -10,10 +10,10 @@ partly why I chose this topic.
 
 
 <video autoplay muted loop style="width:6in; max-width:100%;">
-  <source src="vids\TransformCycle.mp4" type="video/mp4">
+  <source src="vids/TransformCycle.mp4" type="video/mp4">
 </video>
 
-### [3blue1Brown](https://www.3blue1brown.com) <img src="images\3b1b_logo.png" alt="logo" width="40"/> 
+### [3blue1Brown](https://www.3blue1brown.com) ![logo](images/3b1b_logo.png){width=40}
 
 One of my favorite youtubers is actually the creator 
 of the `manim` 
@@ -362,7 +362,7 @@ self.wait(2)
 
 
 <video autoplay muted loop style="width:6in; max-width:100%;">
-  <source src="vids\ReilLogo.mp4" type="video/mp4">
+  <source src="vids/ReilLogo.mp4" type="video/mp4">
 </video>
 
 ### Further readings 
