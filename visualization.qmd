@@ -1,7 +1,13 @@
 # Data Visualization
 
+<!-- This section is to be included as a tutorial for ggplot with plotnine. -->
 <!-- {{< include _plotnine.qmd >}} -->
 
 <!-- This section is to be included as a tutorial for geospatial data. -->
 {{< include _spatial_data.qmd >}}
 
+<!-- This section is to be included as a tutorial for folium -->
+{{< include _folium.qmd >}}
+
+<!-- This section is to be included as a tutorial for manim -->
+{{< include _manim.qmd >}}

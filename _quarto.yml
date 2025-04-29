@@ -8,12 +8,19 @@ book:
     - name: "[Jun Yan](https://statcomp.org) and Students in Spring 2025"
     - name: John Ackerman
     - name: Ammar Alsadadi
+    - name: Yifei Chen
     - name: Mezmur Wossenu Edo
+    - name: Xavier Febles
     - name: Alyssa Horn
+    - name: Joann Jun
+    - name: Vlad Lagutin
     - name: Lang Lang
     - name: Shiyi Li
-    - name: Joann Jun
+    - name: Mohammad Mundiwala
+    - name: Nicholas Pfeifer
     - name: Thomas Schittina
+    - name: Sebastian Symula
+    - name: Shubhan Tamhane
   date: today
 
 #  sidebar:
@@ -31,6 +38,7 @@ book:
     - machinelearning.qmd
     - supervised.qmd
     - unsupervised.qmd
+    - advanced.qmd
     - exercises.qmd
     - references.qmd
 

@@ -296,7 +296,10 @@ your scheduled presentation. Here are some example tasks:
 + Random forest
 + Gradient boosting machine
 + Naive Bayes
-+ Neural networks
++ Neural networks basics
++ MLP/ANN/CNN/RNN/LSTM
++ Uniform manifold approximation and projection 
++ Automatic differentiation
 + Deep learning
 + TensorFlow
 + Autoencoders
@@ -353,7 +356,7 @@ Please use the following table to sign up.
    04/09 |  Symula, Sebastian   | Imputation Methods for Missing Data
    04/09 |  Tomaino, Mario Anthony   | K-Prototypes Clustering
    04/14 |  Reed, Kyle Daniel   | Autoencoders
-   04/14 |  Chen, Yifei   | 
+   04/14 |  Chen, Yifei   | Explaining XGBoost Predictions with SHAP
    04/14 |  Mundiwala, Mohammad Moiz   | Math animations with manim
    04/16 |  Lin, Selena   | Naive Bayes
    04/16 |  Pfeifer, Nicholas Theodore | Choosing the number of clusters in clustering

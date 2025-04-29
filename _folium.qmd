@@ -1,0 +1,553 @@
+## Google Maps visualizations with Folium
+
+This section was created by Vlad Lagutin. I am a sophomore majoring
+in Statistical Data Science at the University of Connecticut.
+
+Here I introduce one more library for geospatial visualizations, 
+in addition to GeoPandas and gmplot libraries described in the 
+previous section.
+
+### Folium and its features
+
+* Folium is a Python library used to create *interactive maps*
+
+* It is built on top of [Leaflet.js](https://leafletjs.com/), 
+an open-source JavaScript library for interactive maps
+
+* Manipulate your data in Python, visualize it in a Leaflet map with Folium
+
+* Easily compatible with Pandas and Geopandas in Python
+
+* Supports interactive features such as popups, zoom and tooltips
+
+* Able to export maps to HTML
+
+
+### Initializing Maps and Tile Layers
+
+This is how simple map is created. It is often useful to provide arguments
+like `location` and `zoom_start` for convenience:
+
+`location` - location where map is initialized
+
+`zoom_start` - specifies starting zoom
+
+```{python}
+import folium
+
+m = folium.Map(location=[38.8, -106.54], 
+               zoom_start=4)
+m
+```
+
+We can add various Tile Layers to modify how our base map looks like: 
+built-in folium styles, as well as many other tiles provided by Leaflet can
+be found [here](https://leaflet-extras.github.io/leaflet-providers/preview/).
+
+```{python}
+m = folium.Map(location=[50, -100], zoom_start=4)
+
+# not built-in layer; add the link here
+folium.TileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', 
+                 name='OpenTopoMap', attr='OpenTopoMap').add_to(m)
+
+# built-in layers
+folium.TileLayer('CartoDB Positron', name='Positron', 
+attr='cartodb positron').add_to(m)
+
+folium.TileLayer('CartoDB Voyager', name='Voyager', 
+attr='Voyager').add_to(m)
+
+# to be able to use them, add Layer Control
+folium.LayerControl().add_to(m)
+
+m
+```
+
+After adding `LayerControl`, we can switch these layers using 
+control in the top right corner of the produced map.
+
+#### Geojson files
+
+With Geojson files, we can visualize the borders of counties or 
+states inside of them. These GeoJson files can be found online.
+
+```{python}
+m = folium.Map(location=[50, -100], zoom_start=4)
+
+folium.GeoJson('data/us_states.json', name="USA").add_to(m)
+
+folium.GeoJson('data/canada_provinces.json', name="Canada").add_to(m)
+
+folium.LayerControl().add_to(m)
+
+m
+```
+
+#### Styling 
+
+We can style these geojson objects. Useful parameters:
+
+* `color` - color of line stroke
+
+* `weight` - line stroke width
+
+* `opacity` - opacity of line strokes
+
+* `fillcolor` - filling color of regions
+
+* `fillOpacity` - opacity of regions  
+
+```{python}
+# initialize styling dictionary
+style = {'color': 'black', 'weight': 1,
+                'fillColor': 'purple'}  
+
+
+m = folium.Map(location=[50, -100], zoom_start=4)
+
+# pass styling dictinary to a special argument "style_function"
+folium.GeoJson('data/us_states.json', name="USA",
+               style_function= lambda x: style).add_to(m)
+
+folium.GeoJson('data/canada_provinces.json', name="Canada",
+               style_function= lambda x: style).add_to(m)
+
+
+folium.LayerControl().add_to(m)
+
+m
+```
+
+### Markers
+
+It is possible for user to label certain locations on the map 
+with various types of markers. Folium provides several types of them.
+
+#### Circle Markers
+
+As one can understand from the title, these are just circles.
+  
+There are two types of circle markers: 
+
+`folium.Circle` - has radius in meters
+
+`folium.CircleMarker` - has radius in pixels
+
+```{python}
+m = folium.Map(location=[38.8974579,-77.0376094], 
+               zoom_start=13.7)
+
+# Radius in meters
+folium.Circle(location=[38.89766472658641, -77.03654034831065],
+radius=100).add_to(m)
+
+
+# Circle marker has radius in pixels
+folium.CircleMarker(location=[38.88946075081255, -77.03528690318743],
+radius=50).add_to(m)
+
+m
+```
+
+As you can see, the marker around the Washington monument increases while
+zooming out, and the marker around White House remains the same. 
+
+#### Styling for Circles
+
+We can style circles as well, here are some important parameters:
+
+* `stroke` - set to True to enable line stroke, default is True
+
+* `weight` - line stroke width in pixels, default is 5
+
+* `color` - line stroke color
+
+* `opacity` - line stroke opacity
+
+* `fill` - set to True to enable filling with color, default is False
+
+* `fill_color` - fill Color
+
+* `fill_opacity` - ranges between 0 to 1. 0 means transparent, 
+1 means opaque
+
+Moreover, we can also add
+
+* `tooltip` - a label that appears when you put your cursor over an element
+
+* `popup` - a box with info that appears when you click on element
+
+```{python}
+m = folium.Map(location=[38.8974579,-77.0376094], 
+               zoom_start=13.7)
+
+
+
+# Radius in meters
+folium.Circle(radius=100, location=[38.89766472658641, -77.03654034831065],
+              color='black', 
+              fill=True,
+              fill_opacity=0.7,
+              tooltip="White House",
+              # can also just write string popup; use html
+              popup=folium.Popup("""<h2>The White House</h2><br/>  
+              <img src="https://cdn.britannica.com/43/93843-050-A1F1B668/White-House-Washington-DC.jpg" 
+                                 alt="Trulli" style="max-width:100%;max-height:100%">""", max_width=500)
+              ).add_to(m)
+
+
+
+
+
+# Circle marker has radius in pixels
+folium.CircleMarker(radius=50, location=[38.88946075081255, -77.03528690318743],
+              color='purple', 
+              fill=True,
+              tooltip="Washington monument",
+              popup=folium.Popup("""<h2>The Washington monument</h2><br/>  
+              <img src="https://www.trolleytours.com/wp-content/uploads/2016/06/washington-monument.jpg" 
+                                 alt="Trulli" style="max-width:100%;max-height:100%">""", max_width=500)
+                                ).add_to(m)
+
+m
+```
+
+#### Markers
+
+In addition to circles, we can add just Markers:
+
+```{python}
+m = folium.Map(location=[39.8584824090568, -99.63735509074904],
+               zoom_start= 4)
+
+
+folium.Marker(location=[43.88284841471961, -85.43121849839345]
+              ).add_to(m)
+
+folium.Marker(location=[42.97269745752499, -98.88739407603738]
+              ).add_to(m)
+
+m
+```
+
+#### Styling for Markers
+
+Here we can use `icon` parameter to change the icon of a marker.
+
+Icon names for glyphicons by bootstrapcan be found 
+[here](https://getbootstrap.com/docs/3.3/components/)
+
+Icon names by fontawesome can be found 
+[here](https://lab.artlung.com/font-awesome-sample/), 
+need to add `prefix='fa'` 
+
+```{python}
+m = folium.Map(location=[39.8584824090568, -99.63735509074904],
+               zoom_start= 4)
+
+
+folium.Marker(
+    location=[43.88284841471961, -85.43121849839345],
+    tooltip='See location',
+    popup='*location*',
+    icon=folium.Icon(icon='glyphicon-volume-off', color='red')
+).add_to(m)
+
+
+folium.Marker(
+    location=[42.97269745752499, -98.88739407603738],
+    tooltip="See location",
+    popup="*location*",
+    icon=folium.Icon(icon='fa-cube', prefix='fa', color='green')
+).add_to(m)
+
+m
+```
+
+### Grouping
+
+We can create groups of Markers, choosing whether we want to show them or not
+
+```{python}
+m = folium.Map(location=[39.8584824090568, -99.63735509074904],
+               zoom_start= 4)
+
+
+# adding group 1
+group_1 = folium.FeatureGroup("first group").add_to(m)
+
+folium.Marker(location=(37.17403654771468, -96.90854476924225), 
+              icon=folium.Icon("red")
+              ).add_to(group_1)
+
+
+folium.Marker(location=[43.88284841471961, -85.43121849839345]
+              ).add_to(m)
+
+
+
+# adding group 2
+group_2 = folium.FeatureGroup("second group").add_to(m)
+
+
+folium.Marker(location=(42.53679960949629, -110.16683522968691), 
+              icon=folium.Icon("green")
+              ).add_to(group_2)
+
+folium.Marker(location=[42.97269745752499, -98.88739407603738]
+              ).add_to(m)
+
+
+
+folium.LayerControl().add_to(m)
+
+m
+```
+
+Using Layer Control on the top right, we can turn on and off these
+groups of Markers.  
+However, two blue markers were not added to any of the groups but to the map
+directly, so we cannot hide them.
+
+
+### Drawing different shapes on a map
+
+We can draw different shapes like rectangles, lines, and polygons. 
+Styling works the same as it does for circles
+
+#### Rectangle
+
+For a rectangle, we just need two diagonal points.  
+We can draw it, for example, around a Wyoming state, 
+since it has a rectangular form:
+
+```{python}
+
+m = folium.Map(location=[39.8584824090568, -99.63735509074904],
+               zoom_start=4)
+
+
+# for rectangle, we need only 2 diagonal points
+folium.Rectangle([(45.0378, -111.0328), 
+                  (41.0734, -104.0689)],
+                  color='purple',
+                  fill=True,
+                  tooltip='see the name',
+                  popup="Wyoming state",
+                  fill_color='blue').add_to(m)
+
+m
+```
+
+#### Polygon
+
+However, for states like Nevada, which are not of a rectangular form,
+we can use Polygon:
+
+```{python}
+
+polygon_coords = [(42.0247, -120.0016),
+                (42.0106, -114.0776),
+                (36.1581, -114.0157),
+                (36.1220, -114.6994),
+                (35.0721, -114.7066),
+                (39.0379, -120.0695)
+]
+
+
+folium.Polygon(polygon_coords,
+                color='purple',
+                fill=True,
+                tooltip='see the name',
+                popup="Nevada state",
+                fill_color='blue').add_to(m)
+
+m
+```
+
+#### PolyLine
+
+It is also possible to just create lines;  
+The only diffence between `Polygon` and `PolyLine` is that 
+Polygon connects the first point to the last and PolyLine does not
+
+```{python}
+polyline_coords = [(34.9614, -108.2743),
+                 (38.5229, -112.7751),
+                 (42.9696, -112.9947),
+                 (45.9843, -118.5384)
+]
+
+
+
+folium.PolyLine(polyline_coords,
+                 color='red',
+                 ).add_to(m)
+
+m
+```
+
+#### Draw it yourself
+
+Is it possible to draw these shapes ourselves, we just need to import
+`Draw` plugin:
+
+```{python}
+from folium.plugins import Draw
+
+# add export button, allowing to save as geojson file
+Draw(export=True).add_to(m)
+
+m
+```
+
+To draw, use tools on a panel on the left.
+
+### Heatmap
+
+We can also create simple HeatMaps:
+
+Arguments:
+
+* `data` (list of points of the form [lat, lng] or 
+[lat, lng, weight]) – The points you want to plot. You can also provide 
+a numpy.array of shape (n,2) or (n,3). 
+Ideally, the weight should be between 0 and 1.
+
+* `name` (default None) – The name of the Layer, 
+as it will appear in LayerControls
+
+* `min_opacity` (default 1.) – The minimum opacity the heat will start at
+
+* `radius` (default 25) – Radius of each “point” of the heatmap
+
+* `blur` (default 15) – Amount of blur
+
+```{python}
+import numpy as np
+from folium.plugins import HeatMap
+
+
+m = folium.Map(location=[40.71, -74],
+               zoom_start=10)
+
+
+data = (
+    np.random.normal(size=(100, 2)) * np.array([[0.1, 0.1]]) + 
+    np.array([[40.7128, -74.0060]])
+    ).tolist()
+
+HeatMap(data).add_to(m)
+
+m
+```
+
+### Demonstration
+
+Here is the demonstration with flood data from Midterm project:
+
+```{python}
+import pandas as pd
+
+flood_df = pd.read_csv("data/nycflood2024.csv", 
+                       parse_dates=["Created Date", "Closed Date"])
+
+flood_df.columns = flood_df.columns.str.replace(" ", "_").str.lower()
+
+
+# some manipulation/cleaning
+flood_df = flood_df[~flood_df['location'].isna()]
+
+flood_df["response_time"] = (flood_df["closed_date"] - 
+        flood_df["created_date"]).dt.total_seconds() / 3600
+
+
+flood_df = flood_df[~flood_df['response_time'].isna()]
+
+
+mean = flood_df['response_time'].mean()
+std = flood_df['response_time'].std()
+
+# standardize response time
+flood_df['z_score'] = (flood_df['response_time'] - mean) / std
+
+
+
+
+m = folium.Map(location=[40.7128, -74], zoom_start=12,
+               tiles='cartodb dark_matter',
+               world_copy_jump=True)
+
+
+# styling dictionary
+style = {'color': 'orange', 'weight': 1,
+                'fillColor': 'white'}  
+
+folium.GeoJson("data/new-york-city-boroughs.json", name='Borough borders',
+style_function=lambda x: style).add_to(m)
+
+
+
+# create 4 groups: 2 for usual points, 2 for outliers
+outlier_flood = folium.FeatureGroup('Flooding outliers').add_to(m)
+normal_flood = folium.FeatureGroup('Flooding complaints').add_to(m)
+outlier_CB = folium.FeatureGroup('Catch Basin outliers').add_to(m)
+normal_CB = folium.FeatureGroup('Catch Basin complaints').add_to(m)
+
+
+# reducing number of points, so the code cell can run
+flood_df = flood_df[:3500]
+
+
+for _, row in flood_df.iterrows():
+    
+    if row["descriptor"] == 'Street Flooding (SJ)':
+        if row['z_score'] > 3 or row['z_score'] < -3:
+            # visualize SF outliers
+            folium.Marker(location=[row.latitude, row.longitude],
+                          popup="Unsusually large response time", 
+                          tooltip='SF outlier',
+                          icon=folium.Icon(icon='glyphicon-minus-sign',
+                                           color='red')).add_to(outlier_flood)
+        else:
+            # ordinary SF locations
+            folium.Circle(radius=1, 
+                location=[row.latitude, row.longitude],
+                color="red",
+                tooltip='SF complaint',
+                popup="Normal SF complaint",
+                ).add_to(normal_flood)
+            
+    else:
+        # visualize CB outliers
+        if row['z_score'] > 3 or row['z_score'] < -3:
+            folium.Marker(location=[row.latitude, row.longitude],
+                          tooltip='CB outlier',
+                          popup="Unsusually large response time", 
+                          icon=folium.Icon(icon='fa-exclamation-triangle',
+                                           prefix='fa', 
+                                           color='orange')).add_to(outlier_CB)
+        else:
+            # ordinary CB locations
+            folium.Circle(radius=1,
+                location=[row.latitude, row.longitude],
+                color="blue",
+                tooltip='CB complaint',
+                popup="Normal CB complaint", 
+                ).add_to(normal_CB)
+        
+
+
+
+folium.LayerControl().add_to(m)
+
+m
+```
+
+### Further Reading
+
+* [Folium documentation](http://python-visualization.github.io/folium/latest/)
+
+* [Leaflet](https://leafletjs.com/reference.html)
+

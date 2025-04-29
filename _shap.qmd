@@ -1,0 +1,413 @@
+## Explaining XGBoost Predictions with SHAP
+
+This section is prepared by Yifei Chen. I am a junior student double majoring 
+in Statistical Data Science and Economics.
+
+### Introduction
+
+In this section, we explore how to interpret predictions made by XGBoost 
+models using SHAP (SHapley Additive exPlanations). XGBoost is a powerful 
+gradient boosting framework widely used for structured data tasks, but its 
+predictions are often difficult to explain directly. SHAP offers a 
+principled, game-theoretic approach to decompose each prediction into 
+contributions from individual features.
+
+### What is SHAP?
+
+SHAP is a model-agnostic method for interpreting machine learning models by 
+quantifying the contribution of each feature to individual predictions.
+
+- Based on game theory: Shapley values from cooperative games.
+- Assigns each feature a "contribution" to the prediction.
+- Works well with tree-based models (like XGBoost) using Tree SHAP algorithm.
+- Local interpretability: Explaining a single prediction. (Why did the model 
+predict this value for this instance?)
+- Global interpretability: Understanding the model's behavior across all 
+predictions. (Which features are most important across the whole dataset?)
+
+
+### Simulated Airbnb Data
+
+We start by simulating Airbnb listing data with four predictors: room type, 
+borough, number of reviews, and availability. The target variable is price, 
+which is a function of these inputs with added noise. This setup helps us 
+evaluate SHAP against known relationships.
+
+#### Importing Libraries
+
+First, we import the necessary Python libraries: NumPy and Pandas.
+
+```{python}
+import numpy as np
+import pandas as pd
+np.random.seed(1)
+```
+
+#### Creating the Base Dataset
+We generate a dataset with 200 observations, randomly assigning values to 
+room type, borough, number of reviews, and availability.
+
+```{python}
+n = 200
+df = pd.DataFrame({
+    "room_type": np.random.choice(["Entire home", "Private room"], n),
+    "borough": np.random.choice(["Manhattan", "Brooklyn", "Queens"], n),
+    "number_of_reviews": np.random.poisson(20, n),
+    "availability": np.random.randint(10, 365, n),
+})
+```
+
+#### Defining Base Price Logic
+We define the price based on room type, borough, and the number of reviews 
+using a basic linear relationship.
+
+```{python}
+df["price"] = (
+    80
+    + (df["room_type"] == "Entire home") * 60
+    + (df["borough"] == "Manhattan") * 50
+    + np.log1p(df["number_of_reviews"]) * 3
+)
+```
+
+This formula increases the base price if the listing is an entire home or 
+located in Manhattan, and slightly adjusts it based on the number of reviews.
+
+#### Adding Nonlinear Effect of Availability
+We introduce a nonlinear relationship between availability and price to 
+reflect that listings available more days tend to be priced higher.
+
+```{python}
+df["price"] += 0.02 * df["availability"] ** 1.5
+```
+
+#### Adding Interaction Effects
+We add an interaction term that further boosts the price if a listing 
+is both an entire home and located in Manhattan.
+
+```{python}
+df["price"] += (
+    ((df["room_type"] == "Entire home") &
+     (df["borough"] == "Manhattan"))
+    * 25
+)
+```
+
+#### Adding Random Noise
+Finally, we add normally distributed noise to simulate real-world variation 
+in prices.
+
+```{python}
+df["price"] += np.random.normal(0, 10, n)
+```
+
+#### Viewing the First Few Rows
+We display the first few rows of the simulated dataset
+
+```{python}
+df.head()
+```
+
+### Encode and Train XGBoost Model
+
+We one-hot encode categorical variables and split the data into training 
+and test sets. Then, we train an XGBoost regressor model.
+
+#### Importing Libraries
+
+First, we import the required libraries for modeling and evaluation.
+
+```{python}
+from xgboost import XGBRegressor
+import xgboost as xgb
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.metrics import mean_squared_error, r2_score
+```
+
+#### Preparing the Feature Matrix and Target Variable
+
+We separate the predictors (`X`) and the outcome variable (`y`).  
+Categorical variables are one-hot encoded using `pd.get_dummies`, which 
+transforms them into binary indicators.
+
+```{python}
+X = pd.get_dummies(df.drop("price", axis=1), drop_first=True)
+y = df["price"]
+```
+
+#### Splitting the Data
+
+We split the dataset into a training set (80%) and a test set (20%) to 
+evaluate model performance.
+
+```{python}
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+```
+
+#### Training the XGBoost Regressor
+
+We fit an XGBoost regressor with 100 trees (`n_estimators=100`), a learning 
+rate of 0.1, and a maximum tree depth of 3 (`max_depth=3`).  
+These hyperparameters help balance model complexity and generalization.
+
+```{python}
+model = XGBRegressor(n_estimators=100, learning_rate=0.1, max_depth=3)
+model.fit(X_train, y_train)
+```
+
+#### Evaluating the Model
+
+We predict on the test set and calculate evaluation metrics:
+
+- Root Mean Squared Error (RMSE) measures the typical size of prediction 
+errors.
+
+- R-squared (R²) indicates the proportion of variance in the target 
+variable that the model can explain.
+
+```{python}
+preds = model.predict(X_test)
+print("RMSE:", np.sqrt(mean_squared_error(y_test, preds)))
+print("R^2:", r2_score(y_test, preds))
+```
+
+After training XGBoost on our enhanced dataset with nonlinear and interaction 
+terms, we achieved a Root Mean Squared Error (RMSE) of about $12.63, meaning 
+on average, our model's predictions are off by around $12.63 from the actual 
+listing price.
+
+And the model explains over 95.9% of the variation in prices 
+(R² = 0.959), which indicates a very strong fit. This shows that XGBoost 
+effectively captures the complex relationships we embedded in our simulated 
+data — including the nonlinear availability effect and the interaction 
+between room type and borough.
+
+### Compare XGBoost Feature Importance vs. SHAP
+
+XGBoost has a built-in feature importance plot. It shows how often each 
+feature is used for splitting, but doesn’t reflect how much a feature 
+contributes to prediction outcomes. It’s useful, but not always 
+reliable—so we turn to SHAP for deeper insight.
+
+```{python}
+import matplotlib.pyplot as plt
+xgb.plot_importance(model)
+plt.title("XGBoost Feature Importance")
+plt.show()
+
+```
+
+Interpretation:
+
+This bar chart shows the built-in feature importance from XGBoost. It 
+measures how frequently each feature is used to split nodes across all 
+trees in the ensemble:
+
+- Availability is the most frequently used feature, with over 300 splits, 
+suggesting it plays a dominant role in decision making.
+- Number of reviews and room_type_Private room are also influential.
+- Borough variables (especially `borough_Manhattan` and `borough_Queens`) are 
+used less frequently.
+
+But frequency ≠ influence
+
+This method doesn't tell us how much a feature contributes to raising or 
+lowering predictions — just how often it’s used in splits.
+
+### SHAP: Global Feature Importance
+
+SHAP’s summary plot shows global feature importance. Each point represents a 
+feature’s effect on a single prediction. Red indicates high feature values; 
+blue is low. Here, ‘room_type_Entire home’ and ‘borough_Manhattan’ 
+consistently drive price increases.
+
+```{python}
+import shap
+shap.initjs()
+explainer = shap.Explainer(model)
+shap_values = explainer(X_test)
+shap.summary_plot(shap_values, X_test)
+
+```
+
+Interpretation:
+
+This SHAP summary plot shows the impact of each feature on the model's 
+predictions, based on SHAP values:
+
+- Each point represents a SHAP value for one observation.
+- The position along the x-axis shows whether that feature pushed the 
+prediction higher (right) or lower (left).
+- The color represents the actual feature value:  
+  - Red = high values 
+  - Blue = low values
+  - Purple medium feature values
+
+Listings associated with high values of room_type_Private room consistently 
+lead to lower predicted prices. Higher availability, as indicated by red 
+points, tends to raise the predicted price, whereas lower availability, 
+shown in blue, typically decreases it. Being located in Manhattan, observed 
+through the blue points on borough_Manhattan, significantly increases the 
+predicted price. Similarly, a greater number of reviews generally results 
+in slightly higher predicted prices, as reflected by the right-shifted red 
+dots on number_of_reviews. Unlike XGBoost’s traditional frequency-based 
+feature importance, SHAP provides a direct quantification of each feature’s 
+contribution to individual predictions, offering a more nuanced and 
+interpretable understanding of the model’s behavior.
+
+### SHAP Dependence Plot
+
+This plot isolates the relationship between number of reviews and its 
+contribution to predicted price. We observe diminishing returns—more reviews 
+increase price up to a point, after which the effect stabilizes.
+
+```{python}
+shap.dependence_plot("number_of_reviews", shap_values.values, X_test)
+
+```
+
+This SHAP dependence plot shows how the feature `number_of_reviews` affects 
+the model’s predictions:
+
+- The x-axis shows the actual number of reviews.
+- The y-axis shows the SHAP value — the effect of that feature on the 
+predicted price.
+- Each point is a listing, and the color represents the value of another 
+feature: `room_type_Private room` (0 = blue, 1 = red).
+
+
+As the number of reviews increases, the SHAP values generally rise, 
+indicating that a greater number of reviews tends to lead to higher 
+predicted prices. Listings with fewer reviews, concentrated on the 
+left side of the plot, exhibit negative SHAP values, thereby lowering 
+the price predictions. The color pattern suggests an interaction effect: 
+while both room types can exhibit positive or negative influences, the 
+distribution of SHAP values shifts slightly depending on the room type. 
+Purple points represent medium feature values, illustrating how mid-range 
+values influence predictions relative to more extreme values. 
+Since room_type_Private room is a binary feature (0 or 1), most points are 
+either red or blue. Overall, this dependence plot reveals an interaction 
+between number_of_reviews and room_type_Private room, providing insight 
+into how these two features jointly affect the model's predictions.
+
+### SHAP Waterfall Plot
+
+The waterfall plot explains one individual prediction by breaking it into 
+base value + feature contributions. You can see which features pushed the 
+price up or down—this is the kind of transparency stakeholders appreciate.
+
+```{python}
+shap.plots.waterfall(shap_values[0])
+
+```
+
+This SHAP waterfall plot explains a single prediction by showing how each 
+feature contributed to moving the prediction away from the average.
+
+- The model's baseline prediction (expected value `E[f(X)]`) is about 
+202.48, which is the average prediction across all data.
+- The final prediction for this listing is ~299.22.
+- Each bar shows how a feature pushes the prediction up or down:
+  - Positive contributions (in red) increase the predicted price.
+  - Negative contributions (in blue) decrease it.
+
+Feature impacts for this listing:
+
+- `room_type_Private room = False` (i.e., Entire home) adds +37.46
+- `borough_Manhattan = True` adds +35.35
+- `availability = 253` adds +22.83
+- `borough_Queens = False` adds +1.16
+- `number_of_reviews = 19` has a negligible negative effect (−0.08)
+
+Together, these factors raise the predicted price from the baseline (~202) 
+to about 299. This plot makes the model’s reasoning fully transparent for 
+this specific example.
+
+### SHAP Waterfall Plots for Multiple Examples
+
+We look at a few different listings to see how explanations change. For 
+instance, this one might have a lower price due to being in Queens, while 
+another might be higher due to being an entire home in Manhattan. SHAP 
+helps compare these directly.
+
+```{python}
+shap.plots.waterfall(shap_values[1])
+shap.plots.waterfall(shap_values[2])
+
+```
+
+#### Example 1 – Final Prediction: 237.37
+
+- The listing is not a private room (entire home), which increases the 
+prediction by +33.68.
+- High availability (242) contributes +24.72.
+- It's not in Manhattan, which reduces the price by −21.98.
+- Fewer reviews (15) slightly reduce the prediction (−2.69).
+- Not in Queens adds a small positive effect (+1.15).
+
+Overall, the price is pulled up due to availability and room type, even 
+though being outside Manhattan and having few reviews lowers it.
+
+#### Example 2 – Final Prediction: 159.37
+
+- This listing has low availability (48), which strongly reduces the 
+price by −48.09.
+- It's not a private room (entire home), which adds +34.22.
+- It’s not in Manhattan (−24.5) but is in Queens, which also slightly 
+decreases the price (−3.11).
+- The number of reviews is again low (15), slightly pulling the price 
+down (−1.64).
+
+Despite being an entire home, the extremely low availability and location 
+drag the prediction far below average.
+
+These examples highlight how SHAP provides transparent, instance-level 
+reasoning for model predictions, allowing us to understand and trust the 
+model's decisions.
+
+### Real-World Use: Exporting SHAP Values
+
+Here, we export SHAP values for each listing alongside the model’s 
+predictions and true prices. These can feed into dashboards or 
+reports—turning raw model output into business insights or decisions.
+
+```{python}
+shap_df = pd.DataFrame(shap_values.values, columns=X_test.columns)
+shap_df["prediction"] = model.predict(X_test)
+shap_df["true_price"] = y_test.reset_index(drop=True)
+shap_df.head()
+
+```
+
+This table shows exported SHAP values for each Airbnb listing, along with 
+the model’s predicted price and the actual price. Each feature's SHAP value 
+represents how much it contributed to shifting the prediction up or down from 
+the baseline. For example, in row 0, features like high availability, 
+Manhattan location, and the fact that it's not a private room all contributed 
+to increasing the predicted price to $299.22, closely matching the true 
+price of $303.38. This kind of output makes it easy to understand and 
+explain individual predictions, which is especially useful for reports, 
+dashboards, or stakeholder communication.
+
+### Limitations
+
+- SHAP can be slow with very large datasets.
+  SHAP calculations, especially for kernel-based models, require estimating 
+  the contribution of each feature across many possible coalitions of other 
+  features (like in cooperative game theory). This is computationally expensive
+  for tree-based models, Tree SHAP is faster, but still non-trivial on 
+  large data.
+- SHAP explanations may still require domain expertise.
+  Even though SHAP provides clear numeric contributions, interpreting their 
+  meaning often depends on context. For example, a +20 SHAP value for 
+  availability means it increased the price prediction — but whether that’s 
+  reasonable or expected depends on domain knowledge (e.g., tourism demand, 
+  market saturation, etc.).
+- SHAP explanations depend on model quality.
+  SHAP values faithfully reflect the model's internal logic — *not the truth*. 
+  If the model is biased, underfit, or overfit, the SHAP values will simply 
+  explain a flawed decision. Statistically, SHAP does not correct for omitted 
+  variable bias, endogeneity, or poor model specification — it merely reveals 
+  the mechanics of the trained model.
