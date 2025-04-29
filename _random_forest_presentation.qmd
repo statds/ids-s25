@@ -22,15 +22,15 @@ regression tasks due to its robustness and interpretability.
 
 ### Conceptual Foundations
 
-1. Bootstrap Aggregating (Bagging)
+Bootstrap Aggregating (Bagging)
 - For each tree, sample the training set with replacement (bootstrapping).
 - This creates diverse datasets so trees are uncorrelated.
 
-2. Random Feature Selection
+Random Feature Selection
 - At each node, select a random subset of features when splitting.
 - This further decorrelates trees, reducing variance.
 
-3. Aggregation of Predictions
+Aggregation of Predictions
 - Classification: each tree votes; the majority class wins.
 - Regression: average the outputs of all trees.
 
@@ -72,7 +72,7 @@ This example demonstrates how to build a Random Forest regression model using
 accident attributes to predict "NUMBER OF PERSONS INJURED".
 
 
-### 1. Data Preprocessing
+### Data Preprocessing
 
 We start by loading the NYC crash dataset and extracting the crash hour from
 the crash time column. This transforms a string time into an integer hour.
@@ -110,7 +110,7 @@ df = preprocess_data(csv_file)
 - First 5 rows show sample records.
 
 
-### 2. Feature Engineering & Train/Test Split
+### Feature Engineering & Train/Test Split
 
 Here we encode categorical features and combine with numeric ones, then
 split into training and testing subsets.
@@ -186,7 +186,7 @@ Results will be like:
     174: Each sample in the test set has 174 features.
 
 
-### 3. Parameter Tuning & Model Training
+### Parameter Tuning & Model Training
 
 We use grid search to find optimal hyperparameters and then evaluate the model
 on the test set.
@@ -244,7 +244,7 @@ Results will be like:
 - Random Forest Mean Squared Error: 0.8725932213499686\
 
 
-### 4. Visualize Feature Importance
+### Visualize Feature Importance
 
 Plot the importance of each feature to interpret the model.
 
@@ -289,7 +289,7 @@ Feature Importances:\
   LONGITUDE: 0.1978\
   CRASH HOUR: 0.1854\
   
-### 5. Summary & Further Reading
+### Summary & Further Reading
 
 - Key takeaways: Random Forest reduces variance by bagging and random
   feature selection.  
