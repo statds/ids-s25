@@ -392,7 +392,6 @@ better generalization performance in many practical tasks.
 <!-- {{< include _naivebayes.qmd >}} -->
 
 <!-- {{< include _smote.qmd >}} -->
-
 ## Synthetic Minority Over-Sampling Technique (SMOTE)
 
 SMOTE (Synthetic Minority Over-Sampling Technique) is a data 
@@ -404,7 +403,7 @@ imbalance can significantly distort model performance, often leading to poor
 recall for the minority class and misleadingly high accuracy, as models tend to
 favor the majority class. By generating new, diverse samples in feature space, 
 SMOTE creates a more balanced and learnable distribution that helps classifiers
-detect minority class patterns more effectively.
+detect minority class instances more effectively.
 
 ### Algorithm Formulation
 
