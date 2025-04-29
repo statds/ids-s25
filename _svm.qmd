@@ -1,0 +1,250 @@
+
+## Support Vector Machine(SVM)
+
+This section has been prepared by Shubhan Tamhane, a sophmore majoring in
+Statistical Data Science and minoring in Financial Analysis at the University of
+Connecticut. This section will primarily focus on the ins and outs of the
+popular supervised machine learning algorithim, Support Vector Machine. There
+will also be a brief demonstration using the MNIST dataset for image
+classification. 
+
+### Introduction
+
+**What is SVM?**
+
+ - SVM is a supervised machine learning algorhithm that is used mainly for
+   classification tasks 
+ - It works well in high dimensional spaces and makes a clear decision boundry
+   between groups 
+
+**Core Idea** 
+
+ - SVM works by finding the best boundry (Hyperplane) that seperates the data
+   into classes
+ - It chooses a hyperplane with the maximum margin, the widest gap between the
+   classes 
+ - The closest points to the boundry are called support vectors  
+
+### Example 1
+Code to set up original 
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+X_class0 = np.array([-4, -3, -2])
+X_class1 = np.array([2, 3, 4])
+support_vectors = np.array([-1.5, 2])
+X_all = np.concatenate([X_class0, X_class1, support_vectors])
+
+y_all = np.array([0]*3 + [1]*3 + [0, 1])
+
+plt.figure(figsize=(10, 2))
+plt.scatter(X_class0, np.zeros_like(X_class0), color='blue', s=100, 
+label='Class 0')
+plt.scatter(X_class1, np.zeros_like(X_class1), color='red', s=100, 
+label='Class 1')
+plt.scatter(support_vectors, np.zeros_like(support_vectors), 
+            facecolors='none', edgecolors='green', s=200, 
+            linewidths=2, label='Support Vectors')
+
+plt.axvline(0, color='black', linestyle='--', linewidth=2, label='Hyperplane')
+
+plt.axvspan(-1.5, 2, color='yellow', alpha=0.3, label='Maximum Margin')
+
+plt.title("1D SVM: Hyperplane, Support Vectors, and Correct Maximum Margin")
+plt.xlabel("Feature Value (1D)")
+plt.yticks([])
+plt.legend(loc='upper left')
+plt.xlim(-4.5, 4.5)
+plt.grid(axis='x', linestyle=':', alpha=0.5)
+
+plt.tight_layout()
+plt.show()
+```
+
+ - Suppose we have a dataset of Class 0 and Class 1 
+ - Data is easily seperable 
+ - We can see the hyperplane, maximum margin, and the support vectors 
+
+### Key Concepts 
+
+**Margin** 
+
+ - Distance between decision boundry and nearest data points
+ - SVM tries to maximize this margin
+
+**Support Vectors**
+
+ - Critical data points that determine the position of the decision boundry
+ - Only the support vectors are used to make the decision boundry, unlike most
+   ML algorithms
+
+**Linear vs Non-Linear** 
+
+ - Linear: A straight line can seperate the classes (Example 1)
+ - Non-linear data: Use kernels to transform the space (Next Example)
+
+### More Realistic Example
+
+```{python}
+
+X = np.array([-3, -2, -1, 0, 1, 2, 3])
+y = np.array([1, 1, 0, 0, 0, 1, 1])
+
+plt.figure(figsize=(10, 2))
+for xi, yi in zip(X, y):
+    plt.scatter(xi, 0, color='blue' if yi == 0 else 'red', s=100)
+
+# Making legend
+plt.scatter([], [], color='blue', label='Class 0')
+plt.scatter([], [], color='red', label='Class 1')
+plt.legend(loc='upper left')
+
+plt.title("1D Data: Not Linearly Separable")
+plt.xlabel("Feature Value (1D)")
+plt.yticks([])
+plt.grid(axis='x', linestyle=':', alpha=0.5)
+plt.xlim(-4, 4)
+plt.tight_layout()
+plt.show()
+```
+
+ - In this example, we can see that the data is impossible to set a hyperplane
+   without having many misclassifications due to high overlap 
+
+ - To fix this problem, we can plot this data in a 2-dimensional space
+   - Keep the X-axis as the original data points
+   - Set the Y-axis as the square of the original data points
+
+```{python}
+X = np.array([-3, -2, -1, 0, 1, 2, 3])
+y = np.array([1, 1, 0, 0, 0, 1, 1])
+
+X_squared = X**2
+
+support_idx = [0, 2, 4, 6]
+
+plt.figure(figsize=(6, 6))
+for xi, x2i, yi in zip(X, X_squared, y):
+    plt.scatter(xi, x2i, color='blue' if yi == 0 else 'red', s=100)
+
+plt.scatter(X[support_idx], X_squared[support_idx], 
+            facecolors='none', edgecolors='black', s=200, 
+            linewidths=2, label='Support Vectors')
+
+plt.axhline(2.5, color='black', 
+linestyle='--', 
+linewidth=2, label='Hyperplane')
+
+plt.axhspan(1, 4, color='yellow', alpha=0.3, label='Maximum Margin')
+plt.axhline(1, color='black', linestyle=':', linewidth=1)
+plt.axhline(4, color='black', linestyle=':', linewidth=1)
+
+plt.scatter([], [], color='blue', label='Class 0')
+plt.scatter([], [], color='red', label='Class 1')
+plt.legend(loc='upper left')
+
+plt.title("SVM in 2D: Hyperplane, Margin, and Support Vectors")
+plt.xlabel("Original Feature (x)")
+plt.ylabel("Transformed Feature (x²)")
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+```
+
+ - In the 2d transformation, we can clearly see a clear maximum margin without
+   any misclassifications 
+ - The transformed data is now linearly seperable 
+
+### The Kernel Trick 
+
+ - When data is not linearily seperable we can use kernels to implicitly
+   transform them to a higher dimension where it can be more seperable
+ - This happens without computing the transformation directly, saving
+   computational space 
+ - Using the Kernel Trick allows SVM to draw a straight boundry in the
+   transformed space 
+
+| Kernel | Use Case |
+|--------|----------|
+| Linear | Data that’s already separable with a straight line (Example 1) |
+| Polynomial | When the decision boundary is curved (Example 2) |
+| RBF (Radial Basis Function) | For complex, non-linear boundaries | 
+
+**Radial Basis Function Kernel**
+
+- RBF kernel flexibly bends the boundary to fit the shape
+- Measures similarity between two points based on distance 
+- Maps data points in an infinite-dimensional feature space 
+- Flexible and powerful  
+
+### Parameters 
+
+| Parameter | Description | Example |
+|-----------|-------------|---------|
+| `kernel`  | Defines the shape of the decision boundary | `'linear'`, `'rbf'`, `'poly'` |
+| `C`       | Controls trade-off between margin size and misclassification | `C = 0.1` (wide margin), `C = 100` (strict) |
+| `gamma`   | Defines how far the influence of a point reaches | `'scale'`, `0.1`, `1` |
+
+### Demonstration with MNIST data
+
+Below is Python code showcasing a demonstration of Support Vector Machine on the
+MNIST dataset, classifying digits as either a 4 or a 9. 
+
+Loading in neccesary libraries and data 
+
+```{python}
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.svm import SVC
+from sklearn.metrics import classification_report, accuracy_score 
+from sklearn.metrics import precision_score, confusion_matrix, f1_score
+import matplotlib.pyplot as plt 
+from sklearn import datasets 
+import ssl
+import certifi
+
+ssl._create_default_https_context = lambda: ssl.create_default_context(
+    cafile=certifi.where())
+
+from sklearn.datasets import fetch_openml
+mnist = fetch_openml('mnist_784', version=1, as_frame=False)
+```
+
+Seperate data into X and Y and into training and testing data
+```{python}
+X, y = mnist['data'], mnist['target'].astype(int)
+
+mask = np.isin(y, [4,9])
+X, y = X[mask], y[mask]
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, 
+random_state=3255, test_size=0.2)
+```
+
+Fit a Support Vector Classifier model on data, using a Radius Basis Function
+Kernel, gamma set to scale, and C set to 1. 
+```{python}
+m1 = SVC(kernel = 'rbf', gamma='scale', C =1)
+m1.fit(X_test, y_test)
+y_pred = m1.predict(X_test)
+```
+
+Model evaluation. 
+```{python}
+print("Accuracy Score:", accuracy_score(y_test, y_pred))
+print("Precision Score:", precision_score(y_test, y_pred, pos_label=9))
+print("F1 Score:", f1_score(y_test, y_pred, pos_label=9))
+print("Confusion Matrix:", confusion_matrix(y_test, y_pred))
+```
+
+From the above output we can see that the SVM model has a high accuracy,
+precision, and F1 score. Furthermore, we can see from the confusion matrix that
+there are few misclassifications. 
+
+### Further Readings
+
+- [Support Vector Machines: Theory and Applications (Springer)](https://link.springer.com/book/10.1007/978-3-540-37019-2)  
+- [Support Vector Machines for Machine Learning – Machine Learning Mastery](https://machinelearningmastery.com/support-vector-machines-for-machine-learning/)  
+- [Scikit-learn: Support Vector Machines Documentation](https://scikit-learn.org/stable/modules/svm.html)  
+
+
