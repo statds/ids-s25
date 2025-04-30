@@ -161,7 +161,15 @@ df_2024.loc[match_date.index, ["created_date", "closed_date"]] = pd.NaT
 
 # Calculate missing values were created
 df_2024.loc[match_date.index, ["created_date", "closed_date"]].isna().sum()
+```
 
+#### Prepare Features and Target Variable
+
+To extract the hour and weekday from the request creation time for use as model 
+features, and create the target variable.
+
+
+```{python}
 # Convert date columns to datetime format for feature extraction
 df_2024['created_date'] = pd.to_datetime(df_2024['created_date'])
 df_2024['closed_date'] = pd.to_datetime(df_2024['closed_date'])
