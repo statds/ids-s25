@@ -9,7 +9,7 @@ SMOTE (Synthetic Minority Over-Sampling Technique) is a data
 preprocessing method that is designed to address class imbalance in 
 supervised learning tasks. Instead of duplicating existing minority class 
 instances, SMOTE generates synthetic examples by interpolating between existing
-minority samples using $K$-nearest neighbors (KNN) [@chawla2002smote]. Class 
+minority samples using $K$-nearest neighbors (KNN). Class 
 imbalance can significantly distort model performance, often leading to poor 
 recall for the minority class and misleadingly high accuracy, as models tend to
 favor the majority class. By generating new, diverse samples in feature space, 
