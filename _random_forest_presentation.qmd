@@ -80,12 +80,6 @@ from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import r2_score, mean_squared_error
 
-# Suppress specific pandas warnings globally to keep output clean
-warnings.filterwarnings(
-    "ignore", category=pd.errors.SettingWithCopyWarning
-)
-warnings.filterwarnings("ignore", category=FutureWarning)
-
 # Define the path to the dataset dynamically so it works on any machine
 BASE_DIR = Path.cwd()
 DATA_FILE = BASE_DIR / "data" / \
