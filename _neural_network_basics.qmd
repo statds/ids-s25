@@ -44,7 +44,7 @@ network, was picking up once again via the long short-term memory network in
 1995, whose architecture (as shown in Figure 3) revolutionized neural networks
 and became required reference material for further development in this field.
 
-![Figure 3: A long short-term memory network diagram, credit to [GeeksForGeeks](https://www.geeksforgeeks.org/deep-learning-introduction-to-long-short-term-memory/)](images/neural_network_basics_visuals/lstm.jpg){fig-align="center" .fragment}
+![Figure 3: A long short-term memory network diagram](images/neural_network_basics_visuals/lstm_example.png){fig-align="center" .fragment}
 
 This work mitigated the vanishing gradient problem, where long data sequences
 could become difficult to learn from as the backpropogation required to learn
@@ -111,7 +111,45 @@ shown in Figure 5.
 + **Sigmoid:** $$ \sigma(x)=\frac{1}{1+e^{-x}} $$
 + **Hyperbolic Tangent (tanh):** $$ \tanh(x)=\frac{e^x-e^{-x}}{e^x+e^{-x}} $$
 
-![Figure 5: Graphs of the sigmoid and hyperbolic tangent functions](images/neural_network_basics_visuals/activation_funcs_1.png){fig-align="center" .fragment}
+```{python}
+#| echo: false
+#| fig-cap: "Figure 5: Graphs of the sigmoid and hyperbolic tangent functions"
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Generate a range of x values.
+x = np.linspace(-10, 10, 400)
+
+# Define the activation functions.
+sigmoid = 1 / (1 + np.exp(-x))
+tanh = np.tanh(x)
+relu = np.maximum(0, x)
+alpha = 0.1  # Slope for negative x.
+leaky_relu = np.where(x < 0, alpha * x, x)
+
+### First Figure: Sigmoid and tanh
+
+fig1, axes1 = plt.subplots(1, 2, figsize=(8, 4))  # 1 row, 2 columns
+
+# Plot Sigmoid
+axes1[0].plot(x, sigmoid, color='blue', label='Sigmoid')
+axes1[0].set_title("Sigmoid Activation")
+axes1[0].set_xlabel("x")
+axes1[0].set_ylabel(r"$\sigma(x)$")
+axes1[0].grid(True)
+axes1[0].legend()
+
+# Plot tanh
+axes1[1].plot(x, tanh, color='orange', label='tanh')
+axes1[1].set_title("Hyperbolic Tangent (tanh)")
+axes1[1].set_xlabel("x")
+axes1[1].set_ylabel("tanh(x)")
+axes1[1].grid(True)
+axes1[1].legend()
+
+plt.tight_layout()
+plt.show()
+```
 
 The functions have a similar shape, but the sigmoid function
 ranges from 0 to 1, which is useful for binary classification tasks, while the
@@ -131,7 +169,31 @@ and Leaky ReLU, shown in Figure 6.
       0.01x,& x<0
     \end{cases}$$
 
-![Figure 6: Graphs of the ReLU and Leaky ReLU functions](images/neural_network_basics_visuals/activation_funcs_2.png){fig-align="center" .fragment}
+```{python}
+#| echo: false
+#| fig-cap: "Figure 6: Graphs of the ReLU and Leaky ReLU functions"
+
+fig2, axes2 = plt.subplots(1, 2, figsize=(8, 4))  # 1 row, 2 columns
+
+# Plot ReLU
+axes2[0].plot(x, relu, color='green', label='ReLU')
+axes2[0].set_title("ReLU Activation")
+axes2[0].set_xlabel("x")
+axes2[0].set_ylabel("ReLU(x)")
+axes2[0].grid(True)
+axes2[0].legend()
+
+# Plot Leaky ReLU
+axes2[1].plot(x, leaky_relu, color='red', label='Leaky ReLU')
+axes2[1].set_title("Leaky ReLU Activation")
+axes2[1].set_xlabel("x")
+axes2[1].set_ylabel("LeakyReLU(x)")
+axes2[1].grid(True)
+axes2[1].legend()
+
+plt.tight_layout()
+plt.show()
+```
 
 They introduce non-linearity in a slightly different way that can also be useful
 during the learning process. Both are quite computationally efficient; while the
