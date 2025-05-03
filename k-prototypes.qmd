@@ -1,60 +1,53 @@
----
-title: "K-Prototypes Clustering for Mixed Data"
-author: "Mario Tomaino"
-format: 
-    html:
-        toc: true
-        code-fold: true
-bibliography: refs.bib
-csl: apa.csl
-jupyter: stat3255
----
+## K-Prototypes Clustering
 
-## Introduction
+This section was prepared by Mario Tomaino, a Senior majoring in 
+Mathematics/Statistics. This section explores K-Prototypes clustering, an
+unsupervised machine learning algorithm used to cluster data that contains
+both numerical and categorical variables. 
 
-Hello! This section was created by Mario Tomaino, a Senior majoring in 
-Mathematics/Statistics.
+We will be generating a dataset containing individuals of certain ages and
+incomes, and clustering them based on their technology product preferences.
+We will then create some visualizations to further understand the clusters
+and characteristics of the individuals.
 
-This section will focus on K-Prototypes clustering.
-
-## Introduction to Clustering
+### What is K-Prototypes Clustering?
 
 - Clustering is the unsupervised classification of patterns into groups 
 [@li2009multi]
 - It helps group similar observations into distinct, interpretable clusters
-- Traditional algorithms like **k-means** only work with numerical data
+- Traditional algorithms like k-means only work with numerical data
 - Real world data often includes both numerical and categorical features, 
-which makes **K-Prototypes** necessary
+which makes K-Prototypes necessary
 
-## K-Means Clustering
+### K-Means Clustering
 
-- Works with **numerical data** only
+- Works with numerical data only
 - Implemented using the `scikit-learn` library
-- Uses **Euclidean distance** to measure similarity 
+- Uses Euclidean distance to measure similarity 
 (distance between two points)
-- Here, cluster centroids are the **mean** of all points in the cluster
+- Here, cluster centroids are the mean of all points in the cluster
 - Common in applications with quantitative features 
 (incident zip, latitude, longitude)
 
-## K-Modes Clustering
+### K-Modes Clustering
 
-- Designed for **categorical data only**
-- Uses **dissimilarity** (counts how many attributes differ)
-- Here, centroids are the **mode** (most common category)
+- Designed for categorical data only
+- Uses dissimilarity (counts how many attributes differ)
+- Here, centroids are the mode (most common category)
 - Useful when data contains strings or categories (borough, complaint type)
 
-## Why K-Prototypes?
+### Why K-Prototypes?
 
 - Many datasets include both numbers (latitude, longitude) and categories 
 (borough, complaint type)
 - K-Means: numerical only
 - K-Modes: categorical only
-- **K-Prototypes**: combines both types into a single clustering algorithm
+- K-Prototypes: combines both types into a single clustering algorithm
 - Here, the centroid is a mix:
     - **Mean** for numeric features
     - **Mode** for categorical features
 
-## Why is the centroid important?
+### Why is the centroid important?
 
 The algorithm uses centroids to:
 
@@ -64,19 +57,19 @@ The algorithm uses centroids to:
 
 This process repeats until centroids stop changing much (convergence).
 
-## How K-Prototypes Works
+### How K-Prototypes Works
 
-- **K-Prototypes** combines K-Means and K-Modes
-    - Minimizes **cost function** by combining:
+- K-Prototypes combines K-Means and K-Modes
+    - Minimizes cost function by combining:
         - Euclidean distance for numeric features (numerical distance from 
         cluster average)
         - Dissimilarity for categorical features
 - A hyperparameter `γ` (gamma) balances weight of numerical and 
 categorical variables
 
-## Similarity Measure (Distance Function)
+### Similarity Measure (Distance Function)
 
-```text
+```python
 distance = (euclidian distance) + γ * (categorical dissimilarity).
 ```
 
@@ -86,7 +79,7 @@ Precise numerical formula can be found at [@huang1997kprototypes] page two.
 - Helps assign each point to the most appropriate cluster
 - `γ` (gamma) balances numeric and categorical importance
 
-## Python Example
+### Python Example
 
 Basic example of a dataset containing customers that we will cluster based on 
 Age, Income, and Preferred Product.
@@ -94,6 +87,8 @@ Age, Income, and Preferred Product.
 Here, we choose `γ` = 0.5 because it gives us an equal trade-off between the
 numeric and categorical parts of the distance function.
 
+This is the code we will use to generate our dataset.
+
 ```python
 import pandas as pd
 import numpy as np
@@ -176,7 +171,13 @@ print(f"Using gamma = {chosen_gamma}")
 print(df.head(10))
 ```
 
-## Scatter Plot
+Above, we see the first 10 rows of our dataset of 25 random customers.
+
+### Scatter Plot
+
+This code will allow us to create a scatterplot. This scatterplot will
+vizualize our K-Prototypes clustering, and split our customers into two
+clusters.
 
 ```python
 # vizualizing cluster assignments for gamma value chosen
@@ -227,8 +228,6 @@ plt.legend()
 plt.tight_layout()
 plt.show()
 ```
-
-## Observations
 
 - Our model created two clusters: 
     - `Cluster 0 (Blue)`: 
@@ -240,7 +239,15 @@ plt.show()
         - Younger age range (20s through early 40s)
         - Mostly lower income (30-50)
 
-## Bar Chart For Product Counts
+### Bar Chart For Product Counts
+
+The following code will create a bar chart for product counts. Specifically,
+the raw counts of each product for each cluster, or the amount of customers
+in each cluster who prefer each product.
+
+The following code will also give us the proportions of each product for each
+cluster, or the percentage of customers per cluster that prefer a given 
+product.
 
 ```python
 # computing counts of products in each cluster
@@ -286,24 +293,22 @@ plt.tight_layout()
 plt.show()
 ```
 
-## Bar Chart Analysis
+**Bar Chart Analysis**
 
 |            | Accessory   | Laptop      | Phone       | Tablet      |
 | :----------: | :---------- | :----------: | ----------: | ------: |
 | Cluster 0   | 2 (11.1%)   | 6 (33.3%)    | 8 (44.4%)   | 2 (11.1%)   |
 | Cluster 1   | 2 (28.6%)   | 1 (14.3%)    | 3 (42.9%)   | 1 (14.3%)   |
 
-- **Cluster 0** (larger, higher-income & mixed-age cluster)
+- Cluster 0: (larger, higher-income & mixed-age cluster)
     - Phones are the most popular (44.4% of purchases)
     - Laptops follow (33.3% of purchases)
     - Very few Accessory and Tablet purchases
 
-- **Cluster 1** (smaller, younger & lower income cluster)
+- Cluster 1: (smaller, younger & lower income cluster)
     - Phone is still the most popular (42.9%)
     - Accessory increases (28.6%)
     - Laptops drop considerably (14.3%), tablets slightly higher (14%)
-
-## Further Bar Chart Analysis
 
 We can see that both groups favor phones, although Cluster 0 purchases more
 laptops, and Cluster 1 purchases more accessories. 
@@ -312,7 +317,7 @@ These results suggest to us that the younger/lower-income cluster is less
 likely to purchase the higher-priced laptops and more likely to pick smaller 
 items, like accessories.
 
-## Real-World Use Cases
+### Real-World Use Cases
 
 - Patient Profiling in Healthcare
     - Age, BMI, Cholesterol level (Numeric)
@@ -326,7 +331,7 @@ items, like accessories.
     - Household income, Number of dependents (Numeric)
     - Home ownership status, Education level (categorical)
 
-## Conclusion
+### Conclusion
 
 - K-Prototypes combines numerical and categorical variables into one clustering
 algorithm
@@ -334,14 +339,9 @@ algorithm
 - It is also customizeable, as the `γ` (gamma) parameter allows you to balance
 numerical and categorical importance
 
-## Further Readings
+### Further Readings
 
 - [kmodes GitHub repo](https://github.com/nicodv/kmodes)
 - [K-Means API Reference](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html)
 - [Clustering Large Data Sets with Mixed Numeric and Categorical Values](https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=d42bb5ad2d03be6d8fefa63d25d02c0711d19728)
 - [Extensions to the k-Means Algorithm for Clustering Large Data Sets with Categorical Values](https://cse.hkust.edu.hk/~qyang/537/Papers/huang98extensions.pdf)
-
-## Works Cited
-
-:::{#refs}
-:::
