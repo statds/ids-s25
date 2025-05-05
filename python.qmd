@@ -388,4 +388,4 @@ environment. You can verify the installation by running
 
 ## Develop a python package
 <!-- This section is to be included as a tutorial for developing a python package. -->
-{{< include _python_package.qmd >}}
+{{< include _py_package.qmd >}}
