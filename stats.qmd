@@ -1,5 +1,421 @@
 # Statistical Tests and Models
 
+## An Overview of Statistical Testing in Python
+
+### Introduction
+
+This section was written by John Ackerman, a sophomore at the University of 
+Connecticut double majoring in mathematics and statistical data science.
+
+By the end of this section, you'll understand how to approach problems of the 
+following forms using Python:  
+
+- Does the average height of male and female university students differ 
+significantly?  
+- Is there a relationship between the type of movie a person sees and 
+whether or not they buy snacks at the theater?  
+- Can we predict whether a patient has a disease based on their temperature 
+and gender?  
+- How can a company estimate customer satisfaction with a small sample of 
+feedback?  
+
+### What's Statistical Testing?
+
+Statistical testing is a method of making probabilistic decisions about a 
+population parameter based on sample data. It involves formulating hypotheses 
+and using data to assess the evidence against a null hypothesis.
+
+### Null and Alternate Hypotheses
+
+The null hypothesis ($H_o$) is the default assumption that there is no effect, 
+no difference, or no relationship in the data. The alternative hypothesis 
+($H_1$ or $H_a$) is what we seek to provide evidence for-it suggests that 
+there is an effect, a difference, or a relationship. Hypothesis testing 
+evaluates whether the observed data provides enough evidence to reject the 
+null hypothesis in favor of the alternative.
+
+The following table contains the null and alternative hypotheses for some 
+common tests:
+
+| Test | Null Hypothesis (H₀) | Alternative Hypothesis (H₁ or Hₐ) |
+|------|----------------------|-----------------------------------|
+| t-test (one-sample or two-sample) | The population mean(s) are equal. | The population mean(s) are different. |
+| Chi-square test for independence | Two categorical variables are independent. | Two categorical variables are dependent. |
+| ANOVA (Analysis of Variance) | All group means are equal. | At least one group mean is different. |
+| Linear Regression (F-test) | The independent variable(s) have no effect on the dependent variable. | At least one independent variable significantly affects the dependent variable. |
+| Mann-Whitney U test | The distributions of the two groups are the same. | The distributions of the two groups are different. |
+
+### Assumptions
+
+Statistical tests are based on certain assumptions about the data, such as the 
+distribution, variance, or independence of observations. Violating assumptions 
+increases your risk of Type I errors (falsely rejecting a true null 
+hypothesis) and Type II errors (failing to reject a false null hypothesis).
+
+| Assumption | Method to Test | Package:Function |
+|------------|----------------|------------------|
+| Normality: (data is normally distributed) | Shapiro-Wilk test or Q-Q plot | `scipy.stats.shapiro` (Shapiro-Wilk Test), `statsmodels.api.qqplot` (Q-Q Plot) |
+| Independence: (observations are independent) | Durbin-Watson test (for time series) | `statsmodels.stats.stattools.durbin_watson` (Durbin-Watson Test) |
+| Homoscedasticity: (equal variance across groups) | Levene’s test | `scipy.stats.levene` (Levene’s Test) |
+| Heteroscedasticity: (unequal variance) | Breusch-Pagan test | `statsmodels.stats.diagnostic.het_breuschpagan` (Breusch-Pagan Test) |
+| No Outliers: (no extreme values) | IQR method or Z-score | `scipy.stats.iqr` (Interquartile Range), `scipy.stats.zscore` (Z-score) |
+| No Multicollinearity: (independent predictors in regression) | Variance Inflation Factor (VIF) | `statsmodels.stats.outliers_influence.variance_inflation_factor` (VIF) |
+
+### Parametric vs. Non-Parametric
+
+Parametric tests assume that the data follows a specific distribution 
+(typically normal), and rely on parameters such as the mean and standard 
+deviation. Non-parametric tests don't assume any distribution and as such 
+are used when parametric assumptions are violated. Both are important because 
+parametric tests offer greater precision if assumptions hold, while 
+non-parametric tests provide a robust alternative when they don't.
+
+Let's run a series of simulations to compare the accuracy of the independent 
+t-test (parametric) vs the Wilcoxon test (non-parametric) with right-skewed 
+samples with a known difference between groups:
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import stats
+
+# Set random seed
+np.random.seed(124)
+
+# Simulation parameters
+n_simulations = 1000
+sample_size = 30
+
+# Arrays to store p-values
+t_test_pvalues = []
+wilcoxon_pvalues = []
+
+# Run simulations
+for _ in range(n_simulations):
+    # Generate skewed data with a true difference
+    group1 = np.random.lognormal(mean=0, sigma=0.8, size=sample_size)
+    group2 = np.random.lognormal(mean=0.3, sigma=0.8, size=sample_size)  
+    
+    # Run both tests
+    _, t_pvalue = stats.ttest_ind(group1, group2)
+    _, w_pvalue = stats.mannwhitneyu(group1, group2)
+    
+    # Storing p-values
+    t_test_pvalues.append(t_pvalue)
+    wilcoxon_pvalues.append(w_pvalue)
+
+# Find prop of results w/ (p < 0.05)
+t_test_significant = (
+  np.sum(np.array(t_test_pvalues) < 0.05) / n_simulations
+)
+wilcoxon_significant = (
+  np.sum(np.array(wilcoxon_pvalues) < 0.05) / n_simulations
+)
+
+# Plot histograms
+plt.figure(figsize=(8, 5))
+
+plt.subplot(1, 2, 1)
+plt.hist(t_test_pvalues, bins=20, color='blue')
+plt.axvline(x=0.05, color='red', linestyle='--')
+plt.ylim(None, 310)
+plt.title(f't-test\nDetection Rate: {t_test_significant:.2f}')
+plt.xlabel('p-value')
+plt.ylabel('Frequency')
+
+plt.subplot(1, 2, 2)
+plt.hist(wilcoxon_pvalues, bins=20, color='green')
+plt.axvline(x=0.05, color='red', linestyle='--')
+plt.ylim(None, 310)
+plt.title(f'Wilcoxon Test\nDetection Rate: {wilcoxon_significant:.2f}')
+plt.xlabel('p-value')
+
+plt.tight_layout()
+plt.show()
+
+print(
+  f"Proportion of significant t-test results: "
+  f"{t_test_significant:.2f}"
+)
+print(
+  f"Proportion of significant Wilcoxon results: "
+  f"{wilcoxon_significant:.2f}"
+)
+print(
+  f"The non-parametric Wilcoxon test correctly identifies the difference "
+  f"{wilcoxon_significant/t_test_significant:.2f}x more often"
+)
+```
+
+The Wilcoxon test correctly detected the difference more often because it 
+didn't assume the samples followed a normal distribution.
+
+### Types of Statistical Testing
+
+#### Is There a Significant Difference? (A/B Testing)
+
+These tests help determine whether the observed differences between groups are 
+significant or just due to chance.
+
+Ex: Does our new drug significantly lower blood pressure compared to placebo?
+
+##### Overview of Relevant Tests:
+
+| Test | Use Case | Key Assumptions | Package:Function |
+|------|----------|-----------------|------------------|
+| t-test | Compare two means | Normality, equal variance (for independent test) | `scipy.stats:ttest_ind` |
+| Mann-Whitney U | Compare two groups (non-parametric) | Continuous data, different distributions | `scipy.stats:mannwhitneyu` |
+| ANOVA | Compare 3+ groups | Normality, equal variance | `scipy.stats:f_oneway` |
+| Kruskal-Wallis | Compare 3+ groups (non-parametric) | Same shape distributions | `scipy.stats:kruskal` |
+
+##### t-test & Mann-Whitney U Python Implementation:
+
+```{python}
+from scipy.stats import ttest_ind, mannwhitneyu
+
+group_a = [5, 7, 8, 6, 9]
+group_b = [6, 8, 7, 10, 12]
+
+# If data is normally distributed:
+t_stat, p_value = ttest_ind(group_a, group_b)
+print(f"T-test: T={t_stat:.3f}, p={p_value:.3f}")
+
+# If data is non-normal:
+u_stat, p_value = mannwhitneyu(group_a, group_b)
+print(f"Mann-Whitney U: U={u_stat:.3f}, p={p_value:.3f}")
+```
+
+##### Key Points:
+
+When choosing statistical tests, follow these guidelines:  
+
+- Use a t-test if the data is normal; otherwise, use the Mann-Whitney U test.  
+- For three or more groups, use ANOVA (or Kruskal-Wallis if non-parametric).  
+- For paired and one-sample t-tests, use SciPy's `ttest_rel` and `ttest_1samp`.  
+
+#### Are Two Variables Related? 
+
+These tests assess whether two variables are correlated or if their 
+relationship is just due to random variation.
+
+Ex: Is there a correlation between hours studied and test performance?
+
+##### Overview of Relevant Tests:
+
+| Test | Use Case | Key Assumptions | Package:Function |
+|------|----------|-----------------|------------------|
+| Pearson correlation | Linear relationship between variables | Both variables are continuous and normally distributed | `scipy.stats:pearsonr` |
+| Spearman correlation | Monotonic relationship between variables | No normality assumption | `scipy.stats:spearmanr` |
+| Chi-square test | Relationship between two categorical variables | Expected frequency >5 in each category | `scipy.stats:chi2_contingency` |
+
+##### Pearson & Spearman Python Implementation
+
+```{python}
+from scipy.stats import pearsonr, spearmanr
+
+x = [10, 20, 30, 40, 50]
+y = [15, 25, 35, 45, 60]
+
+# Pearson correlation
+corr, p_value = pearsonr(x, y)
+print(f"Pearson correlation: {corr:.3f}, p={p_value:.3f}")
+
+# Spearman correlation (if data is non-normal)
+corr, p_value = spearmanr(x, y)
+print(f"Spearman correlation: {corr:.3f}, p={p_value:.3f}")
+```
+
+##### Key Points
+
+For correlation analysis:  
+
+- Use Pearson’s correlation for linear relationships and Spearman’s 
+correlation for monotonic ones.  
+- Use the chi-square test when dealing with categorical data.  
+- Remember that correlation $\neq$ causation.  
+
+#### Can We Predict One Variable from Another?
+
+These methods reveal how well one variable can predict another and quantify 
+the strength of that relationship.
+
+Ex: Can we predict a car's fuel efficiency with its weight and horsepower?
+
+##### Overview of Relevant Tests:
+
+| Test | Use Case | Key Assumptions | Package:Function |
+|------|----------|-----------------|------------------|
+| Linear Regression | Predict a continuous outcome | Linearity, normal residuals | `sklearn.linear_model:LinearRegression` |
+| Logistic Regression | Predict a binary outcome | Linear relationship between predictors and log-odds | `sklearn.linear_model:LogisticRegression` |
+| Chi-square goodness-of-fit | Compare observed vs. expected frequencies | Categories should have expected counts >5 | `scipy.stats:chisquare` |
+
+##### Linear Regression Python Implementation:
+
+```{python}
+from sklearn.linear_model import LinearRegression
+import numpy as np
+
+# Sample data
+X = np.array([1, 2, 3, 4, 5]).reshape(-1, 1)
+y = np.array([2, 4, 5, 4, 5])
+
+# Fit a simple linear regression model
+model = LinearRegression()
+model.fit(X, y)
+predictions = model.predict(X)
+
+print(f"Predicted values: {predictions}")
+```
+
+##### Key Points:
+
+For regression modeling:  
+
+- Use linear regression for continuous outcomes and logistic regression for 
+binary outcomes.  
+- Consider feature scaling and transformations when using regression models.  
+
+#### Is This Result Significant or Noise? (Alternative Inference)
+
+These methods help distinguish meaningful patterns from random noise while 
+providing estimates of the existence and magnitude of effects. They offer 
+robust alternatives to traditional approaches by using simulation and 
+resampling techniques, making them valuable when standard assumptions are 
+violated.
+
+Ex: Amazon is considering a new design for their checkout page and wants to 
+know if the new design increases conversion rate and by how much.
+
+##### Overview of Relevant Tests
+
+| Method | Use Case | Key Idea | Package:Function |
+|--------|----------|----------|------------------|
+| Bootstrap CI | Estimate confidence intervals from data | Resample data many times to see possible variations | `numpy.random:choice` (custom implementation) |
+| Permutation Test | Test if two groups are meaningfully different | Shuffle labels and see how extreme the observed difference is | `scipy.stats:permutation_test` |
+| Bayesian Inference | Quantify belief in different hypotheses | Treat parameters as probabilities and update based on data | `pymc3` / `scipy.stats:beta` (for simple cases) |
+
+##### Python Implementation of all methods:
+
+```{python}
+import numpy as np
+from scipy.stats import permutation_test, beta
+
+# Simulated data: time spent on old vs. new layout
+old_layout = np.array([40, 50, 45, 55, 42, 48])
+new_layout = np.array([52, 60, 58, 65, 55, 57])
+
+# Bootstrap CI
+bootstrap_samples = np.random.choice(
+  new_layout - old_layout,
+  size=(10000, len(old_layout)),
+  replace=True
+)
+ci_lower, ci_upper = np.percentile(
+  bootstrap_samples.mean(axis=1), [2.5, 97.5]
+)
+print(f"Bootstrap 95% CI: [{ci_lower:.3f}, {ci_upper:.3f}]")
+
+# Permutation test
+perm_result = permutation_test(
+  (old_layout, new_layout),
+  statistic=lambda x, y: np.mean(x) - np.mean(y),
+  n_resamples=10000
+)
+print(f"Permutation test p-value: {perm_result.pvalue:.3f}")
+
+# Bayesian inference estimates probability that new layout increases time spent
+alpha, beta_params = 1 + new_layout.sum(), 1 + old_layout.sum()
+bayes_prob = 1 - beta.cdf(0, alpha, beta_params)
+print(f"Bayesian probability that new layout is better: {bayes_prob:.3f}")
+```
+
+##### Key Points:
+
+Principle ideas for the three methods:
+
+- Focus on effect sizes and uncertainty rather than just p-values.  
+- Effect sizes often provide more actionable insights.  
+- Bootstrap confidence intervals provide robust interval estimates without 
+normality assumptions.  
+- Permutation tests allow inference without relying on parametric models.  
+- Bayesian methods offer probability-based conclusions rather than binary 
+p-values.  
+
+### Statistical vs. Practical Significance
+
+#### Multiple Testing
+
+Multiple testing refers to performing several statistical tests on the same 
+data or research question simultaneously, which increases the risk of false 
+positives (Type I errors). For example, suppose the null hypothesis is true, 
+and we use a significance level 0.05. With a single test, there's a 5% chance 
+of a Type I error. However, if we conduct 10 tests, the probability of 
+encountering at least one Type I error rises to approximately 40%.
+
+A common corrective measure is the Bonferroni correction, which adjusts the 
+significance level as follows:  
+
+$$
+\alpha_{\text{adjusted}} = \frac{\alpha}{m},
+$$
+
+where $\alpha$ is the significance level and $m$ is the number of analyses.  
+
+
+#### Effect Size
+
+P-values only inform us whether an effect exists.
+Consider that large sample sizes can make small effects significant, and small 
+samples might overlook large effects. Effect size quantifies the magnitude of 
+a difference or relationship, providing context beyond statistical 
+significance. One such measure for mean difference is Cohen's d, which is 
+defined as:  
+
+$$
+d = \frac{\bar{X}_1 - \bar{X}_2}{s_p},
+$$
+
+where $\bar{X}_1$ and $\bar{X}_2$ are the sample means, and $s_p$ is the 
+pooled standard deviation. The pooled standard deviation is calculated as:  
+
+$$
+s_p = \sqrt{\frac{(n_1 - 1)s_1^2 + (n_2 - 1)s_2^2}{n_1 + n_2 - 2}},
+$$
+
+where $s_1$ and $s_2$ are the standard deviations, and $n_1$ and $n_2$ are the 
+sample sizes. 
+
+Other measures include:  
+
+- Correlation Coefficient: Measures how two continuous variables relate.  
+- Eta-Squared: Used for ANOVA; quantifies the proportion of variance explained 
+by a categorical factor.  
+- Phi and Cramer’s V: Used for categorical data in chi-square tests.
+
+### Best Practices  
+
+#### Assumption Violations
+- Check assumptions before choosing a test rather than after obtaining results.  
+- Use non-parametric alternatives when assumptions are violated and connot 
+be easily corrected.  
+- Try transforming the data to better meet assumptions.
+
+#### Interpretation Guidelines  
+- Use p-values alongside effect sizes and confidence intervals for a more 
+complete analysis.
+- Be catious of multiple comparisons and adjust significance levels when 
+necessary.
+
+#### Documentation  
+- Ensure code and data preprocessing steps are well-documented for 
+reproducibility.
+- Report all relevant statistics.  
+- Include visualizations when possible. 
+
+### Further Reading
+- [scipy.stats](https://docs.scipy.org/doc/scipy/reference/stats.html)
+- [statsmodels.stats](https://www.statsmodels.org/stable/stats.html)
+- [sklearn.userguide](https://scikit-learn.org/stable/model_selection.html)
 
 ## Tests for Exploratory Data Analysis
 
@@ -1164,42 +1580,42 @@ poisson_model.summary()
 ```
 
 
-
 Then we fit a NB model.
 ```{python}
 # Fit Negative Binomial regression
-nb_model = smf.glm("SFcount ~ CBcount_Lag1", 
-                    data=df_model, 
-                    family=sm.families.NegativeBinomial()).fit()
+nb_model = smf.negativebinomial("SFcount ~ CBcount_Lag1", 
+                    data=df_model).fit()
 
 nb_model.summary()
 ```
+Note that `smf.glm` does not allow the dispersion parameter to be
+estimated; instead, it is fixed at 1.
 
 
-Check for overdisperson.
-```
-# Overdispersion check: Compute Pearson Chi-square statistic
-poisson_deviance = poisson_model.pearson_chi2 / poisson_model.df_resid
-nb_deviance = nb_model.pearson_chi2 / nb_model.df_resid
+<!-- Check for overdisperson. -->
+<!-- ```{python} -->
+<!-- # Overdispersion check: Compute Pearson Chi-square statistic -->
+<!-- poisson_deviance = poisson_model.pearson_chi2 / poisson_model.df_resid -->
+<!-- nb_deviance = nb_model.pearson_chi2 / nb_model.df_resid -->
 
-# Akaike Information Criterion (AIC) comparison
-poisson_aic = poisson_model.aic
-nb_aic = nb_model.aic
+<!-- # Akaike Information Criterion (AIC) comparison -->
+<!-- poisson_aic = poisson_model.aic -->
+<!-- nb_aic = nb_model.aic -->
 
-# Residual analysis
-df_model["Poisson_Residuals"] = poisson_model.resid_pearson
-df_model["NB_Residuals"] = nb_model.resid_pearson
+<!-- # Residual analysis -->
+<!-- df_model["Poisson_Residuals"] = poisson_model.resid_pearson -->
+<!-- df_model["NB_Residuals"] = nb_model.resid_pearson -->
 
-# Summary of results
-summary_results = {
-    "Poisson Coefficients": poisson_model.params.to_dict(),
-    "Negative Binomial Coefficients": nb_model.params.to_dict(),
-    "Poisson Deviance": poisson_deviance,
-    "Negative Binomial Deviance": nb_deviance,
-    "Poisson AIC": poisson_aic,
-    "Negative Binomial AIC": nb_aic
-}
+<!-- # Summary of results -->
+<!-- summary_results = { -->
+<!--     "Poisson Coefficients": poisson_model.params.to_dict(), -->
+<!--     "Negative Binomial Coefficients": nb_model.params.to_dict(), -->
+<!--     "Poisson Deviance": poisson_deviance, -->
+<!--     "Negative Binomial Deviance": nb_deviance, -->
+<!--     "Poisson AIC": poisson_aic, -->
+<!--     "Negative Binomial AIC": nb_aic -->
+<!-- } -->
 
-# Return the summary of findings
-summary_results
-```
+<!-- # Return the summary of findings -->
+<!-- summary_results -->
+<!-- ``` -->

@@ -1,0 +1,379 @@
+
+## Math Animation 
+
+This section was contributed by Mohammad Mundiwala. I am a first year graduate
+student in Mechanical Engineering. My research interests are in sustainable
+design and machine learning. I enjoy to make short videos on youtube which is 
+partly why I chose this topic. 
+
+### A Simple Example
+
+
+<video autoplay muted loop style="width:6in; max-width:100%;">
+  <source src="vids/TransformCycle.mp4" type="video/mp4">
+</video>
+
+### [3blue1Brown](https://www.3blue1brown.com) ![logo](images/3b1b_logo.png){width=40}
+
+One of my favorite youtubers is actually the creator 
+of the `manim` 
+package that we are going to explore. He is one of the largest STEM educators 
+on the internet and at the time of writing this has amassed 650 million views
+on YouTube alone. What sets his videos apart are his captivating, precise, and 
+dynamic animations. Because there were no available tools that could help 
+visualize the abstract concepts he wanted to share, he specifically curated 
+`manim` to be able to do just that. 
+
+### `manim` vs `matplotlib.animation`  
+A first choice for many animation tasks is and very well should be `matplotlib`
+as it is familiar and powerful. It is useful then to clarify when an even more
+powerful package such as `manim` should be used. 
+
+**Scene-direction approach** vs **Frame-by-frame approach** 
+
+**Precise control of objects** vs **Quick iterative plotting**
+
+**Elegant mathematical animations** vs **Straightforward integration**
+
+
+When using manim, you become the director of a movie. You have control of every
+single detail in the frame which is exciting and daunting. If your goal is as 
+simple as making many static plots (frames) and stitching them together to 
+create a GIF or animation, then `manim` is overkill. Even the creator of manim
+would reccommend you use [Desmos](https://www.desmos.com/) or 
+[GeoGebra](https://www.geogebra.org/graphing) instead. I love these options 
+for their clean UI and speed. If you cannot get it done with these tools, 
+then you may be in `manim` territory. 
+
+In `manim`, everything you see in a rendered output video is called an object. 
+In my simple example video above, the circle, square, triangle, etc are objects
+with properties like color, size, position, etc. The camera itself is also an
+object which you can control preciseley. 
+
+To make the elegant animations with manim on your computer, simply follow the
+[Manim Setup Guide](https://docs.manim.community/en/stable/installation/uv.html). 
+There are a few steps that may take some time to download but it is otherwise
+a pretty simple process - especially since we are all very familiar with 
+the command line interface. 
+
+### Manim Workflow
+Each animation that I made using manim can be boiled down to the following
+five simple steps. 
+
+1. Define a scene class (e.g., `Scene`, `ThreeDScene`, `ZoomedScene`)
+2. Create shapes or objects (circles, squares, axis)
+3. Apply transformations or animations (`.animate`, `MoveTo`)
+4. Customize text, labels, colors, to clarify whats going on
+5. Render the scene with "`manim -plq script.py Scene_Name`" 
+
+Manim is great example of Object Oriented Programming (OOP) because almost
+everything you might want to do is done by calling a method on some object that
+you made an instance of. A "scene" is just a class that you write in python 
+where you can specify the type of scene in the argument. The way you
+interact with the different scene options (presented above: `Scene` or `ThreeDScene`) will be the same. There are different 
+methods (actions) that you might want to do in a 3D scene vs a 2D scene. For 
+example, in 3D, you can control the angle of the lighting, the angle and 
+position of the camera, and the orientation of objects in 3D space. It would not make sense
+to do this in 2D, for example.
+
+Every basic shape or symbol you want to use in your animation in likely an 
+existing object you can simply call. If you want to animate your own symbol, 
+or custom icon then you can simply read it in as an image, and treat it like 
+an object (where applicable). Note that all objects are automatically placed 
+at the center of the screen (the origin). If you want to place a circle, for instance,
+to the left or right of the page, you can use `circle.move_to(LEFT)`. Similarly,
+if you want to go up, down, or right, use `UP`, `DOWN`, and `RIGHT`, 
+respectively. These act kind of like unit vectors in their directions. Multiply
+a number by them to move further in that direction. 
+
+Next is the fun part. You can apply the movements and transformations that you
+would like to which ever object you want. If you want to transform a square to 
+a cirlce, then use `Transform(square, circle)`. To make the transformation
+actually happen within your scene, you have to call the scene object that you
+defined. That is as simple as writing `self.play(<insert animation here>)`. 
+One useful argument to the `.play()` method which you use for every single
+animation is `run_time` which helps you define exactly how long, in seconds, 
+the animation you defined will last. The default is 1 second which may be 
+too quick for some ideas. 
+
+You can add labels, text, Latex math, etc. to make your animations more
+complete. Each text block you write, with `MathTex()` for the latex fans, 
+is also treated like an object within the scene. You can control its font, 
+font size, color, position; you may also link its position relative to another
+object. 
+
+Finally you will use the command line or terminal of your choice to render your
+animation. I must admit that there is some upfront effort required to 
+make your system and virtual environment ready to run a manim script. Again, 
+there is nothing else you should need between the Manim Community Documentation
+and ChatGPT, but still, it took me many hours to get all of the dependencies and 
+packages to be installed correctly. If you already have a latex rendering 
+package and video rendering package installed that is added to your PATH, then it
+may take less time. I want to simply clarify that manim is NOT a single 
+`pip install` command away, but that is not to discourage anyone. I did it and
+feel it is worth the extra effort. 
+
+### Code for intro 
+The code for the intro animation is presented below. It is simple and aims
+at just getting the primary functionality and commands of manim across. It
+follows the manim workflow described in the previous section. 
+
+```{python}
+#| eval: false
+from manim import *
+import numpy as np
+class TransformCycle(Scene):
+    def construct(self):
+        # circle -> square -> triangle -> star -> circle
+        circle1 = Circle()
+        square = Square()
+        triangle = Triangle()
+        star = Star()
+        circle2 = Circle()
+
+        shapes = [circle1, square, triangle, star, circle2]
+        current = shapes[0]
+        self.add(current)
+        for shape in shapes[1:]:
+            self.play(Transform(current, shape), run_time=1.25)
+```
+
+
+### Using $\LaTeX$
+
+Part of what makes manim so useful for math is its natural use of Latex when 
+writing text. Other animation softwares do not support precise math notation
+using Latex which often used by experts. In the following example, I show 
+a very simple demonstration on how text using Latex and related objects 
+(ellipse) can be positioned in the frame. First notice the different animations
+that are happening; then we can explore the code!
+
+<video autoplay muted loop style="width:6in; max-width:100%;">
+  <source src="vids/ProbabilityEvents.mp4" type="video/mp4">
+</video>
+
+The code used to generate the video is presented below. It should be easy(ish)
+to follow since we use the same format as the previous animation. This time
+I included more arguements to the objects (position, color, width, height, etc).
+
+```{python}
+#| eval: false
+class ProbabilityEvents(Scene):
+    def construct(self):
+        main_group = VGroup()
+        ellipse1 = Ellipse(
+          width=3, height=2.5, color=BLUE, fill_opacity=0.3
+                          ).move_to(RIGHT*2.5 + UP)
+        ellipse2 = ellipse1.copy().set_color(color=RED).move_to(RIGHT*2.5+DOWN)
+        intersection = Intersection(
+            ellipse1, ellipse2, fill_color=PURPLE, fill_opacity=0.7)
+
+        prE1 = MathTex(r"\Pr(E_1)").scale(0.8).move_to(2* LEFT + UP)
+        prE2 = MathTex(r"\Pr(E_2)").scale(0.8).next_to(
+          prE1, DOWN, buff=0.4).move_to(2*LEFT + DOWN) 
+        prUnion = MathTex(r"\Pr(E_1 \cup E_2)").scale(0.8).next_to(
+          prE2, UP*0.5, buff=0.6).move_to(2 *LEFT) 
+        prFormula = MathTex(
+          r"\Pr(E_1) + \Pr(E_2) - \Pr(E_1 \cap E_2)").scale(0.8) 
+        prFormula.next_to(prUnion, buff=0.4).move_to(1.5*LEFT)   
+```
+
+Using the defined objects from above, 
+below are the commands that actually animate. This is where you can be 
+creative! The animation occur sequentially. When multiple animations are 
+listed in the `self.play()` method, they begin at the same time. 
+
+```{python}
+#| eval: false
+        self.play(FadeIn(prE1), FadeIn(ellipse1), run_time = 2)
+        self.play(FadeIn(prE2), FadeIn(ellipse2))
+        self.play(FadeIn(intersection))
+        self.play(FadeOut(prE1), FadeOut(prE2), FadeIn(prUnion))
+        self.wait(1)
+        self.play(Transform(prUnion, prFormula),
+                  intersection.animate.set_fill(color=WHITE, opacity=1),
+                  ellipse1.animate.set_fill(opacity=0.9),
+                    ellipse2.animate.set_fill(opacity=0.9),
+                    run_time=3) 
+        self.wait()
+```
+
+How cool. Try and edit this animation I made slightly to see how different 
+parameters effect the final result. I found that it was the best way to learn. 
+
+### Visualizing Support Vector Machine 
+Some data is distributed in a 2 dimensional plane. Some samples are blue and 
+some are white. When trying to seperate the white samples from blue
+ (called binary classification), we see it is not possible when they are 
+ shown in 2D. We can draw a linear boundary where blue is on one side and 
+ white is on the other. My animation shows the utility of the Kernel Trick 
+ used by SVM. We apply a nonlinear transformation to increase the dimensionality
+ of the feature space. Then, in the higher dimension, we search for a
+ hyperplane that can split the two classes. Once that hyper plane is found, 
+ we can map that plane back into the feature space using the inverse of the 
+ non-linear transformation. For this animation, I used a parabaloid 
+ transformation to keep it simple and clear. The hyper plane intersects the
+ parabaloid as a conic section - ellipse in 2D. The camera pans to top down
+ view to show the feature space now segmented using the kernel trick. SVM is 
+ a highly abstract mathemtical tool that can be hard to imagine. I feel that
+ in this low dimensional case (2D and 3D), we can convey the most important
+ ideas without getting into the math. 
+
+<video autoplay muted loop style="width:6in; max-width:100%;">
+  <source src="vids/Scatter.mp4" type="video/mp4">
+</video>
+
+
+I split the movie shown above into sections or scenes below. Every single 
+animation or motion presented above is written in these relatively short 
+blocks of code. 
+ 
+#### Axis
+```{python}
+#| eval: false
+class Scatter(ThreeDScene):
+    def construct(self):
+        # camera
+        self.set_camera_orientation(phi=70*DEGREES, theta=-35*DEGREES)
+        X, y = make_dataset(50, 50, seed=0)
+        #   class‑0 → WHITE, class‑1 → BLUE
+        dot_rad = 0.02
+        colors   = {0: WHITE, 1: BLUE}
+        # axes
+        axes = ThreeDAxes(
+            x_range=[-4, 8, 1],
+            y_range=[-4, 8, 1],
+            z_range=[-0.5, 5, 1],
+            x_length=4,
+            y_length=4,
+            z_length=3,
+        )
+        self.add(axes)
+        self.wait(1)
+```
+
+#### Kernel trick
+The primary animation that shows the points in 2D being 'transformed' into 3D 
+is a simple `Replacement Transform` in manim. The samples, represented by 
+spheres, were given a starting position and ending position. Manim, automatically
+smoothly interpolates the transition from start to end, which renders as the 
+points slowly rising upward. Pretty cool!
+```{python}
+#| eval: false
+base_pts, lifted_pts = VGroup(), VGroup()
+  for (x, y), cls in zip(X, y):
+      p = axes.c2p(x, y, 0)
+      base_pts.add(Dot3D(p, radius=dot_rad, color=colors[int(cls)]))
+      z = (x - 2)**2 + (y - 2)**2 + 1
+      p = axes.c2p(x, y, z)          # or axes.coords_to_point
+      lifted_pts.add(Dot3D(p, radius=dot_rad, color=colors[int(cls)]))
+  self.play(FadeIn(base_pts), run_time=1)
+  self.wait(1)
+  step2_tex = MarkupText("2nd: Kernal trick with nonlinear mapping", 
+                          color=WHITE, font_size=24).move_to(UP*2 + RIGHT*2)
+  self.play(ReplacementTransform(base_pts, lifted_pts), 
+              run_time=3)
+  self.wait()
+```
+
+#### Hyper-plane
+The hyperplane "searching" for the optimum boundary is performed by creating 
+a square in 3D space. I then set its color and position. The show the rotation, 
+I determined the final orienation of the plane in terms of its normal vector. 
+I sweep a small range of nearby normal vectors to ultimately 'animate' the 
+search or convergance of an SVM model. Note that there are many different ways
+I could have gone about accomplishing this. This was one way where I did the 
+math by hand. 
+```{python}
+#| eval: false
+  plane_size = 0.6
+  plane_mobj = Square(side_length=plane_size)
+  plane_mobj.set_fill(BLUE_A, opacity=0.5)
+  plane_mobj.set_stroke(width=0)
+  plane_mobj.move_to(axes.c2p(2, 2, 1.3))
+
+  # default Square is parallel to XY
+  self.add(plane_mobj)
+  self.wait(1)
+  # final orientation:
+  normal = np.array([A, B, C], dtype=float)
+  z_anchor = -(A*2 + B*2 + D) / C
+  anchor_pt = np.array([2, 2, z_anchor])
+  anchor_3d = axes.c2p(*anchor_pt)
+  z_hat = np.array([0, 0, 1])
+  n_hat = normal / np.linalg.norm(normal)
+  final_angle = angle_between_vectors(z_hat, n_hat)
+  # Rotation axis is their cross product:
+  rot_axis = np.cross(z_hat, n_hat)
+  if np.allclose(rot_axis, 0):
+      rot_axis = OUT 
+  self.play(
+      plane_mobj.animate.rotate(
+        30*DEGREES, axis=RIGHT, about_point=plane_mobj.get_center()),
+      run_time=2
+  )
+  self.play(
+      plane_mobj.animate.rotate(
+        20*DEGREES, axis=UP, about_point=plane_mobj.get_center()),
+      run_time=2
+  )
+  # move & rotate to final plane
+  self.play(
+      plane_mobj.animate.move_to(anchor_3d).rotate(
+        final_angle, axis=rot_axis, about_point=anchor_3d),
+      run_time=3
+  )
+  self.wait()
+  self.play(FadeOut(plane_mobj), run_time=1)
+```
+
+#### Camera & Ellipse
+
+The camera in manim is operated using spherical coordinates. If you remember 
+from Calc 3, $\phi$ describes the angle formed by the positive $z$-axis and the 
+line segment connecting the origin to the point. Meanwhile, $\theta$ is the 
+angle in the $x-y$ plane, in reference to the $+x$ axis. Manim may help you to 
+brush up on your math skills..it certainly helped me!
+```{python}
+#| eval: false
+
+self.move_camera(phi=0*DEGREES, theta=-90*DEGREES, run_time=3)
+self.wait()
+
+#   ((x - 2)^2 / 0.55^2) + ((y - 2)^2 / 0.65^2) = 1.
+center_x, center_y = 2, 2.1
+a, b = 0.55, 0.65  # ellipse semi-axes
+def ellipse_param(t):
+    x = center_x + a * np.cos(t)
+    y = center_y + b * np.sin(t)
+    return axes.c2p(x, y, 0)  # z=0 => in the XY plane
+
+ellipse = ParametricFunction(
+    ellipse_param, t_range=[0, TAU], color=YELLOW, stroke_width=2)
+self.play(Create(ellipse), run_time=2)
+self.wait(2)
+```
+
+### Learnings
+
+  - Takes time upfront, but allows you to convey abstract concepts quickly.
+  - You can impress sponsors or your boss. 
+  - It is cool. I made this for the lab I work in using just an image (.svg) icon!
+
+
+<video autoplay muted loop style="width:6in; max-width:100%;">
+  <source src="vids/ReilLogo.mp4" type="video/mp4">
+</video>
+
+### Further readings 
+You should be able to find everything you need from the community documentation 
+and there
+is no better gallery than 3Blue1Brown's free online videos. With these 
+(relatively) simple tools, he has made incredible animations for math.
+He also posts all
+of the code for each animation he makes; for all of the videos he has posted, 
+the source code is in his [GitHub repository](https://github.com/3b1b/videos).
+
+[Manim Community Documentation](https://docs.manim.community/en/stable/index.html)
+
+[3Blue1Brown YouTube](https://www.3blue1brown.com/)
