@@ -13,7 +13,6 @@ and characteristics of the individuals.
 ### What is K-Prototypes Clustering?
 
 - Clustering is the unsupervised classification of patterns into groups 
-[@li2009multi]
 - It helps group similar observations into distinct, interpretable clusters
 - Traditional algorithms like k-means only work with numerical data
 - Real world data often includes both numerical and categorical features, 
