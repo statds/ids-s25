@@ -328,3 +328,5 @@ In the visualization:
 {{< include _pca.qmd >}}
 
 {{< include _choosing_k.qmd >}}
+
+{{< include _autoencoders.qmd >}}
