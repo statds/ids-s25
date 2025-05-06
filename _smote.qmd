@@ -24,13 +24,13 @@ minority class. For a given synthetic instance $x_{\text{new}}$, the generation
 process is defined as: 
 
 $$
-\mathbf{x}_{\text{new}} = \mathbf{x}_i + \lambda (\mathbf{x}_zi - \mathbf{x}_i)
+\mathbf{x}_{\text{new}} = \mathbf{x}_i + \delta (\mathbf{x}_{zi} - \mathbf{x}_i)
 $$
 
 where $\delta \sim U(0, 1)$ is a random number sampled from a uniform 
 distribution. This process is repeated until the desired over-sampling ratio is
 achieved. By generating synthetic samples that are not exact duplicates, the 
-chance of overlapping dsata points and overfitting is reduced. It also provides
+chance of overlapping data points and overfitting is reduced. It also provides
 a smoother decision boundary for the classifier.  
 
 + Parameters:
