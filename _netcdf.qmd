@@ -17,7 +17,8 @@ provides a standard way to store, organize, and share
 scientific data across disciplines.
 
 NetCDF files are particularly useful for multidimensional datasets. 
-Which are datasets that have many dimensions such as time. For example:
+Which are datasets that have many dimensions such as time. 
+For example:
 
 ```none
 Temperature(time, altitude, latitude, longitude).
@@ -61,11 +62,11 @@ NetCDF is supported in many languages:
 - Official APIs: C, C++, Fortran, Java
 - Community-supported: Python, R, MATLAB, Julia, Ruby
 
-In Python, the most common libraries for working with NetCDF are:
+In Python, the most common libraries for working with NetCDF:
 
-- `xarray`: High-level, labeled multidimensional arrays
-- `netCDF4`: Low-level NetCDF interface
-- `matplotlib`, `cartopy`: For plotting geospatial data
+- `xarray`: High-level, labeled multidimensional arrays.
+- `netCDF4`: Low-level NetCDF interface.
+- `matplotlib`, `cartopy`: For plotting geospatial data.
 
 ### Common Tools for NetCDF
 
@@ -74,9 +75,9 @@ Below are some common examples and tips.
 
 #### Command-line tools:
 
-- `ncdump`: shows metadata
-- `ncgen`: creates NetCDF files from CDL text
-- `ncview`: basic GUI viewer for quick spatial checks (requires XQuartz)
+- `ncdump`: shows metadata.
+- `ncgen`: creates NetCDF files from CDL text.
+- `ncview`: basic GUI viewer for spatial checks (requires XQuartz).
 
 #### NCO tools:
 
@@ -192,7 +193,8 @@ globe. This gives us around 0.7 W/m$^2$ for the piControl
 
 ### NetCDF in the Scientific Community
 
-NetCDF is supported by more than 1300 institutions. Some of these include:
+NetCDF is supported by more than 1300 institutions. 
+Some of these are included below.
 
 - NASA
 - NOAA
