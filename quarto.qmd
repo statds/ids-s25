@@ -150,6 +150,3 @@ API Key.
 
 <!-- This section is to be included as a tutorial for Quarto Presentations. -->
 {{< include _quarto_presentation.qmd >}}
-
-<!-- This section is to be included as a tutorial for Random Forest. -->
-{{< include _random_forest_presentation.qmd >}}
