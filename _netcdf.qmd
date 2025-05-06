@@ -1,22 +1,39 @@
 ## Using NetCDF data
 
-This section was contributed by Noah Kravette. I am a Ph.D. student in Climate Modeling at the University of Connecticut. My research focuses on radiative forcing, climate feedbacks, and climate sensitivities. I use NetCDF data because of how often climate scientists store, visualize, and manipulate climate data using the NetCDF data frame.
+This section was contributed by Noah Kravette. I am a Ph.D. student 
+in Climate Modeling at the University of Connecticut. 
+My research focuses on radiative forcing, climate feedbacks, and 
+climate sensitivities. I use NetCDF data because of how often climate 
+scientists store, visualize, and manipulate climate data 
+using the NetCDF data frame.
 
 ### What is NetCDF?
 
-NetCDF stands for Network Common Data Format. It is an array-based data format used widely across climate science, oceanography, meteorology, and atmospheric modeling. NetCDF was created by the Unidata Program Center at UCAR in the 1980s and provides a standard way to store, organize, and share scientific data across disciplines.
+NetCDF stands for Network Common Data Format. 
+It is an array-based data format used widely across climate science, 
+oceanography, meteorology, and atmospheric modeling. NetCDF was 
+created by the Unidata Program Center at UCAR in the 1980s and 
+provides a standard way to store, organize, and share 
+scientific data across disciplines.
 
-NetCDF files are particularly useful for multidimensional datasets. Which are datasets that have many dimensions such as time. For example:
+NetCDF files are particularly useful for multidimensional datasets. 
+Which are datasets that have many dimensions such as time. For example:
 
 ```none
-Temperature(time, altitude, latitude, longitude)
+Temperature(time, altitude, latitude, longitude).
 ```
 
-NetCDF files have both the official data and metadata. This makes them self-describing and easily portable across platforms and programming languages.
+NetCDF files have both the official data and metadata. 
+This makes them self-describing and easily portable across 
+platforms and programming languages.
 
 ### History of NetCDF
 
-Before NetCDF, researchers used many incompatible formats. These datasets were often not reused outside of individual labs or groups. So Glen Davis developed the first version of NetCDF in 1988, from NASA’s Common Data Format (CDF). From then, NetCDF has become the standard for Earth system model outputs and observational datasets.
+Before NetCDF, researchers used many incompatible formats. 
+These datasets were often not reused outside of individual labs or groups. 
+So Glen Davis developed the first version of NetCDF in 1988, from NASA’s 
+Common Data Format (CDF). From then, NetCDF has become the standard 
+for Earth system model outputs and observational datasets.
 
 ### Key Features of NetCDF
 
@@ -52,7 +69,8 @@ In Python, the most common libraries for working with NetCDF are:
 
 ### Common Tools for NetCDF
 
-There are many different ways to use and manipulate NetCDF. Below are some common examples and tips.
+There are many different ways to use and manipulate NetCDF. 
+Below are some common examples and tips.
 
 #### Command-line tools:
 
@@ -82,25 +100,41 @@ There are many different ways to use and manipulate NetCDF. Below are some commo
 
 ### Using ncview with XQuartz
 
-To visualize NetCDF data quickly, use `ncview`. This opens a basic interface that can scroll through time steps or other dimensions for your variables. However it requires `XQuartz` to be installed onto your operating system. 
+To visualize NetCDF data quickly, use `ncview`. 
+This opens a basic interface that can scroll through time steps 
+or other dimensions for your variables. However it requires 
+`XQuartz` to be installed onto your operating system. 
 
 ```bash
 ncview netcdf_file.nc
 ```
 
-As long as you have XQuartz installed and working, `ncview` will pop up and then you can use it to see your data easily before any coding diagnostic step. 
+As long as you have XQuartz installed and working, `ncview` 
+will pop up and then you can use it to see your data easily 
+before any coding diagnostic step. 
 
 ### Python Example: TOA Net Flux with CMIP6 data
 
-The example is how to calculate the net top-of-atmosphere (TOA) radiative flux using CESM2 `piControl` data from CMIP6. We calculate the radiative imbalance and the global mean and also account for latitude-based weighting. 
+The example is how to calculate the net top-of-atmosphere (TOA) 
+radiative flux using CESM2 `piControl` data from CMIP6. 
+We calculate the radiative imbalance and the global mean and 
+also account for latitude-based weighting. 
 
 ```{python}
 import numpy as np
 import xarray as xr
 
-rsdt_pi_url = "http://aims3.llnl.gov/thredds/dodsC/css03_data/CMIP6/CMIP/NCAR/CESM2/piControl/r1i1p1f1/Amon/rsdt/gn/v20190320/rsdt_Amon_CESM2_piControl_r1i1p1f1_gn_000101-009912.nc"
-rsut_pi_url = "http://aims3.llnl.gov/thredds/dodsC/css03_data/CMIP6/CMIP/NCAR/CESM2/piControl/r1i1p1f1/Amon/rsut/gn/v20190320/rsut_Amon_CESM2_piControl_r1i1p1f1_gn_000101-009912.nc"
-rlut_pi_url = "http://aims3.llnl.gov/thredds/dodsC/css03_data/CMIP6/CMIP/NCAR/CESM2/piControl/r1i1p1f1/Amon/rlut/gn/v20190320/rlut_Amon_CESM2_piControl_r1i1p1f1_gn_000101-009912.nc"
+rsdt_pi_url = "http://aims3.llnl.gov/thredds/dodsC/css03_data/CMIP6/CMIP/NCAR/\
+CESM2/piControl/r1i1p1f1/Amon/rsdt/gn/v20190320/rsdt_Amon_CESM2_piControl_\
+r1i1p1f1_gn_000101-009912.nc"
+
+rsut_pi_url = "http://aims3.llnl.gov/thredds/dodsC/css03_data/CMIP6/CMIP/NCAR/\
+CESM2/piControl/r1i1p1f1/Amon/rsut/gn/v20190320/rsut_Amon_CESM2_piControl_\
+r1i1p1f1_gn_000101-009912.nc"
+
+rlut_pi_url = "http://aims3.llnl.gov/thredds/dodsC/css03_data/CMIP6/CMIP/NCAR/\
+CESM2/piControl/r1i1p1f1/Amon/rlut/gn/v20190320/rlut_Amon_CESM2_piControl_\
+r1i1p1f1_gn_000101-009912.nc"
 
 rsdt_ds = xr.open_dataset(rsdt_pi_url, engine='netcdf4')
 rsut_ds = xr.open_dataset(rsut_pi_url, engine='netcdf4')
@@ -127,11 +161,15 @@ F_net_global = F_net.weighted(weights).mean(("lat", "lon"))
 print(f"Global mean net TOA flux: {F_net_global.values:.3f} W/m²")
 ```
 
-The cosine weight is because the surface area shrinks at the poles and expands at the equator so we need to account for these latitude differences when averaging. This makes sure the global mean actually reflects the Earth’s spherical geometry.
+The cosine weight is because the surface area shrinks at the 
+poles and expands at the equator so we need to account for 
+these latitude differences when averaging. This makes sure 
+the global mean actually reflects the Earth’s spherical geometry.
 
 ### Plotting the Net TOA Flux
 
-Before averaging globally we visualize the spatial pattern using `cartopy` here.
+Before averaging globally we visualize the spatial 
+pattern using `cartopy` here.
 
 ```{python}
 import matplotlib.pyplot as plt
@@ -148,7 +186,9 @@ ax.set_title("Net TOA Radiative Flux")
 plt.show()
 ```
 
-This allows use to see the radiative imbalance spatially across the globe. This gives us around 0.7 W/m$^2$ for the piControl (pre-industrial) simulations provided.
+This allows use to see the radiative imbalance spatially across the 
+globe. This gives us around 0.7 W/m$^2$ for the piControl 
+(pre-industrial) simulations provided.
 
 ### NetCDF in the Scientific Community
 
@@ -160,11 +200,15 @@ NetCDF is supported by more than 1300 institutions. Some of these include:
 - NCAR
 - Universities and research labs worldwide
 
-NetCDF has become almost the standard for exchanging and using Earth system model data and beyond.
+NetCDF has become almost the standard for exchanging and 
+using Earth system model data and beyond.
 
 ### Summary
 
-NetCDF gives us a powerful and flexible tool to store, analyze, and share scientific data. It is crucial in geosciences for handling complex, multidimensional, and time-evolving datasets. It is also supported by many libraries and tools. 
+NetCDF gives us a powerful and flexible tool to store, analyze, 
+and share scientific data. It is crucial in geosciences for handling 
+complex, multidimensional, and time-evolving datasets. 
+It is also supported by many libraries and tools. 
 
 ### References and Further Reading
 
