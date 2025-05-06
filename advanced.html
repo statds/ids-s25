@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.39">
+<meta name="generator" content="quarto-1.7.30">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -32,15 +67,16 @@ ul.task-list li input[type="checkbox"] {
 <meta name="quarto:offset" content="./">
 <link href="./exercises.html" rel="next">
 <link href="./unsupervised.html" rel="prev">
-<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-de070a7b0ab54f8780927367ac907214.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-626149efe8f5d16e1d391ba177679bf0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-485d01fc63b59abcd3ee1bf1e8e2748d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -69,10 +105,39 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
-<body class="nav-sidebar floating">
+<body class="nav-sidebar floating quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -195,8 +260,33 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#neural-network-basics" id="toc-neural-network-basics" class="nav-link active" data-scroll-target="#neural-network-basics"><span class="header-section-number">11.1</span> Neural Network Basics</a>
+  <ul class="collapse">
+  <li><a href="#introducing-myself" id="toc-introducing-myself" class="nav-link" data-scroll-target="#introducing-myself"><span class="header-section-number">11.1.1</span> Introducing Myself</a></li>
+  <li><a href="#what-are-neural-networks" id="toc-what-are-neural-networks" class="nav-link" data-scroll-target="#what-are-neural-networks"><span class="header-section-number">11.1.2</span> What are Neural Networks?</a></li>
+  <li><a href="#basic-building-blocks" id="toc-basic-building-blocks" class="nav-link" data-scroll-target="#basic-building-blocks"><span class="header-section-number">11.1.3</span> Basic Building Blocks</a></li>
+  <li><a href="#calculating-activations" id="toc-calculating-activations" class="nav-link" data-scroll-target="#calculating-activations"><span class="header-section-number">11.1.4</span> Calculating Activations</a></li>
+  <li><a href="#forward-propogation" id="toc-forward-propogation" class="nav-link" data-scroll-target="#forward-propogation"><span class="header-section-number">11.1.5</span> Forward Propogation</a></li>
+  <li><a href="#backpropogation" id="toc-backpropogation" class="nav-link" data-scroll-target="#backpropogation"><span class="header-section-number">11.1.6</span> Backpropogation</a></li>
+  <li><a href="#neural-network-example-with-the-mnist-dataset" id="toc-neural-network-example-with-the-mnist-dataset" class="nav-link" data-scroll-target="#neural-network-example-with-the-mnist-dataset"><span class="header-section-number">11.1.7</span> Neural Network Example with the MNIST Dataset</a></li>
+  </ul></li>
+  <li><a href="#develop-a-python-package" id="toc-develop-a-python-package" class="nav-link" data-scroll-target="#develop-a-python-package"><span class="header-section-number">11.2</span> Develop a python package</a>
+  <ul class="collapse">
+  <li><a href="#setting-up-the-project-structure" id="toc-setting-up-the-project-structure" class="nav-link" data-scroll-target="#setting-up-the-project-structure"><span class="header-section-number">11.2.1</span> Setting up the Project Structure</a></li>
+  <li><a href="#configuration-file-pyproject.toml" id="toc-configuration-file-pyproject.toml" class="nav-link" data-scroll-target="#configuration-file-pyproject.toml"><span class="header-section-number">11.2.2</span> Configuration File: <code>pyproject.toml</code></a></li>
+  <li><a href="#testing-locally" id="toc-testing-locally" class="nav-link" data-scroll-target="#testing-locally"><span class="header-section-number">11.2.3</span> Testing Locally</a></li>
+  <li><a href="#building-and-uploading" id="toc-building-and-uploading" class="nav-link" data-scroll-target="#building-and-uploading"><span class="header-section-number">11.2.4</span> Building and Uploading</a></li>
+  <li><a href="#versioning-and-updates" id="toc-versioning-and-updates" class="nav-link" data-scroll-target="#versioning-and-updates"><span class="header-section-number">11.2.5</span> Versioning and Updates</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="header-section-number">11.2.6</span> Conclusion</a></li>
+  <li><a href="#further-readings" id="toc-further-readings" class="nav-link" data-scroll-target="#further-readings"><span class="header-section-number">11.2.7</span> Further Readings</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -221,242 +311,623 @@ ul.task-list li input[type="checkbox"] {
 
 
 <!-- {{< include _webscraping.qmd>}} -->
-<!-- {{< include _neural_network.qmd>}} -->
+<section id="neural-network-basics" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="neural-network-basics"><span class="header-section-number">11.1</span> Neural Network Basics</h2>
+<section id="introducing-myself" class="level3" data-number="11.1.1">
+<h3 data-number="11.1.1" class="anchored" data-anchor-id="introducing-myself"><span class="header-section-number">11.1.1</span> Introducing Myself</h3>
+<p>The following was written by Ajeeth Vellore, a Mechanical Engineering graduate student at the University of Connecticut.</p>
+<p>The goal of this section is give a quick synopsis on neural networks: how they came to be, how they work in basic form, and what a neural network looks like in action.</p>
+</section>
+<section id="what-are-neural-networks" class="level3" data-number="11.1.2">
+<h3 data-number="11.1.2" class="anchored" data-anchor-id="what-are-neural-networks"><span class="header-section-number">11.1.2</span> What are Neural Networks?</h3>
+<p>Neural networks are a bio-inspired methodology for learning information from data, introduced as the “perceptron” by Dr.&nbsp;Frank Rosenblatt of Cornell in the late 1950’s.</p>
+<p>See, the way that neurologists of the time theorized that the brain intepreted information was by it passing through the eye to the retina, where topographic connections would form some sort of projection layer in the cortical regions of the brain so as to maintain the inital spatial arrangement of the information within the brain after being seen. Then, several layers of processing would occur within the brain so that information could be learned and stored to make associations between patterns that were recognized. Finally, the information might trigger some sort of response via the motor cortex, showing that information has been consumed by the brain and learned from.</p>
+<p>So, to mimic this behavior, Dr.&nbsp;Rosenblatt prosposed a computational system of similar architecture, where sensory information of some kind would be projected then learned by some sort of association system, which would result in a numerical response via “response units”. This framework can be seen below in <a href="#fig-perceptron2" class="quarto-xref">Figure&nbsp;<span>11.1</span></a>.</p>
+<div id="fig-perceptron2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-perceptron2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/neural_network_basics_visuals/perceptron2.jpg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-perceptron2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11.1: The computational framework for the perceptron, as originally developed (“The Design of an Intelligent Automaton”, Summer 1958)
+</figcaption>
+</figure>
+</div>
+<p>Progress on this work slowed in the 1960’s due to a lack of enthusiasm around the potential for artificial intelligence, a sentiment that continued through the next two decades into the 1990’s, when work on the processing of backpropogation, a fundamental concept to the speedy calculation of weights in a network, was picking up once again via the long short-term memory network in 1995, whose architecture (as shown in <a href="#fig-lstm_example" class="quarto-xref">Figure&nbsp;<span>11.2</span></a>) revolutionized neural networks and became required reference material for further development in this field.</p>
+<div id="fig-lstm_example" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-lstm_example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/neural_network_basics_visuals/lstm_example.png" class="img-fluid quarto-figure quarto-figure-center figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-lstm_example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11.2: A long short-term memory network diagram
+</figcaption>
+</figure>
+</div>
+<p>This work mitigated the vanishing gradient problem, where long data sequences could become difficult to learn from as the backpropogation required to learn would result in forgotten information at the end of the process. Thanks to discoveries like these as well as computational advancements throught the last 30 years that allow for greater processing capabilities, neural networks have become commonplace in areas like machine learning. So, what I hope to do through this page is explain what neural networks are and how they work so you can walk away from this with a basic understanding of the concepts so that you, the reader, can easily dive into the deeper world of machine learning.</p>
+</section>
+<section id="basic-building-blocks" class="level3" data-number="11.1.3">
+<h3 data-number="11.1.3" class="anchored" data-anchor-id="basic-building-blocks"><span class="header-section-number">11.1.3</span> Basic Building Blocks</h3>
+<p>Let’s talk some fundamentals for neural networks. There are four main components to address before we get into the math of things:</p>
+<ul>
+<li><strong>Neurons</strong></li>
+<li><strong>Layers</strong></li>
+<li><strong>Weights</strong></li>
+<li><strong>Activation Functions</strong></li>
+</ul>
+<section id="neurons" class="level4" data-number="11.1.3.1">
+<h4 data-number="11.1.3.1" class="anchored" data-anchor-id="neurons"><span class="header-section-number">11.1.3.1</span> Neurons</h4>
+<p>These carry some sort of numerical information between 0 and 1 called an actiavtion, represented by the individual colored dots in the image of a sample network in Figure 4. These are the “response units” mentioned in Figure 2, meant to carry some sort of information relating to what they’ve learned. Depending on a threshold, these neurons can be activated so that they are especially highlighted as carrying some information of note.</p>
+</section>
+<section id="layers" class="level4" data-number="11.1.3.2">
+<h4 data-number="11.1.3.2" class="anchored" data-anchor-id="layers"><span class="header-section-number">11.1.3.2</span> Layers</h4>
+<p>These are groups of neurons that represent some set of information being learned by a neural network. As a collective, they identify a portion of the input information and respond to it before passing it on to further layers of nodes to “understand” the input in some meaningful way.</p>
+</section>
+<section id="weights" class="level4" data-number="11.1.3.3">
+<h4 data-number="11.1.3.3" class="anchored" data-anchor-id="weights"><span class="header-section-number">11.1.3.3</span> Weights</h4>
+<p>The weights are represented by the arrows connecting between layers of nodes in <a href="#fig-neural_network" class="quarto-xref">Figure&nbsp;<span>11.7</span></a>. These mathematically modify the information in each layer to show what is important to be passed on, usually by multiplying the weight by all of the activations of the nodes it is connected to.</p>
+<div id="fig-neural_network" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-neural_network-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/neural_network_basics_visuals/neural-network.png" class="img-fluid quarto-figure quarto-figure-center figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-neural_network-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11.3: A neural network skeleton, credit to <a href="https://en.wikipedia.org/wiki/Neural_network_(machine_learning)">Wikipedia</a>
+</figcaption>
+</figure>
+</div>
+<p>Now, this combination of neurons, layers, and weights can be combined to make predictions and classifications just fine. However, the complexity of the model they form would be quite limited because what those three essentially build is a linear regression model. Since most data is quite non-linear, these sorts of models can fail spectacularly on data slightly more complex than what can be explained by a linear <span class="math inline">\(y = mx + b\)</span>-type equation. So, we need to resort to using something to incorporate some non-linearity into the model, that being…</p>
+</section>
+<section id="activation-functions" class="level4" data-number="11.1.3.4">
+<h4 data-number="11.1.3.4" class="anchored" data-anchor-id="activation-functions"><span class="header-section-number">11.1.3.4</span> Activation Functions</h4>
+<p>I wanted to showcase a couple different functions that are commonly used in neural networks to add some non-linearity, and thus better prediction ability, to a model.</p>
+<p>The first two are the sigmoid and hyperbolic tangent functions, as shown in <a href="#fig-sigmoid_tanh" class="quarto-xref">Figure&nbsp;<span>11.4</span></a>.</p>
+<ul>
+<li><strong>Sigmoid:</strong> <span class="math display">\[ \sigma(x)=\frac{1}{1+e^{-x}} \]</span></li>
+<li><strong>Hyperbolic Tangent (tanh):</strong> <span class="math display">\[ \tanh(x)=\frac{e^x-e^{-x}}{e^x+e^{-x}} \]</span></li>
+</ul>
+<div id="cell-fig-sigmoid_tanh" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display">
+<div id="fig-sigmoid_tanh" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sigmoid_tanh-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="advanced_files/figure-html/fig-sigmoid_tanh-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="757" height="374">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sigmoid_tanh-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11.4: Graphs of the sigmoid and hyperbolic tangent functions
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The functions have a similar shape, but the sigmoid function ranges from 0 to 1, which is useful for binary classification tasks, while the hyperbolic function is more generally applicable because it trends extremely positive or negative through the training process and also has an extremely large gradient, allowing for faster optimization.</p>
+<p>The second two I want to discuss are the standard Rectified Linear Unit (ReLU) and Leaky ReLU, shown in <a href="#fig-relu_leaky_relu" class="quarto-xref">Figure&nbsp;<span>11.5</span></a>.</p>
+<ul>
+<li><p><strong>Rectified Linear Unit (ReLU):</strong> <span class="math display">\[\operatorname{ReLU}(x)=\max(0,x)\]</span></p></li>
+<li><p><strong>Leaky ReLU:</strong></p>
+<p><span class="math display">\[\operatorname{LeakyReLU}(x)=
+  \begin{cases}
+    x,&amp; x\geq 0\\[2mm]
+    0.01x,&amp; x&lt;0
+  \end{cases}\]</span></p></li>
+</ul>
+<div id="cell-fig-relu_leaky_relu" class="cell" data-execution_count="2">
+<div class="cell-output cell-output-display">
+<div id="fig-relu_leaky_relu" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-relu_leaky_relu-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="advanced_files/figure-html/fig-relu_leaky_relu-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="758" height="374">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-relu_leaky_relu-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11.5: Graphs of the ReLU and Leaky ReLU functions
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>They introduce non-linearity in a slightly different way that can also be useful during the learning process. Both are quite computationally efficient; while the ReLU function induces network sparsity, or a network that has many zero nodes to make it lighter-weight, the Leaky ReLU preserves some of those previously discarded nodes in the case that they are useful for training the model further down the line beyond the training sample that is given at any one time.</p>
+<p>Okay, so we’ve gathered all of the individual portions of the neural network system. I’d now like demonstrate how they work in concert with each other.</p>
+</section>
+</section>
+<section id="calculating-activations" class="level3" data-number="11.1.4">
+<h3 data-number="11.1.4" class="anchored" data-anchor-id="calculating-activations"><span class="header-section-number">11.1.4</span> Calculating Activations</h3>
+<p>We can calculate activations using an equation that looks like this:</p>
+<p><span class="math display">\[
+\mathbf{a}^{(n+1)} = \text{func }\!\bigl(\mathbf{W}\,\mathbf{a}^{(n)} + \mathbf{b}\bigr)
+\]</span></p>
+<p>In this equation, each successive layer is calculated by taking the activations of the previous layer, multiplying them by the weights that connect them to the next layer, perhaps adding a bias term in the case it is necessary and can be tuned during the learning process, and then finally processing the value through any given actiavtion function. Doing this repeatedly is what is essentially done during…</p>
+</section>
+<section id="forward-propogation" class="level3" data-number="11.1.5">
+<h3 data-number="11.1.5" class="anchored" data-anchor-id="forward-propogation"><span class="header-section-number">11.1.5</span> Forward Propogation</h3>
+<p>…which is used to calculate predictions! Data will flow through a network, activating different nodes in different layers to eventually calculate some function, as might occur in the demonstration shown in Figure 7, with results for every node calculated.</p>
+<div id="fig-neural_network" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-neural_network-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/neural_network_basics_visuals/sample_network.png" class="img-fluid quarto-figure quarto-figure-center figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-neural_network-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11.6: Example of calculated activations
+</figcaption>
+</figure>
+</div>
+<p>In this sample network, <span class="math inline">\(a_1\)</span>, <span class="math inline">\(a_2\)</span>, and <span class="math inline">\(a_3\)</span> represent layers of activations (with <span class="math inline">\(a_3\)</span> being the prediction layer) while <span class="math inline">\(W_1\)</span> and <span class="math inline">\(W_2\)</span> represent the weights that connect the aforementioned layers. In this particular scenario, the network is attempting to perform a binary classification. This means that the ground truth will only correspond to one of the outputs, giving it an actual value of 1 for it being true, meaning the other will inevitably result in a 0.</p>
+<p>In the example given, it’s obvious that, while the correct prediction is technically made, there is still a great deal of uncertainty in that response, since the activation value is still so close to 0.5. We need to see how far off the model is, so we compare the ground truth to the output predictions, which might come in the form of a sum squared error calculationa form of <strong>loss function</strong>. This is quite valuable, because it gives us an avenue by which we can calculate how much to change our malleable weights in order to generate more accurate predictions. Through decades of research, it has been found that the best method to update these weights is…</p>
+</section>
+<section id="backpropogation" class="level3" data-number="11.1.6">
+<h3 data-number="11.1.6" class="anchored" data-anchor-id="backpropogation"><span class="header-section-number">11.1.6</span> Backpropogation</h3>
+<p>…where weights are recalculated using a method called gradient descent. This method seeks to minimize loss by updating weights all the way back to the first layer by calculating the effect each value has on the final output using partial derivatives, much like the equation shown below (which uses the variables given in Figure 7):</p>
+<p><span class="math display">\[
+\frac{\partial a_3}{\partial a_1^{(l)}} = \frac{\partial w_1^{(l)}}{\partial a_1^{(l)}} \cdot \frac{\partial a_2^{(l)}}{\partial w_1^{(l)}} \cdot \frac{\partial w_2^{(l)}}{\partial a_2^{(l)}} \cdot \frac{\partial a_3}{\partial w_2^{(l)}}
+\]</span></p>
+<p>By repeating this strategy over several epochs (or forward- and backpropogation runs through the dataset), the model can train itself to learn fairly complex information. To demonstrate this capability, let’s look at a dataset very commonly used to test neural networks and their capabilities in prediction.</p>
+</section>
+<section id="neural-network-example-with-the-mnist-dataset" class="level3" data-number="11.1.7">
+<h3 data-number="11.1.7" class="anchored" data-anchor-id="neural-network-example-with-the-mnist-dataset"><span class="header-section-number">11.1.7</span> Neural Network Example with the MNIST Dataset</h3>
+<p>The MNIST dataset is a modified version of a dataset that comes from the National Institute of Standards and Technology based on images of handwritten numbers between 0-9 that are paired with classifications of each. An example of a number from this dataset can be seen below in Figure 8:</p>
+<div id="fig-neural_network" class="fragment quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-neural_network-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/neural_network_basics_visuals/Example-of-a-MNIST-input-An-image-is-passed-to-the-network-as-a-matrix-of-28-by-28.png" class="fragment img-fluid quarto-figure quarto-figure-center figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-neural_network-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11.7: A handwritten 3 from the MNIST dataset
+</figcaption>
+</figure>
+</div>
+<p>This is a black-and-white square <span class="math inline">\(28*28\)</span> image, thus comprised of 784 pixels in its entirety. This size is the same across all 70,000 samples in the dataset to maintain uniformity and makes it easy for us to build a simple neural network to predict what class each image belongs to.</p>
+<p>From this point forward, due to conflicts between the versions of packages used for the rest of these class notes and the ones needed for this specific chapter, the code will not be executed. Instead, it will purely be shown. This code does work on all 3.12 Python versions, but will require a downgrade of <code>numpy</code> to at least 1.26.4 in order for the <code>tensorflow</code> package to operate.</p>
+<p>Okay then! Let’s begin by calling the three packages required for building our neural network:</p>
+<div id="a84a3ad9" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tensorflow <span class="im">as</span> tf</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The <code>numpy</code> and <code>matplotlib.pyplot</code> modules are self-explanatory, since they are quite commonly used for manipulating and presenting data in Python. Now, the <code>tensorflow</code> module contains packages that allow for the easy building of a neural network via <code>keras</code>. Conveniently, <code>keras</code> also contains the MNIST dataset in a manner that is easily called, making it very simple to build the full model while splitting the dataset in preparation for the learning process:</p>
+<div id="5245bf7a" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># loading MNIST dataset</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>(x_train, y_train), (x_test, y_test) <span class="op">=</span> tf.keras.datasets.mnist.load_data()</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># normalize RGB values</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>x_train <span class="op">=</span> x_train.astype(<span class="st">'float32'</span>) <span class="op">/</span> <span class="fl">255.0</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>x_test  <span class="op">=</span> x_test.astype(<span class="st">'float32'</span>) <span class="op">/</span> <span class="fl">255.0</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>x_train <span class="op">=</span> x_train.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">28</span><span class="op">*</span><span class="dv">28</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>x_test  <span class="op">=</span> x_test.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">28</span><span class="op">*</span><span class="dv">28</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co"># using keras for building model</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> tf.keras.models.Sequential([</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    tf.keras.layers.InputLayer(shape<span class="op">=</span>(<span class="dv">28</span><span class="op">*</span><span class="dv">28</span>,)),</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    tf.keras.layers.Dense(<span class="dv">64</span>, activation<span class="op">=</span><span class="st">'relu'</span>),</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    tf.keras.layers.Dense(<span class="dv">64</span>, activation<span class="op">=</span><span class="st">'relu'</span>),</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    tf.keras.layers.Dense(<span class="dv">10</span>, activation<span class="op">=</span><span class="st">'softmax'</span>)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>model.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>If the code ran, you would note that the model has one input layer, shaped as 28*28 to represent all 784 pixels indiviually as inputs to the model. Then, there are three Dense layers: the first two are ReLU-actiavted and contain 64 nodes, and the last only contains 10 nodes while being softmax-activated. Admittedly, the choices for number of middle layers and nodes for those middle layers is quite arbitrary in this demonstration, since this decision is dependent entirely on whether or not the system the code is being run on has enough computational power to process more or less nodes and layers. However, the choice of 10 nodes for the final layer is controlled entirely by the predictions we want to make, as there are ten classes that correspond to the ten possible numbers that can appear in the MNIST dataset, and the choice of the softmax function here is to highlight the largest value among the 10 nodes as the final prediction.</p>
+<div id="f8bcae04" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">compile</span>(optimizer<span class="op">=</span><span class="st">'adam'</span>,</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>              loss<span class="op">=</span><span class="st">'sparse_categorical_crossentropy'</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>              metrics<span class="op">=</span>[<span class="st">'accuracy'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now we compile the model, setting its optimizer to <code>adam</code> and its loss function to <code>sparse_categorical_crossentropy</code> which calculates based on accuracy. To nutshell the above codeblock, what this essentially does is set the model to be optimized using a highly-effective and memory-efficient gradient-based method using an equation widely accepted to be effective for multi-class classification tasks. Now, we can began the learning process and test on some samples afterwards:</p>
+<div id="fig-neural_network_demo" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="6">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-neural_network_demo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>history <span class="op">=</span> model.fit(x_train, y_train, </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>                    epochs<span class="op">=</span><span class="dv">5</span>,           </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                    batch_size<span class="op">=</span><span class="dv">32</span>,      </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                    validation_split<span class="op">=</span><span class="fl">0.1</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                    verbose<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>test_loss, test_acc <span class="op">=</span> model.evaluate(x_test, y_test, verbose<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Test accuracy: </span><span class="sc">{:.2f}</span><span class="st">%"</span>.<span class="bu">format</span>(test_acc <span class="op">*</span> <span class="dv">100</span>))</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>plt.plot(history.history[<span class="st">'accuracy'</span>], label<span class="op">=</span><span class="st">'Train Accuracy'</span>)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>plt.plot(history.history[<span class="st">'val_accuracy'</span>], label<span class="op">=</span><span class="st">'Validation Accuracy'</span>)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Training and Validation Accuracy"</span>)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Epoch"</span>)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Accuracy"</span>)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-neural_network_demo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11.8
+</figcaption>
+</figure>
+</div>
+<p>On a limited amount of epochs (or training runs through the entire dataset), the accuracy on the MNIST dataset would present as quite high if the code ran, showing that a model like this can indeed work to learn information from images to generate predictions.</p>
+<section id="pros-and-cons" class="level4" data-number="11.1.7.1">
+<h4 data-number="11.1.7.1" class="anchored" data-anchor-id="pros-and-cons"><span class="header-section-number">11.1.7.1</span> Pros and Cons</h4>
+<p>So we’ve seen that a neural network can work for learning information, but what are the benefits and drawbacks of using a system like this? In other words, what should you associate neural networks with so that you can decide whether or not to use them in your own data analytics applications? Here are few points that should be considered:</p>
+<p><strong>PROS:</strong></p>
+<ul>
+<li><p><strong>Able to identify complex relationships</strong>: A lot of data that exists today is quite non-linear in nature. Because of this, it is very important that a learning model be innately capable of capturing that non-linearity to make accurate predictions, which neural networks are thanks to the interchangability of non-linear activation and loss functions.</p></li>
+<li><p><strong>Learns underlying features from raw data not easily seen by humans</strong>: This benefit can be combined with the previous point to emphasize the fact that the reason we humans use models in the first place is because they can visualize patterns that we can’t see with our naked eyes. Neural networks, because of how good they are at understanding all sorts of data, can do an immense job of finding meaning in data that we might find incomprehensible.</p></li>
+<li><p><strong>Flexible and versatile</strong>: Neural networks have been used in thousands of different scenarios to learn and predict thousands of different things. Because of the bio-inspired nature of the perceptron, it is capable of learning lots of information the way humans can, meaning that even if there is a scenario where neural networks have not been tried, there is a high likelihood that they could still be very useful in that scenario.</p></li>
+</ul>
+<p><strong>CONS:</strong></p>
+<ul>
+<li><p><strong>Requires large datasets to learn effectively</strong>: Most machine learning models require a significant amount of data to learn sufficiently for accurate predictions. Though it was not explicitly stated above, the MNIST training dataset was 60,000 data samples. This size easily allowed for the model to quickly and efficiently learn well: however, if the dataset you have in front of you is significantly smaller than that, a neural network may not be a good choice.</p></li>
+<li><p><strong>Computationally intensive</strong>: The example given in the demonstration section is hardly a problem for most modern computers to run. However, as the complexity of data increases, necessitating more layers and weights, significantly more powerful hardware is required to identify all of the intricacies of the dataset.</p></li>
+<li><p><strong>Not interpretable</strong>: This may be the biggest drawback to using a neural network for any task. Though we know the equations that go into building a neural network in general, it is incredibly difficult to see how one sample in a dataset has an effect on all of its trainable parameters, and as such, we in the machine learning field typically call neural networks “black boxes”, since the manner by which they learn is opaque to us. This can be undesirable for learning tasks where the model predicts something that would normally warrant a scientific or detailed explanation.</p></li>
+</ul>
+<p>Hopefully, this section on neural networks gives you a good idea of what they are, how they work, and where they might be used. This should hopefully give you enough information to proceed forward and learn about neural networks in more depth for whatever application you want to use them for. Here are some great resources that you can use to learn more about them:</p>
+<p><a href="https://www.youtube.com/watch?v=aircAruvnKk&amp;vl=en">A great video by 3Blue1Brown about neural networks</a></p>
+<p><a href="https://www.youtube.com/watch?v=jmmW0F0biz0">Another great video, this time by IBM</a></p>
+</section>
+</section>
+</section>
+<section id="develop-a-python-package" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="develop-a-python-package"><span class="header-section-number">11.2</span> Develop a python package</h2>
+<p>This section was prepared by Peiwen Xu, a senior undergraduate student majoring in Mathematics.</p>
+<section id="setting-up-the-project-structure" class="level3" data-number="11.2.1">
+<h3 data-number="11.2.1" class="anchored" data-anchor-id="setting-up-the-project-structure"><span class="header-section-number">11.2.1</span> Setting up the Project Structure</h3>
+<p>As mentioned in the previous section, a Python package is a collection of Python modules organized within a directory structure, making code reusable and distributable.</p>
+<p>To start packaging your project, you need to create a well-organized directory structure:</p>
+<pre class="plaintext"><code>project_NAME/
+├── LICENSE
+├── pyproject.toml
+├── README.md
+├── src/
+│ └── package_NAME/
+│ ├── __init__.py
+│ └── module_NAME.py
+└── tests/</code></pre>
+<ul>
+<li><code>project_NAME</code>: Root directory.</li>
+<li><code>pyproject.toml</code>: Configuration file containing metadata and build instructions for the package.</li>
+<li><code>README.md</code>: A markdown file describing your project.</li>
+<li><code>src</code>: Directory to contain your package code, separate from other files.</li>
+<li><code>package_NAME</code>: Directory containing all your modules.</li>
+<li><code>__init__.py</code>: Indicates that this directory should be treated as a package.</li>
+</ul>
+</section>
+<section id="configuration-file-pyproject.toml" class="level3" data-number="11.2.2">
+<h3 data-number="11.2.2" class="anchored" data-anchor-id="configuration-file-pyproject.toml"><span class="header-section-number">11.2.2</span> Configuration File: <code>pyproject.toml</code></h3>
+<p>The <code>pyproject.toml</code> file defines your package’s metadata and dependencies. Below is a sample configuration:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode toml code-with-copy"><code class="sourceCode toml"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">[build-system]</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="dt">requires</span> <span class="op">=</span> <span class="op">[</span><span class="st">"setuptools&gt;=61.0"</span><span class="op">]</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="dt">build-backend</span> <span class="op">=</span> <span class="st">"setuptools.build_meta"</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="kw">[project]</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="dt">name</span> <span class="op">=</span> <span class="st">"pkg_peiwen"</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="dt">version</span> <span class="op">=</span> <span class="st">"0.1.4"</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="dt">authors</span> <span class="op">=</span> <span class="op">[</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="op">{ </span><span class="dt">name</span><span class="op">=</span><span class="st">"Peiwen"</span><span class="op">, </span><span class="dt">email</span><span class="op">=</span><span class="st">"pwshyu@gmail.com"</span><span class="op"> },</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="op">]</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="dt">description</span> <span class="op">=</span> <span class="st">"This is the description string in the pyproject.toml file"</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="dt">readme</span> <span class="op">=</span> <span class="st">"README.md"</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="dt">requires-python</span> <span class="op">=</span> <span class="st">"&gt;=3.7"</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="dt">classifiers</span> <span class="op">=</span> <span class="op">[</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="st">"Programming Language :: Python :: 3"</span><span class="op">,</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="st">"License :: OSI Approved :: MIT License"</span><span class="op">,</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="st">"Operating System :: OS Independent"</span><span class="op">,</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="op">]</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="kw">[project.urls]</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="dt">"Homepage"</span> <span class="op">=</span> <span class="st">"https://github.com/peiwen-shyu/pkg"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This file contains:</p>
+<ul>
+<li>Package name, version, and description.</li>
+<li>Author details.</li>
+<li>Python version requirement.</li>
+<li>Classifiers for PyPI (e.g., compatible Python versions, license).</li>
+<li>URLs for homepage, documentation, etc.</li>
+</ul>
+</section>
+<section id="testing-locally" class="level3" data-number="11.2.3">
+<h3 data-number="11.2.3" class="anchored" data-anchor-id="testing-locally"><span class="header-section-number">11.2.3</span> Testing Locally</h3>
+<p>Before uploading your package, you should test it locally. Use the following steps:</p>
+<ol type="1">
+<li>Install your package in a virtual environment using:</li>
+</ol>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-e</span> directory_where_toml_is_located</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code>-e</code> flag stands for “editable”, allowing instant reflection of source code changes in the installed package.</p>
+<ol start="2" type="1">
+<li>Test your package by importing and running its functions:</li>
+</ol>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pkg_peiwen</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Code to test your package functionality</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pkg_peiwen.__version__)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pkg_peiwen.__doc__)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="3" type="1">
+<li>Inspect package contents:</li>
+</ol>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pkgutil</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> inspect</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> module_info <span class="kw">in</span> pkgutil.iter_modules(pkg_peiwen.__path__):</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>module_name <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>pkg_peiwen<span class="sc">.</span><span class="va">__name__</span><span class="sc">}</span><span class="ss">.</span><span class="sc">{</span>module_info<span class="sc">.</span>name<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>module <span class="op">=</span> <span class="bu">__import__</span>(module_name, fromlist<span class="op">=</span>[<span class="st">''</span>])</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Contents of </span><span class="sc">{</span>module_name<span class="sc">}</span><span class="ss">:"</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>members <span class="op">=</span> inspect.getmembers(module)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name, obj <span class="kw">in</span> members:</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> name.startswith(<span class="st">'_'</span>):</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f" - </span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>obj<span class="sc">.</span>__doc__<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="building-and-uploading" class="level3" data-number="11.2.4">
+<h3 data-number="11.2.4" class="anchored" data-anchor-id="building-and-uploading"><span class="header-section-number">11.2.4</span> Building and Uploading</h3>
+<section id="build" class="level4" data-number="11.2.4.1">
+<h4 data-number="11.2.4.1" class="anchored" data-anchor-id="build"><span class="header-section-number">11.2.4.1</span> Build</h4>
+<p>Install the <code>build</code> utility for creating distribution archives:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> pip install <span class="at">--upgrade</span> build</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Run the following command in the root project directory (where <code>pyproject.toml</code> is located):</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> build</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This will generate distribution files in the <code>dist</code> directory.</p>
+</section>
+<section id="upload" class="level4" data-number="11.2.4.2">
+<h4 data-number="11.2.4.2" class="anchored" data-anchor-id="upload"><span class="header-section-number">11.2.4.2</span> Upload</h4>
+<p>Install <code>twine</code> for uploading packages to PyPI:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> pip install <span class="at">--upgrade</span> twine</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Upload your package to PyPI:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> twine upload dist/<span class="pp">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You will need your PyPI token, which can be generated from your PyPI account settings.</p>
+</section>
+</section>
+<section id="versioning-and-updates" class="level3" data-number="11.2.5">
+<h3 data-number="11.2.5" class="anchored" data-anchor-id="versioning-and-updates"><span class="header-section-number">11.2.5</span> Versioning and Updates</h3>
+<p>When updating your package, remember to: 1. Update the <code>version</code> field in <code>pyproject.toml</code> and <code>__init__.py</code>. 2. Remove the <code>dist</code> directory for a clean build:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-rf</span> dist/<span class="pp">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="3" type="1">
+<li>Rebuild and re-upload your package.</li>
+</ol>
+</section>
+<section id="conclusion" class="level3" data-number="11.2.6">
+<h3 data-number="11.2.6" class="anchored" data-anchor-id="conclusion"><span class="header-section-number">11.2.6</span> Conclusion</h3>
+<p>Packaging your Python project not only makes your code portable and reusable but also ensures version control and eases dependency management. Following the above steps, you can create, test, and upload your Python package to PyPI.</p>
+</section>
+<section id="further-readings" class="level3" data-number="11.2.7">
+<h3 data-number="11.2.7" class="anchored" data-anchor-id="further-readings"><span class="header-section-number">11.2.7</span> Further Readings</h3>
+<ul>
+<li><p><a href="https://packaging.python.org/en/latest/tutorials/packaging-projects/">Packaging Python Projects</a></p></li>
+<li><p><a href="https://packaging.python.org/en/latest/guides/writing-pyproject-toml/">Writing pyproject.toml</a></p></li>
+</ul>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
-window.document.addEventListener("DOMContentLoaded", function (event) {
-  const toggleBodyColorMode = (bsSheetEl) => {
-    const mode = bsSheetEl.getAttribute("data-mode");
-    const bodyEl = window.document.querySelector("body");
-    if (mode === "dark") {
-      bodyEl.classList.add("quarto-dark");
-      bodyEl.classList.remove("quarto-light");
-    } else {
-      bodyEl.classList.add("quarto-light");
-      bodyEl.classList.remove("quarto-dark");
-    }
-  }
-  const toggleBodyColorPrimary = () => {
-    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
-    if (bsSheetEl) {
-      toggleBodyColorMode(bsSheetEl);
-    }
-  }
-  toggleBodyColorPrimary();  
-  const icon = "";
-  const anchorJS = new window.AnchorJS();
-  anchorJS.options = {
-    placement: 'right',
-    icon: icon
-  };
-  anchorJS.add('.anchored');
-  const isCodeAnnotation = (el) => {
-    for (const clz of el.classList) {
-      if (clz.startsWith('code-annotation-')) {                     
-        return true;
-      }
-    }
-    return false;
-  }
-  const onCopySuccess = function(e) {
-    // button target
-    const button = e.trigger;
-    // don't keep focus
-    button.blur();
-    // flash "checked"
-    button.classList.add('code-copy-button-checked');
-    var currentTitle = button.getAttribute("title");
-    button.setAttribute("title", "Copied!");
-    let tooltip;
-    if (window.bootstrap) {
-      button.setAttribute("data-bs-toggle", "tooltip");
-      button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copied!");
-      tooltip = new bootstrap.Tooltip(button, 
-        { trigger: "manual", 
-          customClass: "code-copy-button-tooltip",
-          offset: [0, -8]});
-      tooltip.show();    
-    }
-    setTimeout(function() {
-      if (tooltip) {
-        tooltip.hide();
-        button.removeAttribute("data-bs-title");
-        button.removeAttribute("data-bs-toggle");
-        button.removeAttribute("data-bs-placement");
-      }
-      button.setAttribute("title", currentTitle);
-      button.classList.remove('code-copy-button-checked');
-    }, 1000);
-    // clear code selection
-    e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
-  });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
-      }
-    }
-  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-    const config = {
-      allowHTML: true,
-      maxWidth: 500,
-      delay: 100,
-      arrow: false,
-      appendTo: function(el) {
-          return el.parentElement;
-      },
-      interactive: true,
-      interactiveBorder: 10,
-      theme: 'quarto',
-      placement: 'bottom-start',
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
     };
-    if (contentFn) {
-      config.content = contentFn;
-    }
-    if (onTriggerFn) {
-      config.onTrigger = onTriggerFn;
-    }
-    if (onUntriggerFn) {
-      config.onUntrigger = onUntriggerFn;
-    }
-    window.tippy(el, config); 
-  }
-  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-  for (var i=0; i<noterefs.length; i++) {
-    const ref = noterefs[i];
-    tippyHover(ref, function() {
-      // use id or data attribute instead here
-      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-      try { href = new URL(href).hash; } catch {}
-      const id = href.replace(/^#\/?/, "");
-      const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
-      }
-    });
-  }
-  const xrefs = window.document.querySelectorAll('a.quarto-xref');
-  const processXRef = (id, note) => {
-    // Strip column container classes
-    const stripColumnClz = (el) => {
-      el.classList.remove("page-full", "page-columns");
-      if (el.children) {
-        for (const child of el.children) {
-          stripColumnClz(child);
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
         }
       }
+      return false;
     }
-    stripColumnClz(note)
-    if (id === null || id.startsWith('sec-')) {
-      // Special case sections, only their first couple elements
-      const container = document.createElement("div");
-      if (note.children && note.children.length > 2) {
-        container.appendChild(note.children[0].cloneNode(true));
-        for (let i = 1; i < note.children.length; i++) {
-          const child = note.children[i];
-          if (child.tagName === "P" && child.innerText === "") {
-            continue;
-          } else {
-            container.appendChild(child.cloneNode(true));
-            break;
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
           }
         }
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(container);
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
         }
-        return container.innerHTML
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
       } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
         if (window.Quarto?.typesetMath) {
           window.Quarto.typesetMath(note);
         }
-        return note.innerHTML;
-      }
-    } else {
-      // Remove any anchor links if they are present
-      const anchorLink = note.querySelector('a.anchorjs-link');
-      if (anchorLink) {
-        anchorLink.remove();
-      }
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(note);
-      }
-      if (note.classList.contains("callout")) {
-        return note.outerHTML;
-      } else {
-        return note.innerHTML;
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
       }
     }
-  }
-  for (var i=0; i<xrefs.length; i++) {
-    const xref = xrefs[i];
-    tippyHover(xref, undefined, function(instance) {
-      instance.disable();
-      let url = xref.getAttribute('href');
-      let hash = undefined; 
-      if (url.startsWith('#')) {
-        hash = url;
-      } else {
-        try { hash = new URL(url).hash; } catch {}
-      }
-      if (hash) {
-        const id = hash.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note !== null) {
-          try {
-            const html = processXRef(id, note.cloneNode(true));
-            instance.setContent(html);
-          } finally {
-            instance.enable();
-            instance.show();
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
           }
         } else {
-          // See if we can fetch this
-          fetch(url.split('#')[0])
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
           .then(res => res.text())
           .then(html => {
             const parser = new DOMParser();
             const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.getElementById(id);
+            const note = htmlDoc.querySelector('main.content');
             if (note !== null) {
-              const html = processXRef(id, note);
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
               instance.setContent(html);
             } 
           }).finally(() => {
@@ -464,185 +935,161 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             instance.show();
           });
         }
-      } else {
-        // See if we can fetch a full url (with no hash to target)
-        // This is a special case and we should probably do some content thinning / targeting
-        fetch(url)
-        .then(res => res.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const htmlDoc = parser.parseFromString(html, "text/html");
-          const note = htmlDoc.querySelector('main.content');
-          if (note !== null) {
-            // This should only happen for chapter cross references
-            // (since there is no id in the URL)
-            // remove the first header
-            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-              note.children[0].remove();
-            }
-            const html = processXRef(null, note);
-            instance.setContent(html);
-          } 
-        }).finally(() => {
-          instance.enable();
-          instance.show();
-        });
-      }
-    }, function(instance) {
-    });
-  }
-      let selectedAnnoteEl;
-      const selectorForAnnotation = ( cell, annotation) => {
-        let cellAttr = 'data-code-cell="' + cell + '"';
-        let lineAttr = 'data-code-annotation="' +  annotation + '"';
-        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-        return selector;
-      }
-      const selectCodeLines = (annoteEl) => {
-        const doc = window.document;
-        const targetCell = annoteEl.getAttribute("data-target-cell");
-        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-        const lineIds = lines.map((line) => {
-          return targetCell + "-" + line;
-        })
-        let top = null;
-        let height = null;
-        let parent = null;
-        if (lineIds.length > 0) {
-            //compute the position of the single el (top and bottom and make a div)
-            const el = window.document.getElementById(lineIds[0]);
-            top = el.offsetTop;
-            height = el.offsetHeight;
-            parent = el.parentElement.parentElement;
-          if (lineIds.length > 1) {
-            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-            height = bottom - top;
-          }
-          if (top !== null && height !== null && parent !== null) {
-            // cook up a div (if necessary) and position it 
-            let div = window.document.getElementById("code-annotation-line-highlight");
-            if (div === null) {
-              div = window.document.createElement("div");
-              div.setAttribute("id", "code-annotation-line-highlight");
-              div.style.position = 'absolute';
-              parent.appendChild(div);
-            }
-            div.style.top = top - 2 + "px";
-            div.style.height = height + 4 + "px";
-            div.style.left = 0;
-            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-            if (gutterDiv === null) {
-              gutterDiv = window.document.createElement("div");
-              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-              gutterDiv.style.position = 'absolute';
-              const codeCell = window.document.getElementById(targetCell);
-              const gutter = codeCell.querySelector('.code-annotation-gutter');
-              gutter.appendChild(gutterDiv);
-            }
-            gutterDiv.style.top = top - 2 + "px";
-            gutterDiv.style.height = height + 4 + "px";
-          }
-          selectedAnnoteEl = annoteEl;
-        }
-      };
-      const unselectCodeLines = () => {
-        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-        elementsIds.forEach((elId) => {
-          const div = window.document.getElementById(elId);
-          if (div) {
-            div.remove();
-          }
-        });
-        selectedAnnoteEl = undefined;
-      };
-        // Handle positioning of the toggle
-    window.addEventListener(
-      "resize",
-      throttle(() => {
-        elRect = undefined;
-        if (selectedAnnoteEl) {
-          selectCodeLines(selectedAnnoteEl);
-        }
-      }, 10)
-    );
-    function throttle(fn, ms) {
-    let throttle = false;
-    let timer;
-      return (...args) => {
-        if(!throttle) { // first call gets through
-            fn.apply(this, args);
-            throttle = true;
-        } else { // all the others get throttled
-            if(timer) clearTimeout(timer); // cancel #2
-            timer = setTimeout(() => {
-              fn.apply(this, args);
-              timer = throttle = false;
-            }, ms);
-        }
-      };
-    }
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
-          }
-        });
-      }
-  const findCites = (el) => {
-    const parentEl = el.parentElement;
-    if (parentEl) {
-      const cites = parentEl.dataset.cites;
-      if (cites) {
-        return {
-          el,
-          cites: cites.split(' ')
-        };
-      } else {
-        return findCites(el.parentElement)
-      }
-    } else {
-      return undefined;
-    }
-  };
-  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-  for (var i=0; i<bibliorefs.length; i++) {
-    const ref = bibliorefs[i];
-    const citeInfo = findCites(ref);
-    if (citeInfo) {
-      tippyHover(citeInfo.el, function() {
-        var popup = window.document.createElement('div');
-        citeInfo.cites.forEach(function(cite) {
-          var citeDiv = window.document.createElement('div');
-          citeDiv.classList.add('hanging-indent');
-          citeDiv.classList.add('csl-entry');
-          var biblioDiv = window.document.getElementById('ref-' + cite);
-          if (biblioDiv) {
-            citeDiv.innerHTML = biblioDiv.innerHTML;
-          }
-          popup.appendChild(citeDiv);
-        });
-        return popup.innerHTML;
+      }, function(instance) {
       });
     }
-  }
-});
-</script>
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./unsupervised.html" class="pagination-link" aria-label="Unsupervised Learning">
