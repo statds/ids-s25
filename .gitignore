@@ -171,3 +171,5 @@ cython_debug/
 *.html
 censusAPIkey.txt
 gmapKey.txt
+
+.DS_Store
