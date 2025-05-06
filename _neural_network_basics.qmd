@@ -1,6 +1,5 @@
 ## Neural Network Basics
 
-### Introducing Myself
 
 The following was written by Ajeeth Vellore, a Mechanical Engineering graduate
 student at the University of Connecticut.
@@ -9,7 +8,7 @@ The goal of this section is give a quick synopsis on neural networks: how they
 came to be, how they work in basic form, and what a neural network looks like in
 action. 
 
-### What are Neural Networks?
+### Introduction
 
 Neural networks are a bio-inspired methodology for learning information from
 data, introduced as the "perceptron" by Dr. Frank Rosenblatt of Cornell in the
