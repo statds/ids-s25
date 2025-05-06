@@ -1,6 +1,9 @@
 render:
 	quarto render
 
+packages:
+	pip install -r requirements.txt
+
 req:
 	pip freeze > requirements.txt
 

@@ -199,6 +199,7 @@ K-means is intuitive but has limitations:
 Despite its limitations, K-means is a fundamental tool
 in exploratory data analysis and practical applications.
 
+{{< include _k-prototypes.qmd >}}
 
 ## Stochastic Neighbor Embedding
 
@@ -327,3 +328,5 @@ In the visualization:
 {{< include _pca.qmd >}}
 
 {{< include _choosing_k.qmd >}}
+
+{{< include _autoencoders.qmd >}}

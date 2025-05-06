@@ -1,0 +1,307 @@
+## Naive Bayes
+
+This section was written by Yuxiao Lin, a junior majoring in Statistical Data
+Science at the University of Connecticut.
+
+This section will focuses on Bayes’ theorem, the types of Naive Bayes 
+classifiers, and provides an example application.
+
+### Introduction
+
+Naive Bayes is a probabilistic classification algorithm based on Bayes' theorem. 
+It assumes that all features are conditionally independent given the class label. 
+Using this assumption, the model calculates the probability of each class given 
+the observed features, and then selects the class with the highest probability 
+as the prediction.
+
+Since it has a simple structure and fast computation, Naive Bayes is widely used 
+in tasks such as text classification, sentiment analysis, and spam detection.
+
+### Bayes' Theorem
+
+Bayes’ Theorem is a mathematical formula used to update a posterior probability 
+based on a prior probability and new evidence.
+Its basic form is:
+
+$$P(Y|X) = \frac{P(Y)P(X|Y)}{P(X)},$$
+
+where,
+
+- $P(Y|X)$: Probability of class $Y$ given features $X$ - posterior probability.
+- $P(X|Y)$: Probability of features given class $Y$ - the likelihood.
+- $P(Y)$: Probability of class $Y$ - prior probability.
+- $P(X)$: Total probability of features $X$ (marginal probability of features) - 
+the evidence.
+
+
+### Naive Bayes Classifier
+
+The Naive Bayes classifier is a model based on Bayes' theorem and the assumption 
+of conditional independence among features. Although it applies Bayes' theorem 
+in its decision rule, it is not necessarily a "Bayesian model" in the 
+statistical sense. 
+In practice, Naive Bayes is usually trained using:
+
+- a frequentist approach via Maximum Likelihood Estimation (MLE), or  
+- a Bayesian approach using prior and posterior distributions.
+
+
+### Parameter Estimation and Prediction
+
+Naive Bayes does not optimize a loss function like logistic regression.  
+It "learns" by counting label–feature co-occurrences, using MLE to directly 
+compute class and conditional probabilities — making it fast and simple to fit.
+
+- Prior probability of class $y$:
+$$P(Y = y) = \frac{\text{count}(Y = y)}{N}.$$
+
+- Conditional probability of feature $X_i$ given class $y$:
+$$P(X_i = x_i \mid Y = y) = \frac{\text{count}(X_i = x_i, Y = y)}{\text{count}(Y = y)}.$$
+
+Once the probabilities are estimated, the model predicts the label of a new 
+observation $X = (x_1, x_2, \dots, x_n)$, then select the one with the highest 
+value:
+$$
+\hat{y} = \arg\max_{y} P(Y = y) \prod_{i=1}^n P(X_i = x_i \mid Y = y).
+$$
+
+
+### Types of Naive Bayes
+
+To handle different types of input data, 5 types of the Naive Bayes classifier
+have been developed. Each type is suited to a specific type of data. 
+These types include:
+
+- Gaussian Naive Bayes: Used when the dataset contains continuous features. It 
+assumes that for each class, the values of every feature follow a Gaussian 
+(normal) distribution. The model estimates the mean and variance of each feature 
+within each class, and uses those to compute the likelihood of a sample 
+belonging to that class.
+
+- Bernoulli Naive Bayes: Designed for binary features (0 or 1). Commonly 
+used for text classification. It can also be used with engineered binary 
+features like `is_weekend`, `is_borough`.
+
+- Multinomial Naive Bayes: A classification algorithm that models feature 
+counts using a multinomial distribution, commonly applied in text classification 
+tasks.
+
+- Categorical Naive Bayes: Used for classification tasks with categorical 
+features. Each feature is assumed to follow a categorical distribution, where 
+the likelihood of each category is estimated independently within each class.
+
+- Complement Naive Bayes: This classifier was designed to address some of 
+the strong assumptions and limitations of the standard Multinomial Naive Bayes 
+model. It is particularly well-suited for imbalanced datasets, especially in 
+text classification tasks.
+
+
+### Advantages and Limitations
+
+Advantages:
+
+- Simple and fast to train and predict, even with large datasets.
+
+- It is not sensitive to missing features because each feature is treated
+independently.
+
+- Performs well on high-dimensional data, such as in text classification.
+
+               
+Limitations:             
+
+- Suffers when features are strongly correlated.
+
+- Assumes conditional independence, which rarely holds in the real world.
+
+
+### Example for NYC Flood Data
+
+Since the original dataset is in CSV format, we first perform data cleaning to 
+filter records from 2024, remove empty columns and extract time-related 
+features.
+
+```{python}
+import pandas as pd
+
+df = pd.read_csv('data/nycflood2024.csv',
+                 dtype={"Incident Zip": str}, parse_dates=["Created Date"])
+df.columns = df.columns.str.lower().str.replace(' ', '_')
+
+# Drop empty columns
+df = df.drop(columns=['location_type', 'vehicle_type', 'taxi_company_borough',
+    'bridge_highway_name', 'bridge_highway_segment', 'road_ramp', 'landmark',
+    'due_date', 'facility_type', 'bridge_highway_direction', 
+    'taxi_pick_up_location'])
+
+# Make sure the date is in 2024
+df_2024 = df[(df["created_date"] >= "2023-12-31") &
+             (df["created_date"] <= "2024-12-31")].copy()
+
+# Make sure the 'closed_date' has same range as 'created_date'
+match_date = df_2024[df_2024["closed_date"] == df_2024["created_date"]]
+
+# Set those dates to NaT for further cleaning
+df_2024.loc[match_date.index, ["created_date", "closed_date"]] = pd.NaT
+```
+
+#### Prepare Features and Target Variable
+
+To extract the hour and weekday from the request creation time for use as model 
+features, and create a binary variable over3d to indicate that a service request 
+took three days or longer to close as the target variable.
+
+```{python}
+# Convert date columns to datetime format for feature extraction
+df_2024['created_date'] = pd.to_datetime(df_2024['created_date'])
+df_2024['closed_date'] = pd.to_datetime(df_2024['closed_date'])
+
+# Extract just the time component
+df_2024["created_date"] = pd.to_datetime(df_2024["created_date"], \
+    format="%Y-%m-%d %H:%M:%S")
+df_2024["closed_date"] = pd.to_datetime(df_2024["closed_date"], \
+    format="%Y-%m-%d %H:%M:%S")
+
+# Split 'created_date' to hour and weekday
+df_2024["hour"] = df_2024["created_date"].dt.hour
+df_2024["weekday"] = df_2024["created_date"].dt.dayofweek 
+
+# Compute response time in hours
+df_2024["response_time"] = (df_2024["closed_date"] - df_2024["created_date"])
+df_2024["response_time"] = df_2024["response_time"].dt.total_seconds() / 3600
+
+# Categorize complaint types into three groups
+df_2024["complaint_type"] = df_2024["descriptor"].apply(
+    lambda x: "Street Flooding" if "Street Flooding" in str(x) else 
+              "Catch Basin Clogged" if "Catch Basin Clogged" in str(x) \
+                else "Other"
+)
+
+# Create a binary variable
+df_2024['over3d'] = (df_2024['response_time'] >= 72).astype(int)
+```
+
+
+#### Feature Selection and Encoding
+
+The features used in this example are `hour`, `incident_zip`, `complaint_type`,
+and `weekday`. 
+
+To prepare the data, we apply `LabelEncoder` to convert string-based features 
+into integer codes.  
+
+```{python}
+from sklearn.naive_bayes import CategoricalNB
+from sklearn.preprocessing import LabelEncoder
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import (
+    accuracy_score, precision_score, recall_score, confusion_matrix,
+    f1_score, roc_curve, auc
+)
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_classification
+
+# Select features
+X = df_2024[["hour", "incident_zip", "complaint_type", "weekday"]]
+
+#Encode string-based categorical features into numeric
+for col in ["incident_zip", "complaint_type"]:
+    le = LabelEncoder()
+    X.loc[:, col] = le.fit_transform(X[col].astype(str))
+y = df_2024['over3d']
+```
+
+
+#### Model Fitting and Evaluation with CategoricalNB
+
+Since all the features are categorical variables, we use Categorical Naive 
+Bayes, which is designed for features with discrete categories. Then we split 
+the data into the training and test sets, using the scikit-learn "CategoricalNB"
+classifier to fit the model. Evaluate this model using accuracy, precision, 
+and recall rate.
+
+```{python}
+# Drop missing values and align X and y
+X = X.dropna()
+y = y.loc[X.index] 
+
+# Split data
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, \
+    random_state=42)
+
+# Fit the model
+cnb = CategoricalNB()
+cnb.fit(X_train, y_train)
+y_pred = cnb.predict(X_test)
+
+# Evaluate model performance
+cm = confusion_matrix(y_test, y_pred)
+accuracy = accuracy_score(y_test, y_pred)
+precision = precision_score(y_test, y_pred)
+recall = recall_score(y_test, y_pred)
+
+print("Confusion Matrix:\n", cm)
+print(f"Accuracy: {accuracy:.2f}")
+print(f"Precision: {precision:.2f}")
+print(f"Recall: {recall:.2f}")
+```
+
+To further evaluate the classifier's performance, we use the ROC curve and AUC 
+score to assess how well the model distinguishes between the two classes across 
+different threshold values.
+
+```{python}
+from sklearn.metrics import roc_curve, auc
+import matplotlib.pyplot as plt
+
+# Calculate the probability
+y_prob = cnb.predict_proba(X_test)[:, 1]
+
+# Calculate fpr, tpr, thresholds
+fpr, tpr, thresholds = roc_curve(y_test, y_prob)
+roc_auc = auc(fpr, tpr)
+
+# Draw ROC curve
+plt.figure(figsize=(6, 5))
+plt.plot(fpr, tpr, color='darkorange', lw=2, label=f'ROC curve \
+    (AUC = {roc_auc:.2f})')
+plt.plot([0, 1], [0, 1], color='gray', linestyle='--')
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate')
+plt.title('ROC Curve for Categorical Naive Bayes')
+plt.legend(loc="lower right")
+plt.grid(True)
+plt.show()
+```
+
+
+#### Interpretation of Results
+
+From these results, the accuracy is 0.78, which means the model correctly 
+predicts 78% of all cases. In the precision is 0.52, meaning that when it 
+predicts a request that will take over 3 days and it is correct 52%. 
+However, recall is only 0.16, indicating that it fails to detect most of the 
+actual delayed cases. 
+
+Although the recall is low, the ROC curve shows that adjusting the threshold 
+can increase the recall rate.
+AUC = 0.75 indicates that the model has a good overall discrimination ability,
+and there is a 75% chance that a delayed request (over 3 days) is ranked higher 
+than a non-delayed one. ROC curve lies above the diagonal line, which suggests 
+the model performs better than random guessing.
+
+The Categorical Naive Bayes model performs well overall, but it is difficult 
+to catch delayed requests. We still need some additional adjustments or model 
+comparisons to better handle class imbalances and improve the recall rate.
+
+
+### Further Readings
+
+- [What is Naive Bayes? – IBM](https://www.ibm.com/think/topics/naive-bayes#:~:
+text=Na%C3%AFve%20Bayes%20is%20part%20of,important%20to%20differentiate%20bet
+ween%20classes.)
+- [Naive Bayes Documentation – scikit-learn](https://scikit-learn.org/stable/
+modules/naive_bayes.html#complement-naive-bayes)

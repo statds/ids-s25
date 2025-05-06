@@ -387,8 +387,10 @@ better generalization performance in many practical tasks.
 
 {{< include _shap.qmd >}}
 
+{{< include _random_forest.qmd >}}
+
 {{< include _svm.qmd >}}
 
-<!-- {{< include _naivebayes.qmd >}} -->
+{{< include _naivebayes.qmd >}}
 
-<!-- {{< include _smote.qmd >}} -->
+{{< include _smote.qmd >}}
