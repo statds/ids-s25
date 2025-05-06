@@ -1,0 +1,190 @@
+## Random Forest
+
+This section was prepared by Gaofei Zhang, a second year PhD student in 
+Health Promotion Science. This section will primarily focus on what Random 
+Forest is, why it matters, and how to apply it to real-world data. This 
+section will cover the basic concepts and practical steps for using a Random 
+Forest regressor. In our example, we predict the number of persons injured in 
+NYC crashes by using accident attributes.
+
+### Introduction
+
+#### What is Random Forest?
+
+ - Random Forest is a supervised ensemble learning method that builds multiple
+   decision trees and combines their outputs to improve predictive performance
+   and control overfitting. 
+ - It is widely used for both classification and regression tasks due to its 
+   robustness and interpretability. 
+
+#### Conceptual Foundations 
+
+ - Bootstrap Aggregating (Bagging)
+   - For each tree, sample the training set with replacement (bootstrapping).
+   - This creates diverse datasets so trees are uncorrelated.
+
+ - Random Feature Selection
+   - At each node, select a random subset of features when splitting.
+   - This further decorrelates trees, reducing variance.
+
+ - Aggregation of Predictions
+   - Classification: each tree votes; the majority class wins.
+   - Regression: average the outputs of all trees.
+
+ - Advantages
+   - Reduces overfitting compared to single trees.  
+   - Provides feature importance metrics.  
+   - Handles both numerical and categorical data well.
+
+ - Limitations
+   - Computationally intensive for large forests.  
+   - Model size can be large, affecting memory usage.
+
+#### Random Forest Principles 
+ - Ensemble Method
+   - Combines many decision trees.
+
+ - Randomness  
+   - Bootstrap Sampling means each tree is trained on a random sample (with 
+     replacement) of the dataset.
+   - Random Feature Selection means at each split, only a subset of features is 
+     considered.
+   - Voting/Averaging means for classification, predictions are made by majority 
+     vote.
+
+#### Parameter Tuning 
+ - Key Parameters
+   - `n_estimators`: Number of trees in the forest.
+   - `max_depth`: Maximum depth of each tree.
+   - `max_features`: Number of features to consider when looking for the best 
+    split.
+ - Tuning Process  
+   - Using methods like GridSearchCV, one can search for the optimal combination of 
+   these parameters to improve performance.
+- Justification
+   - Tuning these parameters can further reduce overfitting, improve generalization, 
+   and provide better insight into feature contributions.
+
+
+### Example: Demo Pipeline 
+ - The first block reads the raw CSV into a DataFrame, converts the
+   'CRASH TIME' strings into datetime hours (coercing invalid
+   formats to NaT), fills any missing hours with the median,
+   and prints the resulting DataFrame shape. 
+```{python}
+import warnings
+import pandas as pd
+import numpy as np
+from pathlib import Path
+from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import r2_score, mean_squared_error
+
+# Define the path to the dataset dynamically so it works on any machine
+BASE_DIR = Path.cwd()
+DATA_FILE = BASE_DIR / "data" / \
+    "nyccrashes_2024w0630_by20250212.csv"
+
+df = pd.read_csv(DATA_FILE)
+df["CRASH HOUR"] = pd.to_datetime(
+    df["CRASH TIME"], format="%H:%M",
+    errors="coerce"
+).dt.hour
+df["CRASH HOUR"] = df["CRASH HOUR"].fillna(df["CRASH HOUR"].median())
+print("Loaded data shape:", df.shape)
+```
+ - In this result, we can see the datashape.
+
+ - The second block sample a smaller fraction for quick demo. To reduce runtime while illustrating 
+the pipeline, we randomly sample 10% of rows. This keeps the demo fast but still 
+representative.
+
+```{python}
+df = df.sample(frac=0.1, random_state=42)
+print("Sampled data shape:", df.shape)
+```
+ - In this result, we can see the datashape of the smaller fraction for quick demo.
+
+ - The third block is about feature engineering. Here we drop any records missing BOROUGH or ZIP CODE,
+standardize those columns as uppercase strings, one-hot encode them, then 
+combine with numeric features (LATITUDE, LONGITUDE, CRASH HOUR) into X, and 
+extract y.
+```{python}
+df = df.dropna(subset=["BOROUGH", "ZIP CODE"]).copy()
+df["BOROUGH"] = df["BOROUGH"].str.upper()
+df["ZIP CODE"] = df["ZIP CODE"].astype(int).astype(str)
+
+cats = pd.get_dummies(
+    df[["BOROUGH", "ZIP CODE"]], drop_first=True
+)
+nums = df[["LATITUDE", "LONGITUDE", "CRASH HOUR"]]
+X = pd.concat([cats, nums], axis=1)
+y = pd.to_numeric(
+    df["NUMBER OF PERSONS INJURED"],
+    errors="coerce"
+).fillna(0)
+print("Features shape:", X.shape)
+```
+ - In this result, we can see that the feature shape.
+
+ - The fourth block is about train/test split. We split X and y into training (70%) and testing (30%)
+subsets. This allows us to train on one portion and evaluate generalization 
+on the held-out test set.
+
+```{python}
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.3, random_state=42
+)
+print("Train set shape:", X_train.shape)
+print("Test set shape: ", X_test.shape)
+```
+ - In this results, we can see the train set shape and the test set shape.
+
+ - The final block is about hyperparameter tuning and training. We define a tiny hyperparameter grid,
+run a 3-fold GridSearchCV for R², print the best params and CV score, then 
+evaluate on the test set (R² and MSE).
+
+```{python}
+param_grid = {
+    "n_estimators": [100],
+    "max_depth": [10],
+    "max_features": ["sqrt"]
+}
+rf = RandomForestRegressor(random_state=42)
+gs = GridSearchCV(
+    rf, param_grid, cv=3, n_jobs=1, scoring="r2"
+)
+gs.fit(X_train, y_train)
+print("Best params:", gs.best_params_)
+print("CV R²:     ", gs.best_score_)
+
+y_pred = gs.best_estimator_.predict(X_test)
+print("Test R²:   ", r2_score(y_test, y_pred))
+print("Test MSE:  ", mean_squared_error(y_test, y_pred))
+```
+ - In this results, we can see the best parameters, CV R sqaure, test R sqaure and test MSE.
+
+### Key takeaways
+
+Random Forest is an intuitive yet powerful ensemble learning method that 
+builds many decision trees and combines their predictions to achieve more 
+accurate and stable results than any single tree. By training each tree on 
+a different random subset of the data (bootstrapping) and considering only 
+a random subset of features when splitting (feature bagging), Random Forest 
+reduces overfitting and variance, making it robust to noisy data. It handles 
+both numerical and categorical inputs without extensive preprocessing, 
+automatically ranks feature importance to help you understand which variables 
+matter most, and can be applied to both regression and classification tasks. 
+Even with minimal tuning, a Random Forest often delivers strong out-of-the-box 
+performance, and its results are easy to interpret: you can inspect how changing 
+parameters like the number of trees (n_estimators), tree depth (max_depth), 
+and features per split (max_features) affects model bias and variance. As a result, 
+Random Forest provides a reliable, user-friendly “black-box” that offers transparent 
+insights into complex datasets—ideal for newcomers and experts alike looking for a 
+balance between predictive power and interpretability. 
+
+### Further Readings
+
+- [Random forests – Leo Breiman (2001)](https://doi.org/10.1023/A:1010933404324)  
+- [scikit-learn: RandomForestRegressor documentation](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestRegressor.html)  
+- [Quarto documentation for reproducibility](https://quarto.org/docs/guide/)  
