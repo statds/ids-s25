@@ -1,0 +1,124 @@
+## Synthetic Minority Over-Sampling Technique (SMOTE)
+
+This section was prepared by Ethan Long, a junior Statistics major. 
+
+### Introduction
+
+This section covers SMOTE, or Synthetic Minority Over-Sampling Technique. 
+SMOTE (Synthetic Minority Over-Sampling Technique) is a data 
+preprocessing method that is designed to address class imbalance in 
+supervised learning tasks. Instead of duplicating existing minority class 
+instances, SMOTE generates synthetic examples by interpolating between existing
+minority samples using $K$-nearest neighbors (KNN). Class 
+imbalance can significantly distort model performance, often leading to poor 
+recall for the minority class and misleadingly high accuracy, as models tend to
+favor the majority class. By generating new, diverse samples in feature space, 
+SMOTE creates a more balanced and learnable distribution that helps classifiers
+detect minority class instances more effectively.
+
+### Algorithm Formulation
+
+The SMOTE algorithm operates by linearly interpolating between a random
+minority instances $x_i$ and one of it's $k$ nearest neighbors $x_{zi}$ in the 
+minority class. For a given synthetic instance $x_{\text{new}}$, the generation
+process is defined as: 
+
+$$
+\mathbf{x}_{\text{new}} = \mathbf{x}_i + \delta (\mathbf{x}_{zi} - \mathbf{x}_i)
+$$
+
+where $\delta \sim U(0, 1)$ is a random number sampled from a uniform 
+distribution. This process is repeated until the desired over-sampling ratio is
+achieved. By generating synthetic samples that are not exact duplicates, the 
+chance of overlapping data points and overfitting is reduced. It also provides
+a smoother decision boundary for the classifier.  
+
++ Parameters:
+   - $k$: Number of nearest neighbors (commonly $k=5$)
+   - Over-sample rate: Desired proportion of synthetic samples
+
+### Demonstration
+
+For a simple demonstration, lets generate a random dataset using sklearn. 
+It will feature a severe class imbalance. We will compare the SMOTE enhanced
+model's performance to a baseline model and see the improvements. 
+
+
+```{python}
+
+# Import necessary packages
+from sklearn.datasets import make_classification
+from collections import Counter
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import classification_report
+
+# Generate random dataset for classification with class imbalance
+X, y = make_classification(
+    n_samples=1000,
+    n_features=10,
+    n_informative=3,
+    n_redundant=1,
+    n_classes=2,
+    weights=[0.95, 0.05],  
+    flip_y=0,
+    random_state=1234
+)
+
+# Show total instances of every class
+print(f'Class distribution: {Counter(y)}')
+
+```
+
+Now with a dataset featuring a severe class imbalance having been created, lets
+split the data into train and test datasets and build an initial classification
+model.   
+
+```{python}
+# Split the data into 20:80 test train
+X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y, random_state=1234)
+
+# Build first classification model
+model = LogisticRegression()
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+print(classification_report(y_test, y_pred))
+
+```
+
+Now lets initialize and leverage SMOTE to resample our train data and rectify
+our dataset's class imbalance.   
+
+```{python}
+
+# Import package for ignoring warnings
+import warnings
+warnings.filterwarnings("ignore", category=FutureWarning)
+
+# Now implement SMOTE
+from imblearn.over_sampling import SMOTE
+smote = SMOTE(random_state=1234)
+
+# Use SMOTE to enhance the generated dataset
+# Never apply SMOTE to testing splits only to train
+X_resampled, y_resampled = smote.fit_resample(X_train, y_train)
+
+# Second classification model enhanced with SMOTE
+smote_enhanced_model = LogisticRegression()
+smote_enhanced_model.fit(X_resampled, y_resampled)
+smote_y_pred = smote_enhanced_model.predict(X_test)
+print(classification_report(y_test, smote_y_pred))
+
+```
+
+### Conclusion 
+
+From this randomly generated dataset we can see the inherent advantages and 
+drawbacks SMOTE creates when applied to datasets with class imbalances. To 
+begin we can see a sharp decrease in precision when the model attempts to 
+classify class 1 instances. But the model in turn sharply increases the recall
+value for class 1 instances. This is a common trade-off seen when using SMOTE. 
+This happens because the model becomes more sensitive to the minority class,
+meaning it's more likely to predict a sample as the minority class. As a 
+result the recall should increase, capturing more true positives, while 
+producing more false positives. 

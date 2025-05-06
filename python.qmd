@@ -384,6 +384,3 @@ newly created virtual environment:
 This command installs the requests library in your virtual 
 environment. You can verify the installation by running
 `pip list`, which should show requests along with its version.
-
-
-## Numpy
