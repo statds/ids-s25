@@ -164,7 +164,7 @@ print("Test MSE:  ", mean_squared_error(y_test, y_pred))
 ```
  - In this results, we can see the best parameters, CV R sqaure, test R sqaure and test MSE.
 
-### Key takeaways
+### Key Takeaways
 
 Random Forest is an intuitive yet powerful ensemble learning method that 
 builds many decision trees and combines their predictions to achieve more 
