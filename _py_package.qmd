@@ -1,0 +1,158 @@
+This section was prepared by Peiwen Xu, 
+a senior undergraduate student majoring in Mathematics.
+
+### Setting up the Project Structure
+
+As mentioned in the previous section,
+a Python package is a collection of Python modules organized 
+within a directory structure, making code reusable and distributable. 
+
+To start packaging your project, 
+you need to create a well-organized directory structure:
+
+```plaintext
+project_NAME/
+├── LICENSE
+├── pyproject.toml
+├── README.md
+├── src/
+│ └── package_NAME/
+│ ├── __init__.py
+│ └── module_NAME.py
+└── tests/
+```
+
+- `project_NAME`: Root directory.
+- `pyproject.toml`: 
+Configuration file containing metadata and build instructions for the package.
+- `README.md`: A markdown file describing your project.
+- `src`: Directory to contain your package code, separate from other files.
+- `package_NAME`: Directory containing all your modules.
+- `__init__.py`: Indicates that this directory should be treated as a package.
+
+### Configuration File: `pyproject.toml`
+
+The `pyproject.toml` file defines your package's metadata and dependencies.
+Below is a sample configuration:
+
+```toml
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pkg_peiwen"
+version = "0.1.4"
+authors = [
+{ name="Peiwen", email="pwshyu@gmail.com" },
+]
+description = "This is the description string in the pyproject.toml file"
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+"Programming Language :: Python :: 3",
+"License :: OSI Approved :: MIT License",
+"Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/peiwen-shyu/pkg"
+```
+
+This file contains:
+
+- Package name, version, and description.
+- Author details.
+- Python version requirement.
+- Classifiers for PyPI (e.g., compatible Python versions, license).
+- URLs for homepage, documentation, etc.
+
+### Testing Locally
+
+Before uploading your package, you should test it locally. 
+Use the following steps:
+
+1. Install your package in a virtual environment using:
+```bash
+pip install -e directory_where_toml_is_located
+```
+The `-e` flag stands for "editable", allowing 
+instant reflection of source code changes in the installed package.
+
+2. Test your package by importing and running its functions:
+```python
+import pkg_peiwen
+
+# Code to test your package functionality
+print(pkg_peiwen.__version__)
+print(pkg_peiwen.__doc__)
+```
+
+3. Inspect package contents:
+```python
+import pkgutil
+import inspect
+
+for module_info in pkgutil.iter_modules(pkg_peiwen.__path__):
+module_name = f"{pkg_peiwen.__name__}.{module_info.name}"
+module = __import__(module_name, fromlist=[''])
+print(f"Contents of {module_name}:")
+members = inspect.getmembers(module)
+for name, obj in members:
+if not name.startswith('_'):
+print(f" - {name}: {obj.__doc__}")
+```
+
+### Building and Uploading
+
+#### Build
+Install the `build` utility for creating distribution archives:
+```bash
+python3 -m pip install --upgrade build
+```
+
+Run the following command 
+in the root project directory (where `pyproject.toml` is located):
+```bash
+python3 -m build
+```
+This will generate distribution files in the `dist` directory.
+
+#### Upload
+Install `twine` for uploading packages to PyPI:
+```bash
+python3 -m pip install --upgrade twine
+```
+
+Upload your package to PyPI:
+```bash
+python3 -m twine upload dist/*
+```
+
+You will need your PyPI token, 
+which can be generated from your PyPI account settings.
+
+### Versioning and Updates
+
+When updating your package, remember to:
+1. Update the `version` field in `pyproject.toml` and `__init__.py`.
+2. Remove the `dist` directory for a clean build:
+```bash
+rm -rf dist/*
+```
+3. Rebuild and re-upload your package.
+
+### Conclusion
+
+Packaging your Python project not only makes your code portable 
+and reusable but also ensures version control and eases dependency management.
+Following the above steps, 
+you can create, test, and upload your Python package to PyPI.
+
+### Further Readings
+
+- [Packaging Python Projects](
+    https://packaging.python.org/en/latest/tutorials/packaging-projects/)
+
+- [Writing pyproject.toml](
+    https://packaging.python.org/en/latest/guides/writing-pyproject-toml/)
