@@ -391,4 +391,4 @@ better generalization performance in many practical tasks.
 
 <!-- {{< include _naivebayes.qmd >}} -->
 
-<!-- {{< include _smote.qmd >}} -->
+{{< include _smote.qmd >}}
