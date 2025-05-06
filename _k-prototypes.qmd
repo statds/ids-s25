@@ -72,7 +72,7 @@ categorical variables
 distance = (euclidian distance) + γ * (categorical dissimilarity).
 ```
 
-Precise numerical formula can be found at [@huang1997kprototypes] page two.
+Precise numerical formula can be found at [@huang1997clustering] page two.
 
 - Measures how different each data point is from the cluster centroids
 - Helps assign each point to the most appropriate cluster
