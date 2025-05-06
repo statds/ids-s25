@@ -384,8 +384,3 @@ newly created virtual environment:
 This command installs the requests library in your virtual 
 environment. You can verify the installation by running
 `pip list`, which should show requests along with its version.
-
-
-## Develop a python package
-<!-- This section is to be included as a tutorial for developing a python package. -->
-{{< include _py_package.qmd >}}
