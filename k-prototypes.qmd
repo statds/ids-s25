@@ -1,0 +1,347 @@
+## K-Prototypes Clustering
+
+This section was prepared by Mario Tomaino, a Senior majoring in 
+Mathematics/Statistics. This section explores K-Prototypes clustering, an
+unsupervised machine learning algorithm used to cluster data that contains
+both numerical and categorical variables. 
+
+We will be generating a dataset containing individuals of certain ages and
+incomes, and clustering them based on their technology product preferences.
+We will then create some visualizations to further understand the clusters
+and characteristics of the individuals.
+
+### What is K-Prototypes Clustering?
+
+- Clustering is the unsupervised classification of patterns into groups 
+[@li2009multi]
+- It helps group similar observations into distinct, interpretable clusters
+- Traditional algorithms like k-means only work with numerical data
+- Real world data often includes both numerical and categorical features, 
+which makes K-Prototypes necessary
+
+### K-Means Clustering
+
+- Works with numerical data only
+- Implemented using the `scikit-learn` library
+- Uses Euclidean distance to measure similarity 
+(distance between two points)
+- Here, cluster centroids are the mean of all points in the cluster
+- Common in applications with quantitative features 
+(incident zip, latitude, longitude)
+
+### K-Modes Clustering
+
+- Designed for categorical data only
+- Uses dissimilarity (counts how many attributes differ)
+- Here, centroids are the mode (most common category)
+- Useful when data contains strings or categories (borough, complaint type)
+
+### Why K-Prototypes?
+
+- Many datasets include both numbers (latitude, longitude) and categories 
+(borough, complaint type)
+- K-Means: numerical only
+- K-Modes: categorical only
+- K-Prototypes: combines both types into a single clustering algorithm
+- Here, the centroid is a mix:
+    - **Mean** for numeric features
+    - **Mode** for categorical features
+
+### Why is the centroid important?
+
+The algorithm uses centroids to:
+
+1. Measure how close a data point is to a cluster
+2. Reassign points to the closest cluster
+3. Update the cluster's center as new points are assigned
+
+This process repeats until centroids stop changing much (convergence).
+
+### How K-Prototypes Works
+
+- K-Prototypes combines K-Means and K-Modes
+    - Minimizes cost function by combining:
+        - Euclidean distance for numeric features (numerical distance from 
+        cluster average)
+        - Dissimilarity for categorical features
+- A hyperparameter `γ` (gamma) balances weight of numerical and 
+categorical variables
+
+### Similarity Measure (Distance Function)
+
+```python
+distance = (euclidian distance) + γ * (categorical dissimilarity).
+```
+
+Precise numerical formula can be found at [@huang1997kprototypes] page two.
+
+- Measures how different each data point is from the cluster centroids
+- Helps assign each point to the most appropriate cluster
+- `γ` (gamma) balances numeric and categorical importance
+
+### Python Example
+
+Basic example of a dataset containing customers that we will cluster based on 
+Age, Income, and Preferred Product.
+
+Here, we choose `γ` = 0.5 because it gives us an equal trade-off between the
+numeric and categorical parts of the distance function.
+
+This is the code we will use to generate our dataset.
+
+```python
+import pandas as pd
+import numpy as np
+from kmodes.kprototypes import KPrototypes
+
+np.random.seed(42)
+# generated 25 random ages between 20 and 59
+ages = np.random.randint(20, 60, size=25)
+# generated 25 random incomes between 30 and 119 
+# (thousands of dollars annually)
+incomes = np.random.randint(30, 120, size=25)
+# generate 25 random product categories, each with their own probability
+products = np.random.choice(['Phone', 'Laptop', 'Tablet', 'Accessory'], size=25,
+                            p=[0.4, 0.3, 0.2, 0.1])
+
+df = pd.DataFrame({
+    'Age': ages,
+    'Income': incomes,
+    'Product': products
+})
+
+# fitting k-prototypes model with several different gamma values
+results = {}
+for gamma in [0.1, 0.5, 1.0]:
+    kproto = KPrototypes(
+        n_clusters=2,
+        init='Huang',
+        random_state=42,
+        gamma=gamma
+    )
+    clusters = kproto.fit_predict(df.to_numpy(), categorical=[2])
+    results[gamma] = clusters
+
+# choose gamma value and add to dataframe
+chosen_gamma = 0.5
+df['Cluster'] = results[chosen_gamma]
+
+print(f"Using gamma = {chosen_gamma}")
+print(df.head(10))
+```
+
+```{python}
+import pandas as pd
+import numpy as np
+from kmodes.kprototypes import KPrototypes
+
+np.random.seed(42)
+# generated 25 random ages between 20 and 59
+ages = np.random.randint(20, 60, size=25)
+# generated 25 random incomes between 30 and 119 
+# (thousands of dollars annually)
+incomes = np.random.randint(30, 120, size=25)
+# generate 25 random product categories, each with their own probability
+products = np.random.choice(['Phone', 'Laptop', 'Tablet', 'Accessory'], size=25,
+                            p=[0.4, 0.3, 0.2, 0.1])
+
+df = pd.DataFrame({
+    'Age': ages,
+    'Income': incomes,
+    'Product': products
+})
+
+# fitting k-prototypes model with several different gamma values
+results = {}
+for gamma in [0.1, 0.5, 1.0]:
+    kproto = KPrototypes(
+        n_clusters=2,
+        init='Huang',
+        random_state=42,
+        gamma=gamma
+    )
+    clusters = kproto.fit_predict(df.to_numpy(), categorical=[2])
+    results[gamma] = clusters
+
+# choose gamma value and add to dataframe
+chosen_gamma = 0.5
+df['Cluster'] = results[chosen_gamma]
+
+print(f"Using gamma = {chosen_gamma}")
+print(df.head(10))
+```
+
+Above, we see the first 10 rows of our dataset of 25 random customers.
+
+### Scatter Plot
+
+This code will allow us to create a scatterplot. This scatterplot will
+vizualize our K-Prototypes clustering, and split our customers into two
+clusters.
+
+```python
+# vizualizing cluster assignments for gamma value chosen
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(8, 6))
+
+# scatter plot by cluster
+for cluster in df['Cluster'].unique():
+    subset = df[df['Cluster'] == cluster]
+    plt.scatter(
+        subset['Age'],
+        subset['Income'],
+        label=f'Cluster {cluster}',
+        s=100,
+        edgecolor='black'
+    )
+
+plt.title(f'K-Prototypes Clustering (γ = {chosen_gamma})')
+plt.xlabel('Age')
+plt.ylabel('Income')
+plt.legend()
+plt.tight_layout()
+plt.show()
+```
+
+```{python}
+# vizualizing cluster assignments for gamma value chosen
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(8, 6))
+
+# scatter plot by cluster
+for cluster in df['Cluster'].unique():
+    subset = df[df['Cluster'] == cluster]
+    plt.scatter(
+        subset['Age'],
+        subset['Income'],
+        label=f'Cluster {cluster}',
+        s=100,
+        edgecolor='black'
+    )
+
+plt.title(f'K-Prototypes Clustering (γ = {chosen_gamma})')
+plt.xlabel('Age')
+plt.ylabel('Income')
+plt.legend()
+plt.tight_layout()
+plt.show()
+```
+
+- Our model created two clusters: 
+    - `Cluster 0 (Blue)`: 
+        - Contains roughly 19/25 observations
+        - Wide age range (late 20s through late 50s)
+        - Mostly moderate to high incomes (roughly 70-120)
+    - `Cluster 1 (Orange)`:
+        - Contains roughly 6/25 observations, smaller group
+        - Younger age range (20s through early 40s)
+        - Mostly lower income (30-50)
+
+### Bar Chart For Product Counts
+
+The following code will create a bar chart for product counts. Specifically,
+the raw counts of each product for each cluster, or the amount of customers
+in each cluster who prefer each product.
+
+The following code will also give us the proportions of each product for each
+cluster, or the percentage of customers per cluster that prefer a given 
+product.
+
+```python
+# computing counts of products in each cluster
+counts = pd.crosstab(df['Cluster'], df['Product'])
+print("Raw counts:\n", counts)
+
+# normalize counts to proportions per cluster
+# divide each row by its total so values sum to 1
+props = counts.div(counts.sum(axis=1), axis=0)
+print("\nProportions:\n", props)
+
+# plotting a grouped bar chart of product proportions
+import matplotlib.pyplot as plt
+
+props.plot(kind='bar', figsize=(8,5))
+plt.title(f'Product Preference by Cluster (γ={chosen_gamma})')
+plt.xlabel('Cluster')
+plt.ylabel('Proportion of Products')
+plt.legend(title='Product', bbox_to_anchor=(1.02, 1))
+plt.tight_layout()
+plt.show()
+```
+
+```{python}
+# computing counts of products in each cluster
+counts = pd.crosstab(df['Cluster'], df['Product'])
+print("Raw counts:\n", counts)
+
+# normalize counts to proportions per cluster
+# divide each row by its total so values sum to 1
+props = counts.div(counts.sum(axis=1), axis=0)
+print("\nProportions:\n", props)
+
+# plotting a grouped bar chart of product proportions
+import matplotlib.pyplot as plt
+
+props.plot(kind='bar', figsize=(8,5))
+plt.title(f'Product Preference by Cluster (γ={chosen_gamma})')
+plt.xlabel('Cluster')
+plt.ylabel('Proportion of Products')
+plt.legend(title='Product', bbox_to_anchor=(1.02, 1))
+plt.tight_layout()
+plt.show()
+```
+
+**Bar Chart Analysis**
+
+|            | Accessory   | Laptop      | Phone       | Tablet      |
+| :----------: | :---------- | :----------: | ----------: | ------: |
+| Cluster 0   | 2 (11.1%)   | 6 (33.3%)    | 8 (44.4%)   | 2 (11.1%)   |
+| Cluster 1   | 2 (28.6%)   | 1 (14.3%)    | 3 (42.9%)   | 1 (14.3%)   |
+
+- Cluster 0: (larger, higher-income & mixed-age cluster)
+    - Phones are the most popular (44.4% of purchases)
+    - Laptops follow (33.3% of purchases)
+    - Very few Accessory and Tablet purchases
+
+- Cluster 1: (smaller, younger & lower income cluster)
+    - Phone is still the most popular (42.9%)
+    - Accessory increases (28.6%)
+    - Laptops drop considerably (14.3%), tablets slightly higher (14%)
+
+We can see that both groups favor phones, although Cluster 0 purchases more
+laptops, and Cluster 1 purchases more accessories. 
+
+These results suggest to us that the younger/lower-income cluster is less 
+likely to purchase the higher-priced laptops and more likely to pick smaller 
+items, like accessories.
+
+### Real-World Use Cases
+
+- Patient Profiling in Healthcare
+    - Age, BMI, Cholesterol level (Numeric)
+    - Smoking status, Medical history (Categorical)
+
+- Insurance Customer Risk Grouping
+    - Age, Annual Premium (Numeric)
+    - Car type, Marital status (Categorical)
+
+- Socioeconomic Grouping
+    - Household income, Number of dependents (Numeric)
+    - Home ownership status, Education level (categorical)
+
+### Conclusion
+
+- K-Prototypes combines numerical and categorical variables into one clustering
+algorithm
+- It is ideal for real-world datasets where not all features are numbers
+- It is also customizeable, as the `γ` (gamma) parameter allows you to balance
+numerical and categorical importance
+
+### Further Readings
+
+- [kmodes GitHub repo](https://github.com/nicodv/kmodes)
+- [K-Means API Reference](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html)
+- [Clustering Large Data Sets with Mixed Numeric and Categorical Values](https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=d42bb5ad2d03be6d8fefa63d25d02c0711d19728)
+- [Extensions to the k-Means Algorithm for Clustering Large Data Sets with Categorical Values](https://cse.hkust.edu.hk/~qyang/537/Papers/huang98extensions.pdf)
