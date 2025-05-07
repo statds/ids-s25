@@ -1,7 +1,8 @@
 # Advanced Topics
 
-<!-- {{< include _webscraping.qmd>}} -->
-
 {{< include _neural_network_basics.qmd >}}
 
 {{< include _py_package.qmd >}}
+
+{{< include _git_webpage.qmd>}} -->
+
