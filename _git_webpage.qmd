@@ -10,16 +10,16 @@ through github webpages in a easy and straightforward way.
 ### Why is it important? 
 
 1. A portfolio is a valuable tool that serves as a central place for students,
- recruiters, and the general public to view your accomplishments.
+  recruiters, and the general public to view your accomplishments.
 
 2. It provides an opportunity to showcase and compile your achievements in one 
-convenient location.
+  convenient location.
 
 3. This can include a variety of content such as publications, projects, 
-personal interests, and more.
+  personal interests, and more.
 
 4. A well-curated portfolio is essential for personal branding,
- job applications, and is an effective tool for networking
+  job applications, and is an effective tool for networking
   with professionals in your field.
 
 ### Options
@@ -49,8 +49,7 @@ For MacOS:
 As MacOS users, the first step is to insure that you have Homebrew, 
 if not install. After that you want to install the necessary 
 packages that align with GitPages:
-```{bash}
-#| eval: false
+```bash
 brew install ruby
 brew install node
 gem install --user-install bundler jekyll
@@ -61,8 +60,8 @@ For Windows:
 
 Here you simply install Chocolatey. Then install the needed packages 
 in you terminal through choco: 
-```{bash}
-#| eval: false
+
+```bash
 choco install ruby 
 choco install nodejs
 gem install bundler jekyll
@@ -83,17 +82,16 @@ academic portfolio theme for students and professors.
 
 1. Go to the theme repository on GitHub.
 2. Click "Fork" (top-right corner).
-3. Name your repository:  username.github.io
-* this step is important because all git personal webpages 
-are accessed by this naming format.
+3. Name your repository:  rnasejje.github.io
+* this step is important because all personal git webpages 
+  are accessed by this naming format.
+* It must be your git username to be registerd as a webpage
 
-```{bash}
-#| eval: false
-git clone https://github.com/yourusername/yourusername.github.io
-
+```bash
+git clone https://github.com/rnasejje.github.io
 cd rnasejje.github.io
 ```
-
+** Replace this with your github username!
 
 ### Editing Your Website
 
@@ -107,7 +105,7 @@ and navigation (if you have multiple tabs on your webpage)
 
 #### _pages
 
-- This folder contains a collection of .md and .html files, each file 
+- This folder contains a collection of `.md` and `.html` files, each file 
 represents a tab on your website, and the can be edited individually. 
 If you do not find this format then the pages may have their own 
 individual folders in the directory.
@@ -127,36 +125,34 @@ Next, we want to download and check that are dependencies are correct.
 
 
 1. Install of the jekyll dependencies to your local repo
-```{bash}
-#| eval: false
+```bash
 bundle install
 
 ```
 
-Then check if (gem "jekyll-livereload", "~> 0.2.2") is in the Gemfile, 
+Then check if (`gem "jekyll-livereload", "~> 0.2.2"`) is in the Gemfile, 
 and if not add it. This dependency allows us to reload our local website 
 preview, after each edit.
 
 2. To generate a static folder to preview your page: 
-```{bash}
-#| eval: false
+```bash
 bundle exec jekyll serve
 ```
  
 
-Then you will recieve: Server address: http://127.0.0.1:4000
+Then you will recieve: Server address: `http://127.0.0.1:4000`
 
 - this link is the local website you will reference throughout 
 the editing process. 
 
-### Accessing Your webpage
+### Accessing Your Webpage and Going Live
 Once everything is complete, push and check actions to see if it 
 has fully deployed. 
-To find your active webpage link, open your git settings> Pages, 
-under source check that branch is main and save.
+To find your active webpage link, open your git  Settings> Pages, 
+under source check the branch is main and click save.
 
 At this point you webpage link should be active
- at: https://rnasejje.github.io
+ at: `https://rnasejje.github.io`
 
 ### Further Reading
 
