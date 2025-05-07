@@ -4,7 +4,7 @@ The notes were developed with Quarto; for details about Quarto, visit
 <https://quarto.org/docs/books>.
 
 
-This book free and is licensed under a [Creative Commons
+This book is free and is licensed under a [Creative Commons
 Attribution-NonCommercial-NoDerivs 3.0 United States License](http://creativecommons.org/licenses/by-nc-nd/3.0/us/).
 
 ## Sources at GitHub
@@ -63,14 +63,14 @@ Reproduce NYC street flood research [@agonafir2022machine;
 
 Four students will be selected to present their work in a workshop at
 the [2025 NYC Open Data Week](https://2025.open-data.nyc). You are
-welcome to invite your family and friends to join the the workshop.
+welcome to invite your family and friends to join the workshop.
 
 
 ## Final Project
 
 Students are encouraged to start designing their final projects from
 the beginning of the semester. There are many open data that can be
-used. Here is a list of data challenges that you may find useful:
+used. Here is a list of useful data challenges:
 
 + [ASA Data Challenge
   Expo](https://community.amstat.org/dataexpo/home): big data in 2025
@@ -132,11 +132,11 @@ Markdown.
     - Learn about the applications of Data Science in Finance
     - Learn more about time series and random walk
 + Chen, Yifei
-    - Learn more advanced python programming skills.
+    - Learn more advanced Python programming skills.
     - Learn to use github for future projects
     - Get a good grade in this class. 
 + El Zein, Amer Hani
-  - To gain a deeper undestanding of data preparation. 
+  - To gain a deeper understanding of data preparation. 
   - To develop intution on what the best tool for a given project is.
 + Febles, Xavier Milan
     - Further develop skills with git
@@ -167,7 +167,7 @@ Markdown.
     - Pass this course with an A grade.
 + Lin, Selena
   - Get a good grade in this class.
-  - Learn and get familier with using GitHub.
+  - Learn and get familiar with using GitHub.
   - Hands on experience with the data science skills learned in this class.
 + Long, Ethan Kenneth
     - Become more comfortable using Git commands and CLI
@@ -237,8 +237,8 @@ Markdown.
 + Kravette, Noah
   - Become better at program collaboration.
   - Become adept with git and github. 
-  - Be able to quickly and efficently process and analyze any data.
-  - Gain better skills at data prep, organization, and visulization. 
+  - Be able to quickly and efficiently process and analyze any data.
+  - Gain better skills at data prep, organization, and visualization. 
   - Learn new helpful statistical tools for data.
 
 ## Course Logistics
@@ -287,7 +287,7 @@ your scheduled presentation. Here are some example tasks:
 + Arrow as a cross-platform data format
 + Statistical analysis for proportions and rates
 + Database operation with Structured query language (SQL)
-+ Grammer of graphics
++ Grammar of graphics
 + Handling spatial data
 + Spatial data with `GeoPandas`
 + Visualize spatial data in a Google map
@@ -368,7 +368,7 @@ Please use the following table to sign up.
 We use the same order as the topic presentation for undergraduate
 final presentation. An [introduction on how to use Quarto to prepare
 presentation slides](https://github.com/statds/ids-f24/blob/main/templates/presentation.qmd)
-is availabe under the `templates` directory in
+is available under the `templates` directory in
 the classnotes source tree, thank to Zachary Blanchard, which can
 be used as a template to start with.
 

@@ -23,7 +23,7 @@ where
 statistical methods in understanding and interpreting data;
 + 'D' stands for domain or science knowledge, indicating the
 importance of specialized expertise in a particular field of study;
-+ the three 'C's denotes computing, collaboration/teamwork, and
++ the three 'C's denote computing, collaboration/teamwork, and
 communication to outsiders.
 
 Computing underscores the need for proficiency in programming and
@@ -121,7 +121,7 @@ has its own package management system. For example:
     Linux applications and tools. This is particularly useful for
     developers and data scientists who need to run Linux-specific
     software or scripts. It saves a lot of trouble Windows users used
-    to have before its time.
+    to have that users previously faced before WSL was introduced.
 
 Understanding the package management system of your operating system
 is crucial for effectively managing and installing software,
@@ -171,8 +171,8 @@ On Windows, several options can be considered.
 + Cygwin (with X): <https://x.cygwin.com>
 + Git Bash: <https://www.gitkraken.com/blog/what-is-git-bash>
 
-To jump start, here is a tutorial:
-[Ubunto Linux for beginners](https://ubuntu.com/tutorials/command-line-for-beginners).
+To jump-start, here is a tutorial:
+[Ubuntu Linux for beginners](https://ubuntu.com/tutorials/command-line-for-beginners).
 
 At least, you need to know how to handle files and traverse across
 directories. The tab completion and introspection supports are very useful.
@@ -200,15 +200,15 @@ Set up Python on your computer:
 I will be using VS Code in class.
 
 Readability is important!
-Check your Python coding styles against the recommended styles:
+Check your Python coding style against the recommended styles:
 <https://peps.python.org/pep-0008/>. A good place to start is the Section on
 "Code Lay-out". 
 
 
 Online books on Python for data science:
 
-+  [“Python Data Science Handbook: Essential Tools for Working with Data,” First Edition](https://jakevdp.github.io/PythonDataScienceHandbook/), by Jake VanderPlas, O’Reilly Media, 2016. 
-2. [“Python for Data Analysis: Data Wrangling with Pandas, NumPy, and IPython.” Third Edition](https://wesmckinney.com/book/), by Wes McK- inney, O’Reilly Media, 2022. 
+1.  [“Python Data Science Handbook: Essential Tools for Working with Data,” First Edition](https://jakevdp.github.io/PythonDataScienceHandbook/), by Jake VanderPlas, O’Reilly Media, 2016. 
+2. [“Python for Data Analysis: Data Wrangling with Pandas, NumPy, and IPython.” Third Edition](https://wesmckinney.com/book/), by Wes McKinney, O’Reilly Media, 2022. 
 
 
 <!-- This section is to be included as a template for student contributions. -->
