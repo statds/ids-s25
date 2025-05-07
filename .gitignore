@@ -172,4 +172,4 @@ cython_debug/
 censusAPIkey.txt
 gmapKey.txt
 
-.DS_Store.ids-s25-venv/
+.DS_Store
