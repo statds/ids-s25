@@ -39,6 +39,7 @@ book:
     - git.qmd
     - quarto.qmd
     - python.qmd
+    - data_communication.qmd
     - manipulation.qmd
     - visualization.qmd
     - stats.qmd
