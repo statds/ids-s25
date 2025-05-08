@@ -129,3 +129,8 @@ if __name__ == "__main__":
 - Public APIs
 - Data repositories (e.g., Kaggle, any other websites that store data)
 - Manual data extraction (if possible)
+
+# Conclusion
+- Web scraping is a powerful tool for data extraction.
+- Choose the right tools based on your needs.
+- If web scraping is not working there are other ways to extract data
