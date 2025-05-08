@@ -12,3 +12,17 @@ Connecticut majoring in Math and Statistics.
 2. Retrieve the HTML content of the page.
 3. Parse and extract specific data.
 4. Store the extracted data for further use.
+
+# Libraires that Help
+- **Python Libraries:**
+   - BeautifulSoup
+   - Selenium
+        - Best when used with BeautifulSoup
+
+# BeautifulSoup
+   - It is a package for parsing HTML documents and web pages
+   - Helps navigate, search, modify, and extract data from web pages
+
+# Selenium
+- Used for runnign automated tests for browsers or web pages
+- Simulates user actions the check website functionality
