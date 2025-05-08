@@ -2,3 +2,7 @@
 
 This section was written by Daniel Kline, a senior at the University of 
 Connecticut majoring in Math and Statistics.
+
+# What is Web Scraping? 
+- Web scraping is the process of extracting data from websites.
+- Automates data gathering for analysis, research, and business intelligence.
