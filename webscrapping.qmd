@@ -6,3 +6,9 @@ Connecticut majoring in Math and Statistics.
 # What is Web Scraping? 
 - Web scraping is the process of extracting data from websites.
 - Automates data gathering for analysis, research, and business intelligence.
+
+# How Web Scraping Works
+1. Send an HTTP request to a website.
+2. Retrieve the HTML content of the page.
+3. Parse and extract specific data.
+4. Store the extracted data for further use.
