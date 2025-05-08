@@ -26,3 +26,8 @@ Connecticut majoring in Math and Statistics.
 # Selenium
 - Used for runnign automated tests for browsers or web pages
 - Simulates user actions the check website functionality
+
+# Challenges of Web Scrapping
+- **Anti-Scraping Measures:** Captchas, IP blocking.
+- **Website Structure Changes:** HTML structures evolve.
+- **Data Cleaning:** Extracted data often needs formatting.
