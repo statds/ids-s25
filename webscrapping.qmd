@@ -1,0 +1,4 @@
+## Webscraping
+
+This section was written by Daniel Kline, a senior at the University of 
+Connecticut majoring in Math and Statistics.
