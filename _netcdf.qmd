@@ -122,6 +122,8 @@ We calculate the radiative imbalance and the global mean and
 also account for latitude-based weighting. 
 
 ```{python}
+#|  eval: false
+
 import numpy as np
 import xarray as xr
 
@@ -156,6 +158,7 @@ The dataset variables are:
 3. rlut: Outgoing longwave radiation
 
 ```{python}
+#|  eval: false
 weights = np.cos(np.deg2rad(F_net.lat))
 weights.name = "weights"
 F_net_global = F_net.weighted(weights).mean(("lat", "lon"))
@@ -173,6 +176,7 @@ Before averaging globally we visualize the spatial
 pattern using `cartopy` here.
 
 ```{python}
+#|  eval: false
 import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
@@ -214,8 +218,8 @@ It is also supported by many libraries and tools.
 
 ### References and Further Reading
 
-- [@esri](https://pro.arcgis.com/en/pro-app/latest/help/data/multidimensional/fundamentals-of-netcdf-data-storage.htm)
-- [@unidata2021](https://docs.unidata.ucar.edu/nug/2.0-draft/enhanced_data_model.html)
-- [@cmip6cesm2](https://aims2.llnl.gov/search/cmip6/?mip_era=CMIP6&activity_id=CMIP&institution_id=NCAR&source_id=CESM2-FV2&experiment_id=piControl)
+- [Fundamentals of netCDF data storage](https://pro.arcgis.com/en/pro-app/latest/help/data/multidimensional/fundamentals-of-netcdf-data-storage.htm)
+- [NetCDF Enhanced Data Model](https://docs.unidata.ucar.edu/nug/2.0-draft/enhanced_data_model.html)
+- [CMIP6](https://aims2.llnl.gov/search/cmip6/?mip_era=CMIP6&activity_id=CMIP&institution_id=NCAR&source_id=CESM2-FV2&experiment_id=piControl)
 
 
