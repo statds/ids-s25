@@ -125,3 +125,7 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+# Alternatives to Web Scraping
+- Public APIs
+- Data repositories (e.g., Kaggle, any other websites that store data)
+- Manual data extraction (if possible)
