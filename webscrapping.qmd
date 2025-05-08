@@ -37,3 +37,91 @@ Connecticut majoring in Math and Statistics.
 - **APIs:** Provide structured data in a predefined format.
    - Scraping is useful when APIs are unavailable.
    - APIs are more stable and reliable.
+
+   # Examples
+```{.python}
+import BeautifulSoup
+import requests
+
+url = 'https://data.cityofnewyork.us/Public-Safety/Motor-Vehicle-Collisions-Crashes/h9gi-nx95/data_preview'
+
+page = requests.get(url)
+
+soup = BeautifulSoup(page.text, 'html')
+
+print(soup)
+```
+
+# Example using NYC Crash Data {.smaller}
+
+```{.python}
+from bs4 import BeautifulSoup
+import requests
+import csv
+import time
+
+def get_queens_crash_data(start_date="2023-06-03", end_date="2023-06-10"):
+    url = "https://data.cityofnewyork.us/resource/h9gi-nx95.json"
+
+    start = f"{start_date}T00:00:00.000"
+
+    if end_date == "2023-06-10":
+        end = "2023-06-11T00:00:00.000" 
+    else:
+        end = f"{end_date}T23:59:59.999"
+
+    params = {
+        "$where": f"borough='QUEENS' AND crash_date >= '{start}' AND crash_date < '{end}'",
+        "$order": "crash_date ASC",
+        "$limit": 5000 
+    }
+
+    try:
+        r = requests.get(url, params=params)
+        if r.status_code != 200:
+            print(f"Error: Status code {r.status_code}")
+            return []
+            
+        data = r.json()
+        print(f"{len(data)} crashes")
+        return data
+        
+    except Exception as e:
+        print(f"Something went wrong: {e}")
+        return []
+
+def main():
+    start = "2023-06-03"
+    end = "2023-06-10"
+
+    start_time = time.time()
+
+    crashes = get_queens_crash_data(start, end)
+    
+    if crashes:
+        dates = {}
+        for crash in crashes:
+            date = crash.get('crash_date', '').split('T')[0]
+            if date in dates:
+                dates[date] += 1
+            else:
+                dates[date] = 1
+        
+        print("\nCrashes by date:")
+        for date in sorted(dates.keys()):
+            print(f"{date}: {dates[date]} crashes")
+        
+        injuries = 0
+        deaths = 0
+        for crash in crashes:
+            if 'number_of_persons_injured' in crash:
+                injuries += int(crash['number_of_persons_injured'])
+            if 'number_of_persons_killed' in crash:
+                deaths += int(crash['number_of_persons_killed'])
+        
+        print(f"\nTotal injured: {injuries}")
+        print(f"Total killed: {deaths}")
+
+if __name__ == "__main__":
+    main()
+```
