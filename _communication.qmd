@@ -1,27 +1,13 @@
----
-title: "Effective Data Communication"
-author: "Amer El Zein"
-date: 2025-03-19
-format:
-  html:
-    toc: true
-    toc-depth: 2
-    code-fold: false
-    number-sections: false
-    fig-cap-location: bottom
-    link-external-icon: true
-    link-external-newwindow: true
-execute:
-    echo: false
----
+## Effective Data Communication
+
+By Amer El Zein.
 
 This post is inspired by Cole Nussbaumer Knaflic's **Storytelling with Data**
 which provides a comprehensive guide on selecting and designing effective 
 visualizations.
 
----
 
-## Why Data Communication Is Crucial
+### Why Data Communication Is Crucial
 
 As data scientists, our primary goal is to extract **actionable insights** from
 data. However, the effectiveness of our analysis is often undermined by poor 
@@ -30,15 +16,15 @@ insights clearly and effectively is paramount.
 
 Poor communication isn't just inconvient; it can be **catastrophic**. 
 
-## The Challenger Disaster: A Tragic case of Miscommunication
+### The Challenger Disaster: A Tragic case of Miscommunication
 
 Let's consider a sobering example: the Challenger shuttle disaster. 
 Engineers had access to data about O-ring failures and cold temperatures. 
 But the visualizations were unable to demonstrate them. 
 
-## Visuals from the Challenger Launch Review
+### Visuals from the Challenger Launch Review
 
-### Figure 1: O-Ring Incidents vs. Temperature
+#### Figure 1: O-Ring Incidents vs. Temperature
 ![Figure 1: O-Ring Incidents vs. Temperature](images/communication_in_data_science/rockets_chart.png){fig-align="center" width="70%"}
 
 This scatter plot was presented to NASA leadership to illustrate the number of
@@ -60,9 +46,9 @@ incredibly difficult at first attempts.
 This graph failed to convey the critical risk of launching in cold 
 weather—particularly at the **forecasted 23°F**, well below any previously 
 tested temperature.
---- 
+ 
 
-### Figure 2: History of O-Ring Damage (Decorative Rocket Diagram)
+#### Figure 2: History of O-Ring Damage (Decorative Rocket Diagram)
 
 ![Figure 2: History of O-Ring Damage in Field Joints](images/communication_in_data_science/challenger_graph.gif){fig-align="center" width="90%"}
 
@@ -83,7 +69,7 @@ unable to view a trend of failure under a certain temperature
 In short, this chart **fails to tell the story**. The data is present,
  but there’s no narrative, no framing of risk, and no direct call to action.
 
----
+
 
 > These two visuals—despite being based on real data—demonstrate how 
 **data without clear communication can mislead decision-makers** at critical
@@ -93,16 +79,16 @@ The rest of this blog post will focus on best practices for data communication,
 such that we can avoid such catastrophic miscommucations, born from a 
 misunderstanding of how to convey **critical insights**
 
---- 
+ 
 
-## Core Principles of Effective Data Communication
+### Core Principles of Effective Data Communication
 
-### 1. Know Your Audience
+#### 1. Know Your Audience
 
 Different stakeholders require different levels of detail, tone, and framing.
 
 | Audience Type       | Communication Style                                                   |
-|---------------------|------------------------------------------------------------------------|
+|||
 | **General Audience** | Simple explanations, real-world analogies, strong visual cues         |
 | **Executives**       | Focus on ROI, strategic insights, and key decisions                   |
 | **Technical Teams**  | Emphasize accuracy, methodology, and reproducibility                 |
@@ -110,14 +96,14 @@ Different stakeholders require different levels of detail, tone, and framing.
 **Ask yourself:**  
  *If they remember only one thing, what should it be?*
 
---- 
+ 
 
-### 2. Match the Message to the Medium
+#### 2. Match the Message to the Medium
 
 Not all communication channels are created equal.
 
 | Presentations                | Reports & Emails             |
-|-----------------------------|------------------------------|
+|--||
 | Time-constrained            | Asynchronous & referenceable |
 | Interactive Q&A possible    | Limited feedback loop         |
 | Visual storytelling focus   | Detailed and structured       |
@@ -125,9 +111,9 @@ Not all communication channels are created equal.
 **Rule of thumb:** The more **control** you have in the room, the **less text** 
 you need on screen.
 
----
 
-### 3. Structure Your Data Like a Story
+
+#### 3. Structure Your Data Like a Story
 
 Humans are wired to respond to stories. Think of your analysis as a narrative:
 
@@ -143,14 +129,14 @@ well as be more comprehensible. The narrative should be introduced and
 explained, alternatives should be outlined, and your final recommendations 
 should be justified at the end of the work. 
 
----
 
 
-## Visual Design: Make the Message Clear
+
+### Visual Design: Make the Message Clear
 
 When communicating with data, how your charts *look* is just as important as what they *show*. Good visual design doesn’t mean decoration—it means clarity.
 
-### Gestalt Principles in Visualization
+#### Gestalt Principles in Visualization
 
 Gestalt principles explain how humans naturally group visual elements. You can use them to guide attention, highlight relationships, and reduce cognitive load.
 
@@ -186,7 +172,7 @@ axes[1, 1].set_xticks([]); axes[1, 1].set_yticks([])
 plt.show()
 ```
 
-#### **1. Proximity**
+##### **1. Proximity**
 - Objects that are close together are perceived as belonging to the same group.  
 - Use spacing to group related data points or labels. Elements placed near each other will be seen as connected—even without lines or boxes. For example: in a 
 scatterplot, clustering points together can help imply a category or trend
@@ -194,34 +180,34 @@ without explicitly stating it.
 
 
 
-#### **2. Similarity**  
+##### **2. Similarity**  
 - Items that look similar (in shape, color, size, etc.) are perceived as part of 
 the same group.  
 -  Consistent formatting helps create visual categories. For example, using the 
 same color for bars from the same group reinforces their connection. 
 For example: In a line chart with multiple series, color or marker shape can distinguish different groups while maintaining coherence.
 
-#### **3. Connectedness**  
+##### **3. Connectedness**  
 - When elements are visually connected by lines or paths, they are perceived as related—even if they’re spaced apart.  
 - Connecting data points with lines (like in a line chart) strongly implies continuity, sequence, or progression.  For example: when using time-series, 
 connecting points in order helps the audience see a trend over time.
 
-#### **4. Continuity** 
+##### **4. Continuity** 
 - The eye naturally follows paths, lines, or curves, and continues along them.  
 - Smooth lines or aligned elements guide the viewer’s eye through the visual, helping emphasize flow or direction,  when constructing visualizations, remain cognizant 
 that movement in a chart—like a trend line—supports storytelling by guiding
 attention from left to right.
 
---- 
+ 
 
-## Choosing the Right Chart
+### Choosing the Right Chart
 
 Not all charts are created equal. Here's a brief guide to common types of charts
 and when to use them. 
 
----
 
-### Line Charts
+
+#### Line Charts
 These are often the best for showing trends, patterns and changes over time. 
 
 **Use when:**  
@@ -252,9 +238,9 @@ plt.xlabel("Time"); plt.ylabel("Value")
 plt.legend(); plt.show()
 ```
 
----
 
-### Bar Charts: 
+
+#### Bar Charts: 
 **Best for:** Comparing values across discrete categories.
 
 **Use when:**  
@@ -284,9 +270,9 @@ plt.ylabel("kCal"); plt.ylim(0, 2000)
 plt.show()
 ```
 
----
 
-### Scatter & Bubble Charts
+
+#### Scatter & Bubble Charts
 
 **Best for:** Displaying relationships between two (or three) continuous variables.
 
@@ -319,9 +305,9 @@ plt.xlabel("Products Sold"); plt.ylabel("Revenue (USD)")
 plt.title("Sales Performance (Bubble Chart)"); plt.show()
 ```
 
----
 
-### Tables
+
+#### Tables
 
 **Best for:** Displaying precise values, multi-unit comparisons, or rich metadata.
 
@@ -351,9 +337,9 @@ df = pd.DataFrame({
 df
 ```
 
----
 
-### Heatmaps
+
+#### Heatmaps
 
 **Best for:** Showing density, intensity, or distribution over space 
 
@@ -376,9 +362,9 @@ blue for calm).
 
 - Don’t over-smooth—avoid hiding meaningful variation.
 
----
 
-### Pie Charts (Use Sparingly)
+
+#### Pie Charts (Use Sparingly)
 
 **Best for:** Showing part-to-whole relationships—only when there are very few categories.
 
@@ -406,12 +392,12 @@ plt.pie(values, labels=labels, autopct='%1.1f%%', startangle=140)
 plt.title("Avoid Pie Charts When Possible"); plt.show()
 ```
 
----
 
-## Summary: Chart Selection at a Glance
+
+### Summary: Chart Selection at a Glance
 
 | Chart Type       | Best For                                | Avoid When...                               |
-|------------------|------------------------------------------|----------------------------------------------|
+|||-|
 | Line Chart       | Trends over time                        | Comparing unrelated categories               |
 | Bar Chart        | Category comparisons                    | Showing progression or continuous data       |
 | Scatter Plot     | Relationships, outliers                 | Categorical-only data                        |
@@ -420,13 +406,13 @@ plt.title("Avoid Pie Charts When Possible"); plt.show()
 | Heatmap          | Density, concentration, matrix data     | Small datasets or low variation              |
 | Pie Chart        | Part-to-whole (very small category set) | You have more than 4–5 categories            |
 
----
+
 
 Choose wisely. The right chart doesn’t just visualize data—it **amplifies understanding**.
 
----
 
-## Fixing the Challenger Graph
+
+### Fixing the Challenger Graph
 
 We’ve talked about how poor communication played a role in the Challenger disaster—but what would a *better* graph have looked like?
 
@@ -438,9 +424,9 @@ Let’s recap what went wrong:
 
 The result? Decision-makers failed to see the strong relationship between **cold weather** and **O-ring failure**.
 
----
 
-### A Better Graph: O-Ring Damage vs. Temperature
+
+#### A Better Graph: O-Ring Damage vs. Temperature
 
 Let’s reconstruct the data in a way that highlights what really matters: the **correlation between temperature and total damage** (erosion + blow-by).
 
@@ -475,9 +461,9 @@ plt.tight_layout()
 plt.show()
 ```
 
----
 
-### A Clearer Narrative
+
+#### A Clearer Narrative
 
 This version of the graph tells a much stronger story:
 
@@ -491,9 +477,9 @@ changed the course of history.
 
 Always remember, that a single clear chart—grounded in context—can save lives.
 
----
 
-## Key Takeaways
+
+### Key Takeaways
 
 - **Know your audience.** Tailor your message to their needs, goals, and level
 of expertise.
@@ -507,9 +493,9 @@ don’t decorate.
 
 Your job isn't just to show the data, it's to communicate it. 
 
----
 
-## References
+
+### References
 
 - Knaflic, Cole Nussbaumer. *Storytelling with Data: A Data Visualization Guide
 for Business Professionals*. Wiley, 2015.
