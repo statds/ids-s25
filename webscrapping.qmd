@@ -31,3 +31,9 @@ Connecticut majoring in Math and Statistics.
 - **Anti-Scraping Measures:** Captchas, IP blocking.
 - **Website Structure Changes:** HTML structures evolve.
 - **Data Cleaning:** Extracted data often needs formatting.
+
+# Web Scraping vs. APIs
+- **Web Scraping:** Extracts unstructured data from web pages.
+- **APIs:** Provide structured data in a predefined format.
+   - Scraping is useful when APIs are unavailable.
+   - APIs are more stable and reliable.
