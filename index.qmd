@@ -151,6 +151,7 @@ Markdown.
 + Kline, Daniel Esteban
     - Learn how to work GitHub well
     - Become proficient with coding and data science
+    - Have a working understanding of what Data Science is
 + Lagutin, Vladislav
     - Learn how to do data science projects in python and interact with them using git
     - Learn how to do good visualizations of the data; explore appropriate libraries
