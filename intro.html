@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 /* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
@@ -43,7 +78,7 @@ div.csl-indent {
 }</style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -89,6 +124,9 @@ div.csl-indent {
     "search-label": "Search"
   }
 }</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -266,6 +304,19 @@ window.Quarto = {
   <li><a href="#ensuring-ethics-in-practice" id="toc-ensuring-ethics-in-practice" class="nav-link" data-scroll-target="#ensuring-ethics-in-practice"><span class="header-section-number">1.4.3</span> Ensuring Ethics in Practice</a></li>
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="header-section-number">1.4.4</span> Conclusion</a></li>
   </ul></li>
+  <li><a href="#effective-data-communication" id="toc-effective-data-communication" class="nav-link" data-scroll-target="#effective-data-communication"><span class="header-section-number">1.5</span> Effective Data Communication</a>
+  <ul class="collapse">
+  <li><a href="#why-data-communication-is-crucial" id="toc-why-data-communication-is-crucial" class="nav-link" data-scroll-target="#why-data-communication-is-crucial"><span class="header-section-number">1.5.1</span> Why Data Communication Is Crucial</a></li>
+  <li><a href="#the-challenger-disaster-a-tragic-case-of-miscommunication" id="toc-the-challenger-disaster-a-tragic-case-of-miscommunication" class="nav-link" data-scroll-target="#the-challenger-disaster-a-tragic-case-of-miscommunication"><span class="header-section-number">1.5.2</span> The Challenger Disaster: A Tragic case of Miscommunication</a></li>
+  <li><a href="#visuals-from-the-challenger-launch-review" id="toc-visuals-from-the-challenger-launch-review" class="nav-link" data-scroll-target="#visuals-from-the-challenger-launch-review"><span class="header-section-number">1.5.3</span> Visuals from the Challenger Launch Review</a></li>
+  <li><a href="#core-principles-of-effective-data-communication" id="toc-core-principles-of-effective-data-communication" class="nav-link" data-scroll-target="#core-principles-of-effective-data-communication"><span class="header-section-number">1.5.4</span> Core Principles of Effective Data Communication</a></li>
+  <li><a href="#visual-design-make-the-message-clear" id="toc-visual-design-make-the-message-clear" class="nav-link" data-scroll-target="#visual-design-make-the-message-clear"><span class="header-section-number">1.5.5</span> Visual Design: Make the Message Clear</a></li>
+  <li><a href="#choosing-the-right-chart" id="toc-choosing-the-right-chart" class="nav-link" data-scroll-target="#choosing-the-right-chart"><span class="header-section-number">1.5.6</span> Choosing the Right Chart</a></li>
+  <li><a href="#summary-chart-selection-at-a-glance" id="toc-summary-chart-selection-at-a-glance" class="nav-link" data-scroll-target="#summary-chart-selection-at-a-glance"><span class="header-section-number">1.5.7</span> Summary: Chart Selection at a Glance</a></li>
+  <li><a href="#fixing-the-challenger-graph" id="toc-fixing-the-challenger-graph" class="nav-link" data-scroll-target="#fixing-the-challenger-graph"><span class="header-section-number">1.5.8</span> Fixing the Challenger Graph</a></li>
+  <li><a href="#key-takeaways" id="toc-key-takeaways" class="nav-link" data-scroll-target="#key-takeaways"><span class="header-section-number">1.5.9</span> Key Takeaways</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">1.5.10</span> References</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -301,7 +352,7 @@ window.Quarto = {
 <ul>
 <li>‘S’ represents Statistics, signifying the crucial role of statistical methods in understanding and interpreting data;</li>
 <li>‘D’ stands for domain or science knowledge, indicating the importance of specialized expertise in a particular field of study;</li>
-<li>the three ’C’s denotes computing, collaboration/teamwork, and communication to outsiders.</li>
+<li>the three ’C’s denote computing, collaboration/teamwork, and communication to outsiders.</li>
 </ul>
 <p>Computing underscores the need for proficiency in programming and algorithmic thinking, collaboration/teamwork reflects the inherently collaborative nature of data science projects, often requiring teams with diverse skill sets, and communication to outsiders emphasizes the importance of translating complex data insights into understandable and actionable information for non-experts.</p>
 <p>This definition neatly captures the essence of data science, emphasizing a balance between technical skills, teamwork, and the ability to communicate effectively.</p>
@@ -328,7 +379,7 @@ window.Quarto = {
 <ul>
 <li><p><strong>Linux:</strong> Linux distributions have a variety of package managers depending on the distribution. For instance, Ubuntu uses APT (Advanced Package Tool), Fedora uses DNF (Dandified Yum), and Arch Linux uses Pacman. These package managers are integral to the Linux experience, allowing users to install, update, and manage software packages easily from repositories.</p></li>
 <li><p><strong>macOS:</strong> macOS uses Homebrew as its primary package manager. Homebrew simplifies the installation of software and tools that aren’t included in the standard macOS installation, using simple commands in the terminal.</p></li>
-<li><p><strong>Windows:</strong> Windows users often rely on the Microsoft Store for apps and software. For more developer-focused package management, tools like Chocolatey and Windows Package Manager (Winget) are used. Additionally, recent versions of Windows have introduced the Windows Subsystem for Linux (WSL). WSL allows Windows users to run a Linux environment directly on Windows, unifying Windows and Linux applications and tools. This is particularly useful for developers and data scientists who need to run Linux-specific software or scripts. It saves a lot of trouble Windows users used to have before its time.</p></li>
+<li><p><strong>Windows:</strong> Windows users often rely on the Microsoft Store for apps and software. For more developer-focused package management, tools like Chocolatey and Windows Package Manager (Winget) are used. Additionally, recent versions of Windows have introduced the Windows Subsystem for Linux (WSL). WSL allows Windows users to run a Linux environment directly on Windows, unifying Windows and Linux applications and tools. This is particularly useful for developers and data scientists who need to run Linux-specific software or scripts. It saves a lot of trouble Windows users used to have that users previously faced before WSL was introduced.</p></li>
 </ul>
 <p>Understanding the package management system of your operating system is crucial for effectively managing and installing software, especially for data science tools and applications.</p>
 </section>
@@ -346,7 +397,7 @@ window.Quarto = {
 <li>Cygwin (with X): <a href="https://x.cygwin.com" class="uri">https://x.cygwin.com</a></li>
 <li>Git Bash: <a href="https://www.gitkraken.com/blog/what-is-git-bash" class="uri">https://www.gitkraken.com/blog/what-is-git-bash</a></li>
 </ul>
-<p>To jump start, here is a tutorial: <a href="https://ubuntu.com/tutorials/command-line-for-beginners">Ubunto Linux for beginners</a>.</p>
+<p>To jump-start, here is a tutorial: <a href="https://ubuntu.com/tutorials/command-line-for-beginners">Ubuntu Linux for beginners</a>.</p>
 <p>At least, you need to know how to handle files and traverse across directories. The tab completion and introspection supports are very useful.</p>
 <p>Here are several commonly used shell commands:</p>
 <ul>
@@ -368,15 +419,12 @@ window.Quarto = {
 <li>Integrated Development Environment (IDE) (Jupyter Notebook; RStudio; VS Code; Emacs; etc.)</li>
 </ul>
 <p>I will be using VS Code in class.</p>
-<p>Readability is important! Check your Python coding styles against the recommended styles: <a href="https://peps.python.org/pep-0008/" class="uri">https://peps.python.org/pep-0008/</a>. A good place to start is the Section on “Code Lay-out”.</p>
+<p>Readability is important! Check your Python coding style against the recommended styles: <a href="https://peps.python.org/pep-0008/" class="uri">https://peps.python.org/pep-0008/</a>. A good place to start is the Section on “Code Lay-out”.</p>
 <p>Online books on Python for data science:</p>
-<ul>
+<ol type="1">
 <li><a href="https://jakevdp.github.io/PythonDataScienceHandbook/">“Python Data Science Handbook: Essential Tools for Working with Data,” First Edition</a>, by Jake VanderPlas, O’Reilly Media, 2016.</li>
-</ul>
-<ol start="2" type="1">
-<li><a href="https://wesmckinney.com/book/">“Python for Data Analysis: Data Wrangling with Pandas, NumPy, and IPython.” Third Edition</a>, by Wes McK- inney, O’Reilly Media, 2022.</li>
+<li><a href="https://wesmckinney.com/book/">“Python for Data Analysis: Data Wrangling with Pandas, NumPy, and IPython.” Third Edition</a>, by Wes McKinney, O’Reilly Media, 2022.</li>
 </ol>
-<!-- This section is to be included as a template for student contributions. -->
 </section>
 </section>
 <section id="data-science-ethics" class="level2" data-number="1.4">
@@ -444,6 +492,493 @@ window.Quarto = {
 <section id="conclusion" class="level3" data-number="1.4.4">
 <h3 data-number="1.4.4" class="anchored" data-anchor-id="conclusion"><span class="header-section-number">1.4.4</span> Conclusion</h3>
 <p>Data science ethics is a dynamic and integral aspect of the discipline. By adhering to principles of privacy, fairness, transparency, social responsibility, and integrity, data scientists can ensure their work contributes positively to society. Implementing these principles through structured workflows, stakeholder engagement, and continuous improvement establishes a foundation for trustworthy and impactful data science.</p>
+</section>
+</section>
+<section id="effective-data-communication" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="effective-data-communication"><span class="header-section-number">1.5</span> Effective Data Communication</h2>
+<p>By Amer El Zein.</p>
+<p>This post is inspired by Cole Nussbaumer Knaflic’s <strong>Storytelling with Data</strong> which provides a comprehensive guide on selecting and designing effective visualizations.</p>
+<section id="why-data-communication-is-crucial" class="level3" data-number="1.5.1">
+<h3 data-number="1.5.1" class="anchored" data-anchor-id="why-data-communication-is-crucial"><span class="header-section-number">1.5.1</span> Why Data Communication Is Crucial</h3>
+<p>As data scientists, our primary goal is to extract <strong>actionable insights</strong> from data. However, the effectiveness of our analysis is often undermined by poor communication. In a world inundated with information, the ability to convey insights clearly and effectively is paramount.</p>
+<p>Poor communication isn’t just inconvient; it can be <strong>catastrophic</strong>.</p>
+</section>
+<section id="the-challenger-disaster-a-tragic-case-of-miscommunication" class="level3" data-number="1.5.2">
+<h3 data-number="1.5.2" class="anchored" data-anchor-id="the-challenger-disaster-a-tragic-case-of-miscommunication"><span class="header-section-number">1.5.2</span> The Challenger Disaster: A Tragic case of Miscommunication</h3>
+<p>Let’s consider a sobering example: the Challenger shuttle disaster. Engineers had access to data about O-ring failures and cold temperatures. But the visualizations were unable to demonstrate them.</p>
+</section>
+<section id="visuals-from-the-challenger-launch-review" class="level3" data-number="1.5.3">
+<h3 data-number="1.5.3" class="anchored" data-anchor-id="visuals-from-the-challenger-launch-review"><span class="header-section-number">1.5.3</span> Visuals from the Challenger Launch Review</h3>
+<section id="figure-1-o-ring-incidents-vs.-temperature" class="level4" data-number="1.5.3.1">
+<h4 data-number="1.5.3.1" class="anchored" data-anchor-id="figure-1-o-ring-incidents-vs.-temperature"><span class="header-section-number">1.5.3.1</span> Figure 1: O-Ring Incidents vs.&nbsp;Temperature</h4>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/communication_in_data_science/rockets_chart.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<figcaption>Figure 1: O-Ring Incidents vs.&nbsp;Temperature</figcaption>
+</figure>
+</div>
+<p>This scatter plot was presented to NASA leadership to illustrate the number of O-ring damage incidents at different launch temperatures.</p>
+<p>While it appears objective and data-driven, the graph is <strong>misleading</strong> for several key reasons:</p>
+<ul>
+<li>It includes only <strong>missions with reported damage</strong>, omitting those where no damage occurred.</li>
+<li>This omission <strong>hides the full distribution</strong>, masking the correlation between <strong>lower temperatures and higher failure rates</strong>.</li>
+<li>There are <strong>no clear trend lines</strong>, threshold indicators, or risk annotations to guide interpretation<br>
+</li>
+<li>It is incredibly confusing to read, while it may relay positional damage, understanding the severity of the damage and even the premise of the graph is incredibly difficult at first attempts.</li>
+</ul>
+<p>This graph failed to convey the critical risk of launching in cold weather—particularly at the <strong>forecasted 23°F</strong>, well below any previously tested temperature.</p>
+</section>
+<section id="figure-2-history-of-o-ring-damage-decorative-rocket-diagram" class="level4" data-number="1.5.3.2">
+<h4 data-number="1.5.3.2" class="anchored" data-anchor-id="figure-2-history-of-o-ring-damage-decorative-rocket-diagram"><span class="header-section-number">1.5.3.2</span> Figure 2: History of O-Ring Damage (Decorative Rocket Diagram)</h4>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/communication_in_data_science/challenger_graph.gif" class="img-fluid figure-img" style="width:90.0%"></p>
+<figcaption>Figure 2: History of O-Ring Damage in Field Joints</figcaption>
+</figure>
+</div>
+<p>This visual uses stylized rockets to represent previous missions and marks erosion (<code>E</code>), blow-by (<code>B</code>), and heat-related (<code>H</code>) incidents across rocket joints.</p>
+<p>However, despite being visually dense, the graphic has several flaws:</p>
+<ul>
+<li>It’s <strong>decorative rather than analytical</strong>—more like clip art than a functional chart.</li>
+<li>There is <strong>no axis</strong>, <strong>no aggregation</strong>, or <strong>visualization of risk trends</strong>.</li>
+<li>The symbols (<code>E</code>, <code>B</code>, <code>H</code>) are not fully explained, and their visual hierarchy is unclear.</li>
+<li>It only demosntrates failed attempts, by omitting successes, readers were unable to view a trend of failure under a certain temperature</li>
+</ul>
+<p>In short, this chart <strong>fails to tell the story</strong>. The data is present, but there’s no narrative, no framing of risk, and no direct call to action.</p>
+<blockquote class="blockquote">
+<p>These two visuals—despite being based on real data—demonstrate how <strong>data without clear communication can mislead decision-makers</strong> at critical moments.</p>
+</blockquote>
+<p>The rest of this blog post will focus on best practices for data communication, such that we can avoid such catastrophic miscommucations, born from a misunderstanding of how to convey <strong>critical insights</strong></p>
+</section>
+</section>
+<section id="core-principles-of-effective-data-communication" class="level3" data-number="1.5.4">
+<h3 data-number="1.5.4" class="anchored" data-anchor-id="core-principles-of-effective-data-communication"><span class="header-section-number">1.5.4</span> Core Principles of Effective Data Communication</h3>
+<section id="know-your-audience" class="level4" data-number="1.5.4.1">
+<h4 data-number="1.5.4.1" class="anchored" data-anchor-id="know-your-audience"><span class="header-section-number">1.5.4.1</span> 1. Know Your Audience</h4>
+<p>Different stakeholders require different levels of detail, tone, and framing.</p>
+<div class="line-block">Audience Type | Communication Style |</div>
+<p>||| | <strong>General Audience</strong> | Simple explanations, real-world analogies, strong visual cues | | <strong>Executives</strong> | Focus on ROI, strategic insights, and key decisions | | <strong>Technical Teams</strong> | Emphasize accuracy, methodology, and reproducibility |</p>
+<p><strong>Ask yourself:</strong><br>
+<em>If they remember only one thing, what should it be?</em></p>
+</section>
+<section id="match-the-message-to-the-medium" class="level4" data-number="1.5.4.2">
+<h4 data-number="1.5.4.2" class="anchored" data-anchor-id="match-the-message-to-the-medium"><span class="header-section-number">1.5.4.2</span> 2. Match the Message to the Medium</h4>
+<p>Not all communication channels are created equal.</p>
+<div class="line-block">Presentations | Reports &amp; Emails |</div>
+<p>|–|| | Time-constrained | Asynchronous &amp; referenceable | | Interactive Q&amp;A possible | Limited feedback loop | | Visual storytelling focus | Detailed and structured |</p>
+<p><strong>Rule of thumb:</strong> The more <strong>control</strong> you have in the room, the <strong>less text</strong> you need on screen.</p>
+</section>
+<section id="structure-your-data-like-a-story" class="level4" data-number="1.5.4.3">
+<h4 data-number="1.5.4.3" class="anchored" data-anchor-id="structure-your-data-like-a-story"><span class="header-section-number">1.5.4.3</span> 3. Structure Your Data Like a Story</h4>
+<p>Humans are wired to respond to stories. Think of your analysis as a narrative:</p>
+<ul>
+<li><strong>Context</strong> – What are we trying to solve?</li>
+<li><strong>Conflict</strong> – What’s at stake?</li>
+<li><strong>Climax</strong> – What does the data reveal?</li>
+<li><strong>Conclusion</strong> – What should we do? <img src="images/communication_in_data_science/storytelling_format.png" class="img-fluid quarto-figure quarto-figure-center" style="width:90.0%" alt="Figure 3: Storytelling in Data"></li>
+</ul>
+<p>Use visuals as narrative beats—not just as background noise. By nestling them in narratives, they’re more likely to stick within the minds of the audience, as well as be more comprehensible. The narrative should be introduced and explained, alternatives should be outlined, and your final recommendations should be justified at the end of the work.</p>
+</section>
+</section>
+<section id="visual-design-make-the-message-clear" class="level3" data-number="1.5.5">
+<h3 data-number="1.5.5" class="anchored" data-anchor-id="visual-design-make-the-message-clear"><span class="header-section-number">1.5.5</span> Visual Design: Make the Message Clear</h3>
+<p>When communicating with data, how your charts <em>look</em> is just as important as what they <em>show</em>. Good visual design doesn’t mean decoration—it means clarity.</p>
+<section id="gestalt-principles-in-visualization" class="level4" data-number="1.5.5.1">
+<h4 data-number="1.5.5.1" class="anchored" data-anchor-id="gestalt-principles-in-visualization"><span class="header-section-number">1.5.5.1</span> Gestalt Principles in Visualization</h4>
+<p>Gestalt principles explain how humans naturally group visual elements. You can use them to guide attention, highlight relationships, and reduce cognitive load.</p>
+<div id="b496f7f5" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">7</span>), gridspec_kw<span class="op">=</span>{<span class="st">'wspace'</span>: <span class="fl">0.4</span>, <span class="st">'hspace'</span>: <span class="fl">0.4</span>})</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Proximity</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>):</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    axes[<span class="dv">0</span>, <span class="dv">0</span>].scatter(np.full(<span class="dv">5</span>, i <span class="op">*</span> <span class="dv">2</span>), np.arange(<span class="dv">5</span>), s<span class="op">=</span><span class="dv">200</span>, color<span class="op">=</span><span class="st">'blue'</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].set_title(<span class="st">"Proximity"</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">0</span>].set_xticks([])<span class="op">;</span> axes[<span class="dv">0</span>, <span class="dv">0</span>].set_yticks([])</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Similarity</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>):</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    axes[<span class="dv">0</span>, <span class="dv">1</span>].scatter(np.full(<span class="dv">5</span>, i <span class="op">*</span> <span class="dv">2</span>), np.arange(<span class="dv">5</span>), s<span class="op">=</span><span class="dv">200</span>, color<span class="op">=</span>[<span class="st">'blue'</span>, <span class="st">'red'</span>][i <span class="op">%</span> <span class="dv">2</span>])</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">1</span>].set_title(<span class="st">"Similarity"</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>, <span class="dv">1</span>].set_xticks([])<span class="op">;</span> axes[<span class="dv">0</span>, <span class="dv">1</span>].set_yticks([])</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Unconnected points</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>x, y <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>], [<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>]</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">0</span>].plot(x, y, <span class="st">'o'</span>, color<span class="op">=</span><span class="st">'blue'</span>)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">0</span>].set_title(<span class="st">"Unconnected Points"</span>)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">0</span>].set_xticks([])<span class="op">;</span> axes[<span class="dv">1</span>, <span class="dv">0</span>].set_yticks([])</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Connected points</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">1</span>].plot(x, y, <span class="st">'o-'</span>, color<span class="op">=</span><span class="st">'blue'</span>)</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">1</span>].set_title(<span class="st">"Connected Points"</span>)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>, <span class="dv">1</span>].set_xticks([])<span class="op">;</span> axes[<span class="dv">1</span>, <span class="dv">1</span>].set_yticks([])</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="intro_files/figure-html/cell-2-output-1.png" width="614" height="557" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="proximity" class="level5" data-number="1.5.5.1.1">
+<h5 data-number="1.5.5.1.1" class="anchored" data-anchor-id="proximity"><span class="header-section-number">1.5.5.1.1</span> <strong>1. Proximity</strong></h5>
+<ul>
+<li>Objects that are close together are perceived as belonging to the same group.<br>
+</li>
+<li>Use spacing to group related data points or labels. Elements placed near each other will be seen as connected—even without lines or boxes. For example: in a scatterplot, clustering points together can help imply a category or trend without explicitly stating it.</li>
+</ul>
+</section>
+<section id="similarity" class="level5" data-number="1.5.5.1.2">
+<h5 data-number="1.5.5.1.2" class="anchored" data-anchor-id="similarity"><span class="header-section-number">1.5.5.1.2</span> <strong>2. Similarity</strong></h5>
+<ul>
+<li>Items that look similar (in shape, color, size, etc.) are perceived as part of the same group.<br>
+</li>
+<li>Consistent formatting helps create visual categories. For example, using the same color for bars from the same group reinforces their connection. For example: In a line chart with multiple series, color or marker shape can distinguish different groups while maintaining coherence.</li>
+</ul>
+</section>
+<section id="connectedness" class="level5" data-number="1.5.5.1.3">
+<h5 data-number="1.5.5.1.3" class="anchored" data-anchor-id="connectedness"><span class="header-section-number">1.5.5.1.3</span> <strong>3. Connectedness</strong></h5>
+<ul>
+<li>When elements are visually connected by lines or paths, they are perceived as related—even if they’re spaced apart.<br>
+</li>
+<li>Connecting data points with lines (like in a line chart) strongly implies continuity, sequence, or progression. For example: when using time-series, connecting points in order helps the audience see a trend over time.</li>
+</ul>
+</section>
+<section id="continuity" class="level5" data-number="1.5.5.1.4">
+<h5 data-number="1.5.5.1.4" class="anchored" data-anchor-id="continuity"><span class="header-section-number">1.5.5.1.4</span> <strong>4. Continuity</strong></h5>
+<ul>
+<li>The eye naturally follows paths, lines, or curves, and continues along them.<br>
+</li>
+<li>Smooth lines or aligned elements guide the viewer’s eye through the visual, helping emphasize flow or direction, when constructing visualizations, remain cognizant that movement in a chart—like a trend line—supports storytelling by guiding attention from left to right.</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="choosing-the-right-chart" class="level3" data-number="1.5.6">
+<h3 data-number="1.5.6" class="anchored" data-anchor-id="choosing-the-right-chart"><span class="header-section-number">1.5.6</span> Choosing the Right Chart</h3>
+<p>Not all charts are created equal. Here’s a brief guide to common types of charts and when to use them.</p>
+<section id="line-charts" class="level4" data-number="1.5.6.1">
+<h4 data-number="1.5.6.1" class="anchored" data-anchor-id="line-charts"><span class="header-section-number">1.5.6.1</span> Line Charts</h4>
+<p>These are often the best for showing trends, patterns and changes over time.</p>
+<p><strong>Use when:</strong><br>
+- Your x-axis represents a continuous variable (like time, distance, or temperature).</p>
+<ul>
+<li>You want to emphasize upward/downward trends, volatility, or cycles.</li>
+</ul>
+<p><strong>Best Practices:</strong> - Use <strong>minimal gridlines</strong> and tick marks.</p>
+<ul>
+<li><p>Highlight key changes with <strong>annotations</strong> or color.</p></li>
+<li><p>Avoid too many lines—stick to <strong>3–4 series max</strong> to reduce clutter.</p></li>
+<li><p>Use consistent intervals on the x-axis.</p></li>
+</ul>
+<div id="d4286a7a" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.arange(<span class="dv">1</span>, <span class="dv">11</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>y1 <span class="op">=</span> np.random.randint(<span class="dv">40</span>, <span class="dv">80</span>, size<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>y2 <span class="op">=</span> y1 <span class="op">+</span> np.random.randint(<span class="op">-</span><span class="dv">10</span>, <span class="dv">10</span>, size<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">3</span>))</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>plt.plot(x, y1, marker<span class="op">=</span><span class="st">'o'</span>, label<span class="op">=</span><span class="st">'Series A'</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>plt.plot(x, y2, marker<span class="op">=</span><span class="st">'s'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, label<span class="op">=</span><span class="st">'Series B'</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Line Chart Example"</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Time"</span>)<span class="op">;</span> plt.ylabel(<span class="st">"Value"</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>plt.legend()<span class="op">;</span> plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="intro_files/figure-html/cell-3-output-1.png" width="510" height="302" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="bar-charts" class="level4" data-number="1.5.6.2">
+<h4 data-number="1.5.6.2" class="anchored" data-anchor-id="bar-charts"><span class="header-section-number">1.5.6.2</span> Bar Charts:</h4>
+<p><strong>Best for:</strong> Comparing values across discrete categories.</p>
+<p><strong>Use when:</strong></p>
+<ul>
+<li><p>Your categories are nominal (e.g., product names, regions).</p></li>
+<li><p>You want to emphasize differences between groups.</p></li>
+</ul>
+<p><strong>Best Practices:</strong></p>
+<ul>
+<li><p>Use horizontal bars if category names are long.</p></li>
+<li><p>Sort bars by value to help viewers scan quickly.</p></li>
+<li><p>Use consistent spacing and avoid 3D effects.</p></li>
+<li><p>Use one color per category unless emphasizing comparison.</p></li>
+<li><p>Always start the Y-Axis at 0</p></li>
+</ul>
+<div id="6fd81a34" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>categories <span class="op">=</span> [<span class="st">"McRonalds"</span>, <span class="st">"Burger Prince"</span>, <span class="st">"Crisp-Fil-A"</span>, <span class="st">"Marcie's"</span>]</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>values <span class="op">=</span> [<span class="dv">1600</span>, <span class="dv">1200</span>, <span class="dv">1800</span>, <span class="dv">1100</span>]</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>plt.bar(categories, values, color<span class="op">=</span><span class="st">'royalblue'</span>, edgecolor<span class="op">=</span><span class="st">'black'</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Calories per Fast Food Chain"</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"kCal"</span>)<span class="op">;</span> plt.ylim(<span class="dv">0</span>, <span class="dv">2000</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="intro_files/figure-html/cell-4-output-1.png" width="602" height="431" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="scatter-bubble-charts" class="level4" data-number="1.5.6.3">
+<h4 data-number="1.5.6.3" class="anchored" data-anchor-id="scatter-bubble-charts"><span class="header-section-number">1.5.6.3</span> Scatter &amp; Bubble Charts</h4>
+<p><strong>Best for:</strong> Displaying relationships between two (or three) continuous variables.</p>
+<p><strong>Use when:</strong></p>
+<ul>
+<li><p>You want to explore correlations, clusters, or outliers.</p></li>
+<li><p>You want to show the distribution of observations.</p></li>
+<li><p>You can encode a third variable with bubble size or color.</p></li>
+</ul>
+<p><strong>Best Practices:</strong> - Label outliers if they carry special meaning.</p>
+<ul>
+<li><p>Use transparency for overlapping points.</p></li>
+<li><p>Add a trend line if you want to show linear correlation.</p></li>
+<li><p>Keep axis ranges consistent for accurate interpretation.</p></li>
+</ul>
+<div id="1a5f0fac" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>products_sold <span class="op">=</span> np.random.randint(<span class="dv">100</span>, <span class="dv">1800</span>, <span class="dv">20</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>revenue <span class="op">=</span> np.random.randint(<span class="dv">1000</span>, <span class="dv">200000</span>, <span class="dv">20</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>product_price <span class="op">=</span> np.random.randint(<span class="dv">50</span>, <span class="dv">500</span>, <span class="dv">20</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>plt.scatter(products_sold, revenue, s<span class="op">=</span>product_price <span class="op">*</span> <span class="dv">5</span>, alpha<span class="op">=</span><span class="fl">0.6</span>, edgecolors<span class="op">=</span><span class="st">'black'</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Products Sold"</span>)<span class="op">;</span> plt.ylabel(<span class="st">"Revenue (USD)"</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Sales Performance (Bubble Chart)"</span>)<span class="op">;</span> plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="intro_files/figure-html/cell-5-output-1.png" width="618" height="449" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="tables" class="level4" data-number="1.5.6.4">
+<h4 data-number="1.5.6.4" class="anchored" data-anchor-id="tables"><span class="header-section-number">1.5.6.4</span> Tables</h4>
+<p><strong>Best for:</strong> Displaying precise values, multi-unit comparisons, or rich metadata.</p>
+<p><strong>Use when:</strong></p>
+<ul>
+<li><p>Users need to look up specific values.</p></li>
+<li><p>You’re reporting multiple metrics across categories.</p></li>
+</ul>
+<p><strong>Best Practices:</strong> - Use zebra striping to improve scan-ability.</p>
+<ul>
+<li><p>Limit columns to 4–6 for readability.</p></li>
+<li><p>Right-align numbers and left-align text.</p></li>
+<li><p>Highlight important rows/columns with bold or color.</p></li>
+</ul>
+<div id="31e3ded0" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Client"</span>: [<span class="st">"Adam"</span>, <span class="st">"Cate"</span>, <span class="st">"David"</span>, <span class="st">"Amer"</span>, <span class="st">"Markus"</span>],</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Spent ($)"</span>: [<span class="fl">310.12</span>, <span class="fl">106.74</span>, <span class="fl">1299.99</span>, <span class="fl">480.38</span>, <span class="dv">600</span>],</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Items"</span>: [<span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">20</span>, <span class="dv">6</span>, <span class="dv">8</span>],</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Location"</span>: [<span class="st">"Boston"</span>, <span class="st">"Tuskaloosa"</span>, <span class="st">"Boston"</span>, <span class="st">"Paris"</span>, <span class="st">"Kansas City"</span>]</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Client</th>
+<th data-quarto-table-cell-role="th">Spent ($)</th>
+<th data-quarto-table-cell-role="th">Items</th>
+<th data-quarto-table-cell-role="th">Location</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Adam</td>
+<td>310.12</td>
+<td>4</td>
+<td>Boston</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Cate</td>
+<td>106.74</td>
+<td>2</td>
+<td>Tuskaloosa</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>David</td>
+<td>1299.99</td>
+<td>20</td>
+<td>Boston</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Amer</td>
+<td>480.38</td>
+<td>6</td>
+<td>Paris</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Markus</td>
+<td>600.00</td>
+<td>8</td>
+<td>Kansas City</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="heatmaps" class="level4" data-number="1.5.6.5">
+<h4 data-number="1.5.6.5" class="anchored" data-anchor-id="heatmaps"><span class="header-section-number">1.5.6.5</span> Heatmaps</h4>
+<p><strong>Best for:</strong> Showing density, intensity, or distribution over space</p>
+<p><strong>Use when:</strong></p>
+<ul>
+<li><p>You’re working with geospatial or high-frequency data.</p></li>
+<li><p>You want to identify hotspots or areas of concentration.</p></li>
+<li><p>A scatterplot is too cluttered to be readable.</p></li>
+</ul>
+<p><strong>Best Practices:</strong></p>
+<ul>
+<li><p>Choose a color palette that aligns with your message (e.g., red for danger, blue for calm).</p></li>
+<li><p>Include a legend to explain the scale.</p></li>
+<li><p>Combine with maps when visualizing geographic data.</p></li>
+<li><p>Don’t over-smooth—avoid hiding meaningful variation.</p></li>
+</ul>
+</section>
+<section id="pie-charts-use-sparingly" class="level4" data-number="1.5.6.6">
+<h4 data-number="1.5.6.6" class="anchored" data-anchor-id="pie-charts-use-sparingly"><span class="header-section-number">1.5.6.6</span> Pie Charts (Use Sparingly)</h4>
+<p><strong>Best for:</strong> Showing part-to-whole relationships—only when there are very few categories.</p>
+<p><strong>Use when:</strong></p>
+<ul>
+<li><p>You have 2–3 categories max.</p></li>
+<li><p>The proportions are dramatically different.</p></li>
+</ul>
+<p><strong>Best Practices:</strong></p>
+<ul>
+<li><p>Avoid pie charts unless you’re certain they add clarity.</p></li>
+<li><p>Don’t use more than 5 slices.</p></li>
+<li><p>Always label percentages or values directly.</p></li>
+<li><p>Never use 3D pie charts—they distort perception.</p></li>
+</ul>
+<div id="0d5b6c7c" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> [<span class="ss">f"Category </span><span class="sc">{</span>c<span class="sc">}</span><span class="ss">"</span> <span class="cf">for</span> c <span class="kw">in</span> <span class="st">"ABCDE"</span>]</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>values <span class="op">=</span> np.random.randint(<span class="dv">5</span>, <span class="dv">20</span>, size<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>plt.pie(values, labels<span class="op">=</span>labels, autopct<span class="op">=</span><span class="st">'</span><span class="sc">%1.1f%%</span><span class="st">'</span>, startangle<span class="op">=</span><span class="dv">140</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Avoid Pie Charts When Possible"</span>)<span class="op">;</span> plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="intro_files/figure-html/cell-7-output-1.png" width="492" height="409" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="summary-chart-selection-at-a-glance" class="level3" data-number="1.5.7">
+<h3 data-number="1.5.7" class="anchored" data-anchor-id="summary-chart-selection-at-a-glance"><span class="header-section-number">1.5.7</span> Summary: Chart Selection at a Glance</h3>
+<div class="line-block">Chart Type | Best For | Avoid When… |</div>
+<p>|||-| | Line Chart | Trends over time | Comparing unrelated categories | | Bar Chart | Category comparisons | Showing progression or continuous data | | Scatter Plot | Relationships, outliers | Categorical-only data | | Bubble Chart | 3-variable comparison | Small datasets or exact comparisons | | Table | Precise lookup or mixed metrics | Summarizing trends or large-scale patterns | | Heatmap | Density, concentration, matrix data | Small datasets or low variation | | Pie Chart | Part-to-whole (very small category set) | You have more than 4–5 categories |</p>
+<p>Choose wisely. The right chart doesn’t just visualize data—it <strong>amplifies understanding</strong>.</p>
+</section>
+<section id="fixing-the-challenger-graph" class="level3" data-number="1.5.8">
+<h3 data-number="1.5.8" class="anchored" data-anchor-id="fixing-the-challenger-graph"><span class="header-section-number">1.5.8</span> Fixing the Challenger Graph</h3>
+<p>We’ve talked about how poor communication played a role in the Challenger disaster—but what would a <em>better</em> graph have looked like?</p>
+<p>Let’s recap what went wrong:</p>
+<ul>
+<li>The original graphs only showed <strong>missions with O-ring damage</strong>, ignoring those that had <strong>no issues</strong>.</li>
+<li>The visuals had <strong>no clear trendline</strong>, <strong>no axis labels</strong>, and <strong>no annotations</strong> to guide interpretation.</li>
+<li>Crucially, the <strong>forecasted launch temperature (23°F)</strong> was not highlighted or compared to historical data.</li>
+</ul>
+<p>The result? Decision-makers failed to see the strong relationship between <strong>cold weather</strong> and <strong>O-ring failure</strong>.</p>
+<section id="a-better-graph-o-ring-damage-vs.-temperature" class="level4" data-number="1.5.8.1">
+<h4 data-number="1.5.8.1" class="anchored" data-anchor-id="a-better-graph-o-ring-damage-vs.-temperature"><span class="header-section-number">1.5.8.1</span> A Better Graph: O-Ring Damage vs.&nbsp;Temperature</h4>
+<p>Let’s reconstruct the data in a way that highlights what really matters: the <strong>correlation between temperature and total damage</strong> (erosion + blow-by).</p>
+<div id="6b17202f" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Reconstructed Challenger data from historical sources</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> {</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Temperature"</span>: [<span class="dv">53</span>, <span class="dv">57</span>, <span class="dv">58</span>, <span class="dv">63</span>, <span class="dv">66</span>, <span class="dv">67</span>, <span class="dv">67</span>, <span class="dv">67</span>, <span class="dv">68</span>, <span class="dv">69</span>, <span class="dv">70</span>, <span class="dv">70</span>, <span class="dv">70</span>, <span class="dv">70</span>, <span class="dv">72</span>, <span class="dv">73</span>, <span class="dv">75</span>, <span class="dv">75</span>, <span class="dv">76</span>, <span class="dv">76</span>, <span class="dv">78</span>, <span class="dv">79</span>, <span class="dv">81</span>],</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Erosion"</span>:     [<span class="dv">3</span>,  <span class="dv">1</span>,  <span class="dv">1</span>,  <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">1</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>],</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Blowby"</span>:      [<span class="dv">2</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">2</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>],</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(data)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"Total"</span>] <span class="op">=</span> df[<span class="st">"Erosion"</span>] <span class="op">+</span> df[<span class="st">"Blowby"</span>]</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">6</span>))</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>plt.scatter(df[<span class="st">"Temperature"</span>], df[<span class="st">"Total"</span>], color<span class="op">=</span><span class="st">'black'</span>, s<span class="op">=</span><span class="dv">80</span>)</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Add annotation for forecasted temperature</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>plt.axvline(x<span class="op">=</span><span class="dv">23</span>, color<span class="op">=</span><span class="st">'red'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>plt.text(<span class="dv">24</span>, <span class="bu">max</span>(df[<span class="st">"Total"</span>])<span class="op">-</span><span class="dv">1</span>, <span class="st">"Forecasted Launch Temp: 23°F"</span>, color<span class="op">=</span><span class="st">'red'</span>, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Styling</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Total O-Ring Damage vs. Temperature"</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Temperature (°F)"</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Total O-Ring Damage Incidents"</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>plt.xticks(<span class="bu">range</span>(<span class="dv">50</span>, <span class="dv">85</span>, <span class="dv">5</span>))</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="intro_files/figure-html/cell-8-output-1.png" width="663" height="566" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="a-clearer-narrative" class="level4" data-number="1.5.8.2">
+<h4 data-number="1.5.8.2" class="anchored" data-anchor-id="a-clearer-narrative"><span class="header-section-number">1.5.8.2</span> A Clearer Narrative</h4>
+<p>This version of the graph tells a much stronger story:</p>
+<blockquote class="blockquote">
+<ul>
+<li>“Every successful launch occurred at <strong>temperatures above 65°F</strong>.”<br>
+</li>
+<li>“At <strong>23°F</strong>, we are flying more than <strong>40 degrees below</strong> the coldest safe launch.”<br>
+</li>
+<li>“All low-temperature launches showed increased O-ring damage. The risk is real—and visible.”</li>
+</ul>
+</blockquote>
+<p>Had this visual been shared in the decision-making room, it could have changed the course of history.</p>
+<p>Always remember, that a single clear chart—grounded in context—can save lives.</p>
+</section>
+</section>
+<section id="key-takeaways" class="level3" data-number="1.5.9">
+<h3 data-number="1.5.9" class="anchored" data-anchor-id="key-takeaways"><span class="header-section-number">1.5.9</span> Key Takeaways</h3>
+<ul>
+<li><p><strong>Know your audience.</strong> Tailor your message to their needs, goals, and level of expertise.</p></li>
+<li><p><strong>Be intentional with visuals.</strong> Every chart should serve a purpose—clarify, don’t decorate.</p></li>
+<li><p><strong>Structure your insights like a story.</strong> Lead your audience from problem to solution.</p></li>
+<li><p><strong>Simplify without dumbing down.</strong> Clarity beats complexity.</p></li>
+</ul>
+<p>Your job isn’t just to show the data, it’s to communicate it.</p>
+</section>
+<section id="references" class="level3" data-number="1.5.10">
+<h3 data-number="1.5.10" class="anchored" data-anchor-id="references"><span class="header-section-number">1.5.10</span> References</h3>
+<ul>
+<li><p>Knaflic, Cole Nussbaumer. <em>Storytelling with Data: A Data Visualization Guide for Business Professionals</em>. Wiley, 2015.</p></li>
+<li><p>Gulbis, Janis. <a href="https://eazybi.com/blog/data-visualization-how-to-pick-the-right-chart-type">“Data Visualization – How to Pick the Right Chart Type?”</a> <em>eazyBI Blog</em>, 2016.</p></li>
+<li><p>Helveston, Dr.&nbsp;John Paul. <a href="https://p4a.seas.gwu.edu/2019-Fall/challengerExplosion.html">“A Case Study on Turning Data into Information.”</a> <em>EMSE 6574: Programming for Analytics, George Washington University</em>, 2019.</p></li>
+</ul>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">

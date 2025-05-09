@@ -267,13 +267,12 @@ window.Quarto = {
   <ul>
   <li><a href="#neural-network-basics" id="toc-neural-network-basics" class="nav-link active" data-scroll-target="#neural-network-basics"><span class="header-section-number">11.1</span> Neural Network Basics</a>
   <ul class="collapse">
-  <li><a href="#introducing-myself" id="toc-introducing-myself" class="nav-link" data-scroll-target="#introducing-myself"><span class="header-section-number">11.1.1</span> Introducing Myself</a></li>
-  <li><a href="#what-are-neural-networks" id="toc-what-are-neural-networks" class="nav-link" data-scroll-target="#what-are-neural-networks"><span class="header-section-number">11.1.2</span> What are Neural Networks?</a></li>
-  <li><a href="#basic-building-blocks" id="toc-basic-building-blocks" class="nav-link" data-scroll-target="#basic-building-blocks"><span class="header-section-number">11.1.3</span> Basic Building Blocks</a></li>
-  <li><a href="#calculating-activations" id="toc-calculating-activations" class="nav-link" data-scroll-target="#calculating-activations"><span class="header-section-number">11.1.4</span> Calculating Activations</a></li>
-  <li><a href="#forward-propogation" id="toc-forward-propogation" class="nav-link" data-scroll-target="#forward-propogation"><span class="header-section-number">11.1.5</span> Forward Propogation</a></li>
-  <li><a href="#backpropogation" id="toc-backpropogation" class="nav-link" data-scroll-target="#backpropogation"><span class="header-section-number">11.1.6</span> Backpropogation</a></li>
-  <li><a href="#neural-network-example-with-the-mnist-dataset" id="toc-neural-network-example-with-the-mnist-dataset" class="nav-link" data-scroll-target="#neural-network-example-with-the-mnist-dataset"><span class="header-section-number">11.1.7</span> Neural Network Example with the MNIST Dataset</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction"><span class="header-section-number">11.1.1</span> Introduction</a></li>
+  <li><a href="#basic-building-blocks" id="toc-basic-building-blocks" class="nav-link" data-scroll-target="#basic-building-blocks"><span class="header-section-number">11.1.2</span> Basic Building Blocks</a></li>
+  <li><a href="#calculating-activations" id="toc-calculating-activations" class="nav-link" data-scroll-target="#calculating-activations"><span class="header-section-number">11.1.3</span> Calculating Activations</a></li>
+  <li><a href="#forward-propogation" id="toc-forward-propogation" class="nav-link" data-scroll-target="#forward-propogation"><span class="header-section-number">11.1.4</span> Forward Propogation</a></li>
+  <li><a href="#backpropogation" id="toc-backpropogation" class="nav-link" data-scroll-target="#backpropogation"><span class="header-section-number">11.1.5</span> Backpropogation</a></li>
+  <li><a href="#neural-network-example-with-the-mnist-dataset" id="toc-neural-network-example-with-the-mnist-dataset" class="nav-link" data-scroll-target="#neural-network-example-with-the-mnist-dataset"><span class="header-section-number">11.1.6</span> Neural Network Example with the MNIST Dataset</a></li>
   </ul></li>
   <li><a href="#develop-a-python-package" id="toc-develop-a-python-package" class="nav-link" data-scroll-target="#develop-a-python-package"><span class="header-section-number">11.2</span> Develop a python package</a>
   <ul class="collapse">
@@ -310,16 +309,12 @@ window.Quarto = {
 </header>
 
 
-<!-- {{< include _webscraping.qmd>}} -->
 <section id="neural-network-basics" class="level2" data-number="11.1">
 <h2 data-number="11.1" class="anchored" data-anchor-id="neural-network-basics"><span class="header-section-number">11.1</span> Neural Network Basics</h2>
-<section id="introducing-myself" class="level3" data-number="11.1.1">
-<h3 data-number="11.1.1" class="anchored" data-anchor-id="introducing-myself"><span class="header-section-number">11.1.1</span> Introducing Myself</h3>
 <p>The following was written by Ajeeth Vellore, a Mechanical Engineering graduate student at the University of Connecticut.</p>
 <p>The goal of this section is give a quick synopsis on neural networks: how they came to be, how they work in basic form, and what a neural network looks like in action.</p>
-</section>
-<section id="what-are-neural-networks" class="level3" data-number="11.1.2">
-<h3 data-number="11.1.2" class="anchored" data-anchor-id="what-are-neural-networks"><span class="header-section-number">11.1.2</span> What are Neural Networks?</h3>
+<section id="introduction" class="level3" data-number="11.1.1">
+<h3 data-number="11.1.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">11.1.1</span> Introduction</h3>
 <p>Neural networks are a bio-inspired methodology for learning information from data, introduced as the “perceptron” by Dr.&nbsp;Frank Rosenblatt of Cornell in the late 1950’s.</p>
 <p>See, the way that neurologists of the time theorized that the brain intepreted information was by it passing through the eye to the retina, where topographic connections would form some sort of projection layer in the cortical regions of the brain so as to maintain the inital spatial arrangement of the information within the brain after being seen. Then, several layers of processing would occur within the brain so that information could be learned and stored to make associations between patterns that were recognized. Finally, the information might trigger some sort of response via the motor cortex, showing that information has been consumed by the brain and learned from.</p>
 <p>So, to mimic this behavior, Dr.&nbsp;Rosenblatt prosposed a computational system of similar architecture, where sensory information of some kind would be projected then learned by some sort of association system, which would result in a numerical response via “response units”. This framework can be seen below in <a href="#fig-perceptron2" class="quarto-xref">Figure&nbsp;<span>11.1</span></a>.</p>
@@ -346,8 +341,8 @@ Figure&nbsp;11.2: A long short-term memory network diagram
 </div>
 <p>This work mitigated the vanishing gradient problem, where long data sequences could become difficult to learn from as the backpropogation required to learn would result in forgotten information at the end of the process. Thanks to discoveries like these as well as computational advancements throught the last 30 years that allow for greater processing capabilities, neural networks have become commonplace in areas like machine learning. So, what I hope to do through this page is explain what neural networks are and how they work so you can walk away from this with a basic understanding of the concepts so that you, the reader, can easily dive into the deeper world of machine learning.</p>
 </section>
-<section id="basic-building-blocks" class="level3" data-number="11.1.3">
-<h3 data-number="11.1.3" class="anchored" data-anchor-id="basic-building-blocks"><span class="header-section-number">11.1.3</span> Basic Building Blocks</h3>
+<section id="basic-building-blocks" class="level3" data-number="11.1.2">
+<h3 data-number="11.1.2" class="anchored" data-anchor-id="basic-building-blocks"><span class="header-section-number">11.1.2</span> Basic Building Blocks</h3>
 <p>Let’s talk some fundamentals for neural networks. There are four main components to address before we get into the math of things:</p>
 <ul>
 <li><strong>Neurons</strong></li>
@@ -355,16 +350,16 @@ Figure&nbsp;11.2: A long short-term memory network diagram
 <li><strong>Weights</strong></li>
 <li><strong>Activation Functions</strong></li>
 </ul>
-<section id="neurons" class="level4" data-number="11.1.3.1">
-<h4 data-number="11.1.3.1" class="anchored" data-anchor-id="neurons"><span class="header-section-number">11.1.3.1</span> Neurons</h4>
+<section id="neurons" class="level4" data-number="11.1.2.1">
+<h4 data-number="11.1.2.1" class="anchored" data-anchor-id="neurons"><span class="header-section-number">11.1.2.1</span> Neurons</h4>
 <p>These carry some sort of numerical information between 0 and 1 called an actiavtion, represented by the individual colored dots in the image of a sample network in Figure 4. These are the “response units” mentioned in Figure 2, meant to carry some sort of information relating to what they’ve learned. Depending on a threshold, these neurons can be activated so that they are especially highlighted as carrying some information of note.</p>
 </section>
-<section id="layers" class="level4" data-number="11.1.3.2">
-<h4 data-number="11.1.3.2" class="anchored" data-anchor-id="layers"><span class="header-section-number">11.1.3.2</span> Layers</h4>
+<section id="layers" class="level4" data-number="11.1.2.2">
+<h4 data-number="11.1.2.2" class="anchored" data-anchor-id="layers"><span class="header-section-number">11.1.2.2</span> Layers</h4>
 <p>These are groups of neurons that represent some set of information being learned by a neural network. As a collective, they identify a portion of the input information and respond to it before passing it on to further layers of nodes to “understand” the input in some meaningful way.</p>
 </section>
-<section id="weights" class="level4" data-number="11.1.3.3">
-<h4 data-number="11.1.3.3" class="anchored" data-anchor-id="weights"><span class="header-section-number">11.1.3.3</span> Weights</h4>
+<section id="weights" class="level4" data-number="11.1.2.3">
+<h4 data-number="11.1.2.3" class="anchored" data-anchor-id="weights"><span class="header-section-number">11.1.2.3</span> Weights</h4>
 <p>The weights are represented by the arrows connecting between layers of nodes in <a href="#fig-neural_network" class="quarto-xref">Figure&nbsp;<span>11.7</span></a>. These mathematically modify the information in each layer to show what is important to be passed on, usually by multiplying the weight by all of the activations of the nodes it is connected to.</p>
 <div id="fig-neural_network" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
@@ -378,8 +373,8 @@ Figure&nbsp;11.3: A neural network skeleton, credit to <a href="https://en.wikip
 </div>
 <p>Now, this combination of neurons, layers, and weights can be combined to make predictions and classifications just fine. However, the complexity of the model they form would be quite limited because what those three essentially build is a linear regression model. Since most data is quite non-linear, these sorts of models can fail spectacularly on data slightly more complex than what can be explained by a linear <span class="math inline">\(y = mx + b\)</span>-type equation. So, we need to resort to using something to incorporate some non-linearity into the model, that being…</p>
 </section>
-<section id="activation-functions" class="level4" data-number="11.1.3.4">
-<h4 data-number="11.1.3.4" class="anchored" data-anchor-id="activation-functions"><span class="header-section-number">11.1.3.4</span> Activation Functions</h4>
+<section id="activation-functions" class="level4" data-number="11.1.2.4">
+<h4 data-number="11.1.2.4" class="anchored" data-anchor-id="activation-functions"><span class="header-section-number">11.1.2.4</span> Activation Functions</h4>
 <p>I wanted to showcase a couple different functions that are commonly used in neural networks to add some non-linearity, and thus better prediction ability, to a model.</p>
 <p>The first two are the sigmoid and hyperbolic tangent functions, as shown in <a href="#fig-sigmoid_tanh" class="quarto-xref">Figure&nbsp;<span>11.4</span></a>.</p>
 <ul>
@@ -429,16 +424,16 @@ Figure&nbsp;11.5: Graphs of the ReLU and Leaky ReLU functions
 <p>Okay, so we’ve gathered all of the individual portions of the neural network system. I’d now like demonstrate how they work in concert with each other.</p>
 </section>
 </section>
-<section id="calculating-activations" class="level3" data-number="11.1.4">
-<h3 data-number="11.1.4" class="anchored" data-anchor-id="calculating-activations"><span class="header-section-number">11.1.4</span> Calculating Activations</h3>
+<section id="calculating-activations" class="level3" data-number="11.1.3">
+<h3 data-number="11.1.3" class="anchored" data-anchor-id="calculating-activations"><span class="header-section-number">11.1.3</span> Calculating Activations</h3>
 <p>We can calculate activations using an equation that looks like this:</p>
 <p><span class="math display">\[
 \mathbf{a}^{(n+1)} = \text{func }\!\bigl(\mathbf{W}\,\mathbf{a}^{(n)} + \mathbf{b}\bigr)
 \]</span></p>
 <p>In this equation, each successive layer is calculated by taking the activations of the previous layer, multiplying them by the weights that connect them to the next layer, perhaps adding a bias term in the case it is necessary and can be tuned during the learning process, and then finally processing the value through any given actiavtion function. Doing this repeatedly is what is essentially done during…</p>
 </section>
-<section id="forward-propogation" class="level3" data-number="11.1.5">
-<h3 data-number="11.1.5" class="anchored" data-anchor-id="forward-propogation"><span class="header-section-number">11.1.5</span> Forward Propogation</h3>
+<section id="forward-propogation" class="level3" data-number="11.1.4">
+<h3 data-number="11.1.4" class="anchored" data-anchor-id="forward-propogation"><span class="header-section-number">11.1.4</span> Forward Propogation</h3>
 <p>…which is used to calculate predictions! Data will flow through a network, activating different nodes in different layers to eventually calculate some function, as might occur in the demonstration shown in Figure 7, with results for every node calculated.</p>
 <div id="fig-neural_network" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
@@ -453,16 +448,16 @@ Figure&nbsp;11.6: Example of calculated activations
 <p>In this sample network, <span class="math inline">\(a_1\)</span>, <span class="math inline">\(a_2\)</span>, and <span class="math inline">\(a_3\)</span> represent layers of activations (with <span class="math inline">\(a_3\)</span> being the prediction layer) while <span class="math inline">\(W_1\)</span> and <span class="math inline">\(W_2\)</span> represent the weights that connect the aforementioned layers. In this particular scenario, the network is attempting to perform a binary classification. This means that the ground truth will only correspond to one of the outputs, giving it an actual value of 1 for it being true, meaning the other will inevitably result in a 0.</p>
 <p>In the example given, it’s obvious that, while the correct prediction is technically made, there is still a great deal of uncertainty in that response, since the activation value is still so close to 0.5. We need to see how far off the model is, so we compare the ground truth to the output predictions, which might come in the form of a sum squared error calculationa form of <strong>loss function</strong>. This is quite valuable, because it gives us an avenue by which we can calculate how much to change our malleable weights in order to generate more accurate predictions. Through decades of research, it has been found that the best method to update these weights is…</p>
 </section>
-<section id="backpropogation" class="level3" data-number="11.1.6">
-<h3 data-number="11.1.6" class="anchored" data-anchor-id="backpropogation"><span class="header-section-number">11.1.6</span> Backpropogation</h3>
+<section id="backpropogation" class="level3" data-number="11.1.5">
+<h3 data-number="11.1.5" class="anchored" data-anchor-id="backpropogation"><span class="header-section-number">11.1.5</span> Backpropogation</h3>
 <p>…where weights are recalculated using a method called gradient descent. This method seeks to minimize loss by updating weights all the way back to the first layer by calculating the effect each value has on the final output using partial derivatives, much like the equation shown below (which uses the variables given in Figure 7):</p>
 <p><span class="math display">\[
 \frac{\partial a_3}{\partial a_1^{(l)}} = \frac{\partial w_1^{(l)}}{\partial a_1^{(l)}} \cdot \frac{\partial a_2^{(l)}}{\partial w_1^{(l)}} \cdot \frac{\partial w_2^{(l)}}{\partial a_2^{(l)}} \cdot \frac{\partial a_3}{\partial w_2^{(l)}}
 \]</span></p>
 <p>By repeating this strategy over several epochs (or forward- and backpropogation runs through the dataset), the model can train itself to learn fairly complex information. To demonstrate this capability, let’s look at a dataset very commonly used to test neural networks and their capabilities in prediction.</p>
 </section>
-<section id="neural-network-example-with-the-mnist-dataset" class="level3" data-number="11.1.7">
-<h3 data-number="11.1.7" class="anchored" data-anchor-id="neural-network-example-with-the-mnist-dataset"><span class="header-section-number">11.1.7</span> Neural Network Example with the MNIST Dataset</h3>
+<section id="neural-network-example-with-the-mnist-dataset" class="level3" data-number="11.1.6">
+<h3 data-number="11.1.6" class="anchored" data-anchor-id="neural-network-example-with-the-mnist-dataset"><span class="header-section-number">11.1.6</span> Neural Network Example with the MNIST Dataset</h3>
 <p>The MNIST dataset is a modified version of a dataset that comes from the National Institute of Standards and Technology based on images of handwritten numbers between 0-9 that are paired with classifications of each. An example of a number from this dataset can be seen below in Figure 8:</p>
 <div id="fig-neural_network" class="fragment quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
@@ -477,13 +472,13 @@ Figure&nbsp;11.7: A handwritten 3 from the MNIST dataset
 <p>This is a black-and-white square <span class="math inline">\(28*28\)</span> image, thus comprised of 784 pixels in its entirety. This size is the same across all 70,000 samples in the dataset to maintain uniformity and makes it easy for us to build a simple neural network to predict what class each image belongs to.</p>
 <p>From this point forward, due to conflicts between the versions of packages used for the rest of these class notes and the ones needed for this specific chapter, the code will not be executed. Instead, it will purely be shown. This code does work on all 3.12 Python versions, but will require a downgrade of <code>numpy</code> to at least 1.26.4 in order for the <code>tensorflow</code> package to operate.</p>
 <p>Okay then! Let’s begin by calling the three packages required for building our neural network:</p>
-<div id="a84a3ad9" class="cell" data-execution_count="3">
+<div id="95b7aaf2" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tensorflow <span class="im">as</span> tf</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The <code>numpy</code> and <code>matplotlib.pyplot</code> modules are self-explanatory, since they are quite commonly used for manipulating and presenting data in Python. Now, the <code>tensorflow</code> module contains packages that allow for the easy building of a neural network via <code>keras</code>. Conveniently, <code>keras</code> also contains the MNIST dataset in a manner that is easily called, making it very simple to build the full model while splitting the dataset in preparation for the learning process:</p>
-<div id="5245bf7a" class="cell" data-execution_count="4">
+<div id="a974d1a5" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># loading MNIST dataset</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>(x_train, y_train), (x_test, y_test) <span class="op">=</span> tf.keras.datasets.mnist.load_data()</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -505,7 +500,7 @@ Figure&nbsp;11.7: A handwritten 3 from the MNIST dataset
 <span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>model.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>If the code ran, you would note that the model has one input layer, shaped as 28*28 to represent all 784 pixels indiviually as inputs to the model. Then, there are three Dense layers: the first two are ReLU-actiavted and contain 64 nodes, and the last only contains 10 nodes while being softmax-activated. Admittedly, the choices for number of middle layers and nodes for those middle layers is quite arbitrary in this demonstration, since this decision is dependent entirely on whether or not the system the code is being run on has enough computational power to process more or less nodes and layers. However, the choice of 10 nodes for the final layer is controlled entirely by the predictions we want to make, as there are ten classes that correspond to the ten possible numbers that can appear in the MNIST dataset, and the choice of the softmax function here is to highlight the largest value among the 10 nodes as the final prediction.</p>
-<div id="f8bcae04" class="cell" data-execution_count="5">
+<div id="6848196f" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">compile</span>(optimizer<span class="op">=</span><span class="st">'adam'</span>,</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>              loss<span class="op">=</span><span class="st">'sparse_categorical_crossentropy'</span>,</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>              metrics<span class="op">=</span>[<span class="st">'accuracy'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -538,8 +533,8 @@ Figure&nbsp;11.8
 </figure>
 </div>
 <p>On a limited amount of epochs (or training runs through the entire dataset), the accuracy on the MNIST dataset would present as quite high if the code ran, showing that a model like this can indeed work to learn information from images to generate predictions.</p>
-<section id="pros-and-cons" class="level4" data-number="11.1.7.1">
-<h4 data-number="11.1.7.1" class="anchored" data-anchor-id="pros-and-cons"><span class="header-section-number">11.1.7.1</span> Pros and Cons</h4>
+<section id="pros-and-cons" class="level4" data-number="11.1.6.1">
+<h4 data-number="11.1.6.1" class="anchored" data-anchor-id="pros-and-cons"><span class="header-section-number">11.1.6.1</span> Pros and Cons</h4>
 <p>So we’ve seen that a neural network can work for learning information, but what are the benefits and drawbacks of using a system like this? In other words, what should you associate neural networks with so that you can decide whether or not to use them in your own data analytics applications? Here are few points that should be considered:</p>
 <p><strong>PROS:</strong></p>
 <ul>
@@ -685,6 +680,7 @@ Figure&nbsp;11.8
 <li><p><a href="https://packaging.python.org/en/latest/tutorials/packaging-projects/">Packaging Python Projects</a></p></li>
 <li><p><a href="https://packaging.python.org/en/latest/guides/writing-pyproject-toml/">Writing pyproject.toml</a></p></li>
 </ul>
+{{&lt; include _git_webpage.qmd&gt;}}
 
 
 </section>
