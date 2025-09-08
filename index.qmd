@@ -135,6 +135,9 @@ Markdown.
     - Learn more advanced Python programming skills.
     - Learn to use github for future projects
     - Get a good grade in this class. 
++ Cao, Enshuo
+    - Learn to use github for future projects.
+    - Get a good grade.
 + El Zein, Amer Hani
   - To gain a deeper understanding of data preparation. 
   - To develop intution on what the best tool for a given project is.
