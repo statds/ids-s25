@@ -6,30 +6,16 @@ book:
   subtitle: "STAT 3255/5255 @ UConn, Spring 2025"
   author:
     - name: "[Jun Yan](https://statcomp.org) and Students in Spring 2025"
-    - name: John Ackerman
-    - name: Ammar Alsadadi
-    - name: Yifei Chen
-    - name: Mezmur Wossenu Edo
-    - name: Xavier Febles
-    - name: Alyssa Horn
-    - name: Joann Jun
-    - name: Vlad Lagutin
-    - name: Lang Lang
-    - name: Shiyi Li
-    - name: Yuxiao Lin
-    - name: Ethan Long
-    - name: Noah Kravette
-    - name: Mohammad Mundiwala
-    - name: Ruth Nasejje
-    - name: Nicholas Pfeifer
-    - name: Kyle Reed
-    - name: Thomas Schittina
-    - name: Sebastian Symula
-    - name: Shubhan Tamhane
-    - name: Mario Tomaino
-    - name: Ajeeth Vellore
-    - name: Peiwen Xu
-    - name: Gaofei Zhang
+    - name: John Ackerman, Ammar Alsadadi, Yifei Chen
+    - name: Mezmur Edo, Amer El Zein
+    - name: Xavier Febles, Alyssa Horn
+    - name: Joann Jun, Noah Kravette
+    - name: Vlad Lagutin, Lang Lang, Shiyi Li
+    - name: Yuxiao Lin, Ethan Long, Mohammad Mundiwala
+    - name: Ruth Nasejje,Nicholas Pfeifer, Kyle Reed
+    - name: Thomas Schittina, Sebastian Symula
+    - name: Shubhan Tamhane, Mario Tomaino
+    - name: Ajeeth Vellore, Peiwen Xu, Gaofei Zhang
   date: today
 
 #  sidebar:
